@@ -1,0 +1,127 @@
+ext {
+    android = [
+            compileSdkVersion: 28,
+            buildToolsVersion: '28.0.3',
+
+            minSdkVersion    : 21,
+            targetSdkVersion : 28,
+
+            versionCode      : 1,
+            versionName      : '1.0.0',
+
+            supportLibVersion: '28.0.0'
+    ]
+
+    dependencies = [
+            //工具类
+            "multidex"                  : "com.android.support:multidex:1.0.2",
+            //android support
+            "annotations"               : "com.android.support:support-annotations:${android["supportLibVersion"]}",
+            "appcompat-v7"              : "com.android.support:appcompat-v7:${android["supportLibVersion"]}",
+            "constraint_layout"         : "com.android.support.constraint:constraint-layout:1.1.3",
+            "recyclerview"              : "com.android.support:recyclerview-v7:${android["supportLibVersion"]}",
+            "design"                    : "com.android.support:design:${android.get('supportLibVersion')}",
+            "cardview"                  : "com.android.support:cardview-v7:${android.supportLibVersion}",
+            "gridLayout_v7"             : "com.android.support:gridlayout-v7:${android.get('supportLibVersion')}",
+            "junit"                     : 'junit:junit:4.12',
+            "kotlin"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+
+            "module_support"            : project(':module_support'),
+            "module_api"                : project(':module_api'),
+
+            //今日头条屏幕适配方案
+            "headline_autosize"         : 'me.jessyan:autosize:1.1.0',
+            //仿微信图片选择库
+            "pictureSelector"           : 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3',
+            //图片加载glide
+            "glide"                     : 'com.github.bumptech.glide:glide:4.8.0',
+            "glide_compiler"            : 'com.github.bumptech.glide:compiler:4.8.0',
+            "glide_okhttp_integration"  : 'com.github.bumptech.glide:okhttp3-integration:4.8.0',
+            "glide_transformations"     : "jp.wasabeef:glide-transformations:3.3.0",
+            //glide加载进度监听
+            "progressmanager"           : 'me.jessyan:progressmanager:1.5.0',
+
+            "ahbottomnavigation"        : 'com.aurelhubert:ahbottomnavigation:2.2.0',
+
+            //baseAdapter ForRecyclerView
+            "brvah"                     : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46',
+            //侧滑删除菜单
+            "swipeDelMenu"              : 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0',
+
+            //immersionbar
+            "immersionbar"              : 'com.gyf.immersionbar:immersionbar:3.0.0-beta05',
+            //logger
+            "logger"                    : 'com.orhanobut:logger:2.1.1',
+
+            // 界面绑定框架 butter-knife
+            "butterknife"               : 'com.jakewharton:butterknife:8.8.1',
+            "butterknife_compiler"      : 'com.jakewharton:butterknife-compiler:8.8.1',
+            "rxbinding2"                : 'com.jakewharton.rxbinding2:rxbinding:2.1.1',
+            //okhttp
+            "okhttp"                    : 'com.squareup.okhttp3:okhttp:3.11.0',
+            "okio"                      : 'com.squareup.okio:okio:2.0.0',
+            "okhttp_interceptor"        : 'com.squareup.okhttp3:logging-interceptor:3.11.0',
+
+            //OSS
+            "ali_OSS"                   : 'com.aliyun.dpa:oss-android-sdk:2.9.2',
+
+            // 此处一定要注意使用RxJava2的版本
+            "rxjava2"                   : 'io.reactivex.rxjava2:rxjava:2.2.4',
+            "rxandroid2"                : 'io.reactivex.rxjava2:rxandroid:2.1.0',
+            // Android 支持 Retrofit
+            "retrofit"                  : 'com.squareup.retrofit2:retrofit:2.3.0',
+            "retrofit_converter_scalars": 'com.squareup.retrofit2:converter-scalars:2.3.0',
+            "retrofit_rxjava2_adapter"  : 'com.squareup.retrofit2:adapter-rxjava2:2.3.0',
+            //Relative封装
+            "superTextView"             : 'com.github.lygttpod:SuperTextView:2.2.3',
+
+            "fastBle"                   : 'com.clj.fastble:FastBleLib:2.3.4',
+
+            //阿里出品,fastjson
+            "fastjson"                  : 'com.alibaba:fastjson:1.2.44',
+
+            "material-dialogs"          : "com.afollestad.material-dialogs:commons:0.9.4.5",
+
+            //fragmentation
+            // 如果想使用SwipeBack 滑动边缘退出Fragment/Activity功能，完整的添加规则如下：
+            "fragmentation"             : 'me.yokeyword:fragmentation:1.3.6',
+            // swipeback基于fragmentation, 如果是自定制SupportActivity/Fragment，则参照SwipeBackActivity/Fragment实现即可
+            "fragment_swipeback"        : 'me.yokeyword:fragmentation-swipeback:1.3.6',
+            // Activity作用域的EventBus，更安全，可有效避免after onSavenInstanceState()异常
+            "eventbus_activity_scope"   : 'me.yokeyword:eventbus-activity-scope:1.1.0',
+            // Your EventBus's version
+            "eventbus"                  : 'org.greenrobot:eventbus:3.1.1',
+
+            "photoview_smooth"          : "com.bm.photoview:library:1.4.1",
+            "Android_Pickerview"        : 'com.contrarywind:Android-PickerView:4.1.8',
+
+            //结合rxjava2使用
+            "rxpermissions"             : "com.github.tbruyelle:rxpermissions:0.10.2",
+            //bugly升级
+            "bugly_upgrade"             : 'com.tencent.bugly:crashreport_upgrade:latest.release',
+            "bugly_native"              : 'com.tencent.bugly:nativecrashreport:latest.release',
+
+            //dagger2
+            "dagger2"                   : 'com.google.dagger:dagger:2.16',
+            "dagger2_compiler"          : 'com.google.dagger:dagger-compiler:2.16',
+
+            "greendao"                  : "org.greenrobot:greendao:3.2.2",
+            "greendao_generator"        : "org.greenrobot:greendao-generator:3.2.2",
+            //数据库加密
+            "greendao_sqlcipher"        : "net.zetetic:android-database-sqlcipher:3.5.6",
+
+            //AOP,配合aspectj 插件必须依赖
+            "aspectjrt"                 : 'org.aspectj:aspectjrt:1.8.9',
+
+            "amap_3dmap"                : "com.amap.api:3dmap:latest.integration", //3D地图
+            "amap_search"               : "com.amap.api:search:latest.integration",// 搜索
+            "amap_location"             : "com.amap.api:location:latest.integration",// 定位
+            "amap_2dmap"                : "com.amap.api:map2d:latest.integration",//  2D地图
+            "amap_navi"                 : "com.amap.api:navi-3dmap:latest.integration",//  导航
+
+            "leakcanary_debug"          : 'com.squareup.leakcanary:leakcanary-android:1.6.3',
+            "leakcanary_release"        : 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3',
+            // Optional, if you use support library fragments:
+            "leakcanary_debug_fragment" : 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+    ]
+}

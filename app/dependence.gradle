@@ -1,0 +1,78 @@
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testImplementation rootProject.ext.dependencies["junit"]
+
+    /*//如果aar包有很多，也可以一样象jar包统一添加一个文件夹下的所有包：
+    def dir = new File('app/libs')
+    dir.traverse(
+            nameFilter: ~/.*\.aar/
+    ) { file ->
+        def name = file.getName().replace('.aar', '')
+        implementation(name: name, ext: 'aar')
+    }*/
+
+    //------------module依赖----------------------------------
+    implementation rootProject.ext.dependencies["module_api"]
+    implementation rootProject.ext.dependencies["module_support"]
+
+    //==============================组件依赖===============================
+    implementation rootProject.ext.dependencies["constraint_layout"]
+    implementation rootProject.ext.dependencies["recyclerview"]
+    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["cardview"]
+    implementation rootProject.ext.dependencies["gridLayout_v7"]
+    implementation rootProject.ext.dependencies["multidex"]
+
+    implementation rootProject.ext.dependencies["fragmentation"]
+    implementation rootProject.ext.dependencies["fragment_swipeback"]
+    implementation rootProject.ext.dependencies["eventbus_activity_scope"]
+    implementation rootProject.ext.dependencies["eventbus"]
+
+    implementation rootProject.ext.dependencies["rxpermissions"]
+    implementation rootProject.ext.dependencies["immersionbar"]
+
+    implementation rootProject.ext.dependencies["ahbottomnavigation"]
+
+    implementation rootProject.ext.dependencies["pictureSelector"]
+    implementation rootProject.ext.dependencies["superTextView"]
+
+    implementation rootProject.ext.dependencies["bugly_upgrade"]
+    implementation rootProject.ext.dependencies["bugly_native"]
+
+    implementation rootProject.ext.dependencies["brvah"]
+    implementation rootProject.ext.dependencies["swipeDelMenu"]
+
+    implementation rootProject.ext.dependencies["aspectjrt"]
+
+    //是否启用头条屏幕适配
+//    implementation rootProject.ext.dependencies["headline_autosize"]
+
+//    implementation rootProject.ext.dependencies["ali_OSS"]
+
+    implementation rootProject.ext.dependencies["logger"]
+
+    implementation rootProject.ext.dependencies["butterknife"]
+    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
+    implementation rootProject.ext.dependencies["rxbinding2"]
+
+    implementation rootProject.ext.dependencies["dagger2"]
+    annotationProcessor rootProject.ext.dependencies["dagger2_compiler"]
+
+//    implementation rootProject.ext.dependencies["amap_3dmap"]
+//    implementation rootProject.ext.dependencies["amap_search"]
+//    implementation rootProject.ext.dependencies["amap_location"]
+
+    //glide
+    implementation rootProject.ext.dependencies["glide"]
+    annotationProcessor rootProject.ext.dependencies["glide_compiler"]
+    implementation rootProject.ext.dependencies["glide_transformations"]
+    implementation rootProject.ext.dependencies["glide_okhttp_integration"]
+
+    //use leakcanary
+    debugImplementation rootProject.ext.dependencies["leakcanary_debug"]
+    releaseImplementation rootProject.ext.dependencies["leakcanary_release"]
+    debugImplementation rootProject.ext.dependencies["leakcanary_debug_fragment"]
+}
