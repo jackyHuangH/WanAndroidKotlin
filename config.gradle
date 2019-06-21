@@ -25,6 +25,7 @@ ext {
             "gridLayout_v7"             : "com.android.support:gridlayout-v7:${android.get('supportLibVersion')}",
             "junit"                     : 'junit:junit:4.12',
             "kotlin"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            "lifecycle_extensions"      : "android.arch.lifecycle:extensions:1.1.1",
 
             "module_support"            : project(':module_support'),
             "module_api"                : project(':module_api'),

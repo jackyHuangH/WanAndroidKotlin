@@ -25,6 +25,7 @@ dependencies {
     implementation rootProject.ext.dependencies["cardview"]
     implementation rootProject.ext.dependencies["gridLayout_v7"]
     implementation rootProject.ext.dependencies["multidex"]
+    implementation rootProject.ext.dependencies["lifecycle_extensions"]
 
     implementation rootProject.ext.dependencies["fragmentation"]
     implementation rootProject.ext.dependencies["fragment_swipeback"]
