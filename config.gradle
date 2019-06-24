@@ -26,6 +26,9 @@ ext {
             "junit"                     : 'junit:junit:4.12',
             "kotlin"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             "lifecycle_extensions"      : "android.arch.lifecycle:extensions:1.1.1",
+            // 引入kotlin协程
+            "coroutine_core"            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1',
+            "coroutine_android"         : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1',
 
             "module_support"            : project(':module_support'),
             "module_api"                : project(':module_api'),
@@ -96,8 +99,8 @@ ext {
             "photoview_smooth"          : "com.bm.photoview:library:1.4.1",
             "Android_Pickerview"        : 'com.contrarywind:Android-PickerView:4.1.8',
 
-            //结合rxjava2使用
-            "rxpermissions"             : "com.github.tbruyelle:rxpermissions:0.10.2",
+            //运行时权限
+            "andPermission"             : 'com.yanzhenjie.permission:support:2.0.1',
             //bugly升级
             "bugly_upgrade"             : 'com.tencent.bugly:crashreport_upgrade:latest.release',
             "bugly_native"              : 'com.tencent.bugly:nativecrashreport:latest.release',

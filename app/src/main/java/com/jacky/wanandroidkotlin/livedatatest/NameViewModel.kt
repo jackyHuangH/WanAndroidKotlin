@@ -23,7 +23,7 @@ class NameViewModel : ViewModel() {
     // Create a LiveData with a String List
     private var mNameList: MutableLiveData<List<String>>? = null
 
-    open fun currentName(): MutableLiveData<String> {
+    fun currentName(): MutableLiveData<String> {
         if (mName == null) {
             mName = MutableLiveData()
         }

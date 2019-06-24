@@ -26,13 +26,15 @@ dependencies {
     implementation rootProject.ext.dependencies["gridLayout_v7"]
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["lifecycle_extensions"]
+    implementation rootProject.ext.dependencies["coroutine_core"]
+    implementation rootProject.ext.dependencies["coroutine_android"]
 
     implementation rootProject.ext.dependencies["fragmentation"]
     implementation rootProject.ext.dependencies["fragment_swipeback"]
     implementation rootProject.ext.dependencies["eventbus_activity_scope"]
     implementation rootProject.ext.dependencies["eventbus"]
 
-    implementation rootProject.ext.dependencies["rxpermissions"]
+    implementation rootProject.ext.dependencies["andPermission"]
     implementation rootProject.ext.dependencies["immersionbar"]
 
     implementation rootProject.ext.dependencies["ahbottomnavigation"]

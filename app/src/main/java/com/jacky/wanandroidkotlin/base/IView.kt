@@ -1,0 +1,15 @@
+package com.jacky.wanandroidkotlin.base
+
+import com.zenchn.support.base.IActivity
+
+/**
+ * @author:Hzj
+ * @date  :2018/10/30/030
+ * desc  ：
+ * record：
+ */
+interface IView : IActivity {
+    fun onApiFailure(msg: String)
+
+    fun onApiGrantRefuse()
+}

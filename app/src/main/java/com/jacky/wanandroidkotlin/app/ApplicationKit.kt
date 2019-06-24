@@ -3,9 +3,9 @@ package com.jacky.wanandroidkotlin.app
 import android.app.Activity
 import android.app.NotificationManager
 import android.content.Intent
-import com.jacky.wanandroidkotlin.MainActivity
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.common.Constant
+import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.zenchn.apilib.base.ApiManager
 import com.zenchn.apilib.util.LoggerKit
 import com.zenchn.support.base.AbstractApplicationKit
