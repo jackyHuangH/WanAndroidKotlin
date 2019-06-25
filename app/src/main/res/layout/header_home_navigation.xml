@@ -4,14 +4,17 @@
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
+        android:id="@+id/ll_nv_head"
         android:padding="20dp"
         android:gravity="center_horizontal"
         android:layout_height="wrap_content">
 
     <com.zenchn.support.widget.CircleTextImageView
+            android:id="@+id/civ_user"
             android:src="@mipmap/ic_launcher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:scaleType="centerCrop"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
 
     <TextView
             android:layout_width="wrap_content"

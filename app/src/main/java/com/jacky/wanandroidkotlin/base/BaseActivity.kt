@@ -41,12 +41,8 @@ abstract class BaseActivity : AbstractAppCompatActivity(), IView {
         mImmersionBar = ImmersionBar.with(this)
         mImmersionBar
             .fitsSystemWindows(true)
-            //状态栏颜色，不写默认透明色
-            .statusBarColor(R.color.backgroundColor)
-            //状态栏字体是深色，不写默认为亮色
-            .statusBarDarkFont(true, 0.2f)
-
-
+            .statusBarColor(R.color.colorPrimary)
+            .statusBarDarkFont(false)
         //是否需要监听键盘
         if (addOnKeyboardListener() != null) {
             mImmersionBar

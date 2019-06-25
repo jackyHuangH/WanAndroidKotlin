@@ -18,7 +18,7 @@ dependencies {
     implementation rootProject.ext.dependencies["module_api"]
     implementation rootProject.ext.dependencies["module_support"]
 
-    //==============================组件依赖===============================
+    //==============================组件依赖 kotlin用kapt替换annotationProcessor===============================
     implementation rootProject.ext.dependencies["constraint_layout"]
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["design"]
@@ -58,11 +58,8 @@ dependencies {
     implementation rootProject.ext.dependencies["logger"]
 
     implementation rootProject.ext.dependencies["butterknife"]
-    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
+    kapt rootProject.ext.dependencies["butterknife_compiler"]
     implementation rootProject.ext.dependencies["rxbinding2"]
-
-    implementation rootProject.ext.dependencies["dagger2"]
-    annotationProcessor rootProject.ext.dependencies["dagger2_compiler"]
 
 //    implementation rootProject.ext.dependencies["amap_3dmap"]
 //    implementation rootProject.ext.dependencies["amap_search"]
@@ -70,7 +67,7 @@ dependencies {
 
     //glide
     implementation rootProject.ext.dependencies["glide"]
-    annotationProcessor rootProject.ext.dependencies["glide_compiler"]
+    kapt rootProject.ext.dependencies["glide_compiler"]
     implementation rootProject.ext.dependencies["glide_transformations"]
     implementation rootProject.ext.dependencies["glide_okhttp_integration"]
 

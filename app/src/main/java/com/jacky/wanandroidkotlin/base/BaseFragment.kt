@@ -45,8 +45,8 @@ abstract class BaseFragment : AbstractFragment(), IView{
         mImmersionBar = ImmersionBar.with(this)
         mImmersionBar
                 .fitsSystemWindows(true)
-                .statusBarColor(R.color.backgroundColor)
-                .statusBarDarkFont(true, 0.2f)
+                .statusBarColor(R.color.colorPrimary)
+                .statusBarDarkFont(false)
 
         //是否需要监听键盘
         if (addOnKeyboardListener() != null) {
