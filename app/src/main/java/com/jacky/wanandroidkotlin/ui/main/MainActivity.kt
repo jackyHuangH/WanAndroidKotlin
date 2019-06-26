@@ -21,8 +21,8 @@ class MainActivity : BaseActivity(), DrawerLayout.DrawerListener {
         val circleTextImageView = headerView.findViewById(R.id.civ_user) as CircleTextImageView
         GlideApp
             .with(this)
-            .load(Constant.imgUrls[0])
-            .override(200,200)
+            .load(Constant.imgUrls[1])
+            .override(800,800)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(circleTextImageView)
         resetNvHeader()

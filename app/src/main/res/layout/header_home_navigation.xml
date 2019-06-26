@@ -13,8 +13,8 @@
             android:id="@+id/civ_user"
             android:src="@mipmap/ic_launcher"
             android:scaleType="centerCrop"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
 
     <TextView
             android:layout_width="wrap_content"
