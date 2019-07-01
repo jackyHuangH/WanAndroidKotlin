@@ -14,7 +14,12 @@ import kotlin.reflect.KProperty
 class PreferenceUtil<T>(val keyName: String, private val defaultValue: T) {
 
     companion object {
-        private const val FILE_NAME = "open_eye_sp"
+        private const val FILE_NAME = "SP_Set"
+
+        //记录是否登录
+        const val KEY_IS_LOGIN = "is_login"
+        //记录已登录用户信息
+        const val KEY_USER_INFO = "user_info"
 
         private val mPreference by lazy {
             ContextModel.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
@@ -87,7 +92,8 @@ class PreferenceUtil<T>(val keyName: String, private val defaultValue: T) {
     private fun <A> serialize(obj: A): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val objectOutputStream = ObjectOutputStream(
-                byteArrayOutputStream)
+            byteArrayOutputStream
+        )
         objectOutputStream.writeObject(obj)
         var serStr = byteArrayOutputStream.toString("ISO-8859-1")
         serStr = java.net.URLEncoder.encode(serStr, "UTF-8")
@@ -112,9 +118,11 @@ class PreferenceUtil<T>(val keyName: String, private val defaultValue: T) {
     private fun <A> deSerialization(str: String): A {
         val redStr = java.net.URLDecoder.decode(str, "UTF-8")
         val byteArrayInputStream = ByteArrayInputStream(
-                redStr.toByteArray(charset("ISO-8859-1")))
+            redStr.toByteArray(charset("ISO-8859-1"))
+        )
         val objectInputStream = ObjectInputStream(
-                byteArrayInputStream)
+            byteArrayInputStream
+        )
         val obj = objectInputStream.readObject() as A
         objectInputStream.close()
         byteArrayInputStream.close()

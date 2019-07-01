@@ -1,4 +1,4 @@
-package cn.jacky.kotlindemo.test
+package com.jacky.wanandroidkotlin.test
 
 import android.content.Context
 import android.widget.Toast
@@ -248,7 +248,7 @@ class Man(age: Int, name: String) : Person(age, name) {
         //!! 这个操作符表示在判断一个可空类型时，会显示的抛出空引用异常（NullPointException）.
         //as? 这个操作符表示为安全的类型转换.
         val s: String? = null
-        val result = s ?: "ab".length?.plus(4)?.minus(1)
+        val result = s ?: "ab".length.plus(4).minus(1)
         println("可空变量：$result")
 
         println("===================let===================")

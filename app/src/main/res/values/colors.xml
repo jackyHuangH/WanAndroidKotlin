@@ -6,4 +6,6 @@
 
     <!-- 默认背景色 -->
     <color name="backgroundColor">#EEEEEE</color>
+    <color name="color_title_bg">#CCFFFFFF</color>
+    <color name="color_44aaaaaa">#44aaaaaa</color>
 </resources>

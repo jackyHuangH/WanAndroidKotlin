@@ -1,4 +1,4 @@
-package cn.jacky.kotlindemo.test
+package com.jacky.wanandroidkotlin.test
 
 /**
  * 作   者： by Hzj on 2018/1/4/004.

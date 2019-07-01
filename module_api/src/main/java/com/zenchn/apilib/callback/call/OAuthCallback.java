@@ -1,18 +1,16 @@
 package com.zenchn.apilib.callback.call;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
+import androidx.annotation.NonNull;
 import com.alibaba.fastjson.JSONObject;
 import com.zenchn.apilib.entity.TokenEntity;
 import com.zenchn.apilib.util.LoggerKit;
-
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 
 /**

@@ -3,6 +3,7 @@ package com.zenchn.support.widget.dropdownmenu;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import androidx.appcompat.widget.AppCompatButton;
 
 /**
  * @author:Hzj
@@ -11,7 +12,7 @@ import android.util.AttributeSet;
  * 同理用于TextView,修改onLayout()即可
  * record：
  */
-public class DrawableCenterButton extends android.support.v7.widget.AppCompatButton {
+public class DrawableCenterButton extends AppCompatButton {
     public DrawableCenterButton(Context context) {
         super(context);
     }

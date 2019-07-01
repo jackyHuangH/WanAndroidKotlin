@@ -2,16 +2,14 @@ package com.zenchn.apilib.base;
 
 
 import android.app.Application;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.alibaba.fastjson.JSONObject;
 import com.zenchn.apilib.model.HttpResultModel;
 import com.zenchn.apilib.retrofit.RetrofitManager;
+import okhttp3.ResponseBody;
 
 import java.io.IOException;
-
-import okhttp3.ResponseBody;
 
 /**
  * 作    者：wangr on 2017/8/29 18:18

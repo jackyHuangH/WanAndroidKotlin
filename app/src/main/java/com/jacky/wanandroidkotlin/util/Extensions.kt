@@ -1,16 +1,24 @@
 package com.jacky.wanandroidkotlin.util
 
+import android.app.Activity
 import android.content.Context
 import android.os.SystemClock
-import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 
 /**
- * Created by xuhao on 2017/11/14.
+ * Created by hzj on 2018/11/14.
+ * 扩展函数
  */
 
-fun Fragment.showToast(content: String): Toast {
+fun Activity.showToast(content: CharSequence): Toast {
+    val toast = Toast.makeText(this, content, Toast.LENGTH_SHORT)
+    toast.show()
+    return toast
+}
+
+fun Fragment.showToast(content: CharSequence): Toast {
     val toast = Toast.makeText(this.activity?.applicationContext, content, Toast.LENGTH_SHORT)
     toast.show()
     return toast

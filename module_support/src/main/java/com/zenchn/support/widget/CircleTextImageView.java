@@ -2,22 +2,14 @@ package com.zenchn.support.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
+import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-
+import androidx.appcompat.widget.AppCompatImageView;
 import com.zenchn.support.R;
 
 /**
@@ -26,7 +18,7 @@ import com.zenchn.support.R;
  * 修订记录：
  */
 
-public class CircleTextImageView extends android.support.v7.widget.AppCompatImageView {
+public class CircleTextImageView extends AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 

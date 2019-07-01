@@ -1,10 +1,9 @@
 package com.zenchn.support.base;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.view.View;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import com.zenchn.support.dafault.DefaultUiController;
 import com.zenchn.support.widget.tips.SuperSnackBar;
 

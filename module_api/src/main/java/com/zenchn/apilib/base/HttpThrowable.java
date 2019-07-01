@@ -1,12 +1,10 @@
 package com.zenchn.apilib.base;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
+import androidx.annotation.NonNull;
 import com.alibaba.fastjson.JSONObject;
 import com.zenchn.apilib.callback.ApiFailureCallback;
 import com.zenchn.apilib.util.LoggerKit;
-
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;

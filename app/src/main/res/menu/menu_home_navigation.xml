@@ -19,5 +19,8 @@
         <item android:id="@+id/nv_about"
               android:icon="@drawable/ic_email"
               android:title="@string/nv_item_about"/>
+        <item android:id="@+id/nv_logout"
+              android:icon="@drawable/ic_logout"
+              android:title="@string/nv_item_logout"/>
     </group>
 </menu>

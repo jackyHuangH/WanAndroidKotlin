@@ -1,17 +1,15 @@
 package com.zenchn.support.base;
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v7.app.AppCompatActivity;
 import android.view.InflateException;
-
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import butterknife.ButterKnife;
 import com.zenchn.support.R;
 import com.zenchn.support.dafault.DefaultUiController;
-
-import butterknife.ButterKnife;
 
 
 /**

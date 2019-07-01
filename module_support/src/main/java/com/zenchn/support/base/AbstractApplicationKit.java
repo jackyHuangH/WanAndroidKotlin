@@ -1,9 +1,8 @@
 package com.zenchn.support.base;
 
 import android.app.Application;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 import com.zenchn.support.dafault.DefaultUncaughtHandler;
 
 

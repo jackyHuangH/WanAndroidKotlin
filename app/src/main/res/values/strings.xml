@@ -8,6 +8,7 @@
     <string name="nv_item_util">工具</string>
     <string name="nv_item_collection">收藏</string>
     <string name="nv_item_about">关于</string>
+    <string name="nv_item_logout">退出登录</string>
 
     <string name="user_name">Jacky</string>
     <string name="github">https://github.com/jackyHuangH</string>

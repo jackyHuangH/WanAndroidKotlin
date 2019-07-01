@@ -1,22 +1,20 @@
 package com.zenchn.apilib.callback.call;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
-
+import androidx.annotation.Nullable;
 import com.alibaba.fastjson.JSONObject;
 import com.zenchn.apilib.base.HttpThrowable;
 import com.zenchn.apilib.callback.ApiFailureCallback;
 import com.zenchn.apilib.callback.ApiGrantCallback;
 import com.zenchn.apilib.model.HttpResultModel;
 import com.zenchn.apilib.util.LoggerKit;
-
-import java.net.ConnectException;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.HttpException;
 import retrofit2.Response;
+
+import java.net.ConnectException;
 
 /**
  * 作    者：wangr on 2017/8/28 14:53

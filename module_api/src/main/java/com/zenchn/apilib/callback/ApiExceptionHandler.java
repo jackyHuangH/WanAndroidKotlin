@@ -1,17 +1,15 @@
 package com.zenchn.apilib.callback;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
+import androidx.annotation.NonNull;
 import com.zenchn.apilib.base.ApiGlobeConfig;
 import com.zenchn.apilib.base.ApiManager;
-
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 
 /**

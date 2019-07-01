@@ -2,7 +2,6 @@ package com.zenchn.support.widget.pickerview;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.LayoutRes;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import androidx.annotation.LayoutRes;
 import com.bigkoo.pickerview.configure.PickerOptions;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.view.BasePickerView;

@@ -5,14 +5,14 @@ dependencies {
     })
     testImplementation rootProject.ext.dependencies["junit"]
 
-    /*//如果aar包有很多，也可以一样象jar包统一添加一个文件夹下的所有包：
+    //如果aar包有很多，也可以一样象jar包统一添加一个文件夹下的所有包：
     def dir = new File('app/libs')
     dir.traverse(
             nameFilter: ~/.*\.aar/
     ) { file ->
         def name = file.getName().replace('.aar', '')
         implementation(name: name, ext: 'aar')
-    }*/
+    }
 
     //------------module依赖----------------------------------
     implementation rootProject.ext.dependencies["module_api"]
@@ -26,6 +26,7 @@ dependencies {
     implementation rootProject.ext.dependencies["gridLayout_v7"]
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["lifecycle_extensions"]
+    implementation rootProject.ext.dependencies["viewmodel_ktx"]
     implementation rootProject.ext.dependencies["coroutine_core"]
     implementation rootProject.ext.dependencies["coroutine_android"]
 

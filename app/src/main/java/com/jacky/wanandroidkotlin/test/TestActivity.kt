@@ -1,12 +1,12 @@
-package cn.jacky.kotlindemo.test
+package com.jacky.wanandroidkotlin.test
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import cn.jacky.kotlindemo.test.TestActivity.Constants.NUM_B
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jacky.wanandroidkotlin.R
+import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
 import com.zenchn.support.widget.tips.SuperToast
 import kotlinx.android.synthetic.main.activity_test.*
 import java.util.*

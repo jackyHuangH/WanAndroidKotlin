@@ -1,10 +1,10 @@
 package com.jacky.wanandroidkotlin.base
 
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.annotation.NonNull
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.IdRes
+import androidx.annotation.NonNull
 import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R

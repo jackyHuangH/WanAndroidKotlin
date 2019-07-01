@@ -1,7 +1,6 @@
 package com.zenchn.apilib.retrofit;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import retrofit2.Retrofit;
 
 /**

@@ -1,17 +1,15 @@
 package com.zenchn.apilib.retrofit;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
 import com.zenchn.apilib.BuildConfig;
-
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 作    者：wangr on 2017/7/25 17:35

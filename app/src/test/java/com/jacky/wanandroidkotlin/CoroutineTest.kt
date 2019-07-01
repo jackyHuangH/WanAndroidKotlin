@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
 import org.junit.Test
 import kotlin.coroutines.CoroutineContext
 import kotlin.system.measureTimeMillis
@@ -56,8 +57,11 @@ fun calTwoAsync() = GlobalScope.async {
 //调试协程，打印协程名称
 fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
 
+//互斥操作,并发操作加锁
+val mutex = Mutex()
+
 //共享可变状态与并发
-suspend fun massiveRun(context: CoroutineContext, action: suspend () -> Unit) {
+suspend fun massiveRun(context: CoroutineContext, action: suspend CoroutineScope.() -> Unit) {
     val n = 1000 // 启动协程的数量
     val k = 1000 // 每个协程执行动作的次数
     val time = measureTimeMillis {
@@ -73,13 +77,67 @@ suspend fun massiveRun(context: CoroutineContext, action: suspend () -> Unit) {
 
 val mtContext = newFixedThreadPoolContext(2, "mtPool") // 定义一个2线程的上下文
 
+//---------------------------------------------------------------
+//协程执行顺序，挂起
+suspend fun getToken(): String {
+    delay(2L)
+    println("getToken 开始执行，时间:  ${System.currentTimeMillis()}")
+    return "ask"
+}
+
+suspend fun getResponse(token: String): String {
+    delay(1L)
+    println("getResponse 开始执行，时间:  ${System.currentTimeMillis()}")
+    return "response"
+}
+
+fun setText(response: String) {
+    println("setText 执行，时间:  ${System.currentTimeMillis()}")
+}
+
+//=-------------------------------------------------------
+
 fun main() = runBlocking<Unit> {
-    //共享可变状态与并发
-    var num = 0
-    massiveRun(mtContext) {
-        num++
+    //多协程并行执行
+
+
+    //---------------------------------------------
+    //协程执行顺序
+    /*val token = GlobalScope.async {
+        return@async getToken()
+    }.await()
+
+    val response = GlobalScope.async {
+        return@async getResponse(token)
+    }.await()
+
+    setText(response)*/
+
+    println("协程 开始执行，时间:  ${System.currentTimeMillis()}")
+    val token = getToken()
+    val response = getResponse(token)
+    setText(response)
+
+//    GlobalScope.launch(Dispatchers.Default) {
+//        for (a in 1..8) {
+//            println("协程任务打印第$a 次，时间: ${System.currentTimeMillis()}")
+//        }
+//    }
+
+    for (i in 1..10) {
+        println("主线程打印第$i 次，时间:  ${System.currentTimeMillis()}")
     }
-    println("num=$num")
+
+    //-----------------------------------------------
+
+    //共享可变状态与并发
+//    var num = 0
+//    massiveRun(mtContext) {
+//        mutex.withLock {
+//            num++
+//        }
+//    }
+//    println("num=$num")
     //------------------------------------------
 
     //通道Channel,延期的值提供了一种便捷的方法使单个值在多个协程之间进行相互传输。 通道提供了一种 *在流中传输值的方法*

@@ -1,4 +1,4 @@
-package cn.jacky.kotlindemo.test
+package com.jacky.wanandroidkotlin.test
 
 /**
  * @author:Hzj
