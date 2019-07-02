@@ -15,7 +15,6 @@ dependencies {
     }
 
     //------------module依赖----------------------------------
-    implementation rootProject.ext.dependencies["module_api"]
     implementation rootProject.ext.dependencies["module_support"]
 
     //==============================组件依赖 kotlin用kapt替换annotationProcessor===============================
@@ -30,9 +29,9 @@ dependencies {
     implementation rootProject.ext.dependencies["coroutine_core"]
     implementation rootProject.ext.dependencies["coroutine_android"]
 
-    implementation rootProject.ext.dependencies["fragmentation"]
-    implementation rootProject.ext.dependencies["fragment_swipeback"]
-    implementation rootProject.ext.dependencies["eventbus_activity_scope"]
+//    implementation rootProject.ext.dependencies["fragmentation"]
+//    implementation rootProject.ext.dependencies["fragment_swipeback"]
+//    implementation rootProject.ext.dependencies["eventbus_activity_scope"]
     implementation rootProject.ext.dependencies["eventbus"]
 
     implementation rootProject.ext.dependencies["andPermission"]
@@ -47,7 +46,7 @@ dependencies {
     implementation rootProject.ext.dependencies["bugly_native"]
 
     implementation rootProject.ext.dependencies["brvah"]
-    implementation rootProject.ext.dependencies["swipeDelMenu"]
+//    implementation rootProject.ext.dependencies["swipeDelMenu"]
 
     implementation rootProject.ext.dependencies["aspectjrt"]
 
@@ -71,6 +70,16 @@ dependencies {
     kapt rootProject.ext.dependencies["glide_compiler"]
     implementation rootProject.ext.dependencies["glide_transformations"]
     implementation rootProject.ext.dependencies["glide_okhttp_integration"]
+
+    //okhttp,retrofit
+    implementation rootProject.ext.dependencies["okhttp"]
+    implementation rootProject.ext.dependencies["okio"]
+    implementation rootProject.ext.dependencies["okhttp_interceptor"]
+    implementation rootProject.ext.dependencies["retrofit"]
+    implementation rootProject.ext.dependencies["retrofit_converter_scalars"]
+    implementation rootProject.ext.dependencies["retrofit_converter_gson"]
+    implementation rootProject.ext.dependencies["retrofit_rxjava2_adapter"]
+    implementation rootProject.ext.dependencies["cookieJar"]
 
     //use leakcanary
     debugImplementation rootProject.ext.dependencies["leakcanary_debug"]

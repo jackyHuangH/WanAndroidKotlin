@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jacky.wanandroidkotlin.api.WanResponse
+import com.jacky.wanandroidkotlin.model.api.WanResponse
 import kotlinx.coroutines.*
 
 
@@ -15,7 +15,7 @@ import kotlinx.coroutines.*
  * record：<p>suspend，用作修饰会被暂停的函数，被标记为 suspend 的函数只能运行在协程或者其他 suspend 函数当中。</p>
  */
 open class BaseViewModel : ViewModel(), LifecycleObserver {
-    val mException: MutableLiveData<Exception> = MutableLiveData()
+    private val mException: MutableLiveData<Exception> = MutableLiveData()
 
     companion object {
         const val ERROR_CODE = -1//请求失败返回码

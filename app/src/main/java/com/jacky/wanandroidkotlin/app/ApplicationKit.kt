@@ -4,10 +4,7 @@ import android.app.Activity
 import android.app.NotificationManager
 import android.content.Intent
 import com.jacky.wanandroidkotlin.R
-import com.jacky.wanandroidkotlin.common.Constant
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
-import com.zenchn.apilib.base.ApiManager
-import com.zenchn.apilib.util.LoggerKit
 import com.zenchn.support.base.AbstractApplicationKit
 import com.zenchn.support.base.ActivityLifecycleCallback
 import com.zenchn.support.dafault.DefaultActivityLifecycle
@@ -50,14 +47,8 @@ class ApplicationKit private constructor() : AbstractApplicationKit(), ActivityL
 
     override fun initSetting() {
         super.initSetting()
-        initApiManager()
-        LoggerKit.init(Constant.LOGGERKIT_TAG)
         initActivityLifecycle()
         clearNotify()
-    }
-
-    private fun initApiManager() {
-        ApiManager.init(Constant.BASE_REQUEST_HTTP_HOST, application)
     }
 
     private fun initActivityLifecycle() {

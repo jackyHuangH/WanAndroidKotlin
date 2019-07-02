@@ -54,13 +54,15 @@ public class NetworkUtils {
     }
 
     /**
+     * 网络是否可用
+     * <p>
      * Return whether network is connected.
      * <p>Must hold {@code <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />}</p>
      *
      * @return {@code true}: connected<br>{@code false}: disconnected
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    public static boolean isConnected(Context context) {
+    public static boolean isNetworkAvailable(Context context) {
         NetworkInfo info = getActiveNetworkInfo(context);
         return info != null && info.isConnected();
     }

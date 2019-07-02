@@ -13,12 +13,12 @@ import com.youth.banner.loader.ImageLoader
  */
 class GlideBannerImageLoader : ImageLoader() {
 
-    override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
+    override fun displayImage(context: Context, path: Any, imageView: ImageView) {
         GlideApp
-                .with(context!!)
+                .with(context)
                 .load(path)
-                .placeholder(R.drawable.placeholder_banner)
+                .placeholder(R.drawable.holder_banner)
                 .centerCrop()
-                .into(imageView!!)
+                .into(imageView)
     }
 }

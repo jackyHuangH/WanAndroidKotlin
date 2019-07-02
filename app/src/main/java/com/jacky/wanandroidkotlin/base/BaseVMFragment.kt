@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
  * record：
  */
 abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
-    private lateinit var mViewModel: VM
+    protected lateinit var mViewModel: VM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
@@ -19,7 +19,7 @@ abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
         startObserve()
     }
 
-    open fun startObserve() {}
+    abstract fun startObserve()
 
     //初始化ViewModel绑定
     private fun initViewModel() {
@@ -29,7 +29,7 @@ abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
         }
     }
 
-    open fun provideViewModelClass(): Class<VM>? = null
+    abstract fun provideViewModelClass(): Class<VM>?
 
     override fun onDestroyView() {
         mViewModel.let {

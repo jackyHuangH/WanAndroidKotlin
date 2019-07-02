@@ -6,9 +6,9 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.jacky.wanandroidkotlin.R
-import com.jacky.wanandroidkotlin.adapter.BaseFragmentPagerAdapter
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.common.Constant
+import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPagerAdapter
 import com.jacky.wanandroidkotlin.ui.search.SearchActivity
 import com.jacky.wanandroidkotlin.ui.tabhome.TabHomeFragment
 import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
@@ -56,7 +56,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun initViewPager() {
-        val vpAdapter = BaseFragmentPagerAdapter(supportFragmentManager, mFragments, mTitles)
+        val vpAdapter =
+            BaseFragmentPagerAdapter(supportFragmentManager, mFragments, mTitles)
         vp.adapter = vpAdapter
         tabLayout.setupWithViewPager(vp)
     }

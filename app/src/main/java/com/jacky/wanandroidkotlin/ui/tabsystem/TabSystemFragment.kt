@@ -3,7 +3,6 @@ package com.jacky.wanandroidkotlin.ui.tabsystem
 import android.os.Bundle
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseFragment
-import com.jacky.wanandroidkotlin.ui.tabnavigation.TabNavigationFragment
 
 /**
  * @author:Hzj
@@ -14,8 +13,8 @@ import com.jacky.wanandroidkotlin.ui.tabnavigation.TabNavigationFragment
 class TabSystemFragment : BaseFragment() {
 
     companion object {
-        fun getInstance(): TabNavigationFragment {
-            val fragment = TabNavigationFragment()
+        fun getInstance(): TabSystemFragment {
+            val fragment = TabSystemFragment()
             val bundle = Bundle()
             fragment.arguments = bundle
             return fragment

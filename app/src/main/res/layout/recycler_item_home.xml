@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/tv_author"
+            android:drawableStart="@drawable/home_hot"
+            tools:text="作者"
+            android:drawablePadding="2dp"
+            style="@style/Article_text"/>
+
+    <TextView
+            android:id="@+id/tv_tag"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/tv_author"
+            style="@style/Article_text"
+            tools:text="Android"/>
+
+    <TextView
+            android:id="@+id/tv_title"
+            android:textSize="16sp"
+            android:layout_below="@+id/tv_author"
+            android:layout_marginTop="5dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="标题"
+            android:textColor="@color/color_282828"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/tv_time"
+            style="@style/Article_text"
+            android:drawableStart="@drawable/ic_time"
+            android:drawablePadding="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/tv_article"
+            tools:text="1小时前"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibt_star"
+            android:src="@drawable/timeline_like_normal"
+            android:background="@null"
+            android:layout_toEndOf="@+id/tv_time"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/tv_article"
+            android:padding="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</RelativeLayout>
