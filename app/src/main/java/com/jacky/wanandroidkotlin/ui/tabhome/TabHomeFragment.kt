@@ -8,14 +8,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
+import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
+import com.jacky.wanandroidkotlin.model.entity.BannerEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
+import com.jacky.wanandroidkotlin.ui.login.LoginActivity
+import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideBannerImageLoader
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
+import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.zenchn.support.kit.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_home.*
-import kotlinx.android.synthetic.main.recycle_header_banner_home.*
 
 /**
  * @author:Hzj
@@ -29,6 +33,8 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     private val mHomeAdapter: HomeListAdapter by lazy { HomeListAdapter() }
     private var mPageNum = 0
     private val mBannerUrls = mutableListOf<String>()
+    private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
+    private lateinit var mBannerHome: Banner
 
     companion object {
         fun getInstance(): TabHomeFragment {
@@ -42,13 +48,14 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     override fun provideViewModelClass(): Class<TabHomeViewModel>? = TabHomeViewModel::class.java
 
     override fun lazyLoad() {
+        //避免视图切换销毁后，重复加载
+        initRecyclerView()
+        initRefreshLayout()
     }
 
     override fun getLayoutRes(): Int = R.layout.fragment_tab_home
 
     override fun initWidget() {
-        initRecyclerView()
-        initRefreshLayout()
         onRefresh()
     }
 
@@ -70,17 +77,10 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     }
 
     override fun startObserve() {
-        //LiveData绑定数据到页面
+        //LiveData 刷新数据到页面
         mViewModel.apply {
             mBannerList.observe(this@TabHomeFragment, Observer {
-                it?.let {
-                    val imgList = mutableListOf<String>()
-                    for (entity in it) {
-                        imgList.add(entity.imagePath)
-                        mBannerUrls.add(entity.url)
-                    }
-                    setupBanner(imgList)
-                }
+                it?.let { setupBanner(it) }
             })
             mArticleList.observe(this@TabHomeFragment, Observer {
                 it?.let {
@@ -92,7 +92,30 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
                     setLoadStatus(!it.over)
                 }
             })
+            mErrorMsg.observe(this@TabHomeFragment, Observer {
+                it?.let { onApiFailure(it) }
+            })
         }
+    }
+
+    private fun setupBanner(bannerEntities: List<BannerEntity>) {
+        val imgList = mutableListOf<String>()
+        val titles = mutableListOf<String>()
+        for (entity in bannerEntities) {
+            imgList.add(entity.imagePath)
+            titles.add(entity.title)
+            mBannerUrls.add(entity.url)
+        }
+        //填充banner
+        mBannerHome.setImageLoader(GlideBannerImageLoader())
+            .setBannerStyle(BannerConfig.LEFT)
+            .setImages(imgList)
+            .setBannerTitles(titles)
+            .setOnBannerListener { view, position ->
+                //todo 跳转详情
+
+            }
+        mBannerHome.start()
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
@@ -115,6 +138,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         mHomeAdapter.onItemChildClickListener = this
         mHomeAdapter.setOnLoadMoreListener(this, rlv)
         val header = LayoutInflater.from(activity).inflate(R.layout.recycle_header_banner_home, rlv, false)
+        mBannerHome = header.findViewById(R.id.banner_home)
         mHomeAdapter.addHeaderView(header)
         mHomeAdapter.setLoadMoreView(CustomLoadMoreView())
         rlv.adapter = mHomeAdapter
@@ -125,9 +149,23 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        if (view?.id == R.id.ibt_star) {
-            //todo 点赞
-
+        when (view?.id) {
+            R.id.ibt_star -> {
+                if (mIsLogin) {
+                    //收藏
+                    adapter?.run {
+                        val entity = data[position] as ArticleEntity
+                        entity.run {
+                            collect = !collect
+                            mViewModel.collectArticle(id, collect)
+                        }
+                        notifyDataSetChanged()
+                    }
+                } else {
+                    //未登录，跳转登录
+                    activity?.let { LoginActivity.launch(it) }
+                }
+            }
         }
     }
 
@@ -137,30 +175,20 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         mViewModel.getArticleList(mPageNum)
     }
 
-    private fun setupBanner(bannerUrls: List<String>) {
-        //填充banner
-        banner_home.setImageLoader(GlideBannerImageLoader())
-        banner_home.setBannerStyle(BannerConfig.LEFT)
-        banner_home.setImages(bannerUrls)
-        banner_home.setOnBannerListener { view, position ->
-            //todo 跳转详情
-
-        }
-        banner_home.start()
-    }
-
     override fun onResume() {
         super.onResume()
-        banner_home?.startAutoPlay()
+        mBannerHome.startAutoPlay()
     }
 
     override fun onStop() {
         super.onStop()
-        banner_home?.stopAutoPlay()
+        mBannerHome.stopAutoPlay()
     }
 
     override fun onApiFailure(msg: String) {
+        if (swipe_refresh.isRefreshing) {
+            swipe_refresh.isRefreshing = false
+        }
         super.onApiFailure(msg)
-        swipe_refresh.isRefreshing = false
     }
 }

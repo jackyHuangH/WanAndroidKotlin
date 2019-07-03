@@ -132,13 +132,6 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity implem
     }
 
     @Override
-    public void updateProgress(int progress, int max) {
-        if (mUiController != null) {
-            mUiController.updateProgress(progress, max);
-        }
-    }
-
-    @Override
     public void hideProgress() {
         if (mUiController != null) {
             mUiController.hideProgress();

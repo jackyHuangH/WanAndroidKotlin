@@ -23,7 +23,7 @@ object WanRetrofitClient : BaseRetrofitClient() {
 
     val mService by lazy { getService(WanApiService::class.java, WanApiService.BASE_URL) }
 
-    private val mCookieJar by lazy {
+    val mCookieJar by lazy {
         PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(ContextModel.getApplicationContext()))
     }
 
@@ -53,8 +53,8 @@ object WanRetrofitClient : BaseRetrofitClient() {
                 } else {
                     val maxAge = 60 * 60
                     response.newBuilder()
-                        .removeHeader("Pragma")
-                        .header("Cache-Control", "public, max-age=$maxAge")
+                        .removeHeader(HEADER_PRAGMA)
+                        .header(HEADER_CACHE_CONTROL, "public, max-age=$maxAge")
                         .build()
                 }
                 response

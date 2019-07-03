@@ -16,6 +16,8 @@ import kotlinx.coroutines.*
  */
 open class BaseViewModel : ViewModel(), LifecycleObserver {
     private val mException: MutableLiveData<Exception> = MutableLiveData()
+    //错误信息
+    val mErrorMsg: MutableLiveData<String> = MutableLiveData()
 
     companion object {
         const val ERROR_CODE = -1//请求失败返回码
@@ -60,7 +62,8 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         errorBlock: suspend CoroutineScope.() -> Unit
     ) {
         coroutineScope {
-            if (response.errorCode == ERROR_CODE) errorBlock else successBlock
+            if (response.errorCode == ERROR_CODE) errorBlock()
+            else successBlock()
         }
     }
 

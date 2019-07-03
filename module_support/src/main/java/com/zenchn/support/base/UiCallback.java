@@ -19,8 +19,6 @@ public interface UiCallback {
 
     void hideProgress();
 
-    void updateProgress(int progress, int max);
-
     void showMessage(@NonNull CharSequence msg);
 
     void showResMessage(@StringRes int resId);

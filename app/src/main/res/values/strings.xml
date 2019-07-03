@@ -10,7 +10,18 @@
     <string name="nv_item_about">关于</string>
     <string name="nv_item_logout">退出登录</string>
 
-    <string name="user_name">Jacky</string>
+    <string name="name_default">未登录</string>
     <string name="github">https://github.com/jackyHuangH</string>
     <string name="common_no_data">暂时没有数据</string>
+
+    <string name="login_hint_name">用户名</string>
+    <string name="login_hint_password">密码</string>
+    <string name="login_bt_login">登录</string>
+    <string name="login_bt_register">注册</string>
+    <string name="login_error_name_empty">用户名不能为空</string>
+    <string name="login_error_password_empty">密码不能为空</string>
+    <string name="login_doing_login">正在登录…</string>
+    <string name="login_doing_register">正在注册…</string>
+    <string name="login_login_success">登录成功！</string>
+    <string name="login_register_success">注册成功,请登录！</string>
 </resources>

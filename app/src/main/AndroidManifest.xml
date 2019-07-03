@@ -50,9 +50,6 @@
             android:theme="@style/VanAppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
             tools:replace="android:theme">
-        <activity android:name=".ui.search.SearchActivity">
-        </activity>
-
         <meta-data
                 android:name="CHANNEL_VALUE"
                 android:value="${CHANNEL_VALUE}"/>
@@ -76,7 +73,9 @@
                 android:value="portrait|landscape"/>
 
         <activity android:name=".ui.main.MainActivity"
-                  android:screenOrientation="portrait"/>
+                  android:screenOrientation="portrait">
+
+        </activity>
 
         <activity android:name=".ui.splash.SplashActivity"
                   android:theme="@style/SplashFullScreen"
@@ -87,6 +86,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.search.SearchActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.login.LoginActivity"
+                  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

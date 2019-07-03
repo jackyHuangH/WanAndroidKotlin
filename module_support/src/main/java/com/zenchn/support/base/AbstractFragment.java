@@ -123,13 +123,6 @@ public abstract class AbstractFragment extends Fragment implements IActivity {
     }
 
     @Override
-    public void updateProgress(int progress, int max) {
-        if (mUiController != null) {
-            mUiController.updateProgress(progress, max);
-        }
-    }
-
-    @Override
     public void hideProgress() {
         if (mUiController != null) {
             mUiController.hideProgress();

@@ -21,17 +21,28 @@ class TabHomeViewModel : BaseViewModel() {
 
     fun getBanners() {
         launch {
-            val result = withContext(Dispatchers.IO) {
-                mRepository.getHomeBanner()
-            }
-            executeResponse(result, { mBannerList.value = result.data }, {})
+            val result = withContext(Dispatchers.IO) { mRepository.getHomeBanner() }
+            executeResponse(result, { mBannerList.value = result.data }, { mErrorMsg.value = result.errorMsg })
         }
     }
 
     fun getArticleList(page: Int) {
         launch {
             val result = withContext(Dispatchers.IO) { mRepository.getArticleList(page) }
-            executeResponse(result, { mArticleList.value = result.data }, {})
+            executeResponse(result, { mArticleList.value = result.data }, { mErrorMsg.value = result.errorMsg })
+        }
+    }
+
+    fun collectArticle(articleId: Int, collect: Boolean) {
+        launch {
+            val result = withContext(Dispatchers.IO) {
+                if (collect) {
+                    mRepository.collectArticle(articleId)
+                } else {
+                    mRepository.unCollectArticle(articleId)
+                }
+            }
+//            executeResponse(result, { mArticleList.value = result.data }, {})
         }
     }
 }

@@ -17,7 +17,7 @@ class SplashActivity : BaseActivity() {
 
     override fun initWidget() {
         GlobalScope.launch {
-            delay(3000L)
+            delay(1000L)
             MainActivity.launch(this@SplashActivity)
             finish()
         }

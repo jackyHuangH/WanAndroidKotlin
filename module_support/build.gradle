@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -33,6 +35,7 @@ dependencies {
     api rootProject.ext.dependencies["design"]
     //material dialog
     api rootProject.ext.dependencies["material-dialogs"]
+    api rootProject.ext.dependencies["spinkit"]
     testImplementation rootProject.ext.dependencies["junit"]
 
     api rootProject.ext.dependencies["Android_Pickerview"]

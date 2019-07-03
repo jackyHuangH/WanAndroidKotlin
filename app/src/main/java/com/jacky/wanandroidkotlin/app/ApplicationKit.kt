@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Intent
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
+import com.squareup.leakcanary.LeakCanary
 import com.zenchn.support.base.AbstractApplicationKit
 import com.zenchn.support.base.ActivityLifecycleCallback
 import com.zenchn.support.dafault.DefaultActivityLifecycle
@@ -49,6 +50,12 @@ class ApplicationKit private constructor() : AbstractApplicationKit(), ActivityL
         super.initSetting()
         initActivityLifecycle()
         clearNotify()
+        initLeakCanary()
+    }
+
+    private fun initLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(application)) return
+        LeakCanary.install(application)
     }
 
     private fun initActivityLifecycle() {

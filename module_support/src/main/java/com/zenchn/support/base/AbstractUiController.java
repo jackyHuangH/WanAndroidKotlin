@@ -30,7 +30,7 @@ public abstract class AbstractUiController extends DefaultUiController {
 
     @Override
     public void showResMessage(@StringRes int resId) {
-        showMessage(mContext.getString(resId));
+        showMessage(getMContext().getString(resId));
     }
 
     /**
