@@ -29,6 +29,7 @@
                     android:layout_weight="1"
                     app:tabIndicatorHeight="2dp"
                     app:tabMinWidth="100dp"
+                    app:tabTextAppearance="@style/TabTextStyle"
                     app:tabSelectedTextColor="@color/colorAccent"
                     app:tabTextColor="@color/color_d5d5d5"
                     android:layout_height="wrap_content"/>

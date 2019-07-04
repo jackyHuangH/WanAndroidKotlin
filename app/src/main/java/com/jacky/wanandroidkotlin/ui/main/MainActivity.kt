@@ -10,10 +10,13 @@ import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
-import com.jacky.wanandroidkotlin.common.Constant
+import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
+import com.jacky.wanandroidkotlin.common.TOOL_URL
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
 import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPagerAdapter
+import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
+import com.jacky.wanandroidkotlin.ui.fragmentwrap.FragmentWrapActivity
 import com.jacky.wanandroidkotlin.ui.search.SearchActivity
 import com.jacky.wanandroidkotlin.ui.tabhome.TabHomeFragment
 import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
@@ -81,7 +84,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
         }
         GlideApp
             .with(this)
-            .load(Constant.imgUrls[1])
+            .load(TEST_IMG_URLS[1])
             .override(800, 800)
             .into(circleTextImageView)
     }
@@ -95,14 +98,22 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
         //todo navigation菜单点击事件
         when (item.itemId) {
             R.id.nv_blog -> {
+                //公众号
+                goToFragmentWrap(true)
             }
             R.id.nv_type -> {
+                //项目分类
+                goToFragmentWrap(false)
             }
             R.id.nv_util -> {
+                //工具
+                BrowserActivity.launch(this@MainActivity, TOOL_URL)
             }
             R.id.nv_collection -> {
+                //收藏
             }
             R.id.nv_about -> {
+                //关于
             }
             R.id.nv_logout -> {
                 DialogProvider.showSimpleDialog(this@MainActivity,
@@ -116,6 +127,10 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun goToFragmentWrap(isBlog: Boolean) {
+        FragmentWrapActivity.launch(this@MainActivity, isBlog)
     }
 
     override fun startObserve() {

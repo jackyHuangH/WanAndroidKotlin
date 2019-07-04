@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="10dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="false"
+        app:contentPadding="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="200dp"
+            android:padding="10dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv"
+                android:layout_width="120dp"
+                android:layout_height="200dp"
+                android:src="@drawable/pic_default"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="音乐播放器"/>
+
+            <TextView
+                    android:id="@+id/tv_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="10"
+                    android:ellipsize="end"
+                    tools:text="@string/test_string"
+                    android:textColor="@color/color_999999"
+                    android:textSize="12sp"/>
+
+            <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="时间 多个"
+                        android:textColor="@color/color_999999"
+                        android:textSize="12sp"/>
+
+                <TextView
+                        android:id="@+id/tv_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        tools:text="作者"
+                        android:textColor="@color/color_999999"
+                        android:textSize="12sp"/>
+                <Space
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="1dp"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/ibt_star"
+                        android:layout_width="wrap_content"
+                        android:padding="3dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:src="@drawable/timeline_like_normal"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -16,6 +16,8 @@ dependencies {
 
     //------------module依赖----------------------------------
     implementation rootProject.ext.dependencies["module_support"]
+    //tencent X5 TBS
+    implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1072_43646_sharewithdownloadwithfile_withoutGame_obfs_20190429_175122.jar')
 
     //==============================组件依赖 kotlin用kapt替换annotationProcessor===============================
     implementation rootProject.ext.dependencies["constraint_layout"]

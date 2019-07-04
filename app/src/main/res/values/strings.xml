@@ -13,6 +13,8 @@
     <string name="name_default">未登录</string>
     <string name="github">https://github.com/jackyHuangH</string>
     <string name="common_no_data">暂时没有数据</string>
+    <string name="browser_is_loading">加载中…</string>
+    <string name="test_string">归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个</string>
 
     <string name="login_hint_name">用户名</string>
     <string name="login_hint_password">密码</string>

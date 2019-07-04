@@ -11,6 +11,7 @@ import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.model.entity.BannerEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
+import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideBannerImageLoader
@@ -112,8 +113,9 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
             .setImages(imgList)
             .setBannerTitles(titles)
             .setOnBannerListener { view, position ->
-                //todo 跳转详情
-
+                // 跳转详情
+                val url = mBannerUrls[position]
+                activity?.let { BrowserActivity.launch(it, url) }
             }
         mBannerHome.start()
     }
@@ -145,7 +147,11 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        //todo 跳转详情
+        // 跳转详情
+        adapter?.run {
+            val entity = data[position] as ArticleEntity
+            activity?.let { BrowserActivity.launch(it, entity.link) }
+        }
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {

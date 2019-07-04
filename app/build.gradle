@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'  //kapt插件
 apply from: 'dependence.gradle'
 apply from: 'product.gradle'
-
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
@@ -92,4 +91,3 @@ android {
         }
     }
 }
-

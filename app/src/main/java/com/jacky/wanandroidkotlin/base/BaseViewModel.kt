@@ -1,5 +1,6 @@
 package com.jacky.wanandroidkotlin.base
 
+import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,11 +26,13 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
 
     private fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch {
+            Log.d("Thread", "launchOnUI:${Thread.currentThread().name}")
             block()
         }
     }
 
     fun launch(tryBlock: suspend CoroutineScope.() -> Unit) {
+        Log.d("Thread", "launch:${Thread.currentThread().name}")
         launchOnUI {
             tryCatch(tryBlock, {}, {}, true)
         }
@@ -42,6 +45,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         handleCancellationExceptionManually: Boolean = false
     ) {
         coroutineScope {
+            Log.d("Thread", "tryCatch:${Thread.currentThread().name}")
             try {
                 tryBlock()
             } catch (e: Exception) {
@@ -62,6 +66,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         errorBlock: suspend CoroutineScope.() -> Unit
     ) {
         coroutineScope {
+            Log.d("Thread", "executeResponse:${Thread.currentThread().name}")
             if (response.errorCode == ERROR_CODE) errorBlock()
             else successBlock()
         }

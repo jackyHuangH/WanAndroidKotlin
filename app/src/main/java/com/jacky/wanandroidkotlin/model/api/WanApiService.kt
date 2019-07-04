@@ -2,6 +2,7 @@ package com.jacky.wanandroidkotlin.model.api
 
 import com.jacky.wanandroidkotlin.model.entity.ArticleList
 import com.jacky.wanandroidkotlin.model.entity.BannerEntity
+import com.jacky.wanandroidkotlin.model.entity.ProjectTypeParent
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
 import retrofit2.http.*
 
@@ -66,4 +67,36 @@ interface WanApiService {
      */
     @POST("/lg/uncollect_originId/{id}/json")
     suspend fun cancelCollectArticle(@Path("id") id: Int): WanResponse<ArticleList>
+
+    /**
+     * 项目总分类tab
+     */
+    @GET("/project/tree/json")
+    suspend fun getProjectType(): WanResponse<List<ProjectTypeParent>>
+
+    /**
+     * 项目按类型分页获取列表
+     */
+    @GET("/project/list/{page}/json")
+    suspend fun getProjectListWithTypeId(@Path("page") page: Int, @Query("cid") cid: Int): WanResponse<ArticleList>
+
+    /**
+     * 分页获取最新的项目列表
+     */
+    @GET("/article/listproject/{page}/json")
+    suspend fun getLastedProjectList(@Path("page") page: Int): WanResponse<ArticleList>
+
+    /**
+     * 获取公众号分类tab
+     */
+    @GET("/wxarticle/chapters/json")
+    suspend fun getBlogType(): WanResponse<List<ProjectTypeParent>>
+
+    /**
+     * 根据公众号id分页获取公众号文章列表
+     */
+    @GET("/wxarticle/list/{id}/{page}/json")
+    fun getBlogArticleList(@Path("page") page: Int, @Path("id") id: Int): WanResponse<ArticleList>
+
+
 }

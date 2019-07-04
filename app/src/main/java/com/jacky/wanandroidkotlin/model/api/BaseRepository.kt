@@ -1,5 +1,7 @@
 package com.jacky.wanandroidkotlin.model.api
 
+import android.util.Log
+
 /**
  * @author:Hzj
  * @date  :2019/7/2/002
@@ -9,6 +11,7 @@ package com.jacky.wanandroidkotlin.model.api
 open class BaseRepository {
 
     suspend fun <T : Any> apiCall(call: suspend () -> WanResponse<T>): WanResponse<T> {
+        Log.d("Thread", "apiCall:${Thread.currentThread().name}")
         return call.invoke()
     }
 }

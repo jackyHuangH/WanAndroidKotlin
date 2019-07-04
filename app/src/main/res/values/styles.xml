@@ -25,6 +25,10 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
     <style name="TextInputLayout" parent="@style/Widget.Design.TextInputLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -37,5 +41,16 @@
     <style name="Error_Text">
         <item name="android:textColor">@color/red</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="LoadingProgressbarStyle">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/layerlist_progressbar_horizontal_loading
+        </item>
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:minHeight">4dip</item>
+        <item name="android:maxHeight">4dip</item>
     </style>
 </resources>

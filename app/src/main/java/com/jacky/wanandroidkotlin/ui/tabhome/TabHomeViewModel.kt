@@ -35,14 +35,13 @@ class TabHomeViewModel : BaseViewModel() {
 
     fun collectArticle(articleId: Int, collect: Boolean) {
         launch {
-            val result = withContext(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 if (collect) {
                     mRepository.collectArticle(articleId)
                 } else {
                     mRepository.unCollectArticle(articleId)
                 }
             }
-//            executeResponse(result, { mArticleList.value = result.data }, {})
         }
     }
 }
