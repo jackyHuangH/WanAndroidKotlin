@@ -30,7 +30,6 @@ class LoginActivity : BaseVMActivity<LoginViewModel>() {
 
     override fun initWidget() {
         toolbar.title = getString(R.string.login_bt_login)
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
         toolbar.setNavigationOnClickListener { onBackPressed() }
         bt_login.setOnClickListener { login() }
         bt_register.setOnClickListener { register() }

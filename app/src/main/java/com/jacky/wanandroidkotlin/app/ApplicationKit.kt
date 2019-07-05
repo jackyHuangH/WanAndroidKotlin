@@ -6,7 +6,6 @@ import android.content.Intent
 import android.util.Log
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
-import com.squareup.leakcanary.LeakCanary
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.QbSdk.PreInitCallback
 import com.zenchn.support.base.AbstractApplicationKit
@@ -53,7 +52,6 @@ class ApplicationKit private constructor() : AbstractApplicationKit(), ActivityL
         super.initSetting()
         initActivityLifecycle()
         clearNotify()
-        initLeakCanary()
         initX5Preload()
     }
 
@@ -73,11 +71,6 @@ class ApplicationKit private constructor() : AbstractApplicationKit(), ActivityL
         }
         //x5内核初始化接口
         QbSdk.initX5Environment(application, preCallback)
-    }
-
-    private fun initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(application)) return
-        LeakCanary.install(application)
     }
 
     private fun initActivityLifecycle() {

@@ -1,10 +1,9 @@
 package com.jacky.wanandroidkotlin.model.repositry
 
-import com.jacky.wanandroidkotlin.model.api.BaseRepository
 import com.jacky.wanandroidkotlin.model.api.WanResponse
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.ArticleList
-import com.jacky.wanandroidkotlin.model.entity.ProjectTypeParent
+import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 
 /**
  * @author:Hzj
@@ -12,11 +11,11 @@ import com.jacky.wanandroidkotlin.model.entity.ProjectTypeParent
  * desc  ：项目 数据仓库
  * record：
  */
-class ProjectRepository : BaseRepository() {
+class ProjectRepository : CollectRepository() {
     /**
      * 获取项目分类tab
      */
-    suspend fun getProjectType(): WanResponse<List<ProjectTypeParent>> {
+    suspend fun getProjectType(): WanResponse<List<TreeParentEntity>> {
         return apiCall { WanRetrofitClient.mService.getProjectType() }
     }
 
@@ -37,7 +36,7 @@ class ProjectRepository : BaseRepository() {
     /**
      * 获取公众号分类tab
      */
-    suspend fun getBlogType(): WanResponse<List<ProjectTypeParent>> {
+    suspend fun getBlogType(): WanResponse<List<TreeParentEntity>> {
         return apiCall { WanRetrofitClient.mService.getBlogType() }
     }
 
@@ -46,19 +45,5 @@ class ProjectRepository : BaseRepository() {
      */
     suspend fun getBlogListWithId(page: Int, blogId: Int): WanResponse<ArticleList> {
         return apiCall { WanRetrofitClient.mService.getBlogArticleList(page, blogId) }
-    }
-
-    /**
-     * 收藏文章
-     */
-    suspend fun collectArticle(articleId: Int): WanResponse<ArticleList> {
-        return apiCall { WanRetrofitClient.mService.collectArticle(articleId) }
-    }
-
-    /**
-     * 取消收藏文章
-     */
-    suspend fun unCollectArticle(articleId: Int): WanResponse<ArticleList> {
-        return apiCall { WanRetrofitClient.mService.cancelCollectArticle(articleId) }
     }
 }

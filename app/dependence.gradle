@@ -84,7 +84,5 @@ dependencies {
     implementation rootProject.ext.dependencies["cookieJar"]
 
     //use leakcanary
-    debugImplementation rootProject.ext.dependencies["leakcanary_debug"]
-    releaseImplementation rootProject.ext.dependencies["leakcanary_release"]
-    debugImplementation rootProject.ext.dependencies["leakcanary_debug_fragment"]
+    debugImplementation rootProject.ext.dependencies["leakcanary"]
 }

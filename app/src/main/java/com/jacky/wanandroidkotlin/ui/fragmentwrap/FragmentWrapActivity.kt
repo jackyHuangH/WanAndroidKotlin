@@ -19,7 +19,6 @@ class FragmentWrapActivity : BaseActivity() {
     override fun getLayoutRes(): Int = R.layout.activity_fragment_wrap
 
     override fun initWidget() {
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
         toolbar.setNavigationOnClickListener { onBackPressed() }
         val isBlog = intent.getBooleanExtra(EXTRA_IS_BLOG, false)
         toolbar.title = if (isBlog) TITLE_BLOG else TITLE_PROJECT_TYPE

@@ -2,7 +2,7 @@ package com.jacky.wanandroidkotlin.model.api
 
 import com.jacky.wanandroidkotlin.model.entity.ArticleList
 import com.jacky.wanandroidkotlin.model.entity.BannerEntity
-import com.jacky.wanandroidkotlin.model.entity.ProjectTypeParent
+import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
 import retrofit2.http.*
 
@@ -69,10 +69,10 @@ interface WanApiService {
     suspend fun cancelCollectArticle(@Path("id") id: Int): WanResponse<ArticleList>
 
     /**
-     * 项目总分类tab
+     * 项目分类tab
      */
     @GET("/project/tree/json")
-    suspend fun getProjectType(): WanResponse<List<ProjectTypeParent>>
+    suspend fun getProjectType(): WanResponse<List<TreeParentEntity>>
 
     /**
      * 项目按类型分页获取列表
@@ -90,13 +90,23 @@ interface WanApiService {
      * 获取公众号分类tab
      */
     @GET("/wxarticle/chapters/json")
-    suspend fun getBlogType(): WanResponse<List<ProjectTypeParent>>
+    suspend fun getBlogType(): WanResponse<List<TreeParentEntity>>
 
     /**
      * 根据公众号id分页获取公众号文章列表
      */
     @GET("/wxarticle/list/{id}/{page}/json")
-    fun getBlogArticleList(@Path("page") page: Int, @Path("id") id: Int): WanResponse<ArticleList>
+    suspend fun getBlogArticleList(@Path("page") page: Int, @Path("id") id: Int): WanResponse<ArticleList>
 
+    /**
+     * 获取体系分类树列表
+     */
+    @GET("/tree/json")
+    suspend fun getSystemTreeList(): WanResponse<List<TreeParentEntity>>
 
+    /**
+     * 根据体系子id分页获取文章列表
+     */
+    @GET("/article/list/{page}/json")
+    suspend fun getSystemArticleListByCid(@Path("page") page: Int, @Query("cid") cid: Int): WanResponse<ArticleList>
 }

@@ -3,7 +3,7 @@ package com.jacky.wanandroidkotlin.ui.project
 import androidx.lifecycle.MutableLiveData
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.model.entity.ArticleList
-import com.jacky.wanandroidkotlin.model.entity.ProjectTypeParent
+import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.model.repositry.ProjectRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
  */
 class ProjectViewModel : BaseViewModel() {
     private val mRepository by lazy { ProjectRepository() }
-    val mTabList: MutableLiveData<List<ProjectTypeParent>> = MutableLiveData()
+    val mTabList: MutableLiveData<List<TreeParentEntity>> = MutableLiveData()
     val mArticleList: MutableLiveData<ArticleList> = MutableLiveData()
 
     fun getProjectType() {

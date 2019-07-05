@@ -1,7 +1,6 @@
-package com.jacky.wanandroidkotlin.ui.tabhome
+package com.jacky.wanandroidkotlin.ui.systemclassify
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,52 +8,52 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
-import com.jacky.wanandroidkotlin.model.entity.BannerEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
+import com.jacky.wanandroidkotlin.ui.tabsystem.TabSystemViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
-import com.jacky.wanandroidkotlin.wrapper.glide.GlideBannerImageLoader
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
-import com.youth.banner.Banner
-import com.youth.banner.BannerConfig
 import com.zenchn.support.kit.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_home.*
 
 /**
  * @author:Hzj
- * @date  :2019/7/1/001
- * desc  ：首页Tab
+ * @date  :2019/7/5/005
+ * desc  ：体系列表 页面
  * record：
  */
-class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnItemClickListener,
+class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapter.OnItemClickListener,
     BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
+    private val mCid by lazy { arguments?.getInt(EXTRA_CID) }
+    private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_CID) }
     private val mHomeAdapter: HomeListAdapter by lazy { HomeListAdapter() }
     private var mPageNum = 0
-    private val mBannerUrls = mutableListOf<String>()
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
-    private lateinit var mBannerHome: Banner
+
+    override fun provideViewModelClass(): Class<TabSystemViewModel>? = TabSystemViewModel::class.java
+
+    override fun getLayoutRes(): Int = R.layout.fragment_system_list
 
     companion object {
-        fun getInstance(): TabHomeFragment {
-            val fragment = TabHomeFragment()
+        private const val EXTRA_CID = "EXTRA_CID"
+        private const val EXTRA_IS_BLOG = "EXTRA_IS_BLOG"
+        fun getInstance(cid: Int, isBlog: Boolean): SystemListFragment {
+            val fragment = SystemListFragment()
             val bundle = Bundle()
+            bundle.putInt(EXTRA_CID, cid)
+            bundle.putBoolean(EXTRA_IS_BLOG, isBlog)
             fragment.arguments = bundle
             return fragment
         }
     }
 
-    override fun provideViewModelClass(): Class<TabHomeViewModel>? = TabHomeViewModel::class.java
-
-    override fun getLayoutRes(): Int = R.layout.fragment_tab_home
-
     override fun initWidget() {
     }
 
     override fun lazyLoad() {
-        //避免视图切换销毁后，重复加载
         initRecyclerView()
         initRefreshLayout()
         onRefresh()
@@ -72,18 +71,14 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     private fun onRefresh() {
         //下拉刷新时禁用加载更多
         mHomeAdapter.setEnableLoadMore(false)
-        mViewModel.getBanners()
         mPageNum = 0
-        mViewModel.getArticleList(mPageNum)
+        mCid?.let { mViewModel.getSystemArticleListByCid(mPageNum, it) }
     }
 
     override fun startObserve() {
         //LiveData 刷新数据到页面
         mViewModel.apply {
-            mBannerList.observe(this@TabHomeFragment, Observer {
-                it?.let { setupBanner(it) }
-            })
-            mArticleList.observe(this@TabHomeFragment, Observer {
+            mSystemArticleList.observe(this@SystemListFragment, Observer {
                 it?.let {
                     if (mPageNum == 0) {
                         mHomeAdapter.setNewData(it.datas)
@@ -93,31 +88,10 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
                     setLoadStatus(!it.over)
                 }
             })
-            mErrorMsg.observe(this@TabHomeFragment, Observer {
+            mErrorMsg.observe(this@SystemListFragment, Observer {
                 it?.let { onApiFailure(it) }
             })
         }
-    }
-
-    private fun setupBanner(bannerEntities: List<BannerEntity>) {
-        val imgList = mutableListOf<String>()
-        val titles = mutableListOf<String>()
-        for (entity in bannerEntities) {
-            imgList.add(entity.imagePath)
-            titles.add(entity.title)
-            mBannerUrls.add(entity.url)
-        }
-        //填充banner
-        mBannerHome.setImageLoader(GlideBannerImageLoader())
-            .setBannerStyle(BannerConfig.LEFT)
-            .setImages(imgList)
-            .setBannerTitles(titles)
-            .setOnBannerListener { view, position ->
-                // 跳转详情
-                val url = mBannerUrls[position]
-                activity?.let { BrowserActivity.launch(it, url) }
-            }
-        mBannerHome.start()
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
@@ -139,9 +113,6 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         mHomeAdapter.onItemClickListener = this
         mHomeAdapter.onItemChildClickListener = this
         mHomeAdapter.setOnLoadMoreListener(this, rlv)
-        val header = LayoutInflater.from(activity).inflate(R.layout.recycle_header_banner_home, rlv, false)
-        mBannerHome = header.findViewById(R.id.banner_home)
-        mHomeAdapter.addHeaderView(header)
         mHomeAdapter.setLoadMoreView(CustomLoadMoreView())
         rlv.adapter = mHomeAdapter
     }
@@ -178,18 +149,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     override fun onLoadMoreRequested() {
         // 加载更多
         mPageNum++
-        mViewModel.getArticleList(mPageNum)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mBannerHome.startAutoPlay()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mBannerHome.stopAutoPlay()
-        swipe_refresh.isRefreshing=false
+        mCid?.let { mViewModel.getSystemArticleListByCid(mPageNum, it) }
     }
 
     override fun onApiFailure(msg: String) {

@@ -54,6 +54,7 @@ ext {
 
             //immersionbar
             "immersionbar"              : 'com.gyf.immersionbar:immersionbar:3.0.0-beta05',
+
             //logger
             "logger"                    : 'com.orhanobut:logger:2.1.1',
 
@@ -127,9 +128,7 @@ ext {
             "amap_2dmap"                : "com.amap.api:map2d:latest.integration",//  2D地图
             "amap_navi"                 : "com.amap.api:navi-3dmap:latest.integration",//  导航
 
-            "leakcanary_debug"          : 'com.squareup.leakcanary:leakcanary-android:1.6.3',
-            "leakcanary_release"        : 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3',
-            // Optional, if you use support library fragments:
-            "leakcanary_debug_fragment" : 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+            "leakcanary"                : 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-3',
+
     ]
 }

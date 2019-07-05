@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="10dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="false"
+        app:contentPadding="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/tv_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="时间 多个"
+                android:textColor="@color/color_282828"
+                android:textSize="16sp"/>
+
+        <TextView
+                android:id="@+id/tv_child"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                tools:text="作者"
+                android:textColor="@color/color_999999"
+                android:textSize="12sp"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
