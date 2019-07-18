@@ -26,4 +26,11 @@ class SystemRepository : CollectRepository() {
     suspend fun getSystemArticleList(page: Int, cid: Int): WanResponse<ArticleList> {
         return apiCall { WanRetrofitClient.mService.getSystemArticleListByCid(page, cid) }
     }
+
+    /**
+     * 根据公众号id分页获取公众号文章列表
+     */
+    suspend fun getBlogListWithId(page: Int, blogId: Int): WanResponse<ArticleList> {
+        return apiCall { WanRetrofitClient.mService.getBlogArticleList(page, blogId) }
+    }
 }

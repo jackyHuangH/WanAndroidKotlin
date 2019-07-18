@@ -21,14 +21,14 @@ import kotlinx.android.synthetic.main.fragment_tab_home.*
 /**
  * @author:Hzj
  * @date  :2019/7/5/005
- * desc  ：体系列表 页面
+ * desc  ：体系列表 ,公众号分类页面共用
  * record：
  */
 class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapter.OnItemClickListener,
     BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private val mCid by lazy { arguments?.getInt(EXTRA_CID) }
-    private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_CID) }
+    private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_IS_BLOG) }
     private val mHomeAdapter: HomeListAdapter by lazy { HomeListAdapter() }
     private var mPageNum = 0
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
@@ -72,13 +72,22 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapte
         //下拉刷新时禁用加载更多
         mHomeAdapter.setEnableLoadMore(false)
         mPageNum = 0
-        mCid?.let { mViewModel.getSystemArticleListByCid(mPageNum, it) }
+        mCid?.let {
+            mIsBlog?.run {
+                if (this) {
+                    // 获取公众号文章
+                    mViewModel.getBlogList(mPageNum,it)
+                } else {
+                    mViewModel.getSystemArticleListByCid(mPageNum, it)
+                }
+            }
+        }
     }
 
     override fun startObserve() {
         //LiveData 刷新数据到页面
         mViewModel.apply {
-            mSystemArticleList.observe(this@SystemListFragment, Observer {
+            mArticleList.observe(this@SystemListFragment, Observer {
                 it?.let {
                     if (mPageNum == 0) {
                         mHomeAdapter.setNewData(it.datas)
@@ -149,7 +158,16 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapte
     override fun onLoadMoreRequested() {
         // 加载更多
         mPageNum++
-        mCid?.let { mViewModel.getSystemArticleListByCid(mPageNum, it) }
+        mCid?.let {
+            mIsBlog?.run {
+                if (this) {
+                    //获取公众号文章
+                    mViewModel.getBlogList(mPageNum,it)
+                } else {
+                    mViewModel.getSystemArticleListByCid(mPageNum, it)
+                }
+            }
+        }
     }
 
     override fun onApiFailure(msg: String) {

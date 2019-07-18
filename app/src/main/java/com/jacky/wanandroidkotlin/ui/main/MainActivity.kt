@@ -47,7 +47,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
 
     init {
         mFragments.add(TabHomeFragment.getInstance())
-        mFragments.add(TabLatestProjectFragment.getInstance())
+        mFragments.add(TabLatestProjectFragment.getInstance(0,true))
         mFragments.add(TabSystemFragment.getInstance())
         mFragments.add(TabNavigationFragment.getInstance())
     }

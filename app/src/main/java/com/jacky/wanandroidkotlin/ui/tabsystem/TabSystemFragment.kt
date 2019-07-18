@@ -38,11 +38,11 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapter
     override fun getLayoutRes(): Int = R.layout.fragment_tab_system
 
     override fun initWidget() {
+        initRecyclerView()
+        initRefreshLayout()
     }
 
     override fun lazyLoad() {
-        initRecyclerView()
-        initRefreshLayout()
         onRefresh()
         swipe_refresh.isRefreshing = true
     }

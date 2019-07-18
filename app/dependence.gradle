@@ -48,7 +48,8 @@ dependencies {
     implementation rootProject.ext.dependencies["bugly_native"]
 
     implementation rootProject.ext.dependencies["brvah"]
-//    implementation rootProject.ext.dependencies["swipeDelMenu"]
+    implementation rootProject.ext.dependencies["verticalTab"]
+    implementation rootProject.ext.dependencies["flowlayout"]
 
     implementation rootProject.ext.dependencies["aspectjrt"]
 

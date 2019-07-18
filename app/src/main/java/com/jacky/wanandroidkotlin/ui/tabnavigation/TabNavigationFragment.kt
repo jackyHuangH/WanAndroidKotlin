@@ -1,8 +1,18 @@
 package com.jacky.wanandroidkotlin.ui.tabnavigation
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jacky.wanandroidkotlin.R
-import com.jacky.wanandroidkotlin.base.BaseFragment
+import com.jacky.wanandroidkotlin.base.BaseVMFragment
+import com.jacky.wanandroidkotlin.ui.adapter.NavVerticalTabAdapter
+import com.jacky.wanandroidkotlin.ui.adapter.NavigationAdapter
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
+import com.zenchn.support.kit.AndroidKit
+import kotlinx.android.synthetic.main.fragment_tab_navigation.*
+import q.rorbin.verticaltablayout.VerticalTabLayout
+import q.rorbin.verticaltablayout.widget.TabView
 
 /**
  * @author:Hzj
@@ -10,7 +20,11 @@ import com.jacky.wanandroidkotlin.base.BaseFragment
  * desc  ：导航Tab
  * record：
  */
-class TabNavigationFragment : BaseFragment() {
+class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
+    private val mNavAdapter by lazy { NavigationAdapter() }
+    private val mLayoutManager by lazy { LinearLayoutManager(activity) }
+
+    override fun provideViewModelClass(): Class<NavViewModel>? = NavViewModel::class.java
 
     companion object {
         fun getInstance(): TabNavigationFragment {
@@ -21,11 +35,75 @@ class TabNavigationFragment : BaseFragment() {
         }
     }
 
-    override fun lazyLoad() {
-    }
-
     override fun getLayoutRes(): Int = R.layout.fragment_tab_navigation
 
     override fun initWidget() {
+        initRlv()
+        initTab()
     }
+
+    override fun lazyLoad() {
+        showProgress()
+        mViewModel.getNavigation()
+    }
+
+    private fun initRlv() {
+        rlv.apply {
+            layoutManager = mLayoutManager
+            addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
+            adapter = mNavAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    //监听列表滑动，改变tab选中状态
+                    val firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition()
+                    vertical_tab.setTabSelected(firstVisibleItemPosition, false)
+                }
+            })
+        }
+    }
+
+    private fun initTab() {
+        vertical_tab.addOnTabSelectedListener(object : VerticalTabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabView?, position: Int) {
+            }
+
+            override fun onTabSelected(tab: TabView?, position: Int) {
+                scrollTo(position)
+            }
+        })
+    }
+
+    private fun scrollTo(position: Int) {
+        val firstPosition = mLayoutManager.findFirstVisibleItemPosition()
+        val lastPosition = mLayoutManager.findLastVisibleItemPosition()
+        when {
+            position <= firstPosition || position >= lastPosition -> rlv.smoothScrollToPosition(position)
+            else -> rlv.run {
+                smoothScrollBy(0, this.getChildAt(position - firstPosition).top - AndroidKit.Dimens.dp2px(10))
+            }
+        }
+    }
+
+    override fun startObserve() {
+        mViewModel.apply {
+            mNavList.observe(this@TabNavigationFragment, Observer { list ->
+                list?.let {
+                    val tabAdapter = activity?.let { ctx -> NavVerticalTabAdapter(it.map { it.name }, ctx) }
+                    vertical_tab.setTabAdapter(tabAdapter)
+                    mNavAdapter.setNewData(list)
+                    hideProgress()
+                }
+            })
+            mErrorMsg.observe(this@TabNavigationFragment, Observer { msg ->
+                msg?.let { onApiFailure(it) }
+            })
+        }
+    }
+
+    override fun onApiFailure(msg: String) {
+        hideProgress()
+        super.onApiFailure(msg)
+    }
+
 }

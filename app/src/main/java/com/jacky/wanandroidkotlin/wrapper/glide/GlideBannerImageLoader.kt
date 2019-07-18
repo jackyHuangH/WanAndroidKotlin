@@ -18,7 +18,6 @@ class GlideBannerImageLoader : ImageLoader() {
                 .with(context)
                 .load(path)
                 .placeholder(R.drawable.holder_banner)
-                .centerCrop()
                 .into(imageView)
     }
 }

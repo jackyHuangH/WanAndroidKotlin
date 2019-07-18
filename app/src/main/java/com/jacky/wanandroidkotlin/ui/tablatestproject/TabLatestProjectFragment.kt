@@ -21,32 +21,40 @@ import kotlinx.android.synthetic.main.fragment_tab_latest_project.*
 /**
  * @author:Hzj
  * @date  :2019/7/1/001
- * desc  ：最新项目Tab
+ * desc  ：最新项目Tab,项目分类公用页面
  * record：
  */
 class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAdapter.OnItemClickListener,
     BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var mPageNum = 0
+    private var mIsDownRefresh = true//是否是下拉刷新数据
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
     private val mAdapter: ProjectListAdapter by lazy { ProjectListAdapter() }
+    private val mCId by lazy { arguments?.getInt(EXTRA_CID) }
+    private val mIsLatest by lazy { arguments?.getBoolean(EXTRA_IS_LASTED) } // 区分是最新项目 还是项目分类
     override fun provideViewModelClass(): Class<ProjectViewModel>? = ProjectViewModel::class.java
 
     companion object {
-        fun getInstance(): TabLatestProjectFragment {
+        private const val EXTRA_CID = "EXTRA_CID"
+        private const val EXTRA_IS_LASTED = "EXTRA_IS_LASTED"//是否是最新项目页面，默认true
+
+        fun getInstance(cid: Int, isLatest: Boolean): TabLatestProjectFragment {
             val fragment = TabLatestProjectFragment()
             val bundle = Bundle()
+            bundle.putInt(EXTRA_CID, cid)
+            bundle.putBoolean(EXTRA_IS_LASTED, isLatest)
             fragment.arguments = bundle
             return fragment
         }
     }
 
     override fun initWidget() {
+        intiRecyclerView()
+        initRefreshLayout()
     }
 
     override fun lazyLoad() {
-        intiRecyclerView()
-        initRefreshLayout()
         onRefresh()
         swipe_refresh.isRefreshing = true
     }
@@ -94,7 +102,15 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAd
     }
 
     override fun onLoadMoreRequested() {
-        mViewModel.getLastedProjectList(++mPageNum)
+        mIsDownRefresh=false
+        mIsLatest?.run {
+            if (this) {
+                mViewModel.getLastedProjectList(++mPageNum)
+            } else {
+                // 项目分类更多
+                mCId?.let { mViewModel.getProjectList(++mPageNum, it) }
+            }
+        }
     }
 
     private fun initRefreshLayout() {
@@ -107,16 +123,26 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAd
 
     private fun onRefresh() {
         //下拉刷新时禁用加载更多
+        mIsDownRefresh=true
         mAdapter.setEnableLoadMore(false)
-        mPageNum = 0
-        mViewModel.getLastedProjectList(mPageNum)
+        mIsLatest?.run {
+            if (this) {
+                //最新项目
+                mPageNum = 0
+                mViewModel.getLastedProjectList(mPageNum)
+            } else {
+                // 此处有坑！！！项目分类，分页从1开始
+                mPageNum = 1
+                mCId?.let { mViewModel.getProjectList(mPageNum, it) }
+            }
+        }
     }
 
     override fun startObserve() {
         mViewModel.apply {
-            mArticleList.observe(this@TabLatestProjectFragment, Observer {
-                it?.let {
-                    if (mPageNum == 0) {
+            mArticleList.observe(this@TabLatestProjectFragment, Observer { list ->
+                list?.let {
+                    if (mIsDownRefresh) {
                         mAdapter.setNewData(it.datas)
                     } else {
                         mAdapter.addData(it.datas)
@@ -124,8 +150,8 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAd
                     setLoadStatus(!it.over)
                 }
             })
-            mErrorMsg.observe(this@TabLatestProjectFragment, Observer {
-                it?.let { onApiFailure(it) }
+            mErrorMsg.observe(this@TabLatestProjectFragment, Observer { msg ->
+                msg?.let { onApiFailure(it) }
             })
         }
     }

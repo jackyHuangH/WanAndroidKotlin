@@ -1,9 +1,16 @@
 package com.jacky.wanandroidkotlin.ui.project
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
+import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
+import com.jacky.wanandroidkotlin.ui.systemclassify.SystemListFragment
+import com.jacky.wanandroidkotlin.ui.tabhome.TabHomeFragment
+import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
+import kotlinx.android.synthetic.main.fragment_project.*
 
 /**
  * @author:Hzj
@@ -12,6 +19,8 @@ import com.jacky.wanandroidkotlin.base.BaseVMFragment
  * record：
  */
 class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
+    private val mProjectTypeList = mutableListOf<TreeParentEntity>()
+    private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_IS_BLOG, false) }
 
     override fun provideViewModelClass(): Class<ProjectViewModel>? = ProjectViewModel::class.java
 
@@ -30,20 +39,39 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
     }
 
     override fun lazyLoad() {
-        val isBlog = arguments?.getBoolean(EXTRA_IS_BLOG, false)
-        isBlog?.let {
+        mIsBlog?.let {
             if (it) mViewModel.getBlogType()
             else mViewModel.getProjectType()
         }
     }
 
     override fun initWidget() {
+        viewPager.adapter = object : FragmentStatePagerAdapter(fragmentManager) {
+            override fun getCount(): Int = mProjectTypeList.size
+
+            override fun getItem(position: Int): Fragment = chooseFragment(position)
+
+            override fun getPageTitle(position: Int) = mProjectTypeList[position].name
+        }
+        tabLayout.setupWithViewPager(viewPager)
+    }
+
+    private fun chooseFragment(position: Int): Fragment {
+        mIsBlog?.apply {
+            return if (this) SystemListFragment.getInstance(mProjectTypeList[position].id, true)
+            else TabLatestProjectFragment.getInstance(mProjectTypeList[position].id, false)
+        }
+        return TabHomeFragment()
     }
 
     override fun startObserve() {
         mViewModel.apply {
-            mTabList.observe(this@ProjectFragment, Observer {
-
+            mTabList.observe(this@ProjectFragment, Observer { list ->
+                list?.let {
+                    mProjectTypeList.clear()
+                    mProjectTypeList.addAll(it)
+                    viewPager.adapter?.notifyDataSetChanged()
+                }
             })
         }
     }

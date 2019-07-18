@@ -1,9 +1,6 @@
 package com.jacky.wanandroidkotlin.model.api
 
-import com.jacky.wanandroidkotlin.model.entity.ArticleList
-import com.jacky.wanandroidkotlin.model.entity.BannerEntity
-import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
-import com.jacky.wanandroidkotlin.model.entity.UserEntity
+import com.jacky.wanandroidkotlin.model.entity.*
 import retrofit2.http.*
 
 /**
@@ -109,4 +106,10 @@ interface WanApiService {
      */
     @GET("/article/list/{page}/json")
     suspend fun getSystemArticleListByCid(@Path("page") page: Int, @Query("cid") cid: Int): WanResponse<ArticleList>
+
+    /**
+     * 获取导航列表
+     */
+    @GET("/navi/json")
+    suspend fun getNavigation(): WanResponse<List<NavigationEntity>>
 }

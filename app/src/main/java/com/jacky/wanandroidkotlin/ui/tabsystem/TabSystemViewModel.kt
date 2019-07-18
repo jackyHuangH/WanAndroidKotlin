@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 class TabSystemViewModel : BaseViewModel() {
     private val mRepository by lazy { SystemRepository() }
     val mTreeList: MutableLiveData<List<TreeParentEntity>> = MutableLiveData()
-    val mSystemArticleList: MutableLiveData<ArticleList> = MutableLiveData()
+    val mArticleList: MutableLiveData<ArticleList> = MutableLiveData()
 
     //获取体系树列表
     fun getSystemTreeList() {
@@ -32,8 +32,18 @@ class TabSystemViewModel : BaseViewModel() {
             val response = withContext(Dispatchers.IO) { mRepository.getSystemArticleList(page, cid) }
             executeResponse(
                 response,
-                { mSystemArticleList.value = response.data },
+                { mArticleList.value = response.data },
                 { mErrorMsg.value = response.errorMsg })
+        }
+    }
+
+    /**
+     * 获取公众号文章列表
+     */
+    fun getBlogList(page: Int, blogId: Int) {
+        launch {
+            val response = withContext(Dispatchers.IO) { mRepository.getBlogListWithId(page, blogId) }
+            executeResponse(response, { mArticleList.value = response.data }, { mErrorMsg.value = response.errorMsg })
         }
     }
 
