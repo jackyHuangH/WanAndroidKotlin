@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/menu_issue"
+            android:title="@string/feedback_issue"/>
+    <item
+            android:id="@+id/menu_send_email"
+            android:title="@string/feedback_send_email"/>
+</menu>

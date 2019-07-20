@@ -14,9 +14,12 @@ import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
 import com.jacky.wanandroidkotlin.common.TOOL_URL
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
+import com.jacky.wanandroidkotlin.ui.about.AboutActivity
 import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPagerAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.fragmentwrap.FragmentWrapActivity
+import com.jacky.wanandroidkotlin.ui.login.LoginActivity
+import com.jacky.wanandroidkotlin.ui.mycollect.MyCollectActivity
 import com.jacky.wanandroidkotlin.ui.search.SearchActivity
 import com.jacky.wanandroidkotlin.ui.tabhome.TabHomeFragment
 import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
@@ -47,7 +50,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
 
     init {
         mFragments.add(TabHomeFragment.getInstance())
-        mFragments.add(TabLatestProjectFragment.getInstance(0,true))
+        mFragments.add(TabLatestProjectFragment.getInstance(0, true))
         mFragments.add(TabSystemFragment.getInstance())
         mFragments.add(TabNavigationFragment.getInstance())
     }
@@ -95,7 +98,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        //todo navigation菜单点击事件
+        //navigation菜单点击事件
         when (item.itemId) {
             R.id.nv_blog -> {
                 //公众号
@@ -111,9 +114,15 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
             }
             R.id.nv_collection -> {
                 //收藏
+                if (mIsLogin) {
+                    MyCollectActivity.launch(this@MainActivity)
+                } else {
+                    LoginActivity.launch(this@MainActivity)
+                }
             }
             R.id.nv_about -> {
                 //关于
+                AboutActivity.launch(this@MainActivity)
             }
             R.id.nv_logout -> {
                 DialogProvider.showSimpleDialog(this@MainActivity,

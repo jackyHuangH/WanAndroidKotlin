@@ -112,4 +112,29 @@ interface WanApiService {
      */
     @GET("/navi/json")
     suspend fun getNavigation(): WanResponse<List<NavigationEntity>>
+
+    /**
+     * 获取我的收藏文章列表
+     */
+    @GET("/lg/collect/list/{page}/json")
+    suspend fun getMyCollectArticleList(@Path("page") page: Int): WanResponse<ArticleList>
+
+    /**
+     * 获取常用网站
+     */
+    @GET("/friend/json")
+    suspend fun getCommonWebsites(): WanResponse<List<HotEntity>>
+
+    /**
+     * 获取搜索热词
+     */
+    @GET("/hotkey/json")
+    suspend fun getSearchHotKeys(): WanResponse<List<HotEntity>>
+
+    /**
+     * 搜索关键字
+     */
+    @FormUrlEncoded
+    @POST("/article/query/{page}/json")
+    suspend fun searchHot(@Path("page") page: Int, @Field("k") key: String): WanResponse<ArticleList>
 }

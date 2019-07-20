@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<notices>
+    <notice>
+        <name>kotlinx.coroutines</name>
+        <url>https://github.com/Kotlin/kotlinx.coroutines</url>
+        <copyright/>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Retrofit</name>
+        <url>https://github.com/square/retrofit</url>
+        <copyright>Copyright 2013 Square, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>OkHttp</name>
+        <url>https://github.com/square/okhttp</url>
+        <copyright>Square, Inc</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>BaseRecyclerViewAdapterHelper</name>
+        <url>http://www.recyclerview.org/</url>
+        <copyright>Copyright 2016 陈宇明</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>CircleImageView</name>
+        <url>https://github.com/hdodenhof/CircleImageView/</url>
+        <copyright>Copyright 2014 - 2019 Henning Dodenhof</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>banner</name>
+        <url>https://github.com/youth5201314/banner/</url>
+        <copyright></copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Glide</name>
+        <url>https://github.com/bumptech/glide/</url>
+        <copyright>Copyright 2014 Google, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>VerticalTabLayout</name>
+        <url>https://github.com/qstumn/VerticalTabLayout/</url>
+        <copyright>Copyright 2016, RorbinQiu</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>FlowLayout</name>
+        <url>https://github.com/hongyangAndroid/FlowLayout</url>
+        <copyright></copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>PersistentCookieJar</name>
+        <url>https://github.com/franmontiel/PersistentCookieJar</url>
+        <copyright>Copyright 2016 Francisco José Montiel Navarro</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>material-dialogs</name>
+        <url>https://af.codes/</url>
+        <copyright/>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>LicensesDialog</name>
+        <url>http://psdev.de/LicensesDialog</url>
+        <copyright>Copyright 2013 Philip Schiffer</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+</notices>

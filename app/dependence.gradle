@@ -58,6 +58,7 @@ dependencies {
 
 //    implementation rootProject.ext.dependencies["ali_OSS"]
 
+    implementation rootProject.ext.dependencies["license_dialog"]
     implementation rootProject.ext.dependencies["logger"]
 
     implementation rootProject.ext.dependencies["butterknife"]

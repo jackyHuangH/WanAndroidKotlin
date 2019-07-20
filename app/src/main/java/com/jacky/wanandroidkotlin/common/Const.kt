@@ -9,7 +9,9 @@ package com.jacky.wanandroidkotlin.common
 const val LOGGERKIT_TAG = "HZJ_DEBUG"//loggerkit tag
 
 const val TOOL_URL = "http://www.wanandroid.com/tools"
-const val ISSUE_URL = "https://github.com/lulululbj/wanandroid/issues"
+const val GITHUB_HOME = "https://github.com/jackyHuangH"
+const val ISSUE_URL = "https://github.com/jackyHuangH/WanAndroidKotlin/issues"
+const val GITHUB_URL = "https://github.com/jackyHuangH/WanAndroidKotlin"
 
 //本地测试用的网络图片
 val TEST_IMG_URLS = arrayOf(

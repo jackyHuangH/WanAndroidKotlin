@@ -2,6 +2,8 @@ package com.jacky.wanandroidkotlin.util
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
@@ -65,6 +67,11 @@ fun Context.dataFormat(total: Long): String {
         (Math.round(mSpeed * 100) / 100.0).toString() + " MB"
     }
     return result
+}
+
+/** 浏览器打开指定网页 */
+fun Context.openBrowser(url: String) {
+    Intent(Intent.ACTION_VIEW, Uri.parse(url)).run { startActivity(this) }
 }
 
 /**

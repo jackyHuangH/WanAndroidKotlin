@@ -90,7 +90,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
                     } else {
                         mHomeAdapter.addData(it.datas)
                     }
-                    setLoadStatus(!it.over)
+                    setLoadStatus(it.over.not())
                 }
             })
             mErrorMsg.observe(this@TabHomeFragment, Observer {

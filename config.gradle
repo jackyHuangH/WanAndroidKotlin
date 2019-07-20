@@ -92,6 +92,7 @@ ext {
             "superTextView"             : 'com.github.lygttpod:SuperTextView:2.2.3',
             //3.1.0use kotlin
             "material-dialogs"          : "com.afollestad.material-dialogs:core:3.1.0",
+            "license_dialog"            : 'de.psdev.licensesdialog:licensesdialog:2.1.0',
             //加载中动画
             "spinkit"                   : 'com.github.ybq:Android-SpinKit:1.2.0',
 
