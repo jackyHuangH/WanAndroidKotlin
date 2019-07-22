@@ -15,21 +15,17 @@ object DialogProvider {
     /**
      * 提供简单的提示框
      */
-    fun showSimpleDialog(context: Context, content: String, callback: ConfirmCallback?) {
+    fun showSimpleDialog(context: Context, content: String, onConfirm: () -> Unit) {
         MaterialDialog(context).show {
             title(R.string.material_dialog_common_title)
             message(text = content)
             positiveButton(R.string.material_dialog_common_positive) {
-                callback?.onConfirm()
+                onConfirm()
                 it.dismiss()
             }
             negativeButton(R.string.material_dialog_common_negative) {
                 it.dismiss()
             }
         }
-    }
-
-    interface ConfirmCallback {
-        fun onConfirm()
     }
 }

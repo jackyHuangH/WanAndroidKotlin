@@ -125,13 +125,10 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
                 AboutActivity.launch(this@MainActivity)
             }
             R.id.nv_logout -> {
-                DialogProvider.showSimpleDialog(this@MainActivity,
-                    "确定退出登录吗？", object : DialogProvider.ConfirmCallback {
-                        override fun onConfirm() {
-                            //退出登录
-                            mViewModel.logout()
-                        }
-                    })
+                DialogProvider.showSimpleDialog(this@MainActivity, "确定退出登录吗？") {
+                    //退出登录
+                    mViewModel.logout()
+                }
             }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
