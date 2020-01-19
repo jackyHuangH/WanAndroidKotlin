@@ -1,115 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.jacky.wanandroidkotlin">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jacky.wanandroidkotlin">
     <!-- 允许程序打开网络套接字 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
 
     <application
-            android:name=".app.App"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:networkSecurityConfig="@xml/network_security_config"
-            android:resizeableActivity="true"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/VanAppTheme"
-            tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
-            tools:replace="android:theme">
+        android:name=".app.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:resizeableActivity="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/VanAppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
+        tools:replace="android:theme">
         <meta-data
-                android:name="CHANNEL_VALUE"
-                android:value="${CHANNEL_VALUE}"/>
+            android:name="CHANNEL_VALUE"
+            android:value="${CHANNEL_VALUE}" />
         <meta-data
-                android:name="CHANNEL_ID"
-                android:value="${CHANNEL_ID}"/> <!-- 头条屏幕适配参数 -->
+            android:name="CHANNEL_ID"
+            android:value="${CHANNEL_ID}" /> <!-- 头条屏幕适配参数 -->
         <meta-data
-                android:name="design_width_in_dp"
-                android:value="360"/>
+            android:name="design_width_in_dp"
+            android:value="360" />
         <meta-data
-                android:name="design_height_in_dp"
-                android:value="640"/> <!-- 全面屏适配 -->
+            android:name="design_height_in_dp"
+            android:value="640" /> <!-- 全面屏适配 -->
         <meta-data
-                android:name="android.max_aspect"
-                android:value="2.4"/> <!-- 适配华为（huawei）刘海屏 -->
+            android:name="android.max_aspect"
+            android:value="2.4" /> <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
-                android:name="android.notch_support"
-                android:value="true"/> <!-- 适配小米（xiaomi）刘海屏 -->
+            android:name="android.notch_support"
+            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
         <meta-data
-                android:name="notch.config"
-                android:value="portrait|landscape"/>
+            android:name="notch.config"
+            android:value="portrait|landscape" />
 
         <activity
-                android:name=".ui.main.MainActivity"
-                android:screenOrientation="portrait">
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity
-                android:name=".ui.splash.SplashActivity"
-                android:theme="@style/SplashFullScreen"
-                android:screenOrientation="portrait">
+            android:name=".ui.splash.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashFullScreen">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-                android:name=".ui.search.SearchActivity"
-                android:screenOrientation="portrait"/>
+            android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait" />
 
         <activity
-                android:name=".ui.login.LoginActivity"
-                android:screenOrientation="portrait"/>
+            android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait" />
 
         <activity
-                android:name=".ui.browser.BrowserActivity"
-                android:windowSoftInputMode="stateHidden|adjustResize"
-                android:configChanges="orientation|screenSize|keyboardHidden"
-                android:screenOrientation="portrait"/>
+            android:name=".ui.browser.BrowserActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
-                android:name=".ui.fragmentwrap.FragmentWrapActivity"
-                android:screenOrientation="portrait"/>
+            android:name=".ui.fragmentwrap.FragmentWrapActivity"
+            android:screenOrientation="portrait" />
 
         <activity
-                android:name=".ui.systemclassify.SystemClassifyActivity"
-                android:screenOrientation="portrait"/>
+            android:name=".ui.systemclassify.SystemClassifyActivity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".ui.mycollect.MyCollectActivity"
-                android:screenOrientation="portrait"/>
+            android:name=".ui.mycollect.MyCollectActivity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".ui.about.AboutActivity"
-                android:screenOrientation="portrait"/>
+            android:name=".ui.about.AboutActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.girls.GirlsActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
