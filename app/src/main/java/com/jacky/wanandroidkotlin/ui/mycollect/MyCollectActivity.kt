@@ -29,8 +29,6 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(), BaseQuickAdapter
     private var mPageNum = 0
     private val mListAdapter by lazy { HomeListAdapter() }
 
-    override fun provideViewModelClass(): Class<MyCollectViewModel>? = MyCollectViewModel::class.java
-
     override fun getLayoutRes(): Int = R.layout.activity_my_collect
 
     override fun initWidget() {

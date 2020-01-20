@@ -22,7 +22,8 @@ class PreferenceUtil<T>(val keyName: String, private val defaultValue: T) {
         const val KEY_USER_INFO = "user_info"
 
         private val mPreference by lazy {
-            ContextModel.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
+            ContextModel.getApplicationContext()
+                .getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
         }
 
         /**
@@ -56,11 +57,11 @@ class PreferenceUtil<T>(val keyName: String, private val defaultValue: T) {
     private fun getPreference(key: String, default: T): T = with(mPreference) {
         val res: Any = when (default) {
             is Long -> getLong(key, default)
-            is String -> getString(key, default)
+            is String -> getString(key, default) ?: ""
             is Int -> getInt(key, default)
             is Boolean -> getBoolean(key, default)
             is Float -> getFloat(key, default)
-            else -> deSerialization(getString(key, serialize(default)))
+            else -> deSerialization(getString(key, serialize(default)) ?: "")
         }
         return res as T
     }

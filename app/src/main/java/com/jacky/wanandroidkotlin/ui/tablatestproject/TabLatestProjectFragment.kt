@@ -33,7 +33,6 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAd
     private val mAdapter: ProjectListAdapter by lazy { ProjectListAdapter() }
     private val mCId by lazy { arguments?.getInt(EXTRA_CID) }
     private val mIsLatest by lazy { arguments?.getBoolean(EXTRA_IS_LASTED) } // 区分是最新项目 还是项目分类
-    override fun provideViewModelClass(): Class<ProjectViewModel>? = ProjectViewModel::class.java
 
     companion object {
         private const val EXTRA_CID = "EXTRA_CID"

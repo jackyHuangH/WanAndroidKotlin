@@ -114,6 +114,10 @@
         <activity
             android:name=".ui.girls.GirlsActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".widget.PhotoBrowserActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

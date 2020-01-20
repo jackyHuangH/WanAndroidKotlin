@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProviders
  * desc  ：ViewModel封装基类Activity
  * record：
  */
-abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity() {
+abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(),IVMView<VM> {
 
-    protected lateinit var mViewModel: VM
+    override lateinit var mViewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initViewModel()
@@ -19,22 +19,11 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity() {
         startObserve()
     }
 
-    abstract fun startObserve()
-
     //初始化ViewModel绑定
     private fun initViewModel() {
         provideViewModelClass()?.let {
             mViewModel = ViewModelProviders.of(this).get(it)
             mViewModel.let(lifecycle::addObserver)
         }
-    }
-
-    abstract fun provideViewModelClass(): Class<VM>?
-
-    override fun onDestroy() {
-        mViewModel.let {
-            lifecycle.removeObserver(it)
-        }
-        super.onDestroy()
     }
 }

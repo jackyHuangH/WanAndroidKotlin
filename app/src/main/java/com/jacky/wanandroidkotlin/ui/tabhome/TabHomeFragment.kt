@@ -46,8 +46,6 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         }
     }
 
-    override fun provideViewModelClass(): Class<TabHomeViewModel>? = TabHomeViewModel::class.java
-
     override fun getLayoutRes(): Int = R.layout.fragment_tab_home
 
     override fun initWidget() {

@@ -24,8 +24,6 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
     private val mNavAdapter by lazy { NavigationAdapter() }
     private val mLayoutManager by lazy { LinearLayoutManager(activity) }
 
-    override fun provideViewModelClass(): Class<NavViewModel>? = NavViewModel::class.java
-
     companion object {
         fun getInstance(): TabNavigationFragment {
             val fragment = TabNavigationFragment()

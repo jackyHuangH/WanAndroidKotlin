@@ -1,5 +1,6 @@
 package com.jacky.wanandroidkotlin.model.api
 
+import com.google.gson.JsonObject
 import com.jacky.wanandroidkotlin.model.entity.*
 import retrofit2.http.*
 
@@ -137,4 +138,10 @@ interface WanApiService {
     @FormUrlEncoded
     @POST("/article/query/{page}/json")
     suspend fun searchHot(@Path("page") page: Int, @Field("k") key: String): WanResponse<ArticleList>
+
+    /**
+     * 干货提供的福利图片api
+     */
+    @GET("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/{page}")
+    suspend fun getGirlsList(@Path("page") page: Int): JsonObject
 }

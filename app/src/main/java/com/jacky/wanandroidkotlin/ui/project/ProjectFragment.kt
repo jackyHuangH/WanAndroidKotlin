@@ -22,8 +22,6 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
     private val mProjectTypeList = mutableListOf<TreeParentEntity>()
     private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_IS_BLOG, false) }
 
-    override fun provideViewModelClass(): Class<ProjectViewModel>? = ProjectViewModel::class.java
-
     override fun getLayoutRes(): Int = R.layout.fragment_project
 
     companion object {
@@ -46,14 +44,16 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
     }
 
     override fun initWidget() {
-        viewPager.adapter = object : FragmentStatePagerAdapter(fragmentManager) {
-            override fun getCount(): Int = mProjectTypeList.size
+        fragmentManager?.let {
+            viewPager.adapter = object : FragmentStatePagerAdapter(it) {
+                override fun getCount(): Int = mProjectTypeList.size
 
-            override fun getItem(position: Int): Fragment = chooseFragment(position)
+                override fun getItem(position: Int): Fragment = chooseFragment(position)
 
-            override fun getPageTitle(position: Int) = mProjectTypeList[position].name
+                override fun getPageTitle(position: Int) = mProjectTypeList[position].name
+            }
+            tabLayout.setupWithViewPager(viewPager)
         }
-        tabLayout.setupWithViewPager(viewPager)
     }
 
     private fun chooseFragment(position: Int): Fragment {

@@ -42,6 +42,8 @@ dependencies {
     implementation rootProject.ext.dependencies["ahbottomnavigation"]
 
     implementation rootProject.ext.dependencies["pictureSelector"]
+    implementation rootProject.ext.dependencies["photoview_smooth"]
+
     implementation rootProject.ext.dependencies["superTextView"]
 
     implementation rootProject.ext.dependencies["bugly_upgrade"]
@@ -86,5 +88,5 @@ dependencies {
     implementation rootProject.ext.dependencies["cookieJar"]
 
     //use leakcanary
-    debugImplementation rootProject.ext.dependencies["leakcanary"]
+//    debugImplementation rootProject.ext.dependencies["leakcanary"]
 }

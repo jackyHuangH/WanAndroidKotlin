@@ -62,7 +62,8 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
     }
 
     suspend fun executeResponse(
-        response: WanResponse<Any>, successBlock: suspend CoroutineScope.() -> Unit,
+        response: WanResponse<Any>,
+        successBlock: suspend CoroutineScope.() -> Unit,
         errorBlock: suspend CoroutineScope.() -> Unit
     ) {
         coroutineScope {

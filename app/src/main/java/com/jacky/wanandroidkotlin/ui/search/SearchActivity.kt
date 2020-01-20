@@ -41,8 +41,6 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
     private val mCompositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
-    override fun provideViewModelClass(): Class<SearchViewModel>? = SearchViewModel::class.java
-
     override fun getLayoutRes(): Int = R.layout.activity_search
 
     override fun initWidget() {

@@ -33,8 +33,6 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapte
     private var mPageNum = 0
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
 
-    override fun provideViewModelClass(): Class<TabSystemViewModel>? = TabSystemViewModel::class.java
-
     override fun getLayoutRes(): Int = R.layout.fragment_system_list
 
     companion object {

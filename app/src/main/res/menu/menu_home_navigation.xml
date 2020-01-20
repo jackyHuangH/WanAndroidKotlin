@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:showIn="navigation_view">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nv_blog"
-              android:icon="@drawable/ic_email"
-              android:title="@string/nv_item_blog"/>
-        <item android:id="@+id/nv_type"
-              android:icon="@drawable/ic_email"
-              android:title="@string/nv_item_type"/>
-        <item android:id="@+id/nv_util"
-              android:icon="@drawable/ic_email"
-              android:title="@string/nv_item_util"/>
-        <item android:id="@+id/nv_collection"
-              android:icon="@drawable/ic_email"
-              android:title="@string/nv_item_collection"/>
-        <item android:id="@+id/nv_about"
-              android:icon="@drawable/ic_email"
-              android:title="@string/nv_item_about"/>
-        <item android:id="@+id/nv_logout"
-              android:icon="@drawable/ic_logout"
-              android:title="@string/nv_item_logout"/>
+        <item
+            android:id="@+id/nv_blog"
+            android:icon="@drawable/ic_email"
+            android:title="@string/nv_item_blog" />
+        <item
+            android:id="@+id/nv_type"
+            android:icon="@drawable/ic_email"
+            android:title="@string/nv_item_type" />
+        <item
+            android:id="@+id/nv_util"
+            android:icon="@drawable/ic_email"
+            android:title="@string/nv_item_util" />
+        <item
+            android:id="@+id/nv_collection"
+            android:icon="@drawable/ic_email"
+            android:title="@string/nv_item_collection" />
+        <item
+            android:id="@+id/nv_girls"
+            android:icon="@drawable/ic_email"
+            android:title="@string/nv_item_girls" />
+        <item
+            android:id="@+id/nv_about"
+            android:icon="@drawable/ic_email"
+            android:title="@string/nv_item_about" />
+        <item
+            android:id="@+id/nv_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/nv_item_logout" />
     </group>
 </menu>

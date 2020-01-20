@@ -24,8 +24,6 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapter
 
     private val mAdapter by lazy { SystemListAdapter() }
 
-    override fun provideViewModelClass(): Class<TabSystemViewModel>? = TabSystemViewModel::class.java
-
     companion object {
         fun getInstance(): TabSystemFragment {
             val fragment = TabSystemFragment()

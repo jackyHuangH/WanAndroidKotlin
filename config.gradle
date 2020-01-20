@@ -1,15 +1,13 @@
 ext {
     android = [
-            compileSdkVersion: 28,
-            buildToolsVersion: '28.0.3',
+            compileSdkVersion: 29,
+            buildToolsVersion: '29.0.2',
 
             minSdkVersion    : 21,
-            targetSdkVersion : 28,
+            targetSdkVersion : 29,
 
             versionCode      : 1,
-            versionName      : '1.0.0',
-
-            supportLibVersion: '28.0.0'
+            versionName      : '1.0.0'
     ]
 
     dependencies = [
@@ -36,19 +34,19 @@ ext {
             //今日头条屏幕适配方案
             "headline_autosize"         : 'me.jessyan:autosize:1.1.0',
             //仿微信图片选择库
-            "pictureSelector"           : 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3',
+            "pictureSelector"           : 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.3',
             //图片加载glide
-            "glide"                     : 'com.github.bumptech.glide:glide:4.9.0',
-            "glide_compiler"            : 'com.github.bumptech.glide:compiler:4.9.0',
-            "glide_okhttp_integration"  : 'com.github.bumptech.glide:okhttp3-integration:4.9.0',
-            "glide_transformations"     : "jp.wasabeef:glide-transformations:3.3.0",
+            "glide"                     : 'com.github.bumptech.glide:glide:4.10.0',
+            "glide_compiler"            : 'com.github.bumptech.glide:compiler:4.10.0',
+            "glide_okhttp_integration"  : 'com.github.bumptech.glide:okhttp3-integration:4.10.0',
+            "glide_transformations"     : "jp.wasabeef:glide-transformations:4.0.0",
             //glide加载进度监听
             "progressmanager"           : 'me.jessyan:progressmanager:1.5.0',
 
             "ahbottomnavigation"        : 'com.aurelhubert:ahbottomnavigation:2.2.0',
 
             //baseAdapter ForRecyclerView
-            "brvah"                     : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46',
+            "brvah"                     : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50',
             //侧滑删除菜单
             "swipeDelMenu"              : 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0',
 
@@ -133,7 +131,7 @@ ext {
             "amap_2dmap"                : "com.amap.api:map2d:latest.integration",//  2D地图
             "amap_navi"                 : "com.amap.api:navi-3dmap:latest.integration",//  导航
 
-            "leakcanary"                : 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-3',
+            "leakcanary"                : 'com.squareup.leakcanary:leakcanary-android:2.1',
 
     ]
 }

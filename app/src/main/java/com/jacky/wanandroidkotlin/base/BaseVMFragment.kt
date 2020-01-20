@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders
  * desc  ：ViewModel封装基类Fragment
  * record：
  */
-abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
-    protected lateinit var mViewModel: VM
+abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment(),IVMView<VM> {
+    override lateinit var mViewModel: VM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
@@ -19,22 +19,11 @@ abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
         startObserve()
     }
 
-    abstract fun startObserve()
-
     //初始化ViewModel绑定
     private fun initViewModel() {
         provideViewModelClass()?.let {
             mViewModel = ViewModelProviders.of(this).get(it)
             mViewModel.let(lifecycle::addObserver)
         }
-    }
-
-    abstract fun provideViewModelClass(): Class<VM>?
-
-    override fun onDestroyView() {
-        mViewModel.let {
-            lifecycle.removeObserver(it)
-        }
-        super.onDestroyView()
     }
 }

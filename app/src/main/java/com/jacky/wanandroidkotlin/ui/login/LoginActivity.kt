@@ -24,7 +24,6 @@ class LoginActivity : BaseVMActivity<LoginViewModel>() {
     private lateinit var mUserName: String
     private lateinit var mPassword: String
 
-    override fun provideViewModelClass(): Class<LoginViewModel>? = LoginViewModel::class.java
 
     override fun getLayoutRes(): Int = R.layout.activity_login
 

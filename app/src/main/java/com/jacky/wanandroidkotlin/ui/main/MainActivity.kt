@@ -18,6 +18,7 @@ import com.jacky.wanandroidkotlin.ui.about.AboutActivity
 import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPagerAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.fragmentwrap.FragmentWrapActivity
+import com.jacky.wanandroidkotlin.ui.girls.GirlsActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.mycollect.MyCollectActivity
 import com.jacky.wanandroidkotlin.ui.search.SearchActivity
@@ -37,7 +38,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * 首页
  */
-class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseVMActivity<MainViewModel>(),
+    NavigationView.OnNavigationItemSelectedListener {
 
     private val mTitles = arrayListOf("首页", "最新项目", "体系", "导航")
     private var mFragments: ArrayList<Fragment> = ArrayList()
@@ -54,8 +56,6 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
         mFragments.add(TabSystemFragment.getInstance())
         mFragments.add(TabNavigationFragment.getInstance())
     }
-
-    override fun provideViewModelClass(): Class<MainViewModel>? = MainViewModel::class.java
 
     override fun initWidget() {
         navigation.setNavigationItemSelectedListener(this)
@@ -119,6 +119,10 @@ class MainActivity : BaseVMActivity<MainViewModel>(), NavigationView.OnNavigatio
                 } else {
                     LoginActivity.launch(this@MainActivity)
                 }
+            }
+            R.id.nv_girls -> {
+                //福利
+                GirlsActivity.launch(this@MainActivity)
             }
             R.id.nv_about -> {
                 //关于
