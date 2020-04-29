@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/bt"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/sw_btn"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="点我开始倒计时"/>
+        tools:text="点我开始倒计时" />
 
     <Button
         android:id="@+id/bt_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt"
-        android:text="跳转主页"/>
+        android:text="跳转主页" />
 
     <Switch
         android:id="@+id/sw_btn"
@@ -33,18 +25,23 @@
         android:textColor="@color/colorPrimary"
         android:textOff="关"
         android:textOn="开"
-        android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@+id/bt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bt"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:textSize="13sp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_main"/>
+        android:layout_height="@dimen/dp_10"
+        android:layout_marginTop="10dp" />
 
-</android.support.constraint.ConstraintLayout>
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="wrap_content">
+
+        <com.jacky.wanandroidkotlin.test.SquareView
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:background="@color/colorAccent" />
+    </FrameLayout>
+
+</LinearLayout>

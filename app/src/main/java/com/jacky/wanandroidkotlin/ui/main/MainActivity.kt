@@ -14,6 +14,7 @@ import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
 import com.jacky.wanandroidkotlin.common.TOOL_URL
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
+import com.jacky.wanandroidkotlin.test.TestActivity
 import com.jacky.wanandroidkotlin.ui.about.AboutActivity
 import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPagerAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
@@ -127,6 +128,10 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
             R.id.nv_about -> {
                 //关于
                 AboutActivity.launch(this@MainActivity)
+            }
+            R.id.nv_test -> {
+                //test
+                TestActivity.launch(this@MainActivity)
             }
             R.id.nv_logout -> {
                 DialogProvider.showSimpleDialog(this@MainActivity, "确定退出登录吗？") {

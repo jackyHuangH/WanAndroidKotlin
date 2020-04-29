@@ -42,8 +42,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/VanAppTheme"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
+        tools:ignore="AllowBackup,LockedOrientationActivity，
+        GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="android:theme">
+
         <meta-data
             android:name="CHANNEL_VALUE"
             android:value="${CHANNEL_VALUE}" />
@@ -117,6 +119,9 @@
 
         <activity
             android:name=".widget.PhotoBrowserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".test.TestActivity"
             android:screenOrientation="portrait" />
     </application>
 

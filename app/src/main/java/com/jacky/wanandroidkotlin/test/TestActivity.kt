@@ -1,12 +1,12 @@
 package com.jacky.wanandroidkotlin.test
 
-import android.os.Bundle
-import android.os.PersistableBundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jacky.wanandroidkotlin.R
+import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
+import com.zenchn.support.router.Router
 import com.zenchn.support.widget.tips.SuperToast
 import kotlinx.android.synthetic.main.activity_test.*
 import java.util.*
@@ -18,7 +18,7 @@ import kotlin.collections.ArrayList
  */
 private const val NUM_A: String = "顶层声明常量"
 
-class TestActivity : AppCompatActivity() {
+class TestActivity : BaseActivity() {
 
     /**
      * 后期初始化属性
@@ -37,14 +37,10 @@ class TestActivity : AppCompatActivity() {
         const val NUM_B = "object修饰的类中声明常量"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContentView(R.layout.activity_test)
-        initWidget()
-    }
+    override fun getLayoutRes(): Int = R.layout.activity_test
 
-    fun initWidget() {
-        mRlv= findViewById(R.id.list)
+    override fun initWidget() {
+        mRlv = findViewById(R.id.list)
         mRlv.layoutManager = LinearLayoutManager(this)
         val datas = ArrayList<String>()
         for (i in 0 until 25) {
@@ -86,5 +82,13 @@ class TestActivity : AppCompatActivity() {
      */
     companion object Num {
         const val NUM_C = "伴生对象中声明"
+
+        fun launch(from: FragmentActivity) {
+            Router
+                .newInstance()
+                .from(from)
+                .to(TestActivity::class.java)
+                .launch()
+        }
     }
 }
