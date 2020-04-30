@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
+
+import com.zenchn.support.dafault.DefaultUiController;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import com.zenchn.support.dafault.DefaultUiController;
 
 /**
  * 作   者： by Hzj on 2017/12/13/013.
@@ -105,7 +108,7 @@ public abstract class AbstractFragment extends Fragment implements IActivity {
     protected abstract void onSupportVisible();
 
     protected IUiController getDefaultUiController(Context context) {
-        return new DefaultUiController(context);
+        return new DefaultUiController(context,this);
     }
 
     @Override

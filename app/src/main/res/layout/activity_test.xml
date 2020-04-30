@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     android:orientation="vertical">
 
     <Button
@@ -43,5 +44,26 @@
             android:layout_margin="5dp"
             android:background="@color/colorAccent" />
     </FrameLayout>
+
+    <com.jacky.wanandroidkotlin.test.MyLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_fb5656">
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="button1" />
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="button2" />
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="button3" />
+    </com.jacky.wanandroidkotlin.test.MyLinearLayout>
 
 </LinearLayout>

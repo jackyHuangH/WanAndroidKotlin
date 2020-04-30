@@ -89,7 +89,8 @@ ext {
             //Relative封装
             "superTextView"             : 'com.github.lygttpod:SuperTextView:2.2.3',
             //3.1.0use kotlin
-            "material-dialogs"          : "com.afollestad.material-dialogs:core:3.1.0",
+            "material_dialogs"          : "com.afollestad.material-dialogs:core:3.3.0",
+            "material_dialogs_lifecycle": "com.afollestad.material-dialogs:lifecycle:3.3.0",
             "license_dialog"            : 'de.psdev.licensesdialog:licensesdialog:2.1.0',
             //加载中动画
             "spinkit"                   : 'com.github.ybq:Android-SpinKit:1.2.0',
@@ -122,8 +123,8 @@ ext {
             //数据库加密
             "greendao_sqlcipher"        : "net.zetetic:android-database-sqlcipher:3.5.6",
 
-            //AOP,配合aspectj 插件必须依赖
-            "aspectjrt"                 : 'org.aspectj:aspectjrt:1.8.9',
+            //滑动返回
+            "slid_back"                 : 'com.r0adkll:slidableactivity:2.1.0',
 
             "amap_3dmap"                : "com.amap.api:3dmap:latest.integration", //3D地图
             "amap_search"               : "com.amap.api:search:latest.integration",// 搜索

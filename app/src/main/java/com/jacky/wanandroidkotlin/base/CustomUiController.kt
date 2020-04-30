@@ -2,6 +2,7 @@ package com.jacky.wanandroidkotlin.base
 
 import android.content.Context
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
 import com.zenchn.support.dafault.DefaultUiController
 import com.zenchn.support.widget.tips.SuperToast
 
@@ -11,7 +12,8 @@ import com.zenchn.support.widget.tips.SuperToast
  * desc  ：
  * record：
  */
-abstract class CustomUiController(context: Context) : DefaultUiController(context) {
+abstract class CustomUiController(context: Context, lifecycleOwner: LifecycleOwner) :
+    DefaultUiController(context, lifecycleOwner) {
 
     override fun showMessage(message: CharSequence) {
         SuperToast.showDefaultMessage(mContext, message.toString())
@@ -21,5 +23,5 @@ abstract class CustomUiController(context: Context) : DefaultUiController(contex
         showMessage(mContext.getString(resId))
     }
 
-    protected abstract fun getSnackBarParentView():View
+    protected abstract fun getSnackBarParentView(): View
 }

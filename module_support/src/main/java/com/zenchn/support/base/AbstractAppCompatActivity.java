@@ -2,14 +2,17 @@ package com.zenchn.support.base;
 
 import android.os.Bundle;
 import android.view.InflateException;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
-import butterknife.ButterKnife;
+
 import com.zenchn.support.R;
 import com.zenchn.support.dafault.DefaultUiController;
+
+import butterknife.ButterKnife;
 
 
 /**
@@ -110,7 +113,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity implem
     protected abstract IActivityLifecycle getDefaultActivityLifecycle();
 
     protected IUiController getDefaultUiController() {
-        return new DefaultUiController(this);
+        return new DefaultUiController(this,this);
     }
 
     @Override

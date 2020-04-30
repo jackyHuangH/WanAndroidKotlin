@@ -59,6 +59,8 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     override fun initWidget() {
+        //禁用滑动返回
+        slidrInterface.lock()
         navigation.setNavigationItemSelectedListener(this)
         initViewPager()
         initUserHead()
@@ -90,6 +92,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
             .with(this)
             .load(TEST_IMG_URLS[1])
             .override(800, 800)
+            .error(R.mipmap.ic_launcher)
             .into(circleTextImageView)
     }
 

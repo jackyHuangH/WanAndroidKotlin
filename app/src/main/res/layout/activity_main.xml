@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/drawer_layout"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <!--主内容-->
     <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
 
         <LinearLayout
-                android:id="@+id/ll_title"
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimary"
-                android:layout_height="wrap_content">
+            android:id="@+id/ll_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
 
             <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
-                    app:tabMode="fixed"
-                    app:tabIndicatorColor="@color/colorAccent"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    app:tabIndicatorHeight="2dp"
-                    app:tabMinWidth="100dp"
-                    app:tabTextAppearance="@style/TabTextStyle"
-                    app:tabSelectedTextColor="@color/colorAccent"
-                    app:tabTextColor="@color/color_d5d5d5"
-                    android:layout_height="wrap_content"/>
+                android:id="@+id/tabLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:tabIndicatorColor="@color/colorAccent"
+                app:tabIndicatorHeight="2dp"
+                app:tabMinWidth="100dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:tabTextAppearance="@style/TabTextStyle"
+                app:tabTextColor="@color/color_d5d5d5" />
 
             <ImageButton
-                    android:id="@+id/ibt_search"
-                    android:src="@drawable/search"
-                    android:background="@null"
-                    android:layout_width="46dp"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/app_name"/>
+                android:id="@+id/ibt_search"
+                android:layout_width="46dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/search" />
         </LinearLayout>
 
         <androidx.viewpager.widget.ViewPager
-                android:id="@+id/vp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <!--侧边抽屉-->
     <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigation"
-            app:insetForeground="@null"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/header_home_navigation"
-            app:menu="@menu/menu_home_navigation"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/backgroundColor"
+        app:headerLayout="@layout/header_home_navigation"
+        app:insetForeground="@null"
+        app:menu="@menu/menu_home_navigation" />
 </androidx.drawerlayout.widget.DrawerLayout>

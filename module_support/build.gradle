@@ -34,7 +34,8 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
     api rootProject.ext.dependencies["design"]
     //material dialog
-    api rootProject.ext.dependencies["material-dialogs"]
+    api rootProject.ext.dependencies["material_dialogs"]
+    api rootProject.ext.dependencies["material_dialogs_lifecycle"]
     api rootProject.ext.dependencies["spinkit"]
     testImplementation rootProject.ext.dependencies["junit"]
 

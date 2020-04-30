@@ -8,12 +8,16 @@ import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrInterface
+import com.r0adkll.slidr.model.SlidrPosition
 import com.zenchn.support.base.AbstractFragment
 import com.zenchn.support.kit.AndroidKit
 import com.zenchn.support.utils.StringUtils
 
 
-abstract class BaseFragment : AbstractFragment(), IView{
+abstract class BaseFragment : AbstractFragment(), IView {
 
     protected lateinit var mImmersionBar: ImmersionBar
 
@@ -21,10 +25,23 @@ abstract class BaseFragment : AbstractFragment(), IView{
      * 视图是否加载完毕
      */
     private var mIsViewPrepare = false
+
     /**
      * 视图是否第一次展现
      */
     private var mFirstTimeVisible = false
+
+    protected var slidrInterface: SlidrInterface? = null
+
+    override fun onResume() {
+        super.onResume()
+        if (slidrInterface == null) {
+            slidrInterface = Slidr.replace(
+                view!!.findViewById(R.id.content_container),
+                SlidrConfig.Builder().position(SlidrPosition.LEFT).build()
+            )
+        }
+    }
 
     override fun initInstanceState(savedInstanceState: Bundle?) {
         super.initInstanceState(savedInstanceState)
@@ -44,17 +61,17 @@ abstract class BaseFragment : AbstractFragment(), IView{
     protected open fun initStatusBar() {
         mImmersionBar = ImmersionBar.with(this)
         mImmersionBar
-                .fitsSystemWindows(true)
-                .statusBarColor(R.color.colorPrimary)
-                .statusBarDarkFont(false)
+            .fitsSystemWindows(true)
+            .statusBarColor(R.color.colorPrimary)
+            .statusBarDarkFont(false)
 
         //是否需要监听键盘
         if (addOnKeyboardListener() != null) {
             mImmersionBar
-                    .keyboardEnable(true)
-                    //单独指定软键盘模式
-                    .keyboardMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-                    .setOnKeyboardListener(addOnKeyboardListener())
+                .keyboardEnable(true)
+                //单独指定软键盘模式
+                .keyboardMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+                .setOnKeyboardListener(addOnKeyboardListener())
         }
         mImmersionBar.init()
     }

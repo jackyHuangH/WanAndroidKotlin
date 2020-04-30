@@ -9,6 +9,8 @@ import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrInterface
 import com.zenchn.support.base.AbstractAppCompatActivity
 import com.zenchn.support.base.IActivityLifecycle
 import com.zenchn.support.base.IUiController
@@ -25,9 +27,12 @@ import com.zenchn.support.utils.StringUtils
 abstract class BaseActivity : AbstractAppCompatActivity(), IView {
     protected val PAGE_SIZE = 10
     protected lateinit var mImmersionBar: ImmersionBar
+    protected lateinit var slidrInterface: SlidrInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //滑动返回
+        slidrInterface = Slidr.attach(this)
         initInstanceState(savedInstanceState)
         initWidget()
         initStatusBar()
@@ -59,7 +64,7 @@ abstract class BaseActivity : AbstractAppCompatActivity(), IView {
     }
 
     public override fun getDefaultUiController(): IUiController {
-        return object : CustomUiController(this) {
+        return object : CustomUiController(this, this) {
             override fun getSnackBarParentView(): View {
                 return findViewById(getSnackBarParentIdRes())
             }

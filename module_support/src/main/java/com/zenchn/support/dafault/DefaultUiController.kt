@@ -3,11 +3,15 @@ package com.zenchn.support.dafault
 import android.content.Context
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.lifecycle.LifecycleOwner
+import com.afollestad.materialdialogs.DialogBehavior
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.zenchn.support.R
 import com.zenchn.support.base.IUiController
+import com.zenchn.support.kit.AndroidKit
 import com.zenchn.support.widget.tips.SuperToast
 
 
@@ -17,7 +21,10 @@ import com.zenchn.support.widget.tips.SuperToast
  * 修订记录：
  */
 
-open class DefaultUiController(protected var mContext: Context) : IUiController {
+open class DefaultUiController(
+    protected var mContext: Context,
+    private val mLifecycleOwner: LifecycleOwner
+) : IUiController {
     private lateinit var mMaterialDialog: MaterialDialog
 
     /**
@@ -39,7 +46,10 @@ open class DefaultUiController(protected var mContext: Context) : IUiController 
         val tvLoadingMsg = customView.findViewById(R.id.tv_loading_msg) as TextView
         tvLoadingMsg.text = msg
         mMaterialDialog.show {
+            maxWidth(literal = AndroidKit.Dimens.dp2px(120))
+            cancelable(false)
             cancelOnTouchOutside(false)
+            lifecycleOwner(mLifecycleOwner)
         }
     }
 
