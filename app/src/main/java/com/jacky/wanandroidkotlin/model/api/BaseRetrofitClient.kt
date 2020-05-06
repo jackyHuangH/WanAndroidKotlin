@@ -22,11 +22,12 @@ abstract class BaseRetrofitClient {
     private val okHttpClient: OkHttpClient
         get() {
             val builder = OkHttpClient.Builder()
-            val loggingInterceptor = HttpLoggingInterceptor()
-            if (BuildConfig.DEBUG) {
-                loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            } else {
-                loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
+            val loggingInterceptor = HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG) {
+                    HttpLoggingInterceptor.Level.BODY
+                } else {
+                    HttpLoggingInterceptor.Level.BASIC
+                }
             }
             builder.addInterceptor(loggingInterceptor)
                 .connectTimeout(TIME_OUT.toLong(), TimeUnit.SECONDS)

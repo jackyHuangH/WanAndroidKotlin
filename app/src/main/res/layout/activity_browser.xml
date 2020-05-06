@@ -39,7 +39,7 @@
         android:id="@+id/pb_loading"
         style="@style/LoadingProgressbarStyle"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="2dp"
         android:max="100"
         android:progress="0"
         app:layout_constraintBottom_toTopOf="@+id/web_view"

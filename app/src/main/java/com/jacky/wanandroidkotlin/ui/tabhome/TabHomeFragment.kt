@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin.ui.tabhome
 
 import android.os.Bundle
+import android.os.Debug
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.Observer
@@ -60,10 +61,12 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     }
 
     private fun initRefreshLayout() {
-        swipe_refresh.setColorSchemeResources(R.color.colorAccent)
-        swipe_refresh.setOnRefreshListener {
-            //刷新数据
-            onRefresh()
+        swipe_refresh.apply {
+            setColorSchemeResources(R.color.colorAccent)
+            setOnRefreshListener {
+                //刷新数据
+                onRefresh()
+            }
         }
     }
 
@@ -137,7 +140,8 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         mHomeAdapter.onItemClickListener = this
         mHomeAdapter.onItemChildClickListener = this
         mHomeAdapter.setOnLoadMoreListener(this, rlv)
-        val header = LayoutInflater.from(activity).inflate(R.layout.recycle_header_banner_home, rlv, false)
+        val header =
+            LayoutInflater.from(activity).inflate(R.layout.recycle_header_banner_home, rlv, false)
         mBannerHome = header.findViewById(R.id.banner_home)
         mHomeAdapter.addHeaderView(header)
         mHomeAdapter.setLoadMoreView(CustomLoadMoreView())
@@ -147,8 +151,11 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         // 跳转详情
         adapter?.run {
+            //使用trace 性能分析
+            Debug.startMethodTracing("Van")
             val entity = data[position] as ArticleEntity
             activity?.let { BrowserActivity.launch(it, entity.link) }
+            Debug.stopMethodTracing()
         }
     }
 
@@ -187,7 +194,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     override fun onStop() {
         super.onStop()
         mBannerHome.stopAutoPlay()
-        swipe_refresh.isRefreshing=false
+        swipe_refresh.isRefreshing = false
     }
 
     override fun onApiFailure(msg: String) {
