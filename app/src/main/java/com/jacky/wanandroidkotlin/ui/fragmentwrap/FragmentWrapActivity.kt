@@ -27,6 +27,13 @@ class FragmentWrapActivity : BaseActivity() {
         hFragmentManager.add(ProjectFragment.getInstance(isBlog))
     }
 
+    fun enableSlideBack(enable: Boolean) {
+        slidrInterface.apply {
+            if (enable) unlock()
+            else lock()
+        }
+    }
+
     companion object {
         private const val EXTRA_IS_BLOG = "EXTRA_IS_BLOG"
         private const val TITLE_BLOG = "公众号"

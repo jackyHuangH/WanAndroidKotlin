@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
+import androidx.viewpager.widget.ViewPager
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
+import com.jacky.wanandroidkotlin.ui.fragmentwrap.FragmentWrapActivity
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemListFragment
 import com.jacky.wanandroidkotlin.ui.tabhome.TabHomeFragment
 import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
@@ -55,6 +57,18 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
                 }
             tabLayout.setupWithViewPager(viewPager)
         }
+        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+            override fun onPageSelected(position: Int) {
+                slidrInterface?.apply {
+                    if (position == 0) {
+                        unlock()
+                    } else {
+                        lock()
+                    }
+                }
+                (this@ProjectFragment.activity as FragmentWrapActivity).enableSlideBack(position == 0)
+            }
+        })
     }
 
     private fun chooseFragment(position: Int): Fragment {

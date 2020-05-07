@@ -3,6 +3,7 @@ package com.jacky.wanandroidkotlin.ui.systemclassify
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
@@ -28,6 +29,13 @@ class SystemClassifyActivity : BaseActivity() {
         initViewPager()
     }
 
+    fun enableSlideBack(enable: Boolean) {
+        slidrInterface.apply {
+            if (enable) unlock()
+            else lock()
+        }
+    }
+
     private fun initViewPager() {
         //这里fragment数量较多，使用FragmentStatePagerAdapter
         viewPager.adapter = object : FragmentStatePagerAdapter(
@@ -44,6 +52,11 @@ class SystemClassifyActivity : BaseActivity() {
                 mTreeParent.children[position].name
         }
         tab_layout.setupWithViewPager(viewPager)
+        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+            override fun onPageSelected(position: Int) {
+                enableSlideBack(position == 0)
+            }
+        })
     }
 
     companion object {
