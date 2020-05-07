@@ -13,7 +13,7 @@ import com.jacky.wanandroidkotlin.common.GITHUB_HOME
 import com.jacky.wanandroidkotlin.common.GITHUB_URL
 import com.jacky.wanandroidkotlin.common.ISSUE_URL
 import com.jacky.wanandroidkotlin.util.openBrowser
-import com.zenchn.support.kit.AndroidKit
+import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.router.Router
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20

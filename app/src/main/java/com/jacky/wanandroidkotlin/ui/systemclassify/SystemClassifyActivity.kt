@@ -30,14 +30,18 @@ class SystemClassifyActivity : BaseActivity() {
 
     private fun initViewPager() {
         //这里fragment数量较多，使用FragmentStatePagerAdapter
-        viewPager.adapter = object : FragmentStatePagerAdapter(supportFragmentManager) {
+        viewPager.adapter = object : FragmentStatePagerAdapter(
+            supportFragmentManager,
+            BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+        ) {
             override fun getItem(position: Int): Fragment {
                 return SystemListFragment.getInstance(mTreeParent.children[position].id, false)
             }
 
             override fun getCount(): Int = mTreeParent.children.size
 
-            override fun getPageTitle(position: Int): CharSequence? = mTreeParent.children[position].name
+            override fun getPageTitle(position: Int): CharSequence? =
+                mTreeParent.children[position].name
         }
         tab_layout.setupWithViewPager(viewPager)
     }

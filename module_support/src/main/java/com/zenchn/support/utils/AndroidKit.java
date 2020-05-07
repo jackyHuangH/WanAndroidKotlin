@@ -1,4 +1,4 @@
-package com.zenchn.support.kit;
+package com.zenchn.support.utils;
 
 import android.app.Activity;
 import android.app.ActivityManager;

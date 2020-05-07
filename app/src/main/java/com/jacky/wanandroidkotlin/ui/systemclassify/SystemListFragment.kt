@@ -15,7 +15,7 @@ import com.jacky.wanandroidkotlin.ui.tabsystem.TabSystemViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
-import com.zenchn.support.kit.AndroidKit
+import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_home.*
 
 /**
@@ -49,9 +49,6 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapte
     }
 
     override fun initWidget() {
-    }
-
-    override fun lazyLoad() {
         initRecyclerView()
         initRefreshLayout()
         onRefresh()

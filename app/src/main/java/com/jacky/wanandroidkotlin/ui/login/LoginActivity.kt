@@ -1,5 +1,6 @@
 package com.jacky.wanandroidkotlin.ui.login
 
+import android.app.Activity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
@@ -92,7 +93,7 @@ class LoginActivity : BaseVMActivity<LoginViewModel>() {
     }
 
     companion object {
-        fun launch(from: FragmentActivity) {
+        fun launch(from: Activity) {
             Router
                 .newInstance()
                 .from(from)

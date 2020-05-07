@@ -2,6 +2,7 @@ package com.jacky.wanandroidkotlin.ui.tabhome
 
 import android.os.Bundle
 import android.os.Debug
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.Observer
@@ -20,7 +21,7 @@ import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
-import com.zenchn.support.kit.AndroidKit
+import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_home.*
 
 /**
@@ -36,7 +37,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     private var mPageNum = 0
     private val mBannerUrls = mutableListOf<String>()
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
-    private lateinit var mBannerHome: Banner
+    private var mBannerHome: Banner? = null
 
     companion object {
         fun getInstance(): TabHomeFragment {
@@ -49,11 +50,10 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
 
     override fun getLayoutRes(): Int = R.layout.fragment_tab_home
 
-    override fun initWidget() {
-    }
-
     override fun lazyLoad() {
-        //避免视图切换销毁后，重复加载
+        Log.d("TabHome", "lazyLoad")
+        //禁用滑动返回
+        slidrInterface?.lock()
         initRecyclerView()
         initRefreshLayout()
         onRefresh()
@@ -109,16 +109,18 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
             mBannerUrls.add(entity.url)
         }
         //填充banner
-        mBannerHome.setImageLoader(GlideBannerImageLoader())
-            .setBannerStyle(BannerConfig.LEFT)
-            .setImages(imgList)
-            .setBannerTitles(titles)
-            .setOnBannerListener { view, position ->
+        mBannerHome?.apply {
+            setImageLoader(GlideBannerImageLoader())
+            setBannerStyle(BannerConfig.LEFT)
+            setImages(imgList)
+            setBannerTitles(titles)
+            setOnBannerListener { view, position ->
                 // 跳转详情
                 val url = mBannerUrls[position]
                 activity?.let { BrowserActivity.launch(it, url) }
             }
-        mBannerHome.start()
+            start()
+        }
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
@@ -134,18 +136,25 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     }
 
     private fun initRecyclerView() {
-        rlv.layoutManager = LinearLayoutManager(activity)
-        rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
-        mHomeAdapter.onItemClickListener = this
-        mHomeAdapter.onItemChildClickListener = this
-        mHomeAdapter.setOnLoadMoreListener(this, rlv)
-        val header =
-            LayoutInflater.from(activity).inflate(R.layout.recycle_header_banner_home, rlv, false)
-        mBannerHome = header.findViewById(R.id.banner_home)
-        mHomeAdapter.addHeaderView(header)
-        mHomeAdapter.setLoadMoreView(CustomLoadMoreView())
-        rlv.adapter = mHomeAdapter
+        rlv.apply {
+            layoutManager = LinearLayoutManager(activity)
+            setHasFixedSize(true)
+            if (itemDecorationCount == 0) {
+                addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
+            }
+        }
+        mHomeAdapter.apply {
+            onItemClickListener = this@TabHomeFragment
+            onItemChildClickListener = this@TabHomeFragment
+            setOnLoadMoreListener(this@TabHomeFragment, rlv)
+            val header =
+                LayoutInflater.from(activity)
+                    .inflate(R.layout.recycle_header_banner_home, rlv, false)
+            mBannerHome = header.findViewById(R.id.banner_home)
+            addHeaderView(header)
+            setLoadMoreView(CustomLoadMoreView())
+            rlv.adapter = this
+        }
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -188,12 +197,12 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
 
     override fun onResume() {
         super.onResume()
-        mBannerHome.startAutoPlay()
+        mBannerHome?.startAutoPlay()
     }
 
     override fun onStop() {
         super.onStop()
-        mBannerHome.stopAutoPlay()
+        mBannerHome?.stopAutoPlay()
         swipe_refresh.isRefreshing = false
     }
 

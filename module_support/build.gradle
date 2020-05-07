@@ -4,7 +4,12 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    // 编译选项
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
@@ -28,16 +33,36 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    testImplementation rootProject.ext.dependencies["junit"]
 
-    implementation rootProject.ext.dependencies["appcompat-v7"]
+    api rootProject.ext.dependencies["kotlin_std"]
+    api rootProject.ext.dependencies["kotlin_reflect"]
+    api rootProject.ext.dependencies["andriodx_appcompat"]
+    api rootProject.ext.dependencies["androidx_material_design"]
+
+    api rootProject.ext.dependencies["androidx_lifecycle"]
+    api rootProject.ext.dependencies["androidx_lifecycle_java8"]
+    api rootProject.ext.dependencies["androidx_lifecycle_extensions"]
+    api rootProject.ext.dependencies["androidx_viewmodel_ktx"]
+
     api rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
-    api rootProject.ext.dependencies["design"]
     //material dialog
     api rootProject.ext.dependencies["material_dialogs"]
     api rootProject.ext.dependencies["material_dialogs_lifecycle"]
     api rootProject.ext.dependencies["spinkit"]
-    testImplementation rootProject.ext.dependencies["junit"]
+    api rootProject.ext.dependencies["toast"]
 
     api rootProject.ext.dependencies["Android_Pickerview"]
+}
+
+configurations.all {
+    resolutionStrategy {
+        force rootProject.ext.dependencies["andriodx_appcompat"]
+        force rootProject.ext.dependencies["androidx_fragment"]
+        force rootProject.ext.dependencies["androidx_lifecycle_livedata"]
+        force rootProject.ext.dependencies["androidx_lifecycle_runtime"]
+        force rootProject.ext.dependencies["androidx_collection"]
+        force rootProject.ext.dependencies["kotlin_reflect"]
+    }
 }

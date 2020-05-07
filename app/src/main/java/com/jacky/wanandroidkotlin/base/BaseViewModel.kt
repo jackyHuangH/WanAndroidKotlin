@@ -5,7 +5,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jacky.wanandroidkotlin.model.api.WanResponse
+import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import kotlinx.coroutines.*
 
 

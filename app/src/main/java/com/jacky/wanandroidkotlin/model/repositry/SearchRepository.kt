@@ -1,6 +1,6 @@
 package com.jacky.wanandroidkotlin.model.repositry
 
-import com.jacky.wanandroidkotlin.model.api.WanResponse
+import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.ArticleList
 import com.jacky.wanandroidkotlin.model.entity.HotEntity

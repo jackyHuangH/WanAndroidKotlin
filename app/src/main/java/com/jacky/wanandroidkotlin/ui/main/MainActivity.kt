@@ -29,11 +29,13 @@ import com.jacky.wanandroidkotlin.ui.tabnavigation.TabNavigationFragment
 import com.jacky.wanandroidkotlin.ui.tabsystem.TabSystemFragment
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.util.StatusBarUtil
+import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.DialogProvider
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
 import com.zenchn.support.router.Router
 import com.zenchn.support.widget.CircleTextImageView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.random.Random
 
 
 /**
@@ -87,12 +89,14 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         if (mIsLogin && mUserInfo.isNotEmpty()) {
             val userEntity = Gson().fromJson(mUserInfo, UserEntity::class.java)
             mTvUserName.text = userEntity.username
+        } else {
+            mTvUserName.setOnAntiShakeClickListener { LoginActivity.launch(this) }
         }
         GlideApp
             .with(this)
-            .load(TEST_IMG_URLS[1])
-            .override(800, 800)
+            .load(TEST_IMG_URLS[Random.nextInt(7)])
             .error(R.mipmap.ic_launcher)
+            .placeholder(R.mipmap.ic_launcher)
             .into(circleTextImageView)
     }
 
@@ -132,10 +136,10 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
                 //关于
                 AboutActivity.launch(this@MainActivity)
             }
-            R.id.nv_test -> {
-                //test
-                TestActivity.launch(this@MainActivity)
-            }
+//            R.id.nv_test -> {
+//                //test
+//                TestActivity.launch(this@MainActivity)
+//            }
             R.id.nv_logout -> {
                 DialogProvider.showSimpleDialog(this@MainActivity, "确定退出登录吗？") {
                     //退出登录

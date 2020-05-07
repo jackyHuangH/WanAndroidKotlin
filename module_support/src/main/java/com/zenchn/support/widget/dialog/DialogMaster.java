@@ -21,7 +21,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
 
 import com.zenchn.support.R;
-import com.zenchn.support.dafault.DialogHandler;
+import com.zenchn.support.base.DialogHandler;
 
 
 /**

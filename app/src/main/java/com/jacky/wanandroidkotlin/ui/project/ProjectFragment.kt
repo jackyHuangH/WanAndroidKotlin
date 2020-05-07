@@ -45,13 +45,14 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
 
     override fun initWidget() {
         fragmentManager?.let {
-            viewPager.adapter = object : FragmentStatePagerAdapter(it) {
-                override fun getCount(): Int = mProjectTypeList.size
+            viewPager.adapter =
+                object : FragmentStatePagerAdapter(it, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+                    override fun getCount(): Int = mProjectTypeList.size
 
-                override fun getItem(position: Int): Fragment = chooseFragment(position)
+                    override fun getItem(position: Int): Fragment = chooseFragment(position)
 
-                override fun getPageTitle(position: Int) = mProjectTypeList[position].name
-            }
+                    override fun getPageTitle(position: Int) = mProjectTypeList[position].name
+                }
             tabLayout.setupWithViewPager(viewPager)
         }
     }

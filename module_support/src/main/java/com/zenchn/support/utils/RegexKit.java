@@ -1,4 +1,4 @@
-package com.zenchn.support.kit;
+package com.zenchn.support.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,8 +1,6 @@
 package com.zenchn.support.utils;
 
 
-import com.zenchn.support.kit.RegexKit;
-
 /**
  * 作    者：wangr on 2017/4/24 11:05
  * 描    述：字符串相关工具类

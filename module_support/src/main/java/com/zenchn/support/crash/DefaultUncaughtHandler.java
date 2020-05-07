@@ -1,4 +1,4 @@
-package com.zenchn.support.dafault;
+package com.zenchn.support.crash;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -7,14 +7,19 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Process;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.zenchn.support.SupportConfig;
 import com.zenchn.support.base.ICrashCallback;
-import com.zenchn.support.base.ICrashConfig;
 import com.zenchn.support.utils.StringUtils;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,13 +54,15 @@ public final class DefaultUncaughtHandler implements UncaughtExceptionHandler {
 
     public void init(@NonNull Context context, @NonNull ICrashCallback crashCallback, @Nullable ICrashConfig crashConfig) {
 
-        Thread.setDefaultUncaughtExceptionHandler(this);//将当前实例设为系统默认的异常处理器
+        //将当前实例设为系统默认的异常处理器
+        Thread.setDefaultUncaughtExceptionHandler(this);
 
         this.mCrashCallback = crashCallback;
         this.mContext = context.getApplicationContext();
 
-        if (crashConfig == null)
+        if (crashConfig == null) {
             crashConfig = new DefaultCrashConfig();
+        }
 
         this.mCrashConfig = crashConfig;
     }

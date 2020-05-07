@@ -12,7 +12,7 @@ import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
-import com.zenchn.support.kit.AndroidKit
+import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.router.Router
 import kotlinx.android.synthetic.main.activity_my_collect.*
 import kotlinx.android.synthetic.main.toolbar_layout.*

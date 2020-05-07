@@ -20,14 +20,12 @@ dependencies {
     implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1072_43646_sharewithdownloadwithfile_withoutGame_obfs_20190429_175122.jar')
 
     //==============================组件依赖 kotlin用kapt替换annotationProcessor===============================
-    implementation rootProject.ext.dependencies["constraint_layout"]
-    implementation rootProject.ext.dependencies["recyclerview"]
-    implementation rootProject.ext.dependencies["design"]
-    implementation rootProject.ext.dependencies["cardview"]
-    implementation rootProject.ext.dependencies["gridLayout_v7"]
-    implementation rootProject.ext.dependencies["multidex"]
-    implementation rootProject.ext.dependencies["lifecycle_extensions"]
-    implementation rootProject.ext.dependencies["viewmodel_ktx"]
+    implementation rootProject.ext.dependencies["androidx_constraint_layout"]
+    implementation rootProject.ext.dependencies["androidx_recyclerview"]
+    implementation rootProject.ext.dependencies["androidx_material_design"]
+    implementation rootProject.ext.dependencies["androidx_cardview"]
+    implementation rootProject.ext.dependencies["androidx_gridLayout"]
+    implementation rootProject.ext.dependencies["androidx_multidex"]
     implementation rootProject.ext.dependencies["coroutine_core"]
     implementation rootProject.ext.dependencies["coroutine_android"]
 

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import com.zenchn.support.R;
-import com.zenchn.support.kit.AndroidKit;
+import com.zenchn.support.utils.AndroidKit;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin.model.api
 
 import android.util.Log
+import com.jacky.wanandroidkotlin.model.entity.WanResponse
 
 /**
  * @author:Hzj

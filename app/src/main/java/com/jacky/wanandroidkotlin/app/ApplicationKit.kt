@@ -1,17 +1,20 @@
 package com.jacky.wanandroidkotlin.app
 
 import android.app.Activity
+import android.app.Application
 import android.app.NotificationManager
 import android.content.Intent
 import android.util.Log
+import androidx.annotation.CallSuper
+import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.R
+import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.QbSdk.PreInitCallback
-import com.zenchn.support.base.AbstractApplicationKit
-import com.zenchn.support.base.ActivityLifecycleCallback
-import com.zenchn.support.dafault.DefaultActivityLifecycle
-import com.zenchn.support.widget.tips.SuperToast
+import com.zenchn.support.base.GlobalLifecycleObserver
+import com.zenchn.support.base.ICrashCallback
+import com.zenchn.support.crash.DefaultUncaughtHandler
 
 
 /**
@@ -20,45 +23,34 @@ import com.zenchn.support.widget.tips.SuperToast
  * desc  ：
  * record：
  */
-class ApplicationKit private constructor() : AbstractApplicationKit(), ActivityLifecycleCallback {
+class ApplicationKit {
+    var application: Application? = null
 
-    private val mLazyActivityLifecycle: DefaultActivityLifecycle by lazy {
-        DefaultActivityLifecycle.getInstance()
-    }
-
-    fun exitApp() {
-        mLazyActivityLifecycle.exitApp()
-    }
-
-    fun navigateToLogin(grantRefuse: Boolean) {
-        if (grantRefuse) {
-            SuperToast.showDefaultMessage(
-                getApplication(),
-                getApplication().getString(R.string.login_error_grant_refused)
-            )
-        }
-        val topActivity = mLazyActivityLifecycle.topActivity
-        if (topActivity != null) {
-//            LoginActivity
-//                    .launch(topActivity)
-        } else {
-            val intent = Intent(application, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            application.startActivity(intent)
+    fun initSetting(application: Application?) {
+        application?.let {
+            clearNotify(it)
+            initX5Preload(it)
+            initCrashHandler(it)
         }
     }
 
-    override fun initSetting() {
-        super.initSetting()
-        initActivityLifecycle()
-        clearNotify()
-        initX5Preload()
+    /**
+     * 初始化crash异常处理
+     */
+    @CallSuper
+    protected fun initCrashHandler(application: Application) {
+        DefaultUncaughtHandler.getInstance().init(application, object : ICrashCallback {
+            override fun onCrash(thread: Thread?, ex: Throwable?) {
+                GlobalLifecycleObserver.INSTANCE.exitApp()
+            }
+        })
     }
+
 
     /**
      * 配置X5内核预加载
      */
-    private fun initX5Preload() {
+    private fun initX5Preload(application: Application) {
         //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
         val preCallback = object : PreInitCallback {
             override fun onCoreInitFinished() {
@@ -73,34 +65,29 @@ class ApplicationKit private constructor() : AbstractApplicationKit(), ActivityL
         QbSdk.initX5Environment(application, preCallback)
     }
 
-    private fun initActivityLifecycle() {
-        mLazyActivityLifecycle.addCallback(this)
-    }
-
     /**
      * 清理通知栏
      */
-    private fun clearNotify() {
+    private fun clearNotify(application: Application) {
         val nm = application.getSystemService(Activity.NOTIFICATION_SERVICE) as NotificationManager
         nm.cancelAll()
     }
 
-    override fun onCrash(thread: Thread?, ex: Throwable?) {
-        mLazyActivityLifecycle.exitApp()
+    fun navigateToLogin(grantRefuse: Boolean) {
+        if (grantRefuse) {
+            ToastUtils.show(R.string.login_error_grant_refused)
+        }
+        val topActivity = GlobalLifecycleObserver.INSTANCE.getTopActivity()
+        if (topActivity != null) {
+            LoginActivity.launch(topActivity)
+        } else {
+            application?.let {
+                val intent = Intent(application, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                it.startActivity(intent)
+            }
+        }
     }
-
-    override fun onBackground() {
-
-    }
-
-    override fun onForeground() {
-
-    }
-
-    override fun onDestroyedSelf() {
-
-    }
-
 
     private object SingletonInstance {
         internal val INSTANCE = ApplicationKit()
@@ -110,6 +97,11 @@ class ApplicationKit private constructor() : AbstractApplicationKit(), ActivityL
     companion object {
         val instance: ApplicationKit
             get() = SingletonInstance.INSTANCE
+
+        fun initKit(application: Application?) {
+            instance.application = application
+            instance.initSetting(application)
+        }
     }
 
 }

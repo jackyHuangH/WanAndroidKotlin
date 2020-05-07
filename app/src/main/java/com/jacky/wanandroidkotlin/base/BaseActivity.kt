@@ -1,22 +1,19 @@
 package com.jacky.wanandroidkotlin.base
 
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
-import androidx.annotation.IdRes
-import androidx.annotation.NonNull
+import androidx.annotation.CallSuper
+import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrInterface
-import com.zenchn.support.base.AbstractAppCompatActivity
-import com.zenchn.support.base.IActivityLifecycle
+import com.zenchn.support.base.DefaultUiController
+import com.zenchn.support.base.GlobalLifecycleObserver
 import com.zenchn.support.base.IUiController
-import com.zenchn.support.dafault.DefaultActivityLifecycle
-import com.zenchn.support.kit.AndroidKit
-import com.zenchn.support.utils.StringUtils
+import com.zenchn.support.utils.AndroidKit
 
 /**
  * @author:Hzj
@@ -24,22 +21,42 @@ import com.zenchn.support.utils.StringUtils
  * desc  ：
  * record：
  */
-abstract class BaseActivity : AbstractAppCompatActivity(), IView {
-    protected val PAGE_SIZE = 10
+abstract class BaseActivity : AppCompatActivity(), IView {
+
     protected lateinit var mImmersionBar: ImmersionBar
+    protected var instanceState: Bundle? = null
     protected lateinit var slidrInterface: SlidrInterface
+    protected val mUiDelegate: IUiController by lazy {
+        DefaultUiController(
+            this,
+            this
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onNewInstanceState(savedInstanceState)
+        getLayoutRes().takeIf { it > 0 }?.let { setContentView(it) }
         //滑动返回
         slidrInterface = Slidr.attach(this)
-        initInstanceState(savedInstanceState)
         initWidget()
         initStatusBar()
+        initLifecycleObserver()
     }
 
-    //界面布局的初始化操作
-    protected fun initInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        onNewInstanceState(savedInstanceState)
+    }
+
+    @CallSuper
+    protected open fun onNewInstanceState(savedInstanceState: Bundle?) {
+        this.instanceState = savedInstanceState
+    }
+
+    @CallSuper
+    private fun initLifecycleObserver() {
+        lifecycle.addObserver(GlobalLifecycleObserver.INSTANCE)
     }
 
     protected open fun initStatusBar() {
@@ -63,23 +80,6 @@ abstract class BaseActivity : AbstractAppCompatActivity(), IView {
         return null
     }
 
-    public override fun getDefaultUiController(): IUiController {
-        return object : CustomUiController(this, this) {
-            override fun getSnackBarParentView(): View {
-                return findViewById(getSnackBarParentIdRes())
-            }
-        }
-    }
-
-    @IdRes
-    protected fun getSnackBarParentIdRes(): Int {
-        return android.R.id.content
-    }
-
-    override fun getDefaultActivityLifecycle(): IActivityLifecycle? {
-        return DefaultActivityLifecycle.getInstance()
-    }
-
     override fun onApiFailure(msg: String) {
         showMessage(msg)
     }
@@ -88,14 +88,28 @@ abstract class BaseActivity : AbstractAppCompatActivity(), IView {
         ApplicationKit.instance.navigateToLogin(true)
     }
 
-    override fun showMessage(@NonNull msg: CharSequence) {
-        if (StringUtils.isNonNull(msg)) {
-            super.showMessage(msg)
-        }
-    }
-
     override fun onPause() {
         AndroidKit.Keyboard.hideSoftInput(this)
         super.onPause()
+    }
+
+    override fun showProgress() {
+        mUiDelegate.showProgress()
+    }
+
+    override fun showProgress(msg: CharSequence?) {
+        mUiDelegate.showProgress(msg)
+    }
+
+    override fun hideProgress() {
+        mUiDelegate.hideProgress()
+    }
+
+    override fun showMessage(msg: CharSequence) {
+        mUiDelegate.showMessage(msg)
+    }
+
+    override fun showResMessage(resId: Int) {
+        mUiDelegate.showResMessage(resId)
     }
 }

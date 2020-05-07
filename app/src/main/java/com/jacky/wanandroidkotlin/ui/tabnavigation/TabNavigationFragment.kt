@@ -9,7 +9,7 @@ import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.ui.adapter.NavVerticalTabAdapter
 import com.jacky.wanandroidkotlin.ui.adapter.NavigationAdapter
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
-import com.zenchn.support.kit.AndroidKit
+import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_navigation.*
 import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.widget.TabView
@@ -35,14 +35,11 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
 
     override fun getLayoutRes(): Int = R.layout.fragment_tab_navigation
 
-    override fun initWidget() {
+    override fun lazyLoad() {
         initRlv()
         initTab()
-    }
-
-    override fun lazyLoad() {
-        showProgress()
         mViewModel.getNavigation()
+        showProgress()
     }
 
     private fun initRlv() {
@@ -76,9 +73,14 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
         val firstPosition = mLayoutManager.findFirstVisibleItemPosition()
         val lastPosition = mLayoutManager.findLastVisibleItemPosition()
         when {
-            position <= firstPosition || position >= lastPosition -> rlv.smoothScrollToPosition(position)
+            position <= firstPosition || position >= lastPosition -> rlv.smoothScrollToPosition(
+                position
+            )
             else -> rlv.run {
-                smoothScrollBy(0, this.getChildAt(position - firstPosition).top - AndroidKit.Dimens.dp2px(10))
+                smoothScrollBy(
+                    0,
+                    this.getChildAt(position - firstPosition).top - AndroidKit.Dimens.dp2px(10)
+                )
             }
         }
     }
@@ -87,7 +89,8 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
         mViewModel.apply {
             mNavList.observe(this@TabNavigationFragment, Observer { list ->
                 list?.let {
-                    val tabAdapter = activity?.let { ctx -> NavVerticalTabAdapter(it.map { it.name }, ctx) }
+                    val tabAdapter =
+                        activity?.let { ctx -> NavVerticalTabAdapter(it.map { it.name }, ctx) }
                     vertical_tab.setTabAdapter(tabAdapter)
                     mNavAdapter.setNewData(list)
                     hideProgress()

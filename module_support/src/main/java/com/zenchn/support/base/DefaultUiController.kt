@@ -1,18 +1,16 @@
-package com.zenchn.support.dafault
+package com.zenchn.support.base
 
 import android.content.Context
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
-import com.afollestad.materialdialogs.DialogBehavior
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
+import com.hjq.toast.ToastUtils
 import com.zenchn.support.R
-import com.zenchn.support.base.IUiController
-import com.zenchn.support.kit.AndroidKit
-import com.zenchn.support.widget.tips.SuperToast
+import com.zenchn.support.utils.AndroidKit
 
 
 /**
@@ -58,10 +56,10 @@ open class DefaultUiController(
     }
 
     override fun showMessage(message: CharSequence) {
-        SuperToast.showCustomMessage(mContext, message.toString())
+        ToastUtils.show(message)
     }
 
     override fun showResMessage(@StringRes resId: Int) {
-        SuperToast.showCustomMessage(mContext, mContext.getString(resId))
+        showMessage(mContext.getString(resId))
     }
 }

@@ -1,8 +1,7 @@
-package com.zenchn.support.dafault;
+package com.zenchn.support.crash;
 
 
 import com.zenchn.support.SupportConfig;
-import com.zenchn.support.base.ICrashConfig;
 
 import java.io.File;
 

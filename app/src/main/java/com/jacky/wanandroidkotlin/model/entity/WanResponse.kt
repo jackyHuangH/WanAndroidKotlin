@@ -1,4 +1,4 @@
-package com.jacky.wanandroidkotlin.model.api
+package com.jacky.wanandroidkotlin.model.entity
 
 /**
  * @author:Hzj

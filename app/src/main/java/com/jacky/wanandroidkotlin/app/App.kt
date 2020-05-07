@@ -20,6 +20,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         //其他初始化
-        ApplicationKit.instance.initKit(this)
+        ApplicationKit.initKit(this)
     }
 }

@@ -14,7 +14,10 @@ import androidx.fragment.app.FragmentPagerAdapter
  * 如果需要处理有很多页，并且数据动态性较大、占用内存较多的情况，
  * 应该继承FragmentStatePagerAdapter。
  */
-class BaseFragmentPagerAdapter(fm: FragmentManager, fragments: List<Fragment>, titles: List<String>) : FragmentPagerAdapter(fm) {
+class BaseFragmentPagerAdapter(
+    fm: FragmentManager,
+    fragments: List<Fragment>, titles: List<String>
+) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private var mFragments: List<Fragment>? = fragments
     private var mTitles: List<String>? = titles

@@ -15,7 +15,7 @@ import com.jacky.wanandroidkotlin.ui.project.ProjectViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
-import com.zenchn.support.kit.AndroidKit
+import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_latest_project.*
 
 /**
@@ -48,12 +48,9 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAd
         }
     }
 
-    override fun initWidget() {
+    override fun lazyLoad() {
         intiRecyclerView()
         initRefreshLayout()
-    }
-
-    override fun lazyLoad() {
         onRefresh()
         swipe_refresh.isRefreshing = true
     }

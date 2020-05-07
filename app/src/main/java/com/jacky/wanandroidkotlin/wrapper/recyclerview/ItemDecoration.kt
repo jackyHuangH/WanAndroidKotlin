@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.zenchn.support.kit.AndroidKit
+import com.zenchn.support.utils.AndroidKit
 import org.jetbrains.annotations.NotNull
 
 /**
@@ -23,7 +23,12 @@ class SpaceItemDecoration(space: Int) : RecyclerView.ItemDecoration() {
 
     private val mSpace = space
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.top = 0
         outRect.bottom = mSpace
@@ -36,7 +41,8 @@ class SpaceItemDecoration(space: Int) : RecyclerView.ItemDecoration() {
  * 修订记录：
  */
 
-open class BaseItemDecoration(@DividerModeScope protected val mode: Int) : RecyclerView.ItemDecoration()
+open class BaseItemDecoration(@DividerModeScope protected val mode: Int) :
+    RecyclerView.ItemDecoration()
 
 internal fun RecyclerView.getSpanCount(): Int {
     // 列数
@@ -47,7 +53,11 @@ internal fun RecyclerView.getSpanCount(): Int {
     }
 }
 
-internal fun BaseItemDecoration.isLastColumn(parent: RecyclerView, pos: Int, totalCount: Int): Boolean {
+internal fun BaseItemDecoration.isLastColumn(
+    parent: RecyclerView,
+    pos: Int,
+    totalCount: Int
+): Boolean {
     val layoutManager = parent.layoutManager
     if (layoutManager is LinearLayoutManager) {
         return LinearLayoutManager.VERTICAL == layoutManager.orientation && pos >= totalCount - 1
@@ -70,7 +80,11 @@ internal fun BaseItemDecoration.isLastColumn(parent: RecyclerView, pos: Int, tot
     return false
 }
 
-internal fun BaseItemDecoration.isLastRaw(parent: RecyclerView, pos: Int, totalCount: Int): Boolean {
+internal fun BaseItemDecoration.isLastRaw(
+    parent: RecyclerView,
+    pos: Int,
+    totalCount: Int
+): Boolean {
     val layoutManager = parent.layoutManager
     if (layoutManager is LinearLayoutManager) {
         return LinearLayoutManager.VERTICAL == layoutManager.orientation && pos >= totalCount - 1
@@ -99,7 +113,13 @@ internal fun BaseItemDecoration.isLastRaw(parent: RecyclerView, pos: Int, totalC
 }
 
 @Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FIELD, AnnotationTarget.LOCAL_VARIABLE, AnnotationTarget.CONSTRUCTOR)
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.LOCAL_VARIABLE,
+    AnnotationTarget.CONSTRUCTOR
+)
 @IntDef(DividerMode.Auto, DividerMode.Raw, DividerMode.Column)
 annotation class DividerModeScope
 
@@ -109,7 +129,8 @@ object DividerMode {
     const val Column = 2//横向列表->纵向
 }
 
-class DrawableDecoration(@NotNull private val drawable: Drawable, @DividerModeScope mode: Int) : BaseItemDecoration(mode) {
+class DrawableDecoration(@NotNull private val drawable: Drawable, @DividerModeScope mode: Int) :
+    BaseItemDecoration(mode) {
 
     constructor(context: Context, @DividerModeScope mode: Int = DividerMode.Auto) : this(
         drawable = context.obtainStyledAttributes(intArrayOf(android.R.attr.listDivider)).run {
@@ -120,7 +141,11 @@ class DrawableDecoration(@NotNull private val drawable: Drawable, @DividerModeSc
         mode = mode
     )
 
-    constructor(context: Context, @DrawableRes drawableRes: Int, @DividerModeScope mode: Int = DividerMode.Auto) : this(
+    constructor(
+        context: Context,
+        @DrawableRes drawableRes: Int,
+        @DividerModeScope mode: Int = DividerMode.Auto
+    ) : this(
         drawable = context.resources.getDrawable(drawableRes, null),
         mode = mode
     )
@@ -194,7 +219,11 @@ class EdgeDecoration(
     private val right: Int = if (dp2px) AndroidKit.Dimens.dp2px(right) else right
     private val bottom: Int = if (dp2px) AndroidKit.Dimens.dp2px(bottom) else bottom
 
-    constructor(@IntRange(from = 0) size: Int, gravity: Int = Gravity.BOTTOM, dp2px: Boolean = false) : this(
+    constructor(
+        @IntRange(from = 0) size: Int,
+        gravity: Int = Gravity.BOTTOM,
+        dp2px: Boolean = false
+    ) : this(
         left = if ((Gravity.START == gravity || Gravity.LEFT == gravity)) size else 0,
         top = if (Gravity.TOP == gravity) size else 0,
         right = if ((Gravity.END == gravity || Gravity.RIGHT == gravity)) size else 0,
@@ -202,11 +231,17 @@ class EdgeDecoration(
         dp2px = dp2px
     )
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         super.getItemOffsets(outRect, view, parent, state)
         when (val layoutManager = parent.layoutManager) {
             is LinearLayoutManager -> {
-                val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).viewLayoutPosition
+                val itemPosition =
+                    (view.layoutParams as RecyclerView.LayoutParams).viewLayoutPosition
                 val totalCount = parent.adapter?.itemCount ?: 0
                 if (itemPosition <= totalCount) {// 如果是最后一行，则不需要绘制底部
                     outRect.set(left, top, right, bottom)

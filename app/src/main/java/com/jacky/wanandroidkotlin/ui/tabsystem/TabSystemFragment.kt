@@ -11,7 +11,7 @@ import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.ui.adapter.SystemListAdapter
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemClassifyActivity
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
-import com.zenchn.support.kit.AndroidKit
+import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_system.*
 
 /**
@@ -20,7 +20,8 @@ import kotlinx.android.synthetic.main.fragment_tab_system.*
  * desc  ：体系Tab
  * record：
  */
-class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapter.OnItemClickListener {
+class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(),
+    BaseQuickAdapter.OnItemClickListener {
 
     private val mAdapter by lazy { SystemListAdapter() }
 
@@ -35,12 +36,9 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapter
 
     override fun getLayoutRes(): Int = R.layout.fragment_tab_system
 
-    override fun initWidget() {
+    override fun lazyLoad() {
         initRecyclerView()
         initRefreshLayout()
-    }
-
-    override fun lazyLoad() {
         onRefresh()
         swipe_refresh.isRefreshing = true
     }

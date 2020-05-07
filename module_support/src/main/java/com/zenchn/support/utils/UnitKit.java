@@ -1,4 +1,4 @@
-package com.zenchn.support.kit;
+package com.zenchn.support.utils;
 
 /**
  * 作    者：wangr on 2017/5/24 16:55
