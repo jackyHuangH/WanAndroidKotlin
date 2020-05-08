@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="Theme_setting_array">
+        <item>亮色模式</item>
+        <item>暗黑模式</item>
+        <item>省点模式预设</item>
+        <item>跟随系统</item>
+    </string-array>
+</resources>

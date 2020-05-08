@@ -14,8 +14,8 @@ import q.rorbin.verticaltablayout.widget.ITabView
  */
 class NavVerticalTabAdapter(private val mTabs: List<String>, private val mContext: Context) : SimpleTabAdapter() {
 
-    private val mColorSelect by lazy { ContextCompat.getColor(mContext, R.color.colorPrimary) }
-    private val mColorNormal by lazy { ContextCompat.getColor(mContext, R.color.color_282828) }
+    private val mColorSelect by lazy { ContextCompat.getColor(mContext, R.color.colorAccent) }
+    private val mColorNormal by lazy { ContextCompat.getColor(mContext, R.color.black_white) }
 
     override fun getTitle(position: Int): ITabView.TabTitle {
         return ITabView.TabTitle.Builder()

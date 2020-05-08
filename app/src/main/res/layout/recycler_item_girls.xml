@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
-    android:background="@color/white"
+    android:background="@color/common_white"
     android:foreground="?android:attr/selectableItemBackground">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -22,7 +22,7 @@
         android:layout_centerHorizontal="true"
         android:background="@color/color_8e9dac"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black_white"
         tools:text="作者" />
 
 

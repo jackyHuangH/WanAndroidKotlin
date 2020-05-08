@@ -6,8 +6,9 @@
 
     <!-- 默认背景色 -->
     <color name="backgroundColor">#EEEEEE</color>
+    <color name="common_white">#FFFFFF</color>
     <color name="color_title_bg">#CCFFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="black_white">#000000</color>
     <color name="color_44aaaaaa">#44aaaaaa</color>
     <color name="color_8e9dac">#8e9dac</color>
 </resources>

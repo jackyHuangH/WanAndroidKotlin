@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#55008577</color>
+    <color name="colorPrimaryDark">#5500574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!-- 默认背景色 -->
+    <color name="backgroundColor">#000000</color>
+    <color name="common_white">#55FFFFFF</color>
+    <color name="color_title_bg">#CC000000</color>
+    <color name="black_white">#ffffff</color>
+    <color name="color_44aaaaaa">#44aaaaaa</color>
+    <color name="color_8e9dac">#558e9dac</color>
+</resources>

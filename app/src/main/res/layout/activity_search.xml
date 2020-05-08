@@ -34,8 +34,10 @@
             android:hint="@string/search_hint"
             android:imeOptions="actionSearch"
             android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
             android:singleLine="true"
-            android:textColor="@color/color_282828"
+            android:textColor="@color/black_white"
             android:textColorHint="@color/color_999999"
             android:textSize="14sp" />
     </LinearLayout>

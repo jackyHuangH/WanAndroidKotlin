@@ -23,7 +23,7 @@ open class DefaultUiController(
     protected var mContext: Context,
     private val mLifecycleOwner: LifecycleOwner
 ) : IUiController {
-    private lateinit var mMaterialDialog: MaterialDialog
+    private var mMaterialDialog: MaterialDialog? = null
 
     /**
      * 显示默认 加载进度条：正在加载数据...
@@ -39,11 +39,11 @@ open class DefaultUiController(
      */
     override fun showProgress(msg: CharSequence?) {
         mMaterialDialog = MaterialDialog(mContext).customView(R.layout.dialog_loading_layout)
-        val customView = mMaterialDialog.getCustomView()
+        val customView = mMaterialDialog?.getCustomView()
         // Use the view instance, e.g. to set values or setup listeners
-        val tvLoadingMsg = customView.findViewById(R.id.tv_loading_msg) as TextView
+        val tvLoadingMsg = customView?.findViewById(R.id.tv_loading_msg) as TextView
         tvLoadingMsg.text = msg
-        mMaterialDialog.show {
+        mMaterialDialog?.show {
             maxWidth(literal = AndroidKit.Dimens.dp2px(120))
             cancelable(false)
             cancelOnTouchOutside(false)
@@ -52,7 +52,7 @@ open class DefaultUiController(
     }
 
     override fun hideProgress() {
-        mMaterialDialog.dismiss()
+        mMaterialDialog?.dismiss()
     }
 
     override fun showMessage(message: CharSequence) {

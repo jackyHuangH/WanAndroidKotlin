@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/common_white"
     android:foreground="?android:attr/selectableItemBackground"
     android:paddingLeft="20dp"
     android:paddingTop="10dp"
@@ -35,7 +35,7 @@
         android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="@color/color_282828"
+        android:textColor="@color/black_white"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/tv_author"
         tools:text="标题" />

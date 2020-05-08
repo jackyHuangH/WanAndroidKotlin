@@ -26,6 +26,10 @@
             android:title="@string/nv_item_girls" />
 
         <item
+            android:id="@+id/nv_setting"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/nv_item_setting" />
+        <item
             android:id="@+id/nv_about"
             android:icon="@drawable/ic_email"
             android:title="@string/nv_item_about" />

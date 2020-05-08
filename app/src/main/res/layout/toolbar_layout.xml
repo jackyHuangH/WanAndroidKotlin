@@ -6,8 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="?attr/colorPrimary"
-        app:titleTextColor="@color/white"
+        app:titleTextColor="@color/common_white"
         app:navigationIcon="@drawable/ic_arrow_back"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 

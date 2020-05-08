@@ -69,12 +69,6 @@
             android:value="portrait|landscape" />
 
         <activity
-            android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity
             android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashFullScreen">
@@ -84,6 +78,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.search.SearchActivity"
@@ -120,8 +118,13 @@
         <activity
             android:name=".widget.PhotoBrowserActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".test.TestActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.setting.SettingActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+
+    <include
+        layout="@layout/toolbar_layout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/common_white"
+        android:orientation="vertical"
+        app:divider="@drawable/shape_divider"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:showDividers="middle">
+
+        <TextView
+            android:id="@+id/tv_language"
+            style="@style/Setting_tv"
+            android:text="@string/setting_language" />
+
+        <TextView
+            android:id="@+id/tv_theme"
+            style="@style/Setting_tv"
+            android:text="@string/setting_theme" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

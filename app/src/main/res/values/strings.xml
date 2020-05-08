@@ -8,6 +8,7 @@
     <string name="nv_item_util">工具</string>
     <string name="nv_item_collection">收藏</string>
     <string name="nv_item_girls">美女福利</string>
+    <string name="nv_item_setting">设置</string>
     <string name="nv_item_about">关于</string>
     <string name="nv_item_test">test</string>
     <string name="nv_item_logout">退出登录</string>
@@ -46,4 +47,9 @@
     <string name="search_hot_words">大家都在搜</string>
 
     <string name="girl_title">福利</string>
+
+    <string name="setting_title">设置</string>
+    <string name="setting_language">语言</string>
+    <string name="setting_theme">主题</string>
+    <string name="setting_theme_not_support">抱歉，您的系统版本低于Android Q，无法更改主题模式！</string>
 </resources>

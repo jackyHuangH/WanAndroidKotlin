@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.google.gson.JsonArray
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
@@ -26,6 +27,7 @@ import com.zhy.view.flowlayout.TagAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_search.*
+import org.json.JSONArray
 
 /**
  * 搜索
@@ -52,6 +54,9 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
 
         mViewModel.getCommonWebsites()
         mViewModel.getHotKeys()
+
+        val jsonArray=JSONArray()
+        jsonArray.put("2")
     }
 
     private fun initEditText() {

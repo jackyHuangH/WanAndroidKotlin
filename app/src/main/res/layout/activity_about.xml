@@ -1,75 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
 
     <include
-            layout="@layout/toolbar_layout"
-            app:layout_constraintTop_toTopOf="parent"/>
+        layout="@layout/toolbar_layout"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/iv"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:src="@mipmap/ic_launcher"/>
+        android:id="@+id/iv"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
-            app:layout_constraintTop_toBottomOf="@+id/iv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/tv_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282828"
-            android:textSize="14sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            tools:text="V 1.0.0"/>
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black_white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv"
+        tools:text="V 1.0.0" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-            app:layout_constraintTop_toBottomOf="@+id/tv_version"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_weight="1"
-            android:layout_marginTop="20dp"
-            app:divider="@drawable/shape_divider"
-            app:showDividers="middle"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/common_white"
+        android:orientation="vertical"
+        app:divider="@drawable/shape_divider"
+        app:layout_constraintTop_toBottomOf="@+id/tv_version"
+        app:showDividers="middle">
 
         <TextView
-                android:id="@+id/tv_license"
-                style="@style/About_Tv"
-                android:text="@string/about_license"/>
+            android:id="@+id/tv_license"
+            style="@style/About_Tv"
+            android:text="@string/about_license" />
 
         <TextView
-                android:id="@+id/tv_source"
-                android:text="@string/about_source_url"
-                style="@style/About_Tv"/>
+            android:id="@+id/tv_source"
+            style="@style/About_Tv"
+            android:text="@string/about_source_url" />
 
         <TextView
-                android:id="@+id/tv_feedback"
-                android:text="@string/about_feedback"
-                style="@style/About_Tv"/>
+            android:id="@+id/tv_feedback"
+            style="@style/About_Tv"
+            android:text="@string/about_feedback" />
 
         <TextView
-                android:id="@+id/tv_thirdLib"
-                android:text="@string/about_third_lib"
-                style="@style/About_Tv"/>
+            android:id="@+id/tv_thirdLib"
+            style="@style/About_Tv"
+            android:text="@string/about_third_lib" />
 
         <TextView
-                android:id="@+id/tv_developer"
-                android:text="@string/about_developer"
-                style="@style/About_Tv"/>
+            android:id="@+id/tv_developer"
+            style="@style/About_Tv"
+            android:text="@string/about_developer" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

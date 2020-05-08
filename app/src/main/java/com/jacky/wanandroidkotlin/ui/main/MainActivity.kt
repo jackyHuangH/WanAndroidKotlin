@@ -23,6 +23,7 @@ import com.jacky.wanandroidkotlin.ui.girls.GirlsActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.mycollect.MyCollectActivity
 import com.jacky.wanandroidkotlin.ui.search.SearchActivity
+import com.jacky.wanandroidkotlin.ui.setting.SettingActivity
 import com.jacky.wanandroidkotlin.ui.tabhome.TabHomeFragment
 import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
 import com.jacky.wanandroidkotlin.ui.tabnavigation.TabNavigationFragment
@@ -131,6 +132,10 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
             R.id.nv_girls -> {
                 //福利
                 GirlsActivity.launch(this@MainActivity)
+            }
+            R.id.nv_setting -> {
+                //设置
+                SettingActivity.launch(this@MainActivity)
             }
             R.id.nv_about -> {
                 //关于

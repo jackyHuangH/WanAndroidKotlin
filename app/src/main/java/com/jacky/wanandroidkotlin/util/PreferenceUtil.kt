@@ -20,6 +20,10 @@ class PreferenceUtil<T>(val keyName: String, private val defaultValue: T) {
         const val KEY_IS_LOGIN = "is_login"
         //记录已登录用户信息
         const val KEY_USER_INFO = "user_info"
+        //记录系统设置的主题模式
+        const val KEY_SETTING_THEME = "setting_theme"
+        //记录系统设置的多语言
+        const val KEY_SETTING_LANGUAGE = "setting_language"
 
         private val mPreference by lazy {
             ContextModel.getApplicationContext()
