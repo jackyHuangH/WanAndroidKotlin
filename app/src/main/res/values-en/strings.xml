@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">WanAndroid</string>
+
+    <string name="common_click_double_to_exit_app">press again to exit the application~</string>
+    <string name="login_error_grant_refused">The current account is logged in from another device,
+        please note that the account is safe to use</string>
+
+    <string name="main_tab_home">Home</string>
+    <string name="main_tab_latest_project">Latest project</string>
+    <string name="main_tab_system">System</string>
+    <string name="main_tab_nav">Navigation</string>
+
+    <string name="nv_item_blog">No public</string>
+    <string name="nv_item_type">Types of section</string>
+    <string name="nv_item_util">Tool</string>
+    <string name="nv_item_collection">Collect</string>
+    <string name="nv_item_girls">Beauty welfare</string>
+    <string name="nv_item_setting">SetUp</string>
+    <string name="nv_item_about">About</string>
+    <string name="nv_item_test">test</string>
+    <string name="nv_item_logout">SignOut</string>
+
+    <string name="name_default">Not logged in</string>
+    <string name="github">https://github.com/jackyHuangH</string>
+    <string name="common_no_data">No data</string>
+    <string name="browser_is_loading">Loading…</string>
+    <string name="test_string">归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个
+        归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个
+        归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感
+        家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归
+        属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个归属感家个</string>
+
+    <string name="login_hint_name">user name</string>
+    <string name="login_hint_password">password</string>
+    <string name="login_bt_login">LogIn</string>
+    <string name="login_bt_register">register</string>
+    <string name="login_error_name_empty">username can not be empty</string>
+    <string name="login_error_password_empty">password can not be blank</string>
+    <string name="login_doing_login">logging in…</string>
+    <string name="login_doing_register">registering…</string>
+    <string name="login_login_success">login successful！</string>
+    <string name="login_register_success">Registration is successful, please log in!</string>
+
+    <string name="my_collect_title">My collection</string>
+    <string name="about_license">Open source agreement</string>
+    <string name="about_source_url">Source code address</string>
+    <string name="about_feedback">Feedback</string>
+    <string name="about_third_lib">Third-party libraries</string>
+    <string name="about_developer">Developer</string>
+    <string name="about_title">about</string>
+
+    <string name="feedback_issue">Submit Issue</string>
+    <string name="feedback_send_email">send email</string>
+    <string name="send_email_to">mailto:huangzijie0319@gmail.com</string>
+    <string name="mail_topic">WanAndroid feedback</string>
+    <string name="search_hint">please enter keyword to search</string>
+    <string name="search_common_website">commonly used websites</string>
+    <string name="search_hot_words">everyone is searching</string>
+
+    <string name="girl_title">welfare</string>
+
+    <string name="setting_title">SetUp</string>
+    <string name="setting_language">language</string>
+    <string name="setting_theme">theme mode</string>
+    <string name="setting_theme_not_support">Sorry, your system version is lower than Android Q, you cannot change the theme mode!</string>
+</resources>

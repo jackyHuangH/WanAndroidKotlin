@@ -18,7 +18,7 @@ import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideBannerImageLoader
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
+import com.zenchn.support.widget.SpaceItemDecoration
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.zenchn.support.utils.AndroidKit
@@ -140,7 +140,11 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
             layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
             if (itemDecorationCount == 0) {
-                addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
+                addItemDecoration(
+                    SpaceItemDecoration(
+                        AndroidKit.Dimens.dp2px(10)
+                    )
+                )
             }
         }
         mHomeAdapter.apply {

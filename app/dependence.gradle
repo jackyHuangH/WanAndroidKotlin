@@ -58,9 +58,8 @@ dependencies {
 
     implementation rootProject.ext.dependencies["license_dialog"]
     implementation rootProject.ext.dependencies["logger"]
+    implementation rootProject.ext.dependencies["circular_action_menu"]
 
-    implementation rootProject.ext.dependencies["butterknife"]
-    kapt rootProject.ext.dependencies["butterknife_compiler"]
     implementation rootProject.ext.dependencies["rxbinding2"]
 
 //    implementation rootProject.ext.dependencies["amap_3dmap"]

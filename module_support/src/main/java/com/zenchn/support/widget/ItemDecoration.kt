@@ -1,4 +1,4 @@
-package com.jacky.wanandroidkotlin.wrapper.recyclerview
+package com.zenchn.support.widget
 
 import android.content.Context
 import android.graphics.Canvas
@@ -120,7 +120,11 @@ internal fun BaseItemDecoration.isLastRaw(
     AnnotationTarget.LOCAL_VARIABLE,
     AnnotationTarget.CONSTRUCTOR
 )
-@IntDef(DividerMode.Auto, DividerMode.Raw, DividerMode.Column)
+@IntDef(
+    DividerMode.Auto,
+    DividerMode.Raw,
+    DividerMode.Column
+)
 annotation class DividerModeScope
 
 object DividerMode {

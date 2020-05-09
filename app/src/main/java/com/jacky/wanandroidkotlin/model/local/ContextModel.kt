@@ -17,7 +17,7 @@ object ContextModel {
      * 获取Context
      */
     fun getApplicationContext(): Context {
-        return ApplicationKit.instance.application as Context
+        return ApplicationKit.mApplication as Context
     }
 
     fun getApplicationContextObservable(): Observable<Application> {

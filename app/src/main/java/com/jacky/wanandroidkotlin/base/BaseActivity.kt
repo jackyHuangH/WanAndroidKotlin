@@ -11,7 +11,7 @@ import com.jacky.wanandroidkotlin.app.ApplicationKit
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrInterface
 import com.zenchn.support.base.DefaultUiController
-import com.zenchn.support.base.GlobalLifecycleObserver
+import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.zenchn.support.base.IUiController
 import com.zenchn.support.utils.AndroidKit
 

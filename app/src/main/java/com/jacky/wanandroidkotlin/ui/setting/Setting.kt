@@ -8,6 +8,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.util.LanguageUtils
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.zenchn.support.router.Router
@@ -34,14 +35,21 @@ class SettingActivity : BaseActivity() {
         }
         tv_language.setOnAntiShakeClickListener {
             //多语言设置
+            MaterialDialog(this).show {
+                listItemsSingleChoice(
+                    R.array.language_setting_array,
+                    initialSelection = mLanguageSetting
+                ) { _, index, _ ->
+                    LanguageUtils.applyLanguage(this@SettingActivity, index, true)
+                }
+            }
         }
         tv_theme.setOnAntiShakeClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 //主题模式设置
                 MaterialDialog(this).show {
-                    setTitle(R.string.setting_language)
                     listItemsSingleChoice(
-                        R.array.Theme_setting_array,
+                        R.array.theme_setting_array,
                         initialSelection = mThemeSetting
                     ) { _, index, _ ->
                         setAppThemeMode(index)

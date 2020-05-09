@@ -1,9 +1,10 @@
-package com.zenchn.support.base
+package com.jacky.wanandroidkotlin.app
 
 import android.app.Activity
 import android.os.Process
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.jacky.wanandroidkotlin.ui.splash.navigateToRestart
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -99,6 +100,10 @@ class GlobalLifecycleObserver : DefaultLifecycleObserver {
 
     companion object {
         val INSTANCE = GlobalLifecycleObserver()
+
+        fun restartApp(gotoLogin: Boolean = false) {
+            INSTANCE.getTopActivity().navigateToRestart(gotoLogin)
+        }
     }
 }
 

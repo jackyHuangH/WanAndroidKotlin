@@ -12,7 +12,7 @@ ext {
 
     dependencies = [
             "junit"                        : 'junit:junit:4.12',
-            "kotlin_std"                       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            "kotlin_std"                   : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             "kotlin_reflect"               : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             //工具类
             "androidx_multidex"            : "androidx.multidex:multidex:2.0.0",
@@ -106,6 +106,8 @@ ext {
             "license_dialog"               : 'de.psdev.licensesdialog:licensesdialog:2.1.0',
             //加载中动画
             "spinkit"                      : 'com.github.ybq:Android-SpinKit:1.2.0',
+            //floating circular menu
+            "circular_action_menu"         : 'com.oguzdev:CircularFloatingActionMenu:1.0.2',
 
             "toast"                        : "com.hjq:toast:8.0",
 

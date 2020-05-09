@@ -8,7 +8,7 @@ import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.ui.adapter.NavVerticalTabAdapter
 import com.jacky.wanandroidkotlin.ui.adapter.NavigationAdapter
-import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
+import com.zenchn.support.widget.SpaceItemDecoration
 import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_navigation.*
 import q.rorbin.verticaltablayout.VerticalTabLayout
@@ -45,7 +45,11 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
     private fun initRlv() {
         rlv.apply {
             layoutManager = mLayoutManager
-            addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
+            addItemDecoration(
+                SpaceItemDecoration(
+                    AndroidKit.Dimens.dp2px(10)
+                )
+            )
             adapter = mNavAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

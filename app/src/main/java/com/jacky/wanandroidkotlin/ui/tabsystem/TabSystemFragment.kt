@@ -10,7 +10,7 @@ import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.ui.adapter.SystemListAdapter
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemClassifyActivity
-import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
+import com.zenchn.support.widget.SpaceItemDecoration
 import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_system.*
 
@@ -46,7 +46,11 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(),
     private fun initRecyclerView() {
         rlv.layoutManager = LinearLayoutManager(activity)
         rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
+        rlv.addItemDecoration(
+            SpaceItemDecoration(
+                AndroidKit.Dimens.dp2px(10)
+            )
+        )
         mAdapter.onItemClickListener = this
         rlv.adapter = mAdapter
     }

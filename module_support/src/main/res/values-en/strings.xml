@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">baseSupportLib</string>
+    <string name="common_library_loading">loading&#8230;</string>
+    <string name="common_library_toast_title">Notification</string>
+
+    <!-- 自定义dialog -->
+    <string name="material_dialog_common_title">Tips</string>
+    <string name="material_dialog_common_positive">Confirm</string>
+    <string name="material_dialog_common_negative">Cancel</string>
+
+</resources>

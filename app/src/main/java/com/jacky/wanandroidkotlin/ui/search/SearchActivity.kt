@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.google.gson.JsonArray
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
@@ -18,7 +17,7 @@ import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
+import com.zenchn.support.widget.SpaceItemDecoration
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.router.Router
@@ -130,7 +129,11 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     private fun initRecyclerView() {
         rlv.layoutManager = LinearLayoutManager(this)
         rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
+        rlv.addItemDecoration(
+            SpaceItemDecoration(
+                AndroidKit.Dimens.dp2px(10)
+            )
+        )
         mListAdapter.onItemClickListener = this
         mListAdapter.onItemChildClickListener = this
         mListAdapter.setOnLoadMoreListener(this, rlv)

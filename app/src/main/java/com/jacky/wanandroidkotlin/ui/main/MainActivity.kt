@@ -14,7 +14,6 @@ import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
 import com.jacky.wanandroidkotlin.common.TOOL_URL
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
-import com.jacky.wanandroidkotlin.test.TestActivity
 import com.jacky.wanandroidkotlin.ui.about.AboutActivity
 import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPagerAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
@@ -45,7 +44,14 @@ import kotlin.random.Random
 class MainActivity : BaseVMActivity<MainViewModel>(),
     NavigationView.OnNavigationItemSelectedListener {
 
-    private val mTitles = arrayListOf("首页", "最新项目", "体系", "导航")
+    private val mTitles by lazy {
+        arrayListOf(
+            getString(R.string.main_tab_home),
+            getString(R.string.main_tab_latest_project),
+            getString(R.string.main_tab_system),
+            getString(R.string.main_tab_nav)
+        )
+    }
     private var mFragments: ArrayList<Fragment> = ArrayList()
 
     private var mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
@@ -95,7 +101,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         }
         GlideApp
             .with(this)
-            .load(TEST_IMG_URLS[Random.nextInt(7)])
+            .load(TEST_IMG_URLS[Random.nextInt(6)])
             .error(R.mipmap.ic_launcher)
             .placeholder(R.mipmap.ic_launcher)
             .into(circleTextImageView)

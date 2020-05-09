@@ -14,7 +14,7 @@ import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.project.ProjectViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
+import com.zenchn.support.widget.SpaceItemDecoration
 import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_latest_project.*
 
@@ -60,7 +60,11 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAd
     private fun intiRecyclerView() {
         rlv.layoutManager = LinearLayoutManager(activity)
         rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
+        rlv.addItemDecoration(
+            SpaceItemDecoration(
+                AndroidKit.Dimens.dp2px(10)
+            )
+        )
         mAdapter.onItemClickListener = this
         mAdapter.onItemChildClickListener = this
         mAdapter.setOnLoadMoreListener(this, rlv)

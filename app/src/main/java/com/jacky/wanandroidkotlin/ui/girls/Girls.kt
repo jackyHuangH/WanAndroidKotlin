@@ -7,11 +7,13 @@ package com.jacky.wanandroidkotlin.ui.girls
  * record：
  */
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.google.gson.Gson
@@ -70,14 +72,17 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), BaseQuickAdapter.OnItemC
     }
 
     private fun initRefreshLayout() {
-        swipe_refresh.setColorSchemeResources(R.color.colorAccent)
-        swipe_refresh.setOnRefreshListener {
-            //刷新数据
-            onRefresh()
+        swipe_refresh.apply {
+            setColorSchemeResources(R.color.colorAccent)
+            setOnRefreshListener {
+                //刷新数据
+                onRefresh()
+            }
         }
     }
 
     private fun onRefresh() {
+        swipe_refresh.isRefreshing = true
         //下拉刷新时禁用加载更多
         mViewModel.getGirlsList()
     }
@@ -116,6 +121,10 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), BaseQuickAdapter.OnItemC
         onRefresh()
     }
 
+    override fun onApiFailure(msg: String) {
+        swipe_refresh.isRefreshing = false
+        super.onApiFailure(msg)
+    }
 }
 
 private class GirlsAdapter :
@@ -123,10 +132,15 @@ private class GirlsAdapter :
     override fun convert(helper: BaseViewHolder, item: GirlEntity) {
         helper.setText(R.id.tv_girl_desc, item.desc)
         val imageView = helper.getView<ImageView>(R.id.iv_girl)
+        imageView.layoutParams.apply {
+            height = if (helper.adapterPosition == 0) 500 else ViewGroup.LayoutParams.WRAP_CONTENT
+        }
         GlideApp.with(mContext)
             .load(item.url)
-            .override(400, 600)
-            .error(R.drawable.pic_default)
+            .override(500, 800)
+            .transition(DrawableTransitionOptions().crossFade())
+            .placeholder(R.drawable.girl)
+            .error(R.drawable.girl)
             .into(imageView)
     }
 }

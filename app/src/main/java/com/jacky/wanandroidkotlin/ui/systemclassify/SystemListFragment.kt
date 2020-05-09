@@ -14,7 +14,7 @@ import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.tabsystem.TabSystemViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
+import com.zenchn.support.widget.SpaceItemDecoration
 import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.fragment_tab_home.*
 
@@ -113,7 +113,11 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapte
     private fun initRecyclerView() {
         rlv.layoutManager = LinearLayoutManager(activity)
         rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
+        rlv.addItemDecoration(
+            SpaceItemDecoration(
+                AndroidKit.Dimens.dp2px(10)
+            )
+        )
         mHomeAdapter.onItemClickListener = this
         mHomeAdapter.onItemChildClickListener = this
         mHomeAdapter.setOnLoadMoreListener(this, rlv)

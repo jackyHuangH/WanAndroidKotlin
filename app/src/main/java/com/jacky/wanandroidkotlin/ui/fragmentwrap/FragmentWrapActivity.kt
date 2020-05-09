@@ -15,13 +15,12 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
  * record：
  */
 class FragmentWrapActivity : BaseActivity() {
-
     override fun getLayoutRes(): Int = R.layout.activity_fragment_wrap
 
     override fun initWidget() {
         toolbar.setNavigationOnClickListener { onBackPressed() }
         val isBlog = intent.getBooleanExtra(EXTRA_IS_BLOG, false)
-        toolbar.title = if (isBlog) TITLE_BLOG else TITLE_PROJECT_TYPE
+        toolbar.title = getString(if (isBlog) R.string.nv_item_blog else R.string.nv_item_type)
 
         val hFragmentManager = HFragmentManager(supportFragmentManager, R.id.fl_content)
         hFragmentManager.add(ProjectFragment.getInstance(isBlog))
@@ -36,8 +35,6 @@ class FragmentWrapActivity : BaseActivity() {
 
     companion object {
         private const val EXTRA_IS_BLOG = "EXTRA_IS_BLOG"
-        private const val TITLE_BLOG = "公众号"
-        private const val TITLE_PROJECT_TYPE = "项目分类"
 
         fun launch(from: Activity, isBlog: Boolean) {
             Router

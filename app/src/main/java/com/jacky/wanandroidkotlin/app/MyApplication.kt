@@ -6,16 +6,30 @@ import android.app.NotificationManager
 import android.content.Intent
 import android.util.Log
 import androidx.annotation.CallSuper
+import androidx.multidex.MultiDexApplication
 import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
+import com.jacky.wanandroidkotlin.util.LanguageUtils
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.QbSdk.PreInitCallback
-import com.zenchn.support.base.GlobalLifecycleObserver
 import com.zenchn.support.base.ICrashCallback
 import com.zenchn.support.crash.DefaultUncaughtHandler
 
+
+class App : MultiDexApplication() {
+
+    override fun onCreate() {
+        super.onCreate()
+        //其他初始化
+        ApplicationKit.initKit(this)
+        //读取语言配置
+        LanguageUtils.attachBaseContext(this)
+        //多语言设置初始化
+        registerActivityLifecycleCallbacks(LanguageUtils.activityLifecycleCallbacks)
+    }
+}
 
 /**
  * @author:Hzj
@@ -24,7 +38,6 @@ import com.zenchn.support.crash.DefaultUncaughtHandler
  * record：
  */
 class ApplicationKit {
-    var application: Application? = null
 
     fun initSetting(application: Application?) {
         application?.let {
@@ -81,8 +94,8 @@ class ApplicationKit {
         if (topActivity != null) {
             LoginActivity.launch(topActivity)
         } else {
-            application?.let {
-                val intent = Intent(application, MainActivity::class.java)
+            mApplication?.let {
+                val intent = Intent(it, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 it.startActivity(intent)
             }
@@ -95,11 +108,13 @@ class ApplicationKit {
 
     //伴生类，对象为静态单例
     companion object {
+        var mApplication: Application? = null
+
         val instance: ApplicationKit
             get() = SingletonInstance.INSTANCE
 
         fun initKit(application: Application?) {
-            instance.application = application
+            mApplication = application
             instance.initSetting(application)
         }
     }

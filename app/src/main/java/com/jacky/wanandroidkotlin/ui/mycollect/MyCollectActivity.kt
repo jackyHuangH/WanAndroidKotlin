@@ -11,7 +11,7 @@ import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.jacky.wanandroidkotlin.wrapper.recyclerview.SpaceItemDecoration
+import com.zenchn.support.widget.SpaceItemDecoration
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.router.Router
 import kotlinx.android.synthetic.main.activity_my_collect.*
@@ -59,7 +59,11 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(), BaseQuickAdapter
     private fun initRecyclerView() {
         rlv.layoutManager = LinearLayoutManager(this)
         rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(SpaceItemDecoration(AndroidKit.Dimens.dp2px(10)))
+        rlv.addItemDecoration(
+            SpaceItemDecoration(
+                AndroidKit.Dimens.dp2px(10)
+            )
+        )
         mListAdapter.onItemClickListener = this
         mListAdapter.setOnLoadMoreListener(this, rlv)
         mListAdapter.setLoadMoreView(CustomLoadMoreView())
