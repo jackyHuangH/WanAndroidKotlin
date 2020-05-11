@@ -135,10 +135,6 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
                     LoginActivity.launch(this@MainActivity)
                 }
             }
-            R.id.nv_girls -> {
-                //福利
-                GirlsActivity.launch(this@MainActivity)
-            }
             R.id.nv_setting -> {
                 //设置
                 SettingActivity.launch(this@MainActivity)

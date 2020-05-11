@@ -58,7 +58,6 @@ dependencies {
 
     implementation rootProject.ext.dependencies["license_dialog"]
     implementation rootProject.ext.dependencies["logger"]
-    implementation rootProject.ext.dependencies["circular_action_menu"]
 
     implementation rootProject.ext.dependencies["rxbinding2"]
 

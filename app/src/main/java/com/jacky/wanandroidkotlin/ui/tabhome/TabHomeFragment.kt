@@ -5,6 +5,9 @@ import android.os.Debug
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -14,14 +17,17 @@ import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.model.entity.BannerEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
+import com.jacky.wanandroidkotlin.ui.girls.GirlsActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
+import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideBannerImageLoader
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.zenchn.support.widget.SpaceItemDecoration
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerFabScrollListener
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.zenchn.support.utils.AndroidKit
+import com.zenchn.support.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_tab_home.*
 
 /**
@@ -56,8 +62,33 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         slidrInterface?.lock()
         initRecyclerView()
         initRefreshLayout()
+        initFab()
         onRefresh()
         swipe_refresh.isRefreshing = true
+    }
+
+    private fun initFab() {
+        activity?.let { act ->
+            fab.setOnAntiShakeClickListener { GirlsActivity.launch(act) }
+            rlv.addOnScrollListener(RecyclerFabScrollListener { visible ->
+                fab.animate().apply {
+                    if (visible) {
+                        translationY(0F).interpolator = DecelerateInterpolator(3F)
+                    } else {
+                        val layoutParams = fab.layoutParams as ConstraintLayout.LayoutParams
+                        translationY((fab.height + layoutParams.bottomMargin).toFloat()).interpolator =
+                            AccelerateInterpolator(3F)
+                    }
+                    bt_back_top.apply {
+                        visibility = if (visible) View.GONE else View.VISIBLE
+                        setOnAntiShakeClickListener {
+                            rlv.smoothScrollToPosition(0)
+                            visibility = View.GONE
+                        }
+                    }
+                }
+            })
+        }
     }
 
     private fun initRefreshLayout() {
