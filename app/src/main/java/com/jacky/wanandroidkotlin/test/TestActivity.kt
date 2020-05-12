@@ -1,5 +1,8 @@
 package com.jacky.wanandroidkotlin.test
 
+import android.graphics.drawable.LevelListDrawable
+import android.graphics.drawable.TransitionDrawable
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -75,6 +78,17 @@ class TestActivity : BaseActivity() {
         println("zhang:$zhang")
         val wang = Person(52, "老王")
         println("zhang:$wang")
+
+        //drawable test
+        val levelListDrawable =
+            ContextCompat.getDrawable(this, R.drawable.level_list_drawable) as? LevelListDrawable
+        levelListDrawable?.level = 3
+        v_level_list.background = levelListDrawable
+
+        val transitionDrawable =
+            ContextCompat.getDrawable(this, R.drawable.transition_drawable) as? TransitionDrawable
+        v_transition.background = transitionDrawable
+        transitionDrawable?.startTransition(3000)
     }
 
     /**

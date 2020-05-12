@@ -8,17 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
+import com.jacky.wanandroidkotlin.BuildConfig
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
 import com.jacky.wanandroidkotlin.common.TOOL_URL
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
+import com.jacky.wanandroidkotlin.test.TestActivity
 import com.jacky.wanandroidkotlin.ui.about.AboutActivity
 import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPagerAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.fragmentwrap.FragmentWrapActivity
-import com.jacky.wanandroidkotlin.ui.girls.GirlsActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.mycollect.MyCollectActivity
 import com.jacky.wanandroidkotlin.ui.search.SearchActivity
@@ -80,6 +81,8 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         }
         //根据是否已登录显示和隐藏退出登录按钮
         navigation.menu.findItem(R.id.nv_logout).isVisible = mIsLogin
+
+        navigation.menu.findItem(R.id.nv_test).isVisible = BuildConfig.DEBUG
     }
 
     private fun initViewPager() {
@@ -143,10 +146,10 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
                 //关于
                 AboutActivity.launch(this@MainActivity)
             }
-//            R.id.nv_test -> {
-//                //test
-//                TestActivity.launch(this@MainActivity)
-//            }
+            R.id.nv_test -> {
+                //test
+                TestActivity.launch(this@MainActivity)
+            }
             R.id.nv_logout -> {
                 DialogProvider.showSimpleDialog(this@MainActivity, "确定退出登录吗？") {
                     //退出登录

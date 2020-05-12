@@ -1,69 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
-    android:orientation="vertical">
+    android:background="@color/backgroundColor">
 
-    <Button
-        android:id="@+id/bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="点我开始倒计时" />
-
-    <Button
-        android:id="@+id/bt_main"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="跳转主页" />
-
-    <Switch
-        android:id="@+id/sw_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textColor="@color/colorPrimary"
-        android:textOff="关"
-        android:textOn="开"
-        android:textSize="13sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
-        android:layout_marginTop="10dp" />
-
-    <FrameLayout
-        android:layout_width="100dp"
-        android:layout_height="wrap_content">
-
-        <com.jacky.wanandroidkotlin.test.SquareView
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
-            android:background="@color/colorAccent" />
-    </FrameLayout>
-
-    <com.jacky.wanandroidkotlin.test.MyLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_fb5656">
+        android:orientation="vertical">
 
         <Button
-            android:layout_width="60dp"
+            android:id="@+id/bt"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="button1" />
+            tools:text="点我开始倒计时" />
 
         <Button
-            android:layout_width="50dp"
+            android:id="@+id/bt_main"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="button2" />
+            android:text="跳转主页" />
 
-        <Button
-            android:layout_width="120dp"
+        <Switch
+            android:id="@+id/sw_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="button3" />
-    </com.jacky.wanandroidkotlin.test.MyLinearLayout>
+            android:layout_margin="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textOff="关"
+            android:textOn="开"
+            android:textSize="13sp" />
 
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_10"
+            android:layout_marginTop="10dp" />
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content">
+
+            <com.jacky.wanandroidkotlin.test.SquareView
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:background="@color/colorAccent" />
+        </FrameLayout>
+
+        <com.jacky.wanandroidkotlin.test.MyLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_fb5656">
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="button1" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="button2" />
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="button3" />
+        </com.jacky.wanandroidkotlin.test.MyLinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <View
+                android:id="@+id/bg1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/selector_primary"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintEnd_toStartOf="@+id/bg2"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/bg2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/selector_accend"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/bg1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_girl"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="充币"
+                app:layout_constraintBottom_toBottomOf="@+id/bg1"
+                app:layout_constraintEnd_toEndOf="@+id/bg1"
+                app:layout_constraintStart_toStartOf="@+id/bg1"
+                app:layout_constraintTop_toTopOf="@+id/bg1" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_girl"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="充币"
+                app:layout_constraintBottom_toBottomOf="@+id/bg2"
+                app:layout_constraintEnd_toEndOf="@+id/bg2"
+                app:layout_constraintStart_toStartOf="@+id/bg2"
+                app:layout_constraintTop_toTopOf="@+id/bg2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/bitmap_drawable" />
+
+        <View
+            android:id="@+id/v_level_list"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp" />
+
+        <View
+            android:id="@+id/v_transition"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

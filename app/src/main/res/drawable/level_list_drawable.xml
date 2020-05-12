@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/shape_bg_primary_20"
+        android:maxLevel="2"
+        android:minLevel="0" />
+    <item
+        android:drawable="@drawable/bitmap_drawable"
+        android:maxLevel="4"
+        android:minLevel="3" />
+</level-list>

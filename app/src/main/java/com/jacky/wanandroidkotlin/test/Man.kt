@@ -2,6 +2,7 @@ package com.jacky.wanandroidkotlin.test
 
 import android.content.Context
 import android.widget.Toast
+import java.util.concurrent.Executors
 
 /**
  * 作   者： by Hzj on 2018/1/4/004.
@@ -266,9 +267,18 @@ class Man(age: Int, name: String) : Person(age, name) {
  * ，而Java是写在class里面
  */
 fun main(args: Array<String>) {
-    var man = Man(2, "test")
+//    var man = Man(2, "test")
 //    man.testBasicDataType()
 //    man.testControlStatement()
 //    man.testCar()
-    man.testLet()
+//    man.testLet()
+
+    val cachedThreadPool = Executors.newCachedThreadPool()
+    for (i in 0 until 10) {
+        Thread.sleep(i * 1000L)
+        cachedThreadPool.execute {
+            println(i)
+        }
+    }
+    println("the end")
 }

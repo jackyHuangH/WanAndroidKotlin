@@ -28,10 +28,10 @@
             android:id="@+id/nv_about"
             android:icon="@drawable/ic_email"
             android:title="@string/nv_item_about" />
-        <!-- <item
-             android:id="@+id/nv_test"
-             android:icon="@drawable/ic_email"
-             android:title="@string/nv_item_test" />-->
+        <item
+            android:id="@+id/nv_test"
+            android:icon="@drawable/ic_email"
+            android:title="@string/nv_item_test" />
         <item
             android:id="@+id/nv_logout"
             android:icon="@drawable/ic_logout"
