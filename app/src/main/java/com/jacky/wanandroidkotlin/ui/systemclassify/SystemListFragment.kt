@@ -14,8 +14,8 @@ import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.tabsystem.TabSystemViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.zenchn.support.widget.SpaceItemDecoration
 import com.zenchn.support.utils.AndroidKit
+import com.zenchn.support.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_tab_home.*
 
 /**
@@ -24,7 +24,8 @@ import kotlinx.android.synthetic.main.fragment_tab_home.*
  * desc  ：体系列表 ,公众号分类页面共用
  * record：
  */
-class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapter.OnItemClickListener,
+class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
+    BaseQuickAdapter.OnItemClickListener,
     BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private val mCid by lazy { arguments?.getInt(EXTRA_CID) }
@@ -71,7 +72,7 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapte
             mIsBlog?.run {
                 if (this) {
                     // 获取公众号文章
-                    mViewModel.getBlogList(mPageNum,it)
+                    mViewModel.getBlogList(mPageNum, it)
                 } else {
                     mViewModel.getSystemArticleListByCid(mPageNum, it)
                 }
@@ -79,23 +80,21 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapte
         }
     }
 
-    override fun startObserve() {
+    override val startObserve: TabSystemViewModel.() -> Unit = {
         //LiveData 刷新数据到页面
-        mViewModel.apply {
-            mArticleList.observe(this@SystemListFragment, Observer {
-                it?.let {
-                    if (mPageNum == 0) {
-                        mHomeAdapter.setNewData(it.datas)
-                    } else {
-                        mHomeAdapter.addData(it.datas)
-                    }
-                    setLoadStatus(!it.over)
+        mArticleList.observe(this@SystemListFragment, Observer {
+            it?.let {
+                if (mPageNum == 0) {
+                    mHomeAdapter.setNewData(it.datas)
+                } else {
+                    mHomeAdapter.addData(it.datas)
                 }
-            })
-            mErrorMsg.observe(this@SystemListFragment, Observer {
-                it?.let { onApiFailure(it) }
-            })
-        }
+                setLoadStatus(!it.over)
+            }
+        })
+        mErrorMsg.observe(this@SystemListFragment, Observer {
+            it?.let { onApiFailure(it) }
+        })
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
@@ -161,7 +160,7 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(), BaseQuickAdapte
             mIsBlog?.run {
                 if (this) {
                     //获取公众号文章
-                    mViewModel.getBlogList(mPageNum,it)
+                    mViewModel.getBlogList(mPageNum, it)
                 } else {
                     mViewModel.getSystemArticleListByCid(mPageNum, it)
                 }

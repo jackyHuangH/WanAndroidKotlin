@@ -1,6 +1,5 @@
 package com.jacky.wanandroidkotlin.wrapper.recyclerview
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,7 @@ object RecyclerViewHelper {
      * @param rlv
      * @return
      */
-    fun getCommonEmptyView(context: Context, rlv: RecyclerView): View =
-        LayoutInflater.from(context).inflate(R.layout.recy_empty_view, rlv, false)
+    fun getCommonEmptyView(rlv: RecyclerView): View =
+        LayoutInflater.from(rlv.context).inflate(R.layout.recy_empty_view, rlv, false)
 
 }

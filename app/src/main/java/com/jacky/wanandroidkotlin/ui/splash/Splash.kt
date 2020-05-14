@@ -24,7 +24,7 @@ class SplashActivity : BaseActivity(), CoroutineScope by MainScope() {
 
     override fun initWidget() {
         launch {
-            delay(1000L)
+            delay(500L)
             if (mGoLogin) {
                 LoginActivity.launch(this@SplashActivity)
             } else {

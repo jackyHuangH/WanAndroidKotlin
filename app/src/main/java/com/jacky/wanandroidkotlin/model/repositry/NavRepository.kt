@@ -1,9 +1,8 @@
 package com.jacky.wanandroidkotlin.model.repositry
 
-import com.jacky.wanandroidkotlin.model.api.BaseRepository
-import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.NavigationEntity
+import com.jacky.wanandroidkotlin.model.entity.WanResponse
 
 /**
  * @author:Hzj
@@ -11,12 +10,12 @@ import com.jacky.wanandroidkotlin.model.entity.NavigationEntity
  * desc  ：
  * record：
  */
-class NavRepository:BaseRepository() {
+class NavRepository {
 
     /**
      * 获取导航列表
      */
     suspend fun getNavigationList(): WanResponse<List<NavigationEntity>> {
-        return apiCall { WanRetrofitClient.mService.getNavigation() }
+        return WanRetrofitClient.mService.getNavigation()
     }
 }

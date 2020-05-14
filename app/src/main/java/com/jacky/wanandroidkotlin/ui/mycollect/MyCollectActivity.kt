@@ -11,9 +11,9 @@ import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.zenchn.support.widget.SpaceItemDecoration
-import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.router.Router
+import com.zenchn.support.utils.AndroidKit
+import com.zenchn.support.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.activity_my_collect.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
@@ -23,7 +23,8 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
  * desc  ：我的收藏
  * record：
  */
-class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(), BaseQuickAdapter.OnItemClickListener,
+class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(),
+    BaseQuickAdapter.OnItemClickListener,
     BaseQuickAdapter.RequestLoadMoreListener {
 
     private var mPageNum = 0
@@ -85,23 +86,20 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(), BaseQuickAdapter
         mViewModel.getMyCollectArticleList(mPageNum)
     }
 
-    override fun startObserve() {
-        mViewModel.apply {
-            mArticleList.observe(this@MyCollectActivity, Observer { list ->
-                list?.let {
-                    if (mPageNum == 0) {
-                        mListAdapter.setNewData(it.datas)
-                    } else {
-                        mListAdapter.addData(it.datas)
-                    }
-                    setLoadStatus(it.over.not())
+    override val startObserve: MyCollectViewModel.() -> Unit = {
+        mArticleList.observe(this@MyCollectActivity, Observer { list ->
+            list?.let {
+                if (mPageNum == 0) {
+                    mListAdapter.setNewData(it.datas)
+                } else {
+                    mListAdapter.addData(it.datas)
                 }
-            })
-            mErrorMsg.observe(this@MyCollectActivity, Observer { msg ->
-                msg?.let { onApiFailure(it) }
-            })
-        }
-
+                setLoadStatus(it.over.not())
+            }
+        })
+        mErrorMsg.observe(this@MyCollectActivity, Observer { msg ->
+            msg?.let { onApiFailure(it) }
+        })
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {

@@ -10,8 +10,8 @@ import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.ui.adapter.SystemListAdapter
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemClassifyActivity
-import com.zenchn.support.widget.SpaceItemDecoration
 import com.zenchn.support.utils.AndroidKit
+import com.zenchn.support.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_tab_system.*
 
 /**
@@ -77,16 +77,14 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(),
         mViewModel.getSystemTreeList()
     }
 
-    override fun startObserve() {
-        mViewModel.apply {
-            mTreeList.observe(this@TabSystemFragment, Observer {
-                swipe_refresh.isRefreshing = false
-                it.run { mAdapter.setNewData(it) }
-            })
-            mErrorMsg.observe(this@TabSystemFragment, Observer {
-                onApiFailure(it)
-            })
-        }
+    override val startObserve: TabSystemViewModel.() -> Unit = {
+        mTreeList.observe(this@TabSystemFragment, Observer {
+            swipe_refresh.isRefreshing = false
+            it.run { mAdapter.setNewData(it) }
+        })
+        mErrorMsg.observe(this@TabSystemFragment, Observer {
+            onApiFailure(it)
+        })
     }
 
     override fun onApiFailure(msg: String) {

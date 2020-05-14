@@ -79,15 +79,13 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
         return TabHomeFragment()
     }
 
-    override fun startObserve() {
-        mViewModel.apply {
-            mTabList.observe(this@ProjectFragment, Observer { list ->
-                list?.let {
-                    mProjectTypeList.clear()
-                    mProjectTypeList.addAll(it)
-                    viewPager.adapter?.notifyDataSetChanged()
-                }
-            })
-        }
+    override val startObserve: ProjectViewModel.() -> Unit = {
+        mTabList.observe(this@ProjectFragment, Observer { list ->
+            list?.let {
+                mProjectTypeList.clear()
+                mProjectTypeList.addAll(it)
+                viewPager.adapter?.notifyDataSetChanged()
+            }
+        })
     }
 }

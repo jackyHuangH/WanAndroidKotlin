@@ -1,7 +1,6 @@
 package com.jacky.wanandroidkotlin.ui.login
 
 import android.app.Activity
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.jacky.wanandroidkotlin.R
@@ -67,29 +66,27 @@ class LoginActivity : BaseVMActivity<LoginViewModel>() {
         return true
     }
 
-    override fun startObserve() {
-        mViewModel.apply {
-            mLoginUserEntity.observe(this@LoginActivity, Observer {
-                //登录成功
-                hideProgress()
-                showMessage(getString(R.string.login_login_success))
-                mIsLogin = true
-                //保存用户信息
-                mUserInfo = Gson().toJson(it)
-                //跳转首页
-                MainActivity.launch(this@LoginActivity)
-                finish()
-            })
-            mRegisterUserEntity.observe(this@LoginActivity, Observer {
-                //注册成功，请登录
-                hideProgress()
-                showMessage(getString(R.string.login_register_success))
-            })
-            mErrorMsg.observe(this@LoginActivity, Observer {
-                hideProgress()
-                it?.let { showMessage(it) }
-            })
-        }
+    override val startObserve: LoginViewModel.() -> Unit = {
+        mLoginUserEntity.observe(this@LoginActivity, Observer {
+            //登录成功
+            hideProgress()
+            showMessage(getString(R.string.login_login_success))
+            mIsLogin = true
+            //保存用户信息
+            mUserInfo = Gson().toJson(it)
+            //跳转首页
+            MainActivity.launch(this@LoginActivity)
+            finish()
+        })
+        mRegisterUserEntity.observe(this@LoginActivity, Observer {
+            //注册成功，请登录
+            hideProgress()
+            showMessage(getString(R.string.login_register_success))
+        })
+        mErrorMsg.observe(this@LoginActivity, Observer {
+            hideProgress()
+            it?.let { showMessage(it) }
+        })
     }
 
     companion object {

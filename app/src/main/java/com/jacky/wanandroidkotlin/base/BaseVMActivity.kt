@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin.base
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 /**
@@ -9,20 +10,24 @@ import androidx.lifecycle.ViewModelProviders
  * desc  ：ViewModel封装基类Activity
  * record：
  */
-abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(),IVMView<VM> {
+abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), IVMView<VM> {
 
     override lateinit var mViewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initViewModel()
         super.onCreate(savedInstanceState)
-        startObserve()
     }
 
     //初始化ViewModel绑定
     private fun initViewModel() {
-        provideViewModelClass()?.let {
-            mViewModel = ViewModelProviders.of(this).get(it)
+        provideViewModelClass()?.let { clazz ->
+            mViewModel = ViewModelProviders.of(this).get(clazz).apply {
+                mErrorMsg.observe(this@BaseVMActivity, Observer { showMessage(msg = it) })
+                mShowLoadingProgress.observe(this@BaseVMActivity, Observer { show ->
+                    if (show) showProgress() else hideProgress()
+                })
+            }
             mViewModel.let(lifecycle::addObserver)
         }
     }

@@ -14,8 +14,8 @@ import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.project.ProjectViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.zenchn.support.widget.SpaceItemDecoration
 import com.zenchn.support.utils.AndroidKit
+import com.zenchn.support.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_tab_latest_project.*
 
 /**
@@ -24,7 +24,8 @@ import kotlinx.android.synthetic.main.fragment_tab_latest_project.*
  * desc  ：最新项目Tab,项目分类公用页面
  * record：
  */
-class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAdapter.OnItemClickListener,
+class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
+    BaseQuickAdapter.OnItemClickListener,
     BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var mPageNum = 0
@@ -102,7 +103,7 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAd
     }
 
     override fun onLoadMoreRequested() {
-        mIsDownRefresh=false
+        mIsDownRefresh = false
         mIsLatest?.run {
             if (this) {
                 mViewModel.getLastedProjectList(++mPageNum)
@@ -123,7 +124,7 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAd
 
     private fun onRefresh() {
         //下拉刷新时禁用加载更多
-        mIsDownRefresh=true
+        mIsDownRefresh = true
         mAdapter.setEnableLoadMore(false)
         mIsLatest?.run {
             if (this) {
@@ -138,22 +139,20 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(), BaseQuickAd
         }
     }
 
-    override fun startObserve() {
-        mViewModel.apply {
-            mArticleList.observe(this@TabLatestProjectFragment, Observer { list ->
-                list?.let {
-                    if (mIsDownRefresh) {
-                        mAdapter.setNewData(it.datas)
-                    } else {
-                        mAdapter.addData(it.datas)
-                    }
-                    setLoadStatus(!it.over)
+    override val startObserve: ProjectViewModel.() -> Unit = {
+        mArticleList.observe(this@TabLatestProjectFragment, Observer { list ->
+            list?.let {
+                if (mIsDownRefresh) {
+                    mAdapter.setNewData(it.datas)
+                } else {
+                    mAdapter.addData(it.datas)
                 }
-            })
-            mErrorMsg.observe(this@TabLatestProjectFragment, Observer { msg ->
-                msg?.let { onApiFailure(it) }
-            })
-        }
+                setLoadStatus(!it.over)
+            }
+        })
+        mErrorMsg.observe(this@TabLatestProjectFragment, Observer { msg ->
+            msg?.let { onApiFailure(it) }
+        })
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {

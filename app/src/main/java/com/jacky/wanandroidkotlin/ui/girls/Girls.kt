@@ -6,6 +6,7 @@ package com.jacky.wanandroidkotlin.ui.girls
  * desc  ：
  * record：
  */
+import android.app.Application
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -28,6 +29,7 @@ import com.jacky.wanandroidkotlin.widget.RemoteImageSource
 import com.jacky.wanandroidkotlin.widget.previewPicture
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerViewHelper
 import com.zenchn.support.router.Router
 import kotlinx.android.synthetic.main.activity_girls.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
@@ -65,10 +67,12 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), BaseQuickAdapter.OnItemC
                 //可防止Item切换
                 gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
             }
-        girlAdapter.onItemClickListener = this
-        girlAdapter.setOnLoadMoreListener(this, rlv)
-        girlAdapter.setLoadMoreView(CustomLoadMoreView())
-        rlv.adapter = girlAdapter
+        rlv.adapter = girlAdapter.apply {
+            onItemClickListener = this@GirlsActivity
+            setOnLoadMoreListener(this@GirlsActivity, rlv)
+            emptyView = RecyclerViewHelper.getCommonEmptyView(rlv)
+            setLoadMoreView(CustomLoadMoreView())
+        }
     }
 
     private fun initRefreshLayout() {
@@ -107,17 +111,15 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), BaseQuickAdapter.OnItemC
         }
     }
 
-    override fun startObserve() {
-        mViewModel.apply {
-            girlsList.observe(this@GirlsActivity, Observer {
-                if (it.first == 1) {
-                    girlAdapter.setNewData(it.second)
-                } else {
-                    girlAdapter.addData(it.second)
-                }
-                setLoadStatus(it.third)
-            })
-        }
+    override val startObserve: GirlsViewModel.() -> Unit = {
+        girlsList.observe(this@GirlsActivity, Observer {
+            if (it.first == 1) {
+                girlAdapter.setNewData(it.second)
+            } else {
+                girlAdapter.addData(it.second)
+            }
+            setLoadStatus(it.third)
+        })
         onRefresh()
     }
 
@@ -145,25 +147,30 @@ private class GirlsAdapter :
     }
 }
 
-class GirlsViewModel : BaseViewModel() {
+class GirlsViewModel(application: Application) : BaseViewModel(application) {
     val girlsList: MutableLiveData<Triple<Int, List<GirlEntity>, Boolean>> = MutableLiveData()
     private var page = 1
 
     fun getGirlsList(isRefresh: Boolean = true) {
-        launch {
+        launchOnUI {
             val result = withContext(Dispatchers.IO) {
-                if (isRefresh) {
-                    page = 1
-                } else {
-                    page++
-                }
-                val jsonObject = WanRetrofitClient.mService.getGirlsList(page)
-                if (jsonObject["error"].asBoolean.not()) {
-                    val jsonArray = jsonObject["results"].asJsonArray
-                    val typeToken = object : TypeToken<List<GirlEntity>>() {}.type
-                    Gson().fromJson<List<GirlEntity>>(jsonArray, typeToken)
-                } else {
-                    mutableListOf()
+                try {
+                    if (isRefresh) {
+                        page = 1
+                    } else {
+                        page++
+                    }
+                    val jsonObject = WanRetrofitClient.mService.getGirlsList(page)
+                    if (jsonObject["error"].asBoolean.not()) {
+                        val jsonArray = jsonObject["results"].asJsonArray
+                        val typeToken = object : TypeToken<List<GirlEntity>>() {}.type
+                        Gson().fromJson<List<GirlEntity>>(jsonArray, typeToken)
+                    } else {
+                        mutableListOf()
+                    }
+                } catch (e: Exception) {
+                    mErrorMsg.postValue(e.message)
+                    mutableListOf<GirlEntity>()
                 }
             }
             val hasNextPage = result.size >= 10

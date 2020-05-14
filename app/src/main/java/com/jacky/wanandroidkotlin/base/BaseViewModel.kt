@@ -1,10 +1,11 @@
 package com.jacky.wanandroidkotlin.base
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.annotation.CallSuper
+import androidx.lifecycle.*
+import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
+import com.jacky.wanandroidkotlin.model.api.dispatch
 import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import kotlinx.coroutines.*
 
@@ -15,87 +16,114 @@ import kotlinx.coroutines.*
  * desc  ：ViewModel基类
  * record：<p>suspend，用作修饰会被暂停的函数，被标记为 suspend 的函数只能运行在协程或者其他 suspend 函数当中。</p>
  */
-open class BaseViewModel : ViewModel(), LifecycleObserver {
-    private val mException: MutableLiveData<Exception> = MutableLiveData()
+abstract class BaseViewModel(application: Application) : AndroidViewModel(application),
+    LifecycleObserver {
+
     //错误信息
     val mErrorMsg: MutableLiveData<String> = MutableLiveData()
+
+    //加载框通道
+    val mShowLoadingProgress: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
 
     companion object {
         const val ERROR_CODE = -1//请求失败返回码
     }
 
-    private fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
+    @Suppress("UNCHECKED_CAST")
+    @CallSuper
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    open fun onCreate(owner: LifecycleOwner) {
+        //初始化ViewModel绑定
+        (owner as? IVMView<ViewModel>)?.startObserve?.invoke(this)
+    }
+
+    @CallSuper
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    open fun onDestroy(owner: LifecycleOwner) {
+
+    }
+
+    fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch {
             Log.d("Thread", "launchOnUI:${Thread.currentThread().name}")
             block()
         }
     }
+}
 
-    fun launch(tryBlock: suspend CoroutineScope.() -> Unit) {
-        Log.d("Thread", "launch:${Thread.currentThread().name}")
-        launchOnUI {
-            tryCatch(tryBlock, {}, {}, true)
-        }
-    }
-
-    private suspend fun tryCatch(
-        tryBlock: suspend CoroutineScope.() -> Unit,
-        catchBlock: suspend CoroutineScope.(Throwable) -> Unit,
-        finallyBlock: suspend CoroutineScope.() -> Unit,
-        handleCancellationExceptionManually: Boolean = false
-    ) {
-        coroutineScope {
-            Log.d("Thread", "tryCatch:${Thread.currentThread().name}")
-            try {
-                tryBlock()
-            } catch (e: Exception) {
-                if (e !is CancellationException || handleCancellationExceptionManually) {
-                    mException.value = e
-                    catchBlock(e)
-                } else {
-                    throw e
+//网络请求封装
+fun <T> BaseViewModel.executeRequest(
+    showLoading: Boolean = false,
+    request: suspend CoroutineScope.() -> WanResponse<T>,
+    onNext: ((Boolean, T?, String?) -> Unit)? = null,
+    onSubscribe: (() -> Unit)? = null,
+    onError: (Throwable) -> Unit = { e ->
+        e.dispatch(msgResult = { msg ->
+            onNext?.invoke(false, null, msg)
+            mErrorMsg.value = msg
+        }, apiRefused = {
+            //授权失败，返回登录页
+            GlobalLifecycleObserver.restartApp(gotoLogin = true)
+        })
+    },
+    onComplete: (() -> Unit)? = null
+) {
+    launchOnUI {
+        tryCatch(
+            tryBlock = {
+                onSubscribe?.invoke()
+                withContext(Dispatchers.IO) {
+                    Log.d("Thread", "request:${Thread.currentThread().name}")
+                    if (showLoading) {
+                        mShowLoadingProgress.postValue(true)
+                    }
+                    request.invoke(this)
                 }
-            } finally {
-                finallyBlock()
+            },
+            catchBlock = { e -> onError.invoke(e) },
+            finallyBlock = {
+                if (showLoading) {
+                    mShowLoadingProgress.value = false
+                }
+                onComplete?.invoke()
+            },
+            handleCancellationExceptionManually = true
+        )?.let {
+            if (it.errorCode == BaseViewModel.ERROR_CODE) {
+                onNext?.invoke(false, null, it.errorMsg)
+                mErrorMsg.value = it.errorMsg
+            } else {
+                onNext?.invoke(true, it.data, null)
             }
         }
     }
+}
 
-    suspend fun executeResponse(
-        response: WanResponse<Any>,
-        successBlock: suspend CoroutineScope.() -> Unit,
-        errorBlock: suspend CoroutineScope.() -> Unit
-    ) {
-        coroutineScope {
-            Log.d("Thread", "executeResponse:${Thread.currentThread().name}")
-            if (response.errorCode == ERROR_CODE) errorBlock()
-            else successBlock()
+suspend fun <T> tryCatch(
+    tryBlock: suspend CoroutineScope.() -> T,
+    catchBlock: (suspend CoroutineScope.(Throwable) -> Unit)? = null,
+    finallyBlock: (suspend CoroutineScope.() -> Unit)? = null,
+    handleCancellationExceptionManually: Boolean = false
+): T? {
+    return coroutineScope {
+        Log.d("Thread", "tryCatch:${Thread.currentThread().name}")
+        try {
+            tryBlock()
+        } catch (e: Exception) {
+            if (e !is CancellationException || handleCancellationExceptionManually) {
+                catchBlock?.invoke(this, e)
+                null
+            } else {
+                throw e
+            }
+        } finally {
+            finallyBlock?.invoke(this)
         }
     }
+}
 
-    fun launchOnUITryCatch(
-        tryBlock: suspend CoroutineScope.() -> Unit,
-        catchBlock: suspend CoroutineScope.(Throwable) -> Unit,
-        finallyBlock: suspend CoroutineScope.() -> Unit,
-        handleCancellationExceptionManually: Boolean
-    ) {
-        launchOnUI {
-            tryCatch(tryBlock, catchBlock, finallyBlock, handleCancellationExceptionManually)
-        }
-    }
-
-    fun launchOnUITryCatch(
-        tryBlock: suspend CoroutineScope.() -> Unit,
-        handleCancellationExceptionManually: Boolean = false
-    ) {
-        launchOnUI {
-            tryCatch(tryBlock, {}, {}, handleCancellationExceptionManually)
-        }
-    }
-
-    suspend fun <T> launchIO(block: suspend CoroutineScope.() -> T) {
-        withContext(Dispatchers.IO) {
-            block()
-        }
+suspend fun <T> launchIO(block: suspend CoroutineScope.() -> T) {
+    withContext(Dispatchers.IO) {
+        block()
     }
 }

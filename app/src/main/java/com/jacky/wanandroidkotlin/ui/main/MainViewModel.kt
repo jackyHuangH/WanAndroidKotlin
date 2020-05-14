@@ -1,10 +1,10 @@
 package com.jacky.wanandroidkotlin.ui.main
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.base.executeRequest
 import com.jacky.wanandroidkotlin.model.repositry.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * @author:Hzj
@@ -12,14 +12,16 @@ import kotlinx.coroutines.withContext
  * desc  ：首页
  * record：
  */
-class MainViewModel : BaseViewModel() {
+class MainViewModel(application: Application) : BaseViewModel(application) {
     val mLogoutInfo: MutableLiveData<String> = MutableLiveData()
     private val mRepository by lazy { UserRepository() }
 
     fun logout() {
-        launch {
-            val response = withContext(Dispatchers.IO) { mRepository.logout() }
-            executeResponse(response, { mLogoutInfo.value = "退出登录成功！" }, { mErrorMsg.value = response.errorMsg })
-        }
+        executeRequest(request = { mRepository.logout() },
+            onNext = { ok, data, msg ->
+                if (ok) {
+                    mLogoutInfo.value = "退出登录成功！"
+                }
+            })
     }
 }

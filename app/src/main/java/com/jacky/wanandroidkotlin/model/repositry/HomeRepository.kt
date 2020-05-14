@@ -1,9 +1,9 @@
 package com.jacky.wanandroidkotlin.model.repositry
 
-import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.ArticleList
 import com.jacky.wanandroidkotlin.model.entity.BannerEntity
+import com.jacky.wanandroidkotlin.model.entity.WanResponse
 
 /**
  * @author:Hzj
@@ -17,13 +17,13 @@ class HomeRepository : CollectRepository() {
      * 分页获取首页文章列表
      */
     suspend fun getArticleList(page: Int): WanResponse<ArticleList> {
-        return apiCall { WanRetrofitClient.mService.getHomeArticles(page) }
+        return WanRetrofitClient.mService.getHomeArticles(page)
     }
 
     /**
      * 获取首页banner数据
      */
     suspend fun getHomeBanner(): WanResponse<List<BannerEntity>> {
-        return apiCall { WanRetrofitClient.mService.getHomeBanner() }
+        return WanRetrofitClient.mService.getHomeBanner()
     }
 }

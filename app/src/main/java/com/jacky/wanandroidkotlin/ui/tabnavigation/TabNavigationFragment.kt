@@ -8,8 +8,8 @@ import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.ui.adapter.NavVerticalTabAdapter
 import com.jacky.wanandroidkotlin.ui.adapter.NavigationAdapter
-import com.zenchn.support.widget.SpaceItemDecoration
 import com.zenchn.support.utils.AndroidKit
+import com.zenchn.support.widget.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_tab_navigation.*
 import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.widget.TabView
@@ -39,7 +39,6 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
         initRlv()
         initTab()
         mViewModel.getNavigation()
-        showProgress()
     }
 
     private fun initRlv() {
@@ -89,26 +88,22 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
         }
     }
 
-    override fun startObserve() {
-        mViewModel.apply {
-            mNavList.observe(this@TabNavigationFragment, Observer { list ->
-                list?.let {
-                    val tabAdapter =
-                        activity?.let { ctx -> NavVerticalTabAdapter(it.map { it.name }, ctx) }
-                    vertical_tab.setTabAdapter(tabAdapter)
-                    mNavAdapter.setNewData(list)
-                    hideProgress()
-                }
-            })
-            mErrorMsg.observe(this@TabNavigationFragment, Observer { msg ->
-                msg?.let { onApiFailure(it) }
-            })
-        }
+    override val startObserve: NavViewModel.() -> Unit = {
+        mNavList.observe(this@TabNavigationFragment, Observer { list ->
+            list?.let {
+                val tabAdapter =
+                    activity?.let { ctx -> NavVerticalTabAdapter(it.map { it.name }, ctx) }
+                vertical_tab.setTabAdapter(tabAdapter)
+                mNavAdapter.setNewData(list)
+            }
+        })
+        mErrorMsg.observe(this@TabNavigationFragment, Observer { msg ->
+            msg?.let { onApiFailure(it) }
+        })
     }
 
     override fun onApiFailure(msg: String) {
         hideProgress()
         super.onApiFailure(msg)
     }
-
 }

@@ -16,14 +16,14 @@ interface IView : IActivity {
     fun onApiGrantRefuse()
 }
 
-interface IVMView<VM:ViewModel>{
-    val mViewModel:VM
+interface IVMView<VM : ViewModel> {
+    val mViewModel: VM
 
-    fun startObserve()
+    val startObserve: (VM.() -> Unit)
 }
 
 //反射获取ViewModel实例
 @Suppress("UNCHECKED_CAST")
-fun <T:ViewModel> IVMView<T>.provideViewModelClass():Class<T>?{
+fun <T : ViewModel> IVMView<T>.provideViewModelClass(): Class<T>? {
     return (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as? Class<T>
 }

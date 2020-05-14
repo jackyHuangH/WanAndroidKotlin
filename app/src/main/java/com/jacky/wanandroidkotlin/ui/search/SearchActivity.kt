@@ -17,10 +17,10 @@ import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
-import com.zenchn.support.widget.SpaceItemDecoration
 import com.jakewharton.rxbinding2.widget.RxTextView
-import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.router.Router
+import com.zenchn.support.utils.AndroidKit
+import com.zenchn.support.widget.SpaceItemDecoration
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -54,7 +54,7 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
         mViewModel.getCommonWebsites()
         mViewModel.getHotKeys()
 
-        val jsonArray=JSONArray()
+        val jsonArray = JSONArray()
         jsonArray.put("2")
     }
 
@@ -65,7 +65,7 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     if (it == EditorInfo.IME_ACTION_SEARCH) {
-                        mKeyword=et_search.text.toString()
+                        mKeyword = et_search.text.toString()
                         doSearch()
                     }
                 }
@@ -77,7 +77,8 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
             adapter = object : TagAdapter<HotEntity>(mCommonWebsiteList) {
                 override fun getView(parent: FlowLayout?, position: Int, t: HotEntity?): View {
                     val tvTag =
-                        LayoutInflater.from(parent?.context).inflate(R.layout.item_tag, parent, false) as TextView
+                        LayoutInflater.from(parent?.context)
+                            .inflate(R.layout.item_tag, parent, false) as TextView
                     tvTag.text = t?.name
                     return tvTag
                 }
@@ -92,7 +93,8 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
             adapter = object : TagAdapter<HotEntity>(mHotKeyList) {
                 override fun getView(parent: FlowLayout?, position: Int, t: HotEntity?): View {
                     val tvTag =
-                        LayoutInflater.from(parent?.context).inflate(R.layout.item_tag, parent, false) as TextView
+                        LayoutInflater.from(parent?.context)
+                            .inflate(R.layout.item_tag, parent, false) as TextView
                     tvTag.text = t?.name
                     return tvTag
                 }
@@ -176,39 +178,36 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
         mViewModel.searchWithKeyword(mPageNum, mKeyword)
     }
 
-    override fun startObserve() {
-        mViewModel.apply {
-            mArticleList.observe(this@SearchActivity, Observer { articleList ->
-                articleList?.let {
-                    swipe_refresh.visibility = View.VISIBLE
-                    scroll_view.visibility=View.GONE
-                    if (mPageNum == 0) {
-                        mListAdapter.setNewData(it.datas)
-                    } else {
-                        mListAdapter.addData(it.datas)
-                    }
-                    setLoadStatus(it.over.not())
+    override val startObserve: SearchViewModel.() -> Unit = {
+        mArticleList.observe(this@SearchActivity, Observer { articleList ->
+            articleList?.let {
+                swipe_refresh.visibility = View.VISIBLE
+                scroll_view.visibility = View.GONE
+                if (mPageNum == 0) {
+                    mListAdapter.setNewData(it.datas)
+                } else {
+                    mListAdapter.addData(it.datas)
                 }
-            })
-            mCommonWebsiteData.observe(this@SearchActivity, Observer { list ->
-                list?.let {
-                    mCommonWebsiteList.clear()
-                    mCommonWebsiteList.addAll(it)
-                    web_tagLayout.adapter.notifyDataChanged()
-                }
-            })
-            mHotKeyData.observe(this@SearchActivity, Observer { list ->
-                list?.let {
-                    mHotKeyList.clear()
-                    mHotKeyList.addAll(it)
-                    hot_tagLayout.adapter.notifyDataChanged()
-                }
-            })
-            mErrorMsg.observe(this@SearchActivity, Observer {
-                it?.let { onApiFailure(it) }
-            })
-        }
-
+                setLoadStatus(it.over.not())
+            }
+        })
+        mCommonWebsiteData.observe(this@SearchActivity, Observer { list ->
+            list?.let {
+                mCommonWebsiteList.clear()
+                mCommonWebsiteList.addAll(it)
+                web_tagLayout.adapter.notifyDataChanged()
+            }
+        })
+        mHotKeyData.observe(this@SearchActivity, Observer { list ->
+            list?.let {
+                mHotKeyList.clear()
+                mHotKeyList.addAll(it)
+                hot_tagLayout.adapter.notifyDataChanged()
+            }
+        })
+        mErrorMsg.observe(this@SearchActivity, Observer {
+            it?.let { onApiFailure(it) }
+        })
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
@@ -233,7 +232,7 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     override fun onBackPressed() {
         if (swipe_refresh.visibility == View.VISIBLE) {
             swipe_refresh.visibility = View.GONE
-            scroll_view.visibility=View.VISIBLE
+            scroll_view.visibility = View.VISIBLE
         } else {
             super.onBackPressed()
         }

@@ -165,24 +165,22 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         FragmentWrapActivity.launch(this@MainActivity, isBlog)
     }
 
-    override fun startObserve() {
-        mViewModel.apply {
-            mLogoutInfo.observe(this@MainActivity, Observer {
-                //退出登录成功
-                it.run {
-                    showMessage(it)
-                    navigation.menu.findItem(R.id.nv_logout).isVisible = false
-                    //清除用户信息和登录信息缓存
-                    mIsLogin = false
-                    mUserInfo = ""
-                    WanRetrofitClient.mCookieJar.clear()
-                    mTvUserName.text = getString(R.string.name_default)
-                }
-            })
-            mErrorMsg.observe(this@MainActivity, Observer {
+    override val startObserve: MainViewModel.() -> Unit = {
+        mLogoutInfo.observe(this@MainActivity, Observer {
+            //退出登录成功
+            it.run {
                 showMessage(it)
-            })
-        }
+                navigation.menu.findItem(R.id.nv_logout).isVisible = false
+                //清除用户信息和登录信息缓存
+                mIsLogin = false
+                mUserInfo = ""
+                WanRetrofitClient.mCookieJar.clear()
+                mTvUserName.text = getString(R.string.name_default)
+            }
+        })
+        mErrorMsg.observe(this@MainActivity, Observer {
+            showMessage(it)
+        })
     }
 
     companion object {

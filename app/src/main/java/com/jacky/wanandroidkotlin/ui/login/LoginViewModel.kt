@@ -1,11 +1,11 @@
 package com.jacky.wanandroidkotlin.ui.login
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.base.executeRequest
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
 import com.jacky.wanandroidkotlin.model.repositry.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * @author:Hzj
@@ -13,27 +13,26 @@ import kotlinx.coroutines.withContext
  * desc  ：
  * record：
  */
-class LoginViewModel : BaseViewModel() {
+class LoginViewModel(application: Application) : BaseViewModel(application) {
     private val mRepository by lazy { UserRepository() }
     val mLoginUserEntity: MutableLiveData<UserEntity> = MutableLiveData()
     val mRegisterUserEntity: MutableLiveData<UserEntity> = MutableLiveData()
 
     fun login(username: String, password: String) {
-        launch {
-            val response = withContext(Dispatchers.IO) { mRepository.login(username, password) }
-            executeResponse(
-                response,
-                { mLoginUserEntity.value = response.data },
-                { mErrorMsg.value = response.errorMsg })
-        }
+        executeRequest(request = { mRepository.login(username, password) },
+            onNext = { ok, data, _ ->
+                if (ok) {
+                    mLoginUserEntity.value = data
+                }
+            })
     }
 
     fun register(username: String, password: String) {
-        launch {
-            val response = withContext(Dispatchers.IO) { mRepository.register(username, password, password) }
-            executeResponse(response,
-                { mRegisterUserEntity.value = response.data },
-                { mErrorMsg.value = response.errorMsg })
-        }
+        executeRequest(request = { mRepository.register(username, password, password) },
+            onNext = { ok, data, msg ->
+                if (ok) {
+                    mRegisterUserEntity.value = data
+                }
+            })
     }
 }

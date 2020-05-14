@@ -1,12 +1,12 @@
 package com.jacky.wanandroidkotlin.ui.tabhome
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.base.executeRequest
 import com.jacky.wanandroidkotlin.model.entity.ArticleList
 import com.jacky.wanandroidkotlin.model.entity.BannerEntity
 import com.jacky.wanandroidkotlin.model.repositry.HomeRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * @author:Hzj
@@ -14,34 +14,34 @@ import kotlinx.coroutines.withContext
  * desc  ：ViewModel,管理数据和展示，类似于MVP中的Presenter
  * record：
  */
-class TabHomeViewModel : BaseViewModel() {
+class TabHomeViewModel(application: Application) : BaseViewModel(application) {
     private val mRepository by lazy { HomeRepository() }
     val mBannerList: MutableLiveData<List<BannerEntity>> = MutableLiveData()
     val mArticleList: MutableLiveData<ArticleList> = MutableLiveData()
 
     fun getBanners() {
-        launch {
-            val result = withContext(Dispatchers.IO) { mRepository.getHomeBanner() }
-            executeResponse(result, { mBannerList.value = result.data }, { mErrorMsg.value = result.errorMsg })
-        }
+        executeRequest(request = { mRepository.getHomeBanner() },
+            onNext = { ok, data, msg ->
+                if (ok) {
+                    mBannerList.value = data
+                }
+            })
     }
 
     fun getArticleList(page: Int) {
-        launch {
-            val result = withContext(Dispatchers.IO) { mRepository.getArticleList(page) }
-            executeResponse(result, { mArticleList.value = result.data }, { mErrorMsg.value = result.errorMsg })
-        }
+        executeRequest(request = { mRepository.getArticleList(page) },
+            onNext = { ok, data, msg ->
+                mArticleList.value = data
+            })
     }
 
     fun collectArticle(articleId: Int, collect: Boolean) {
-        launch {
-            withContext(Dispatchers.IO) {
-                if (collect) {
-                    mRepository.collectArticle(articleId)
-                } else {
-                    mRepository.unCollectArticle(articleId)
-                }
+        executeRequest(request = {
+            if (collect) {
+                mRepository.collectArticle(articleId)
+            } else {
+                mRepository.unCollectArticle(articleId)
             }
-        }
+        })
     }
 }

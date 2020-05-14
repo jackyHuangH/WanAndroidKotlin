@@ -17,20 +17,20 @@ class SearchRepository : CollectRepository() {
      * 获取常用网站
      */
     suspend fun getCommonWebsites(): WanResponse<List<HotEntity>> {
-        return apiCall { WanRetrofitClient.mService.getCommonWebsites() }
+        return  WanRetrofitClient.mService.getCommonWebsites()
     }
 
     /**
      * 获取搜索热词
      */
     suspend fun getSearchHotKeys(): WanResponse<List<HotEntity>> {
-        return apiCall { WanRetrofitClient.mService.getSearchHotKeys() }
+        return  WanRetrofitClient.mService.getSearchHotKeys()
     }
 
     /**
      * 搜索关键字
      */
     suspend fun searchWithKeyword(pageNum: Int, word: String): WanResponse<ArticleList> {
-        return apiCall { WanRetrofitClient.mService.searchHot(pageNum, word) }
+        return WanRetrofitClient.mService.searchHot(pageNum, word)
     }
 }

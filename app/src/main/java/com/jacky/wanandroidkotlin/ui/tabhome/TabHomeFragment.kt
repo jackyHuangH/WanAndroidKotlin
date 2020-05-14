@@ -109,26 +109,24 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         mViewModel.getArticleList(mPageNum)
     }
 
-    override fun startObserve() {
+    override val startObserve: TabHomeViewModel.() -> Unit = {
         //LiveData 刷新数据到页面
-        mViewModel.apply {
-            mBannerList.observe(this@TabHomeFragment, Observer {
-                it?.let { setupBanner(it) }
-            })
-            mArticleList.observe(this@TabHomeFragment, Observer {
-                it?.let {
-                    if (mPageNum == 0) {
-                        mHomeAdapter.setNewData(it.datas)
-                    } else {
-                        mHomeAdapter.addData(it.datas)
-                    }
-                    setLoadStatus(it.over.not())
+        mBannerList.observe(this@TabHomeFragment, Observer {
+            it?.let { setupBanner(it) }
+        })
+        mArticleList.observe(this@TabHomeFragment, Observer {
+            it?.let {
+                if (mPageNum == 0) {
+                    mHomeAdapter.setNewData(it.datas)
+                } else {
+                    mHomeAdapter.addData(it.datas)
                 }
-            })
-            mErrorMsg.observe(this@TabHomeFragment, Observer {
-                it?.let { onApiFailure(it) }
-            })
-        }
+                setLoadStatus(it.over.not())
+            }
+        })
+        mErrorMsg.observe(this@TabHomeFragment, Observer {
+            it?.let { onApiFailure(it) }
+        })
     }
 
     private fun setupBanner(bannerEntities: List<BannerEntity>) {
