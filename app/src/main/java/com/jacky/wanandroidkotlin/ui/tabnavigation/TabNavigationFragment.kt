@@ -9,7 +9,7 @@ import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.ui.adapter.NavVerticalTabAdapter
 import com.jacky.wanandroidkotlin.ui.adapter.NavigationAdapter
 import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.widget.SpaceItemDecoration
+import com.zenchn.support.widget.VerticalItemDecoration
 import kotlinx.android.synthetic.main.fragment_tab_navigation.*
 import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.widget.TabView
@@ -45,7 +45,7 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
         rlv.apply {
             layoutManager = mLayoutManager
             addItemDecoration(
-                SpaceItemDecoration(
+                VerticalItemDecoration(
                     AndroidKit.Dimens.dp2px(10)
                 )
             )

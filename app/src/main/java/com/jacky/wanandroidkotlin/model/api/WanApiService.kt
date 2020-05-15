@@ -76,7 +76,10 @@ interface WanApiService {
      * 项目按类型分页获取列表
      */
     @GET("/project/list/{page}/json")
-    suspend fun getProjectListWithTypeId(@Path("page") page: Int, @Query("cid") cid: Int): WanResponse<ArticleList>
+    suspend fun getProjectListWithTypeId(
+        @Path("page") page: Int,
+        @Query("cid") cid: Int
+    ): WanResponse<ArticleList>
 
     /**
      * 分页获取最新的项目列表
@@ -94,7 +97,10 @@ interface WanApiService {
      * 根据公众号id分页获取公众号文章列表
      */
     @GET("/wxarticle/list/{id}/{page}/json")
-    suspend fun getBlogArticleList(@Path("page") page: Int, @Path("id") id: Int): WanResponse<ArticleList>
+    suspend fun getBlogArticleList(
+        @Path("page") page: Int,
+        @Path("id") id: Int
+    ): WanResponse<ArticleList>
 
     /**
      * 获取体系分类树列表
@@ -106,7 +112,10 @@ interface WanApiService {
      * 根据体系子id分页获取文章列表
      */
     @GET("/article/list/{page}/json")
-    suspend fun getSystemArticleListByCid(@Path("page") page: Int, @Query("cid") cid: Int): WanResponse<ArticleList>
+    suspend fun getSystemArticleListByCid(
+        @Path("page") page: Int,
+        @Query("cid") cid: Int
+    ): WanResponse<ArticleList>
 
     /**
      * 获取导航列表
@@ -137,7 +146,17 @@ interface WanApiService {
      */
     @FormUrlEncoded
     @POST("/article/query/{page}/json")
-    suspend fun searchHot(@Path("page") page: Int, @Field("k") key: String): WanResponse<ArticleList>
+    suspend fun searchHot(
+        @Path("page") page: Int,
+        @Field("k") key: String
+    ): WanResponse<ArticleList>
+
+
+    /**
+     * Google Maven仓库快速查询
+     */
+    @GET("/maven_pom/search/json")
+    suspend fun searchGoogleMavenPom(@Query("k") key: String): WanResponse<List<GoogleMavenEntity>>
 
     /**
      * 干货提供的福利图片api

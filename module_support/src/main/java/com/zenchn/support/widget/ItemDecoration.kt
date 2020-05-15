@@ -19,9 +19,10 @@ import org.jetbrains.annotations.NotNull
 /**
  * recyclerView 垂直分割线
  */
-class SpaceItemDecoration(space: Int) : RecyclerView.ItemDecoration() {
+class VerticalItemDecoration(space: Int, val drawTopSpace: Boolean = false) :
+    RecyclerView.ItemDecoration() {
 
-    private val mSpace = space
+    private val mSpaceInPx = space
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -30,8 +31,17 @@ class SpaceItemDecoration(space: Int) : RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.top = 0
-        outRect.bottom = mSpace
+        when (parent.layoutManager) {
+            is LinearLayoutManager -> {
+                val itemPosition =
+                    (view.layoutParams as RecyclerView.LayoutParams).viewLayoutPosition
+                outRect.top = if (drawTopSpace && itemPosition == 0) mSpaceInPx else 0
+                outRect.bottom = mSpaceInPx
+            }
+            else -> {
+                throw RuntimeException("you must set RecyclerView with LinearLayoutManager!")
+            }
+        }
     }
 }
 

@@ -24,6 +24,8 @@ class PreferenceUtil<T>(val keyName: String, private val defaultValue: T) {
         const val KEY_SETTING_THEME = "setting_theme"
         //记录系统设置的多语言
         const val KEY_SETTING_LANGUAGE = "setting_language"
+        //记录GoogleMaven最近一次搜索记录
+        const val KEY_MAVEN_LATEST_SEARCH_WORD = "maven_latest_search_word"
 
         private val mPreference by lazy {
             ContextModel.getApplicationContext()

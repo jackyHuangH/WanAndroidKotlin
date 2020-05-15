@@ -17,16 +17,16 @@ import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerViewHelper
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.zenchn.support.router.Router
 import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.widget.SpaceItemDecoration
+import com.zenchn.support.widget.VerticalItemDecoration
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_search.*
-import org.json.JSONArray
 
 /**
  * 搜索
@@ -50,12 +50,6 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
         initRefreshLayout()
         initTagFlowLayout()
         initEditText()
-
-        mViewModel.getCommonWebsites()
-        mViewModel.getHotKeys()
-
-        val jsonArray = JSONArray()
-        jsonArray.put("2")
     }
 
     private fun initEditText() {
@@ -109,10 +103,12 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     }
 
     private fun initRefreshLayout() {
-        swipe_refresh.setColorSchemeResources(R.color.colorAccent)
-        swipe_refresh.setOnRefreshListener {
-            //搜索内容
-            doSearch()
+        swipe_refresh.apply {
+            setColorSchemeResources(R.color.colorAccent)
+            setOnRefreshListener {
+                //搜索内容
+                doSearch()
+            }
         }
     }
 
@@ -124,23 +120,28 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
         }
         //下拉刷新时禁用加载更多
         mListAdapter.setEnableLoadMore(false)
+        swipe_refresh.isRefreshing = true
         mPageNum = 0
         mViewModel.searchWithKeyword(mPageNum, mKeyword)
     }
 
     private fun initRecyclerView() {
-        rlv.layoutManager = LinearLayoutManager(this)
-        rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(
-            SpaceItemDecoration(
-                AndroidKit.Dimens.dp2px(10)
+        rlv.apply {
+            layoutManager = LinearLayoutManager(this@SearchActivity)
+            setHasFixedSize(true)
+            addItemDecoration(
+                VerticalItemDecoration(
+                    AndroidKit.Dimens.dp2px(10)
+                )
             )
-        )
-        mListAdapter.onItemClickListener = this
-        mListAdapter.onItemChildClickListener = this
-        mListAdapter.setOnLoadMoreListener(this, rlv)
-        mListAdapter.setLoadMoreView(CustomLoadMoreView())
-        rlv.adapter = mListAdapter
+            adapter = mListAdapter.apply {
+                onItemClickListener = this@SearchActivity
+                onItemChildClickListener = this@SearchActivity
+                emptyView = RecyclerViewHelper.getCommonEmptyView(rlv)
+                setOnLoadMoreListener(this@SearchActivity, rlv)
+                setLoadMoreView(CustomLoadMoreView())
+            }
+        }
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -214,12 +215,13 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
         if (swipe_refresh.isRefreshing) {
             swipe_refresh.isRefreshing = false
         }
-        if (hasNextPage) {
-            mListAdapter.loadMoreComplete()
-        } else {
-            mListAdapter.loadMoreEnd()
+        mListAdapter.apply {
+            if (hasNextPage) {
+                loadMoreComplete()
+            } else {
+                loadMoreEnd()
+            }
         }
-        mListAdapter.notifyDataSetChanged()
     }
 
     override fun onApiFailure(msg: String) {

@@ -8,10 +8,11 @@ import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
+import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrInterface
 import com.zenchn.support.base.DefaultUiController
-import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.zenchn.support.base.IUiController
 import com.zenchn.support.utils.AndroidKit
 

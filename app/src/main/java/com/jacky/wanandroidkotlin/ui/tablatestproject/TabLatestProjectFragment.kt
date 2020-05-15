@@ -15,7 +15,7 @@ import com.jacky.wanandroidkotlin.ui.project.ProjectViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.widget.SpaceItemDecoration
+import com.zenchn.support.widget.VerticalItemDecoration
 import kotlinx.android.synthetic.main.fragment_tab_latest_project.*
 
 /**
@@ -62,7 +62,7 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
         rlv.layoutManager = LinearLayoutManager(activity)
         rlv.setHasFixedSize(true)
         rlv.addItemDecoration(
-            SpaceItemDecoration(
+            VerticalItemDecoration(
                 AndroidKit.Dimens.dp2px(10)
             )
         )

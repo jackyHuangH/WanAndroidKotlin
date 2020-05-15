@@ -18,6 +18,7 @@ import com.jacky.wanandroidkotlin.model.entity.BannerEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.girls.GirlsActivity
+import com.jacky.wanandroidkotlin.ui.googlemavensearch.GoogleMavenSearchActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
@@ -27,7 +28,7 @@ import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerFabScrollListener
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.widget.SpaceItemDecoration
+import com.zenchn.support.widget.VerticalItemDecoration
 import kotlinx.android.synthetic.main.fragment_tab_home.*
 
 /**
@@ -69,14 +70,29 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
 
     private fun initFab() {
         activity?.let { act ->
-            fab.setOnAntiShakeClickListener { GirlsActivity.launch(act) }
+            fab_google_maven_search.setOnAntiShakeClickListener {
+                GoogleMavenSearchActivity.launch(
+                    act
+                )
+            }
+            fab_girl.setOnAntiShakeClickListener { GirlsActivity.launch(act) }
             rlv.addOnScrollListener(RecyclerFabScrollListener { visible ->
-                fab.animate().apply {
+                fab_google_maven_search.animate().apply {
                     if (visible) {
                         translationY(0F).interpolator = DecelerateInterpolator(3F)
                     } else {
-                        val layoutParams = fab.layoutParams as ConstraintLayout.LayoutParams
-                        translationY((fab.height + layoutParams.bottomMargin).toFloat()).interpolator =
+                        val layoutParams =
+                            fab_google_maven_search.layoutParams as ConstraintLayout.LayoutParams
+                        translationY((fab_google_maven_search.height + layoutParams.bottomMargin).toFloat()).interpolator =
+                            AccelerateInterpolator(3F)
+                    }
+                }
+                fab_girl.animate().apply {
+                    if (visible) {
+                        translationY(0F).interpolator = DecelerateInterpolator(3F)
+                    } else {
+                        val layoutParams = fab_girl.layoutParams as ConstraintLayout.LayoutParams
+                        translationY((fab_girl.height + layoutParams.bottomMargin).toFloat()).interpolator =
                             AccelerateInterpolator(3F)
                     }
                     bt_back_top.apply {
@@ -170,7 +186,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
             setHasFixedSize(true)
             if (itemDecorationCount == 0) {
                 addItemDecoration(
-                    SpaceItemDecoration(
+                    VerticalItemDecoration(
                         AndroidKit.Dimens.dp2px(10)
                     )
                 )

@@ -13,7 +13,7 @@ import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.zenchn.support.router.Router
 import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.widget.SpaceItemDecoration
+import com.zenchn.support.widget.VerticalItemDecoration
 import kotlinx.android.synthetic.main.activity_my_collect.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
@@ -61,7 +61,7 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(),
         rlv.layoutManager = LinearLayoutManager(this)
         rlv.setHasFixedSize(true)
         rlv.addItemDecoration(
-            SpaceItemDecoration(
+            VerticalItemDecoration(
                 AndroidKit.Dimens.dp2px(10)
             )
         )

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jacky.wanandroidkotlin">
+
     <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -125,6 +126,10 @@
 
         <activity
             android:name=".ui.setting.SettingActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.googlemavensearch.GoogleMavenSearchActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -17,7 +17,7 @@ ext {
             //工具类
             "androidx_multidex"            : "androidx.multidex:multidex:2.0.0",
             //android support
-            "androidx_annotations"         : "androidx.annotation:annotation:1.0.0",
+            "androidx_annotations"         : "androidx.annotation:annotation:1.1.0",
             "androidx_fragment"            : "androidx.fragment:fragment:1.1.0",
             "andriodx_appcompat"           : "androidx.appcompat:appcompat:1.1.0",
             "androidx_constraint_layout"   : "androidx.constraintlayout:constraintlayout:1.1.3",

@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin.ui.search
 
 import android.app.Application
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.base.executeRequest
@@ -20,6 +21,12 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
     val mCommonWebsiteData: MutableLiveData<List<HotEntity>> = MutableLiveData()
     val mHotKeyData: MutableLiveData<List<HotEntity>> = MutableLiveData()
 
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+        getCommonWebsites()
+        getHotKeys()
+    }
+
     fun getHotKeys() {
         executeRequest(request = { mRepository.getSearchHotKeys() },
             onNext = { ok, data, msg ->
@@ -30,7 +37,8 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
     }
 
     fun getCommonWebsites() {
-        executeRequest(request = { mRepository.getCommonWebsites() },
+        executeRequest(showLoading = true,
+            request = { mRepository.getCommonWebsites() },
             onNext = { ok, data, msg ->
                 if (ok) {
                     mCommonWebsiteData.value = data
