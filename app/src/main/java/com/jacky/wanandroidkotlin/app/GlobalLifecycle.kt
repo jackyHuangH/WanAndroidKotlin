@@ -4,7 +4,7 @@ import android.app.Activity
 import android.os.Process
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.jacky.wanandroidkotlin.ui.splash.navigateToRestart
+import com.jacky.wanandroidkotlin.ui.start.navigateToRestart
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -32,9 +32,11 @@ class GlobalLifecycleObserver : DefaultLifecycleObserver {
     }
 
     override fun onStart(owner: LifecycleOwner) {
+        var activityLifecycleCallback: ActivityLifecycleCallback?
         if (foregroundActCount == 0) {
-            for (index in callbackStack.indices.reversed()) {
-                callbackStack[index].get()?.onForeground()
+            for (i in callbackStack.indices.reversed()) {
+                activityLifecycleCallback = callbackStack[i].get()
+                activityLifecycleCallback?.onForeground()
             }
         }
         foregroundActCount++
@@ -50,7 +52,7 @@ class GlobalLifecycleObserver : DefaultLifecycleObserver {
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        for (index in actStack.indices) {
+        for (index in actStack.indices.reversed()) {
             if (actStack[index].get() == owner) {
                 actStack.removeAt(index)
                 break
@@ -66,7 +68,7 @@ class GlobalLifecycleObserver : DefaultLifecycleObserver {
     fun getTopActivity(): Activity? = if (actStack.empty()) null else actStack.peek().get()
 
     fun finishAllActivity() {
-        for (weakReference in actStack) {
+        for (weakReference in actStack.reversed()) {
             weakReference.get()?.finish()
         }
     }

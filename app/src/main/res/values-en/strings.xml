@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WanAndroid</string>
 
-    <string name="common_click_double_to_exit_app">press again to exit the application~</string>
+    <string name="common_click_double_to_exit_app">Press again to exit the application~</string>
     <string name="login_error_grant_refused">The current account is logged in from another device,
         please note that the account is safe to use</string>
 

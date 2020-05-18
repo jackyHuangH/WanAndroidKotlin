@@ -10,6 +10,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.jacky.wanandroidkotlin.BuildConfig
 import com.jacky.wanandroidkotlin.R
+import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
 import com.jacky.wanandroidkotlin.common.TOOL_URL
@@ -181,6 +182,16 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         mErrorMsg.observe(this@MainActivity, Observer {
             showMessage(it)
         })
+    }
+
+    private var mExitTime: Long = 0
+    override fun onBackPressed() {
+        if (System.currentTimeMillis().minus(mExitTime) <= 2000) {
+            GlobalLifecycleObserver.INSTANCE.exitApp()
+        } else {
+            mExitTime = System.currentTimeMillis()
+            showResMessage(R.string.common_click_double_to_exit_app)
+        }
     }
 
     companion object {

@@ -81,6 +81,12 @@
         </activity>
 
         <activity
+            android:name=".ui.start.StartActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashFullScreen" />
+
+        <activity
             android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait" />
 
@@ -131,6 +137,7 @@
         <activity
             android:name=".ui.googlemavensearch.GoogleMavenSearchActivity"
             android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

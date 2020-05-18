@@ -28,8 +28,12 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), IVMView<VM> 
                     if (show) showProgress() else hideProgress()
                 })
             }
-            mViewModel.let(lifecycle::addObserver)
         }
+    }
+
+    override fun initLifecycleObserver() {
+        super.initLifecycleObserver()
+        mViewModel.let(lifecycle::addObserver)
     }
 
     override fun onApiFailure(msg: String) {

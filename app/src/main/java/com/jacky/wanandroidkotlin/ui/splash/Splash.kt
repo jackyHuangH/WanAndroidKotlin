@@ -1,15 +1,8 @@
 package com.jacky.wanandroidkotlin.ui.splash
 
-import android.app.Activity
-import android.content.Context
+import android.content.Intent
 import com.jacky.wanandroidkotlin.base.BaseActivity
-import com.jacky.wanandroidkotlin.ui.login.LoginActivity
-import com.jacky.wanandroidkotlin.ui.main.MainActivity
-import com.zenchn.support.router.Router
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.jacky.wanandroidkotlin.ui.start.StartActivity
 
 /**
  * @author:Hzj
@@ -17,33 +10,22 @@ import kotlinx.coroutines.launch
  * desc  ：闪屏页
  * record：
  */
-class SplashActivity : BaseActivity(), CoroutineScope by MainScope() {
-    private val mGoLogin by lazy { intent.getBooleanExtra(KEY_WHETHER_RESTART_LOGIN, false) }
+class SplashActivity : BaseActivity() {
 
     override fun getLayoutRes(): Int = 0
 
     override fun initWidget() {
-        launch {
-            delay(500L)
-            if (mGoLogin) {
-                LoginActivity.launch(this@SplashActivity)
-            } else {
-                MainActivity.launch(this@SplashActivity)
+        // 避免从桌面启动程序后，会重新实例化入口类的activity
+        if (!this.isTaskRoot) {
+            if (intent != null) {
+                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN == intent.action) {
+                    finish()
+                    return
+                }
             }
-            finish()
         }
-    }
-}
-
-private const val KEY_WHETHER_RESTART_LOGIN = "KEY_WHETHER_RESTART_LOGIN"
-
-fun Context?.navigateToRestart(gotoLogin: Boolean) {
-    this?.let {
-        Router
-            .newInstance()
-            .from(it as Activity)
-            .putBoolean(KEY_WHETHER_RESTART_LOGIN, gotoLogin)
-            .to(SplashActivity::class.java)
-            .launch()
+        //跳转到startActivity
+        StartActivity.launch(this)
+        finish()
     }
 }

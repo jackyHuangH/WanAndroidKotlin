@@ -10,7 +10,6 @@ import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
 import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.r0adkll.slidr.Slidr
-import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrInterface
 import com.zenchn.support.base.DefaultUiController
 import com.zenchn.support.base.IUiController
@@ -56,7 +55,7 @@ abstract class BaseActivity : AppCompatActivity(), IView {
     }
 
     @CallSuper
-    private fun initLifecycleObserver() {
+    open fun initLifecycleObserver() {
         lifecycle.addObserver(GlobalLifecycleObserver.INSTANCE)
     }
 

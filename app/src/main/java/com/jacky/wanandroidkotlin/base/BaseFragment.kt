@@ -58,10 +58,13 @@ abstract class BaseFragment : Fragment(), IView {
         if (isStatusBarEnabled()) {
             initStatusBar()
         }
+        initLifecycleObserver()
     }
 
     override fun initWidget() {
     }
+
+    open fun initLifecycleObserver() {}
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
