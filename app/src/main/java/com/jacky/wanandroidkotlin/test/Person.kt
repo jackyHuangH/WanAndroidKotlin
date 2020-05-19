@@ -56,4 +56,15 @@ open class Person constructor(age: Int) {
             println(temp)
         }
     }
+
 }
+
+//-----------------------扩展函数，扩展属性---------------------
+fun String.method1(i: Int) {
+
+}
+
+val a: String.(Int) -> Unit = String::method1
+val b: (String, Int) -> Unit = String::method1
+val c: (String, Int) -> Unit = a
+val d: String.(Int) -> Unit = b

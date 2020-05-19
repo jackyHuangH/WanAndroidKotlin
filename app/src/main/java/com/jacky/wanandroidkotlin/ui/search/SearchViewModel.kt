@@ -1,10 +1,13 @@
 package com.jacky.wanandroidkotlin.ui.search
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.base.executeRequest
+import com.jacky.wanandroidkotlin.base.executeRequestAsync
+import com.jacky.wanandroidkotlin.base.observe
 import com.jacky.wanandroidkotlin.model.entity.ArticleList
 import com.jacky.wanandroidkotlin.model.entity.HotEntity
 import com.jacky.wanandroidkotlin.model.repositry.SearchRepository
@@ -23,27 +26,29 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
-        getCommonWebsites()
-        getHotKeys()
+        getCommonWebsitesAndHotKeysAsync()
     }
 
-    fun getHotKeys() {
-        executeRequest(request = { mRepository.getSearchHotKeys() },
-            onNext = { ok, data, msg ->
-                if (ok) {
-                    mHotKeyData.value = data
-                }
+    //异步获取两个接口数据
+    private fun getCommonWebsitesAndHotKeysAsync() {
+        launchOnUI {
+            val commonWebsitesDeferred = executeRequestAsync(request = {
+                mRepository.getCommonWebsites()
             })
-    }
-
-    fun getCommonWebsites() {
-        executeRequest(showLoading = true,
-            request = { mRepository.getCommonWebsites() },
-            onNext = { ok, data, msg ->
-                if (ok) {
-                    mCommonWebsiteData.value = data
-                }
+            val hotKeysDeferred = executeRequestAsync(request = {
+                mRepository.getSearchHotKeys()
             })
+            commonWebsitesDeferred.observe { ok, list, s ->
+                if (ok) {
+                    mCommonWebsiteData.value = list
+                }
+            }
+            hotKeysDeferred.observe { ok, list, s ->
+                if (ok) {
+                    mHotKeyData.value = list
+                }
+            }
+        }
     }
 
     fun searchWithKeyword(pageNum: Int, keyword: String) {

@@ -2,6 +2,9 @@ package com.jacky.wanandroidkotlin.model.api
 
 import androidx.annotation.Nullable
 import com.jacky.wanandroidkotlin.BuildConfig
+import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.model.api.ApiManger.Companion.SUCCESS_CODE
+import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import com.jacky.wanandroidkotlin.model.local.ContextModel
 import com.zenchn.support.utils.NetworkUtils
 import retrofit2.HttpException
@@ -39,6 +42,14 @@ internal object ResponseCode {
     const val CODE_503 = 503//服务不可用
 }
 
+
+class ApiManger {
+    companion object {
+        const val SUCCESS_CODE = 0//请求成功返回码
+        const val ERROR_CODE = -1//请求失败返回码
+    }
+}
+
 /**
  * 消息
  */
@@ -58,6 +69,11 @@ internal object Message {
         get() = "网络错误，请检查您的网络"
 }
 
+/**
+ * 请求结果是否成功
+ */
+fun WanResponse<*>?.isApiSuccess(): Boolean =
+    this?.let { it.errorCode == SUCCESS_CODE } ?: false
 
 /**
  * 提取普通接口异常中包含的错误信息

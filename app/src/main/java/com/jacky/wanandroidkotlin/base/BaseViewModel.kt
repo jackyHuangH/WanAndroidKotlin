@@ -6,6 +6,7 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.*
 import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.jacky.wanandroidkotlin.model.api.dispatch
+import com.jacky.wanandroidkotlin.model.api.isApiSuccess
 import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import kotlinx.coroutines.*
 
@@ -24,10 +25,6 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     //加载框通道
     val mShowLoadingProgress: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
-
-    companion object {
-        const val ERROR_CODE = -1//请求失败返回码
-    }
 
     @Suppress("UNCHECKED_CAST")
     @CallSuper
@@ -89,14 +86,42 @@ fun <T> BaseViewModel.executeRequest(
             },
             handleCancellationExceptionManually = true
         )?.let {
-            if (it.errorCode == BaseViewModel.ERROR_CODE) {
+            if (it.isApiSuccess()) {
+                onNext?.invoke(true, it.data, null)
+            } else {
                 onNext?.invoke(false, null, it.errorMsg)
                 mErrorMsg.value = it.errorMsg
-            } else {
-                onNext?.invoke(true, it.data, null)
             }
         }
     }
+}
+
+suspend fun <T> Deferred<WanResponse<T>?>?.observe(callback: (Boolean, T?, String?) -> Unit) {
+    this?.await().apply {
+        if (this != null && this.isApiSuccess()) {
+            callback.invoke(true, data, null)
+        } else {
+            callback.invoke(false, null, this?.errorMsg)
+        }
+    }
+}
+
+//异步请求，封装协程的Async{},返回Deferred
+suspend fun <T> BaseViewModel.executeRequestAsync(request: suspend CoroutineScope.() -> WanResponse<T>): Deferred<WanResponse<T>>? {
+    return tryCatch(
+        tryBlock = {
+            viewModelScope.async(context = Dispatchers.IO) { request.invoke(this) }
+        },
+        catchBlock = { e ->
+            e.dispatch(msgResult = { msg -> mErrorMsg.value = msg },
+                apiRefused = {
+                    //授权失败，返回登录页
+                    GlobalLifecycleObserver.restartApp(gotoLogin = true)
+                })
+        },
+        finallyBlock = {},
+        handleCancellationExceptionManually = true
+    )
 }
 
 suspend fun <T> tryCatch(
