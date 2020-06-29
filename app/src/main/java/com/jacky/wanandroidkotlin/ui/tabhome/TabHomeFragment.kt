@@ -198,7 +198,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
             setOnLoadMoreListener(this@TabHomeFragment, rlv)
             val header =
                 LayoutInflater.from(activity)
-                    .inflate(R.layout.recycle_header_banner_home, rlv, false)
+                    .inflate(R.layout.recycler_header_banner_home, rlv, false)
             mBannerHome = header.findViewById(R.id.banner_home)
             addHeaderView(header)
             setLoadMoreView(CustomLoadMoreView())

@@ -1,9 +1,12 @@
 package com.jacky.wanandroidkotlin.ui.tabsystem
 
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
@@ -44,15 +47,14 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(),
     }
 
     private fun initRecyclerView() {
-        rlv.layoutManager = LinearLayoutManager(activity)
-        rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(
-            VerticalItemDecoration(
-                AndroidKit.Dimens.dp2px(10)
-            )
-        )
-        mAdapter.onItemClickListener = this
-        rlv.adapter = mAdapter
+        rlv.apply {
+            layoutManager = LinearLayoutManager(activity)
+            setHasFixedSize(true)
+            addItemDecoration(VerticalItemDecoration(AndroidKit.Dimens.dp2px(10)))
+            adapter = mAdapter.apply {
+                onItemClickListener = this@TabSystemFragment
+            }
+        }
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
