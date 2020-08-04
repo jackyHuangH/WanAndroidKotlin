@@ -9,7 +9,7 @@ import androidx.annotation.LayoutRes
  */
 interface IActivity : IUiController {
     @LayoutRes
-    fun getLayoutRes(): Int
+    fun getLayoutId(): Int
 
     fun initWidget()
 }

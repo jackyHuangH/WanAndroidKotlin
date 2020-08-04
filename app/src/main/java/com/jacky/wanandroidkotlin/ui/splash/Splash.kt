@@ -12,7 +12,7 @@ import com.jacky.wanandroidkotlin.ui.start.StartActivity
  */
 class SplashActivity : BaseActivity() {
 
-    override fun getLayoutRes(): Int = 0
+    override fun getLayoutId(): Int = 0
 
     override fun initWidget() {
         // 避免从桌面启动程序后，会重新实例化入口类的activity

@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
  * record：
  */
 class FragmentWrapActivity : BaseActivity() {
-    override fun getLayoutRes(): Int = R.layout.activity_fragment_wrap
+    override fun getLayoutId(): Int = R.layout.activity_fragment_wrap
 
     override fun initWidget() {
         toolbar.setNavigationOnClickListener { onBackPressed() }

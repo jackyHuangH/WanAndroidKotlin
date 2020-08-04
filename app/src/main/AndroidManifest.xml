@@ -137,6 +137,9 @@
         <activity
             android:name=".ui.googlemavensearch.GoogleMavenSearchActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".navigation.WelcomeActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

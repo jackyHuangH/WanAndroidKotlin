@@ -37,7 +37,7 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(),
         }
     }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_tab_system
+    override fun getLayoutId(): Int = R.layout.fragment_tab_system
 
     override fun lazyLoad() {
         initRecyclerView()

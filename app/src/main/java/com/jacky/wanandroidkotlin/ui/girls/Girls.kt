@@ -51,7 +51,7 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), BaseQuickAdapter.OnItemC
         }
     }
 
-    override fun getLayoutRes(): Int = R.layout.activity_girls
+    override fun getLayoutId(): Int = R.layout.activity_girls
 
     override fun initWidget() {
         toolbar.setNavigationOnClickListener { onBackPressed() }

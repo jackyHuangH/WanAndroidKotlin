@@ -1,5 +1,7 @@
 package com.jacky.wanandroidkotlin.test
 
+import kotlinx.coroutines.*
+
 /**
  * 作   者： by Hzj on 2018/1/4/004.
  * 描   述：Koltin 中的类可以有一个 主构造器，以及一个或多个次构造器，主构造器是类头部的一部分，位于类名称之后:
@@ -68,3 +70,5 @@ val a: String.(Int) -> Unit = String::method1
 val b: (String, Int) -> Unit = String::method1
 val c: (String, Int) -> Unit = a
 val d: String.(Int) -> Unit = b
+
+

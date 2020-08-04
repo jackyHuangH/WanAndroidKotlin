@@ -60,13 +60,15 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     private var mUserInfo by PreferenceUtil(PreferenceUtil.KEY_USER_INFO, "")
     private lateinit var mTvUserName: TextView
 
-    override fun getLayoutRes() = R.layout.activity_main
+    override fun getLayoutId() = R.layout.activity_main
 
     init {
-        mFragments.add(TabHomeFragment.getInstance())
-        mFragments.add(TabLatestProjectFragment.getInstance(0, true))
-        mFragments.add(TabSystemFragment.getInstance())
-        mFragments.add(TabNavigationFragment.getInstance())
+        mFragments.apply {
+            add(TabHomeFragment.getInstance())
+            add(TabLatestProjectFragment.getInstance(0, true))
+            add(TabSystemFragment.getInstance())
+            add(TabNavigationFragment.getInstance())
+        }
     }
 
     override fun initWidget() {

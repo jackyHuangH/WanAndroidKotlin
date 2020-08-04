@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_browser.*
  */
 class BrowserActivity : BaseActivity() {
 
-    override fun getLayoutRes(): Int = com.jacky.wanandroidkotlin.R.layout.activity_browser
+    override fun getLayoutId(): Int = com.jacky.wanandroidkotlin.R.layout.activity_browser
 
     override fun initWidget() {
         window.setFormat(PixelFormat.TRANSLUCENT)//（这个对宿主没什么影响，建议声明）

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
 import com.zenchn.support.router.Router
 import com.zenchn.support.widget.tips.SuperToast
@@ -40,7 +41,7 @@ class TestActivity : BaseActivity() {
         const val NUM_B = "object修饰的类中声明常量"
     }
 
-    override fun getLayoutRes(): Int = R.layout.activity_test
+    override fun getLayoutId(): Int = R.layout.activity_test
 
     override fun initWidget() {
         mRlv = findViewById(R.id.list)
@@ -60,6 +61,7 @@ class TestActivity : BaseActivity() {
 
         bt_main.setOnClickListener {
             SuperToast.showDefaultMessage(this, "跳转主页")
+            WelcomeActivity.launch(this)
         }
 
         //对象实例化

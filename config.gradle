@@ -41,6 +41,10 @@ ext {
             "coroutine_core"               : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1',
             "coroutine_android"            : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1',
 
+            //navigation
+            "navigation_fragment"          : 'androidx.navigation:navigation-fragment-ktx:2.0.0',
+            "navigation_ui"                : 'androidx.navigation:navigation-ui-ktx:2.0.0',
+
             "module_support"               : project(':module_support'),
 
             //今日头条屏幕适配方案

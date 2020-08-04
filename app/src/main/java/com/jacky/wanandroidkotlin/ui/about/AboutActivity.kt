@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
  */
 class AboutActivity : BaseActivity() {
 
-    override fun getLayoutRes(): Int = R.layout.activity_about
+    override fun getLayoutId(): Int = R.layout.activity_about
 
     @SuppressLint("SetTextI18n")
     override fun initWidget() {

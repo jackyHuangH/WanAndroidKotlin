@@ -56,7 +56,7 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
         swipe_refresh.isRefreshing = true
     }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_tab_latest_project
+    override fun getLayoutId(): Int = R.layout.fragment_tab_latest_project
 
     private fun intiRecyclerView() {
         rlv.layoutManager = LinearLayoutManager(activity)

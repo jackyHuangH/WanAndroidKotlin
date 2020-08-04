@@ -40,7 +40,7 @@ abstract class BaseFragment : Fragment(), IView {
         savedInstanceState: Bundle?
     ): View? {
         if (rootView == null) {
-            getLayoutRes().takeIf { it > 0 }?.let {
+            getLayoutId().takeIf { it > 0 }?.let {
                 rootView = inflater.inflate(it, null)
             }
         }

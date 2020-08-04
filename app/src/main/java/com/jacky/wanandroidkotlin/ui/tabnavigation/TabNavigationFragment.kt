@@ -33,7 +33,7 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
         }
     }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_tab_navigation
+    override fun getLayoutId(): Int = R.layout.fragment_tab_navigation
 
     override fun lazyLoad() {
         initRlv()

@@ -30,7 +30,7 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(),
     private var mPageNum = 0
     private val mListAdapter by lazy { HomeListAdapter() }
 
-    override fun getLayoutRes(): Int = R.layout.activity_my_collect
+    override fun getLayoutId(): Int = R.layout.activity_my_collect
 
     override fun initWidget() {
         toolbar.setNavigationOnClickListener { onBackPressed() }

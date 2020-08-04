@@ -55,7 +55,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         }
     }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_tab_home
+    override fun getLayoutId(): Int = R.layout.fragment_tab_home
 
     override fun lazyLoad() {
         Log.d("TabHome", "lazyLoad")

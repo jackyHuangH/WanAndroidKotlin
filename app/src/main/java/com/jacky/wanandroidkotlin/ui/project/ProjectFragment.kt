@@ -24,7 +24,7 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
     private val mProjectTypeList = mutableListOf<TreeParentEntity>()
     private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_IS_BLOG, false) }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_project
+    override fun getLayoutId(): Int = R.layout.fragment_project
 
     companion object {
         private const val EXTRA_IS_BLOG = "EXTRA_IS_BLOG"

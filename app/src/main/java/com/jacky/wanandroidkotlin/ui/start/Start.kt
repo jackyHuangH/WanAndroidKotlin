@@ -17,7 +17,7 @@ import kotlinx.coroutines.*
  */
 class StartActivity : BaseActivity(), CoroutineScope by MainScope() {
 
-    override fun getLayoutRes(): Int = 0
+    override fun getLayoutId(): Int = 0
 
     override fun initWidget() {
         //如果有自动登录功能就替换此处跳转逻辑

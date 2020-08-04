@@ -25,7 +25,7 @@ class LoginActivity : BaseVMActivity<LoginViewModel>() {
     private lateinit var mPassword: String
 
 
-    override fun getLayoutRes(): Int = R.layout.activity_login
+    override fun getLayoutId(): Int = R.layout.activity_login
 
     override fun initWidget() {
         toolbar.title = getString(R.string.login_bt_login)

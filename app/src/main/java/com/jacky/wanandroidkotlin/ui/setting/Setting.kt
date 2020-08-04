@@ -26,7 +26,7 @@ class SettingActivity : BaseActivity() {
     private var mThemeSetting by PreferenceUtil<Int>(PreferenceUtil.KEY_SETTING_THEME, 0)
     private var mLanguageSetting by PreferenceUtil<Int>(PreferenceUtil.KEY_SETTING_LANGUAGE, 0)
 
-    override fun getLayoutRes(): Int = R.layout.activity_setting
+    override fun getLayoutId(): Int = R.layout.activity_setting
 
     override fun initWidget() {
         toolbar.apply {

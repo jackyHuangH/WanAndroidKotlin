@@ -34,7 +34,7 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
     private var mPageNum = 0
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
 
-    override fun getLayoutRes(): Int = R.layout.fragment_system_list
+    override fun getLayoutId(): Int = R.layout.fragment_system_list
 
     companion object {
         private const val EXTRA_CID = "EXTRA_CID"

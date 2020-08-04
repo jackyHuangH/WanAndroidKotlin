@@ -36,7 +36,7 @@ abstract class BaseActivity : AppCompatActivity(), IView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onNewInstanceState(savedInstanceState)
-        getLayoutRes().takeIf { it > 0 }?.let { setContentView(it) }
+        getLayoutId().takeIf { it > 0 }?.let { setContentView(it) }
         //滑动返回
         slidrInterface = Slidr.attach(this)
         initWidget()

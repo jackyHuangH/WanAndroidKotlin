@@ -38,7 +38,7 @@ class GoogleMavenSearchActivity : BaseVMActivity<GoogleMavenSearchViewModel>() {
     private val mListAdapter by lazy { GoogleMavenSearchAdapter() }
     private var mLatestSearchWord by PreferenceUtil(PreferenceUtil.KEY_MAVEN_LATEST_SEARCH_WORD, "")
 
-    override fun getLayoutRes(): Int = R.layout.activity_google_maven_search
+    override fun getLayoutId(): Int = R.layout.activity_google_maven_search
 
     override fun initWidget() {
         ibt_back.setOnClickListener { onBackPressed() }

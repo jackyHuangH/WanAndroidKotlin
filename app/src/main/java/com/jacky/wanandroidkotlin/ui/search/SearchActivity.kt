@@ -42,7 +42,7 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
     private val mCompositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
-    override fun getLayoutRes(): Int = R.layout.activity_search
+    override fun getLayoutId(): Int = R.layout.activity_search
 
     override fun initWidget() {
         ibt_back.setOnClickListener { onBackPressed() }

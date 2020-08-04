@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_system_classify.*
  */
 class SystemClassifyActivity : BaseActivity() {
     private lateinit var mTreeParent: TreeParentEntity
-    override fun getLayoutRes(): Int = R.layout.activity_system_classify
+    override fun getLayoutId(): Int = R.layout.activity_system_classify
 
     override fun initWidget() {
         mTreeParent = intent.getSerializableExtra(EXTRA_TREE_PARENT) as TreeParentEntity
