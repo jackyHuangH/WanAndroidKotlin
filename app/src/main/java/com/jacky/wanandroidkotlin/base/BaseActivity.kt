@@ -9,8 +9,6 @@ import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
 import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
-import com.r0adkll.slidr.Slidr
-import com.r0adkll.slidr.model.SlidrInterface
 import com.zenchn.support.base.DefaultUiController
 import com.zenchn.support.base.IUiController
 import com.zenchn.support.utils.AndroidKit
@@ -25,7 +23,6 @@ abstract class BaseActivity : AppCompatActivity(), IView {
 
     protected lateinit var mImmersionBar: ImmersionBar
     protected var instanceState: Bundle? = null
-    protected lateinit var slidrInterface: SlidrInterface
     protected val mUiDelegate: IUiController by lazy {
         DefaultUiController(
             this,
@@ -37,8 +34,6 @@ abstract class BaseActivity : AppCompatActivity(), IView {
         super.onCreate(savedInstanceState)
         onNewInstanceState(savedInstanceState)
         getLayoutId().takeIf { it > 0 }?.let { setContentView(it) }
-        //滑动返回
-        slidrInterface = Slidr.attach(this)
         initWidget()
         initStatusBar()
         initLifecycleObserver()

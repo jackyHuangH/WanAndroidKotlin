@@ -52,8 +52,6 @@ dependencies {
     implementation rootProject.ext.dependencies["verticalTab"]
     implementation rootProject.ext.dependencies["flowlayout"]
 
-    implementation rootProject.ext.dependencies["slid_back"]
-
     //是否启用头条屏幕适配
 //    implementation rootProject.ext.dependencies["headline_autosize"]
 

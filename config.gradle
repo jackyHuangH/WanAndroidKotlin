@@ -141,9 +141,6 @@ ext {
             //数据库加密
             "greendao_sqlcipher"           : "net.zetetic:android-database-sqlcipher:3.5.6",
 
-            //滑动返回
-            "slid_back"                    : 'com.r0adkll:slidableactivity:2.1.0',
-
             "amap_3dmap"                   : "com.amap.api:3dmap:latest.integration", //3D地图
             "amap_search"                  : "com.amap.api:search:latest.integration",// 搜索
             "amap_location"                : "com.amap.api:location:latest.integration",// 定位

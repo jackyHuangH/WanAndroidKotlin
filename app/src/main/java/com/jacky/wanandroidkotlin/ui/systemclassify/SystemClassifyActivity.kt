@@ -29,13 +29,6 @@ class SystemClassifyActivity : BaseActivity() {
         initViewPager()
     }
 
-    fun enableSlideBack(enable: Boolean) {
-        slidrInterface.apply {
-            if (enable) unlock()
-            else lock()
-        }
-    }
-
     private fun initViewPager() {
         //这里fragment数量较多，使用FragmentStatePagerAdapter
         viewPager.adapter = object : FragmentStatePagerAdapter(
@@ -52,11 +45,6 @@ class SystemClassifyActivity : BaseActivity() {
                 mTreeParent.children[position].name
         }
         tab_layout.setupWithViewPager(viewPager)
-        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
-            override fun onPageSelected(position: Int) {
-                enableSlideBack(position == 0)
-            }
-        })
     }
 
     companion object {

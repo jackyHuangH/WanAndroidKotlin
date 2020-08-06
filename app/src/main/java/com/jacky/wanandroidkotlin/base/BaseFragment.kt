@@ -12,10 +12,6 @@ import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
-import com.r0adkll.slidr.Slidr
-import com.r0adkll.slidr.model.SlidrConfig
-import com.r0adkll.slidr.model.SlidrInterface
-import com.r0adkll.slidr.model.SlidrPosition
 import com.zenchn.support.base.DefaultUiController
 import com.zenchn.support.base.IUiController
 import com.zenchn.support.utils.AndroidKit
@@ -27,7 +23,6 @@ abstract class BaseFragment : Fragment(), IView {
     protected var mUiDelegate: IUiController? = null
     private var rootView: View? = null
     protected var instanceState: Bundle? = null
-    protected var slidrInterface: SlidrInterface? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -148,13 +143,6 @@ abstract class BaseFragment : Fragment(), IView {
 
     override fun onResume() {
         super.onResume()
-        //滑动返回配置
-        if (slidrInterface == null) {
-            slidrInterface = Slidr.replace(
-                view!!.findViewById(R.id.content_container),
-                SlidrConfig.Builder().position(SlidrPosition.LEFT).build()
-            )
-        }
         //懒加载配置
         if (!isHidden && !mIsFragmentVisible && isResumed) {
             onFragmentVisibleChange(true)

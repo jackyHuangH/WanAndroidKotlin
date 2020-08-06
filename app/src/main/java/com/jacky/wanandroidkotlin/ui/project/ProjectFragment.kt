@@ -57,18 +57,6 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
                 }
             tabLayout.setupWithViewPager(viewPager)
         }
-        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
-            override fun onPageSelected(position: Int) {
-                slidrInterface?.apply {
-                    if (position == 0) {
-                        unlock()
-                    } else {
-                        lock()
-                    }
-                }
-                (this@ProjectFragment.activity as FragmentWrapActivity).enableSlideBack(position == 0)
-            }
-        })
     }
 
     private fun chooseFragment(position: Int): Fragment {

@@ -59,8 +59,6 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
 
     override fun lazyLoad() {
         Log.d("TabHome", "lazyLoad")
-        //禁用滑动返回
-        slidrInterface?.lock()
         initRecyclerView()
         initRefreshLayout()
         initFab()

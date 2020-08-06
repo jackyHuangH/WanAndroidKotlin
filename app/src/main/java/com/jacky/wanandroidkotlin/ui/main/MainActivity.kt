@@ -72,8 +72,6 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     override fun initWidget() {
-        //禁用滑动返回
-        slidrInterface.lock()
         navigation.setNavigationItemSelectedListener(this)
         initViewPager()
         initUserHead()
