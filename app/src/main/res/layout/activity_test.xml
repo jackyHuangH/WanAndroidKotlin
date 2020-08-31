@@ -21,7 +21,7 @@
             android:id="@+id/bt_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="跳转主页" />
+            android:text="Jetpack Navigation" />
 
         <Switch
             android:id="@+id/sw_btn"

@@ -2,8 +2,10 @@ package com.jacky.wanandroidkotlin.ui.main
 
 import android.app.Activity
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
@@ -84,6 +86,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         navigation.menu.findItem(R.id.nv_logout).isVisible = mIsLogin
 
         navigation.menu.findItem(R.id.nv_test).isVisible = BuildConfig.DEBUG
+        initDrawerListener()
     }
 
     private fun initViewPager() {
@@ -116,9 +119,31 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         StatusBarUtil.setPaddingSmart(this, navigation)
     }
 
+    private fun initDrawerListener() {
+        drawer_layout.apply {
+            addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
+                override fun onDrawerClosed(drawerView: View) {
+                    performDrawerNavigation(this@apply)
+                }
+            })
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        drawer_layout.apply {
+            tag = item
+            closeDrawer(GravityCompat.START)
+        }
+        return true
+    }
+
+    /**
+     * 执行侧栏跳转
+     */
+    private fun performDrawerNavigation(drawerLayout: DrawerLayout) {
+        val item = drawerLayout.tag as? MenuItem
         //navigation菜单点击事件
-        when (item.itemId) {
+        when (item?.itemId) {
             R.id.nv_blog -> {
                 //公众号
                 goToFragmentWrap(true)
@@ -158,8 +183,6 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
                 }
             }
         }
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
     }
 
     private fun goToFragmentWrap(isBlog: Boolean) {

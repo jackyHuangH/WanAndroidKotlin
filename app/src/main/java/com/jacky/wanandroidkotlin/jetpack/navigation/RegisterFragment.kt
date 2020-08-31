@@ -1,4 +1,4 @@
-package com.jacky.wanandroidkotlin.navigation
+package com.jacky.wanandroidkotlin.jetpack.navigation
 
 /**
  * @author:Hzj

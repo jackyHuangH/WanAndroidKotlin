@@ -13,6 +13,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    //开启dataBinding支持
+    dataBinding{
+        enabled true
+    }
+
     //加快gradle编译配置
     dexOptions {
         //是否支持大工程模式

@@ -137,8 +137,13 @@
         <activity
             android:name=".ui.googlemavensearch.GoogleMavenSearchActivity"
             android:screenOrientation="portrait" />
+
+        <!--        JetPack-->
         <activity
-            android:name=".navigation.WelcomeActivity"
+            android:name=".jetpack.navigation.WelcomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".jetpack.nike.NikeMainActivity"
             android:screenOrientation="portrait" />
 
     </application>

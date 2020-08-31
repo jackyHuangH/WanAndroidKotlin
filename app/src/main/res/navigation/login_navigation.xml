@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.jacky.wanandroidkotlin.navigation.WelcomeFragment"
+        android:name="com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeFragment"
         android:label="WelcomeFragment">
         <action
             android:id="@+id/action_welcomeFragment_to_loginFragment"
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.jacky.wanandroidkotlin.navigation.LoginFragment"
+        android:name="com.jacky.wanandroidkotlin.jetpack.navigation.LoginFragment"
         android:label="LoginFragment">
         <argument
             android:name="name"
@@ -34,6 +34,6 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.jacky.wanandroidkotlin.navigation.RegisterFragment"
+        android:name="com.jacky.wanandroidkotlin.jetpack.navigation.RegisterFragment"
         android:label="RegisterFragment" />
 </navigation>

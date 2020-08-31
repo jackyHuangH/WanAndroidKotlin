@@ -1,4 +1,4 @@
-package com.jacky.wanandroidkotlin.navigation
+package com.jacky.wanandroidkotlin.jetpack.navigation
 
 /**
  * @author:Hzj
@@ -27,7 +27,7 @@ class WelcomeActivity : BaseVMActivity<WelcomeViewModel>() {
     /**
      * 伴生类:静态单例内部类
      */
-    companion object Num {
+    companion object{
 
         fun launch(from: Activity) {
             Router

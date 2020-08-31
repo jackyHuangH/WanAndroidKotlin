@@ -1,4 +1,4 @@
-package com.jacky.wanandroidkotlin.navigation
+package com.jacky.wanandroidkotlin.jetpack.navigation
 
 /**
  * @author:Hzj
@@ -8,7 +8,7 @@ package com.jacky.wanandroidkotlin.navigation
  */
 import android.app.Application
 import android.os.Bundle
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.base.BaseViewModel
@@ -22,19 +22,13 @@ class WelcomeFragment : BaseVMFragment<WelcomeViewModel>() {
         btn_login.setOnClickListener {
             //通过Navigation切换Fragment
             //携带参数
-            val bundle=Bundle()
+            val bundle = Bundle()
 //            bundle.putString("name","我是欢迎页传递的参数")
-            view?.let {
-                Navigation.findNavController(it)
-                    .navigate(R.id.action_welcomeFragment_to_loginFragment,bundle)
-            }
+            findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment, bundle)
         }
         btn_register.setOnClickListener {
             //通过Navigation切换Fragment
-            view?.let {
-                Navigation.findNavController(it)
-                    .navigate(R.id.action_welcomeFragment_to_registerFragment)
-            }
+            findNavController().navigate(R.id.action_welcomeFragment_to_registerFragment)
         }
     }
 

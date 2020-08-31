@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
-import com.jacky.wanandroidkotlin.navigation.WelcomeActivity
+import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
 import com.zenchn.support.router.Router
 import com.zenchn.support.widget.tips.SuperToast
@@ -60,7 +60,6 @@ class TestActivity : BaseActivity() {
         }
 
         bt_main.setOnClickListener {
-            SuperToast.showDefaultMessage(this, "跳转主页")
             WelcomeActivity.launch(this)
         }
 
