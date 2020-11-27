@@ -127,16 +127,22 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".test.TestActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".ui.setting.SettingActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.googlemavensearch.GoogleMavenSearchActivity"
             android:screenOrientation="portrait" />
+
+        <!--        test-->
+        <activity
+            android:name=".test.TestActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".test.TwoActivity" />
+        <activity
+            android:name=".test.ThreeActivity"
+            android:launchMode="singleTop" />
 
         <!--        JetPack-->
         <activity
@@ -145,6 +151,7 @@
         <activity
             android:name=".jetpack.nike.NikeMainActivity"
             android:screenOrientation="portrait" />
+
 
     </application>
 

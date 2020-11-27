@@ -1,5 +1,6 @@
 package com.jacky.wanandroidkotlin.test
 
+import android.content.Intent
 import android.graphics.drawable.LevelListDrawable
 import android.graphics.drawable.TransitionDrawable
 import androidx.core.content.ContextCompat
@@ -61,6 +62,10 @@ class TestActivity : BaseActivity() {
 
         bt_main.setOnClickListener {
             WelcomeActivity.launch(this)
+        }
+
+        bt_launch_mode.setOnClickListener {
+            startActivity(Intent(this,TwoActivity::class.java))
         }
 
         //对象实例化

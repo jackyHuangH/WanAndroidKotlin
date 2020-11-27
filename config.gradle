@@ -10,6 +10,8 @@ ext {
             versionName      : '1.0.0'
     ]
 
+    roomVersion = '2.2.0'
+
     dependencies = [
             "junit"                        : 'junit:junit:4.12',
             "kotlin_std"                   : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
@@ -44,6 +46,12 @@ ext {
             //navigation
             "navigation_fragment"          : 'androidx.navigation:navigation-fragment-ktx:2.0.0',
             "navigation_ui"                : 'androidx.navigation:navigation-ui-ktx:2.0.0',
+
+            // room
+            "room_runtime"                 : "androidx.room:room-runtime:$rootProject.roomVersion",
+            "room_ktx"                     : "androidx.room:room-ktx:$rootProject.roomVersion",
+            "room_compiler"                : "androidx.room:room-compiler:$rootProject.roomVersion",
+            "room_test"                    : "androidx.room:room-testing:$rootProject.roomVersion",
 
             "module_support"               : project(':module_support'),
 
