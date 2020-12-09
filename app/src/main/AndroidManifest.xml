@@ -6,6 +6,7 @@
     <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -21,7 +22,6 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -81,7 +81,7 @@
         </activity>
 
         <activity
-            android:name=".ui.start.StartActivity"
+            android:name=".ui.splash.StartActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/SplashFullScreen" />
@@ -153,6 +153,18 @@
             android:screenOrientation="portrait" />
 
 
+        <!--        androidx startup 优化过多使用contentProvider初始化造成启动速度慢：
+       合并所有用于初始化的ContentProvider ，减少创建 ContentProvider，并提供全局管理-->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <!--            自动初始化-->
+            <meta-data
+                android:name="com.jacky.wanandroidkotlin.app.AppGlobalInitializer"
+                android:value="androidx.startup" />
+        </provider>
     </application>
 
 </manifest>

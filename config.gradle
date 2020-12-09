@@ -20,13 +20,13 @@ ext {
             "androidx_multidex"            : "androidx.multidex:multidex:2.0.0",
             //android support
             "androidx_annotations"         : "androidx.annotation:annotation:1.1.0",
-            "androidx_fragment"            : "androidx.fragment:fragment:1.1.0",
-            "andriodx_appcompat"           : "androidx.appcompat:appcompat:1.1.0",
+            "androidx_fragment"            : "androidx.fragment:fragment:1.2.5",
+            "andriodx_appcompat"           : "androidx.appcompat:appcompat:1.2.0",
             "androidx_constraint_layout"   : "androidx.constraintlayout:constraintlayout:1.1.3",
             "androidx_recyclerview"        : "androidx.recyclerview:recyclerview:1.1.0",
             "androidx_cardview"            : "androidx.cardview:cardview:1.0.0",
             "androidx_gridLayout"          : "androidx.gridlayout:gridlayout:1.0.0",
-            "androidx_core"                : "androidx.core:core:1.1.0",
+            "androidx_core"                : "androidx.core:core:1.3.2",
             "androidx_arch_core"           : "androidx.arch:core:2.1.0",
             "androidx_core_ktx"            : "androidx.core:core-ktx:1.1.0",
             "androidx_collection"          : "androidx.collection:collection:1.1.0",
@@ -37,7 +37,8 @@ ext {
             "androidx_lifecycle_java8"     : "android.arch.lifecycle:common-java8:2.0.0",
             "androidx_lifecycle_livedata"  : "androidx.lifecycle:lifecycle-livedata:2.1.0",
             "androidx_lifecycle_extensions": "androidx.lifecycle:lifecycle-extensions:2.1.0",
-            "androidx_material_design"     : "com.google.android.material:material:1.0.0",
+            "androidx_material_design"     : "com.google.android.material:material:1.2.1",
+            "androidx_startup"             : "androidx.startup:startup-runtime:1.0.0",
             "flexbox"                      : "com.google.android:flexbox:1.1.1",
             // 引入kotlin协程
             "coroutine_core"               : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1',
@@ -121,13 +122,6 @@ ext {
 
             "toast"                        : "com.hjq:toast:8.0",
 
-            //fragmentation
-            // 如果想使用SwipeBack 滑动边缘退出Fragment/Activity功能，完整的添加规则如下：
-            "fragmentation"                : 'me.yokeyword:fragmentation:1.3.6',
-            // swipeback基于fragmentation, 如果是自定制SupportActivity/Fragment，则参照SwipeBackActivity/Fragment实现即可
-            "fragment_swipeback"           : 'me.yokeyword:fragmentation-swipeback:1.3.6',
-            // Activity作用域的EventBus，更安全，可有效避免after onSavenInstanceState()异常
-            "eventbus_activity_scope"      : 'me.yokeyword:eventbus-activity-scope:1.1.0',
             // Your EventBus's version
             "eventbus"                     : 'org.greenrobot:eventbus:3.1.1',
 
@@ -135,10 +129,11 @@ ext {
             "Android_Pickerview"           : 'com.contrarywind:Android-PickerView:4.1.8',
 
             //运行时权限
-            "andPermission"                : 'com.yanzhenjie.permission:support:2.0.1',
+            "andPermission"                : 'com.yanzhenjie:permission:2.0.3',
             //bugly升级
             "bugly_upgrade"                : 'com.tencent.bugly:crashreport_upgrade:1.4.5',
             "bugly_native"                 : 'com.tencent.bugly:nativecrashreport:3.6.0',
+            "tencent_tbs"                  : 'com.tencent.tbs.tbssdk:sdk:43939',
 
             //dagger2
             "dagger2"                      : 'com.google.dagger:dagger:2.16',

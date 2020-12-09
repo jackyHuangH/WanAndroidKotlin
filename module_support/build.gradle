@@ -39,14 +39,13 @@ dependencies {
     api rootProject.ext.dependencies["kotlin_reflect"]
     api rootProject.ext.dependencies["andriodx_appcompat"]
     api rootProject.ext.dependencies["androidx_material_design"]
+    api rootProject.ext.dependencies["androidx_startup"]
 
     api rootProject.ext.dependencies["androidx_lifecycle"]
     api rootProject.ext.dependencies["androidx_lifecycle_java8"]
     api rootProject.ext.dependencies["androidx_lifecycle_extensions"]
     api rootProject.ext.dependencies["androidx_viewmodel_ktx"]
 
-    api rootProject.ext.dependencies["butterknife"]
-    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
     //material dialog
     api rootProject.ext.dependencies["material_dialogs"]
     api rootProject.ext.dependencies["material_dialogs_lifecycle"]
@@ -54,6 +53,9 @@ dependencies {
     api rootProject.ext.dependencies["toast"]
 
     api rootProject.ext.dependencies["Android_Pickerview"]
+    api rootProject.ext.dependencies["tencent_tbs"]
+
+    api rootProject.ext.dependencies["andPermission"]
 }
 
 configurations.all {

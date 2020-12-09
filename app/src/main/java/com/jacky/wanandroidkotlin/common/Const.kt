@@ -1,5 +1,8 @@
 package com.jacky.wanandroidkotlin.common
 
+import android.Manifest
+import com.yanzhenjie.permission.runtime.Permission
+
 /**
  * @author:Hzj
  * @date  :2019/7/4/004

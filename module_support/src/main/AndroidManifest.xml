@@ -6,10 +6,11 @@
         android:allowBackup="true"
         android:supportsRtl="true">
 
-        <provider
-            android:name=".SupportContentProvider"
-            android:authorities="${applicationId}.support.provider"
-            android:exported="false" />
+        <!--   优化tbs首次加载， 该Service仅在TBS内核首次Dex加载时触发并执行dex2oat任务，任务完成后自动结束-->
+        <service
+            android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
+            android:label="dexopt"
+            android:process=":dexopt" />
     </application>
 
 </manifest>

@@ -1,11 +1,13 @@
-package com.jacky.wanandroidkotlin.ui.start
+package com.jacky.wanandroidkotlin.ui.splash
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
+import com.zenchn.support.permission.checkSelfPermission
 import com.zenchn.support.router.Router
 import kotlinx.coroutines.*
 
@@ -21,10 +23,7 @@ class StartActivity : BaseActivity(), CoroutineScope by MainScope() {
 
     override fun initWidget() {
         //如果有自动登录功能就替换此处跳转逻辑
-        launch {
-            withContext(Dispatchers.IO) { delay(50L) }
-            jumpMainOrLogin(intent)
-        }
+        MainActivity.launch(this@StartActivity)
     }
 
     override fun onNewIntent(intent: Intent?) {

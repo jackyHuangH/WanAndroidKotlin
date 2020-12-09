@@ -204,15 +204,13 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         }
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         // 跳转详情
-        adapter?.run {
-            //使用trace 性能分析
-            Debug.startMethodTracing("Van")
-            val entity = data[position] as ArticleEntity
-            activity?.let { BrowserActivity.launch(it, entity.link) }
-            Debug.stopMethodTracing()
-        }
+        //使用trace 性能分析
+//        Debug.startMethodTracing("Van")
+        val entity = adapter.data[position] as ArticleEntity
+        activity?.let { BrowserActivity.launch(it, entity.link) }
+//        Debug.stopMethodTracing()
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {

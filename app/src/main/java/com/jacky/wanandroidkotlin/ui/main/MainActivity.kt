@@ -1,6 +1,8 @@
 package com.jacky.wanandroidkotlin.ui.main
 
+import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -36,6 +38,9 @@ import com.jacky.wanandroidkotlin.util.StatusBarUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.DialogProvider
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
+import com.zenchn.support.permission.RequestCode
+import com.zenchn.support.permission.applySelfPermissionsStrict
+import com.zenchn.support.permission.checkSelfPermission
 import com.zenchn.support.router.Router
 import com.zenchn.support.widget.CircleTextImageView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -74,6 +79,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     override fun initWidget() {
+//        initPermissions()
         navigation.setNavigationItemSelectedListener(this)
         initViewPager()
         initUserHead()
@@ -87,6 +93,34 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
 
         navigation.menu.findItem(R.id.nv_test).isVisible = BuildConfig.DEBUG
         initDrawerListener()
+    }
+
+
+    private fun initPermissions() {
+        //申请存储权限
+        checkSelfPermission(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            onGranted = {},
+            onDenied = {
+                showMessage("请授予存储权限")
+                applySelfPermissionsStrict(Manifest.permission.WRITE_EXTERNAL_STORAGE) {}
+            })
+        //申请电话权限
+        checkSelfPermission(
+            Manifest.permission.READ_PHONE_STATE,
+            onGranted = { },
+            onDenied = {
+                showMessage("请授予电话权限")
+                applySelfPermissionsStrict(Manifest.permission.READ_PHONE_STATE) {}
+            }
+        )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RequestCode.OS_SETTING) {
+            initPermissions()
+        }
     }
 
     private fun initViewPager() {

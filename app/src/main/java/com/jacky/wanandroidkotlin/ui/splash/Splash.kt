@@ -2,7 +2,6 @@ package com.jacky.wanandroidkotlin.ui.splash
 
 import android.content.Intent
 import com.jacky.wanandroidkotlin.base.BaseActivity
-import com.jacky.wanandroidkotlin.ui.start.StartActivity
 
 /**
  * @author:Hzj

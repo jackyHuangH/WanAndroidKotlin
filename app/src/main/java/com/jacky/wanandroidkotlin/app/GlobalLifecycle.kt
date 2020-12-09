@@ -4,7 +4,7 @@ import android.app.Activity
 import android.os.Process
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.jacky.wanandroidkotlin.ui.start.navigateToRestart
+import com.jacky.wanandroidkotlin.ui.splash.navigateToRestart
 import java.lang.ref.WeakReference
 import java.util.*
 
