@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.jacky.wanandroidkotlin.ui.music.MusicPlayViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_album_blur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!--为背景加图层,避免图片过于生硬-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#BF151515" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibt_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@null"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_music_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ibt_back"
+            app:layout_constraintTop_toTopOf="@+id/ibt_back"
+            tools:text="公路之歌" />
+
+        <TextView
+            android:id="@+id/tv_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_music_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_music_name"
+            tools:text="痛仰" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_album"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/play_cd"
+                app:layout_constraintDimensionRatio="1:1" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/play_aym"
+                app:layout_constraintDimensionRatio="1:1" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_album_pic"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:src="@drawable/play_album_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/seekBar"
+            tools:text="00:00" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ibt_collect"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/selector_collect"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="20dp"
+            android:maxHeight="2.5dp"
+            android:minHeight="2.5dp"
+            android:progressDrawable="@drawable/seek_bar_bg"
+            android:thumb="@drawable/seek_bar_thumb"
+            app:layout_constraintBottom_toTopOf="@+id/ivPlay"
+            app:layout_constraintEnd_toStartOf="@+id/tv_end_time"
+            app:layout_constraintStart_toEndOf="@+id/tv_start_time" />
+
+        <TextView
+            android:id="@+id/tv_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/seekBar"
+            tools:text="00:00" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivMode"
+            imgSrc="@{vm.playModePic}"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="30dp"
+            android:padding="9dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPlay"
+            app:layout_constraintEnd_toStartOf="@+id/ivPrevious"
+            app:layout_constraintTop_toTopOf="@+id/ivPlay"
+            tools:src="@drawable/play_order" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPrevious"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="25dp"
+            android:padding="9dp"
+            android:src="@drawable/play_previous"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPlay"
+            app:layout_constraintEnd_toStartOf="@+id/ivPlay"
+            app:layout_constraintTop_toTopOf="@+id/ivPlay" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPlay"
+            imgSelected="@{vm.playStatusSelected}"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="25dp"
+            android:src="@drawable/selector_play_pic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivNext"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:padding="9dp"
+            android:src="@drawable/play_next"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPlay"
+            app:layout_constraintLeft_toRightOf="@+id/ivPlay"
+            app:layout_constraintTop_toTopOf="@+id/ivPlay" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivMusicList"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:padding="7dp"
+            android:src="@drawable/play_list"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPlay"
+            app:layout_constraintLeft_toRightOf="@+id/ivNext"
+            app:layout_constraintTop_toTopOf="@+id/ivPlay" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

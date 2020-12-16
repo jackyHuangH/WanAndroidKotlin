@@ -11,4 +11,5 @@
     <color name="black_white">#ffffff</color>
     <color name="color_44aaaaaa">#44aaaaaa</color>
     <color name="color_8e9dac">#558e9dac</color>
+    <color name="color_play_bg">#55000000</color>
 </resources>

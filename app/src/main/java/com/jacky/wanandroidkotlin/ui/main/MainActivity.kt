@@ -79,7 +79,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     override fun initWidget() {
-//        initPermissions()
+        initPermissions()
         navigation.setNavigationItemSelectedListener(this)
         initViewPager()
         initUserHead()
@@ -94,7 +94,6 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         navigation.menu.findItem(R.id.nv_test).isVisible = BuildConfig.DEBUG
         initDrawerListener()
     }
-
 
     private fun initPermissions() {
         //申请存储权限
@@ -111,7 +110,8 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
             onGranted = { },
             onDenied = {
                 showMessage("请授予电话权限")
-                applySelfPermissionsStrict(Manifest.permission.READ_PHONE_STATE) {}
+                applySelfPermissionsStrict(Manifest.permission.READ_PHONE_STATE) {
+                }
             }
         )
     }

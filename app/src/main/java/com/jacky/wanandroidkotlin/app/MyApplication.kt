@@ -23,6 +23,8 @@ class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        //其他初始化
+        ApplicationKit.initKit(this)
         //读取语言配置
         LanguageUtils.attachBaseContext(this)
         //多语言设置初始化

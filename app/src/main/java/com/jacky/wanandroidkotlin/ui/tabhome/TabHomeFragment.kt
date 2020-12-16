@@ -1,7 +1,6 @@
 package com.jacky.wanandroidkotlin.ui.tabhome
 
 import android.os.Bundle
-import android.os.Debug
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +19,7 @@ import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.girls.GirlsActivity
 import com.jacky.wanandroidkotlin.ui.googlemavensearch.GoogleMavenSearchActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
+import com.jacky.wanandroidkotlin.ui.music.MusicPlayActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideBannerImageLoader
@@ -62,8 +62,18 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         initRecyclerView()
         initRefreshLayout()
         initFab()
+        initFloatPlayer()
         onRefresh()
         swipe_refresh.isRefreshing = true
+    }
+
+    private fun initFloatPlayer() {
+        play_layout.apply {
+            onFloatPlayClick {
+                //跳转播放音乐界面
+                activity?.let { MusicPlayActivity.launch(it) }
+            }
+        }
     }
 
     private fun initFab() {

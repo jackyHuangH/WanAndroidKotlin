@@ -15,7 +15,7 @@ class Person(firstName: String) {
  */
 open class Person constructor(age: Int) {
 
-    //构造里的初始化方法
+    //构造里的初始化方法，相当于Java的static{}代码块
     init {
         println("初始化:age=$age")
     }

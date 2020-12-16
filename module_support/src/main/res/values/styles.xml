@@ -14,6 +14,14 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <style name="ButtonStyle">
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="RippleStyle" parent="ButtonStyle">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
     <!--enteringlayout 自定义内容 单行-->
     <style name="EnteringLayoutEditTextSingleLineStyle" parent="EnteringLayoutEditTextBaseStyle">
         <item name="android:singleLine">true</item>

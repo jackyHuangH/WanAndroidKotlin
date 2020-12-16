@@ -24,10 +24,10 @@
             android:text="Jetpack Navigation" />
 
         <Button
-            android:id="@+id/bt_launch_mode"
+            android:id="@+id/bt_test_data_binding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="test launch mode" />
+            android:text="test DataBinding" />
 
         <Switch
             android:id="@+id/sw_btn"

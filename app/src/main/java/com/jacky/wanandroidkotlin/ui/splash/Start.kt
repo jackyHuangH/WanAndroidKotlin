@@ -7,6 +7,7 @@ import android.content.Intent
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
+import com.jacky.wanandroidkotlin.wrapper.musicplay.MusicPlayManager
 import com.zenchn.support.permission.checkSelfPermission
 import com.zenchn.support.router.Router
 import kotlinx.coroutines.*
@@ -22,6 +23,7 @@ class StartActivity : BaseActivity(), CoroutineScope by MainScope() {
     override fun getLayoutId(): Int = 0
 
     override fun initWidget() {
+        MusicPlayManager.initPlayer(this)
         //如果有自动登录功能就替换此处跳转逻辑
         MainActivity.launch(this@StartActivity)
     }

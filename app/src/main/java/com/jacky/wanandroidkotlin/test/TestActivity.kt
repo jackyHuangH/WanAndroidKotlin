@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
 import com.zenchn.support.router.Router
-import com.zenchn.support.widget.tips.SuperToast
 import kotlinx.android.synthetic.main.activity_test.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -64,8 +64,8 @@ class TestActivity : BaseActivity() {
             WelcomeActivity.launch(this)
         }
 
-        bt_launch_mode.setOnClickListener {
-            startActivity(Intent(this,TwoActivity::class.java))
+        bt_test_data_binding.setOnClickListener {
+            startActivity(Intent(this, TwoActivity::class.java))
         }
 
         //对象实例化

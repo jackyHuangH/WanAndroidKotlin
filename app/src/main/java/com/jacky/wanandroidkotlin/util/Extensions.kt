@@ -8,6 +8,7 @@ import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import java.util.*
 
 /**
  * Created by hzj on 2018/11/14.
@@ -77,7 +78,7 @@ fun Context.openBrowser(url: String) {
 /**
  * 按钮点击防抖
  */
-fun View?.setOnAntiShakeClickListener(intervalMillis: Long = 1000, listener: (View) -> Unit) {
+fun View?.setOnAntiShakeClickListener(intervalMillis: Long = 500, listener: (View) -> Unit) {
     /**
      * 最近一次点击的时间
      */
@@ -91,4 +92,13 @@ fun View?.setOnAntiShakeClickListener(intervalMillis: Long = 1000, listener: (Vi
     }
 }
 
+/**
+ * 格式化音乐播放时间：将毫秒转换为分秒-00:00格式
+ */
+fun formatMusicTime(timeMs: Int): String {
+    val totalSeconds = timeMs / 1000
+    val seconds = totalSeconds % 60
+    val minutes = (totalSeconds / 60) % 60
 
+    return Formatter().format("%02d:%02d", minutes, seconds).toString()
+}

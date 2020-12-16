@@ -139,9 +139,9 @@
             android:name=".test.TestActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".test.TwoActivity" />
+        <activity android:name=".jetpack.binding.TwoActivity" />
         <activity
-            android:name=".test.ThreeActivity"
+            android:name=".jetpack.binding.ThreeActivity"
             android:launchMode="singleTop" />
 
         <!--        JetPack-->
@@ -150,6 +150,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".jetpack.nike.NikeMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.music.MusicPlayActivity"
             android:screenOrientation="portrait" />
 
 
@@ -165,6 +168,8 @@
                 android:name="com.jacky.wanandroidkotlin.app.AppGlobalInitializer"
                 android:value="androidx.startup" />
         </provider>
+
+        <service android:name=".wrapper.musicplay.MusicPlayService" />
     </application>
 
 </manifest>

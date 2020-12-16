@@ -28,32 +28,19 @@ private fun IPermission.runtime(): RuntimeOption = when (this) {
 }.runtime()
 
 fun IPermission.navigateToPermissionSetting(requestCode: Int = REQUEST_CODE_OS_SETTING) =
-    runtime().setting().start(requestCode)
+        runtime().setting().start(requestCode)
 
 @SuppressLint("WrongConstant")
 fun IPermission.applySelfPermissions(
-    @NotNull vararg permissions: String,
-    @Nullable result: ((List<String>, Boolean) -> Unit)? = null
+        @NotNull vararg permissions: String,
+        @Nullable result: ((List<String>, Boolean) -> Unit)? = null
 ) = runtime()
-    .permission(*permissions)
-    .onGranted { granted -> result?.invoke(granted, true) }
-    .onDenied { denied -> result?.invoke(denied, false) }
-    .start()
-
-@SuppressLint("WrongConstant")
-fun IPermission.applySelfPermissionGroups(
-    permissionArray: Array<String>,
-    onGranted: (List<String>) -> Unit,
-    onDenied: (List<String>) -> Unit
-) = runtime()
-    .permission(permissionArray)
-    .onGranted {
-        it?.let { onGranted(it) }
-    }
-    .onDenied {
-        it?.let { onDenied(it) }
-    }
-    .start()
+        .permission(*permissions)
+        .apply {
+            onGranted { granted -> result?.invoke(granted, true) }
+            onDenied { denied -> result?.invoke(denied, false) }
+        }
+        .start()
 
 @Suppress("DEPRECATION")
 fun IPermission.checkSelfPermissions(@NotNull vararg permissions: String): Boolean = when (this) {
@@ -67,8 +54,8 @@ fun IPermission.checkSelfPermissions(@NotNull vararg permissions: String): Boole
 
 @Suppress("DEPRECATION")
 fun IPermission.checkSelfPermissions(
-    @NotNull vararg permissions: String,
-    @Nullable result: (String, Boolean) -> Unit
+        @NotNull vararg permissions: String,
+        @Nullable result: (String, Boolean) -> Unit
 ) = when (this) {
     is Activity -> this
     is Context -> this

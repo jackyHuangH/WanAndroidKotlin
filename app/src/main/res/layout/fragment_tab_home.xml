@@ -59,10 +59,21 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/search"
-        app:backgroundTint="@color/colorAccent"
+        android:src="@drawable/ic_google"
+        app:backgroundTint="@color/picture_color_4d"
         app:borderWidth="0dp"
         app:elevation="2dp"
         app:layout_constraintBottom_toTopOf="@+id/fab_girl"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.jacky.wanandroidkotlin.widget.FloatPlayLayout
+        android:id="@+id/play_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
