@@ -31,7 +31,7 @@ import java.io.File
 import kotlin.math.roundToInt
 
 fun Context.getVersionName(packageName: String = this.packageName): String? =
-        getPackageInfo(packageName)?.versionName
+    getPackageInfo(packageName)?.versionName
 
 
 fun Context.getVersionCode(packageName: String = this.packageName): Long? {
@@ -58,9 +58,10 @@ fun Context.isSystemApp(packageName: String): Boolean = getApplicationInfo(packa
 
 @SuppressLint("NewApi")
 fun Context.isTopActivity(packageName: String = this.packageName): Boolean {
-    return (this.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager)?.getRunningTasks(1)?.let {
-        it[0].topActivity?.packageName == packageName
-    } ?: false
+    return (this.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager)?.getRunningTasks(1)
+        ?.let {
+            it[0].topActivity?.packageName == packageName
+        } ?: false
 }
 
 fun Context.getPackageInfo(packageName: String = this.packageName): PackageInfo? {
@@ -78,7 +79,10 @@ fun Context.getApplicationInfo(packageName: String = this.packageName): Applicat
 
 fun Context.getMetaData(key: String, packageName: String = this.packageName): String? {
     return safelyRun {
-        packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData?.getString(key)
+        packageManager.getApplicationInfo(
+            packageName,
+            PackageManager.GET_META_DATA
+        ).metaData?.getString(key)
     }
 }
 
@@ -166,7 +170,7 @@ object DisplayUtils {
      * @return
      */
     fun px2sp(pxValue: Number): Int =
-            (pxValue.toFloat() / displayMetrics.scaledDensity).roundToInt()
+        (pxValue.toFloat() / displayMetrics.scaledDensity).roundToInt()
 
     /**
      * sp转px，保证尺寸大小不变
@@ -175,17 +179,27 @@ object DisplayUtils {
      * @return
      */
     fun sp2px(spValue: Number): Int =
-            (spValue.toFloat() * displayMetrics.scaledDensity).roundToInt()
+        (spValue.toFloat() * displayMetrics.scaledDensity).roundToInt()
 
 }
 
 object ResolveUtils {
 
+    /**
+     * 通过id获取专辑图片uri
+     */
+    fun albumUriById(albumId: Long): Uri {
+        return ContentUris.withAppendedId(
+            Uri.parse("content://media/external/audio/albumart"),
+            albumId
+        )
+    }
+
     fun resolveString(
-            context: Context,
-            @StringRes res: Int? = null,
-            @StringRes fallback: Int? = null,
-            html: Boolean = false
+        context: Context,
+        @StringRes res: Int? = null,
+        @StringRes fallback: Int? = null,
+        html: Boolean = false
     ): CharSequence? {
         val resourceId = res ?: (fallback ?: 0)
         if (resourceId == 0) return null
@@ -198,10 +212,10 @@ object ResolveUtils {
     }
 
     fun resolveDrawable(
-            context: Context,
-            @DrawableRes res: Int? = null,
-            @AttrRes attr: Int? = null,
-            @DrawableRes fallback: Int? = null
+        context: Context,
+        @DrawableRes res: Int? = null,
+        @AttrRes attr: Int? = null,
+        @DrawableRes fallback: Int? = null
     ): Drawable? {
         if (attr != null) {
             val a = context.theme.obtainStyledAttributes(intArrayOf(attr))
@@ -217,10 +231,10 @@ object ResolveUtils {
 
     @ColorInt
     fun resolveColor(
-            context: Context,
-            @ColorRes res: Int? = null,
-            @AttrRes attr: Int? = null,
-            fallback: (() -> Int)? = null
+        context: Context,
+        @ColorRes res: Int? = null,
+        @AttrRes attr: Int? = null,
+        fallback: (() -> Int)? = null
     ): Int {
         if (attr != null) {
             val a = context.theme.obtainStyledAttributes(intArrayOf(attr))
@@ -238,9 +252,9 @@ object ResolveUtils {
     }
 
     fun resolveColors(
-            context: Context,
-            attrs: IntArray,
-            fallback: ((forAttr: Int) -> Int)? = null
+        context: Context,
+        attrs: IntArray,
+        fallback: ((forAttr: Int) -> Int)? = null
     ): IntArray {
         val a = context.theme.obtainStyledAttributes(attrs)
         try {
@@ -252,16 +266,16 @@ object ResolveUtils {
                     fallback?.invoke(attrs[index]) ?: 0
                 }
             }
-                    .toIntArray()
+                .toIntArray()
         } finally {
             a.recycle()
         }
     }
 
     fun resolveInt(
-            context: Context,
-            @AttrRes attr: Int,
-            defaultValue: Int
+        context: Context,
+        @AttrRes attr: Int,
+        defaultValue: Int
     ): Int {
         val a = context.theme.obtainStyledAttributes(intArrayOf(attr))
         try {
@@ -291,7 +305,7 @@ object UriUtils {
                     // ExternalStorageProvider
                     val docId = DocumentsContract.getDocumentId(uri)
                     val split =
-                            docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                        docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     val type = split[0]
                     if ("primary".equals(type, ignoreCase = true)) {
                         return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
@@ -300,15 +314,15 @@ object UriUtils {
                     // DownloadsProvider
                     val id = DocumentsContract.getDocumentId(uri)
                     val contentUri = ContentUris.withAppendedId(
-                            Uri.parse("content://downloads/public_downloads"),
-                            java.lang.Long.valueOf(id)
+                        Uri.parse("content://downloads/public_downloads"),
+                        java.lang.Long.valueOf(id)
                     )
                     return getDataColumn(context, contentUri, null, null)
                 } else if (isMediaDocument(uri)) {
                     // MediaProvider
                     val docId = DocumentsContract.getDocumentId(uri)
                     val split =
-                            docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                        docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     val type = split[0]
                     return when (type) {
                         "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -330,11 +344,11 @@ object UriUtils {
             // 以 content:// 开头的，比如 content://media/extenral/images/media/17766
             if (ContentResolver.SCHEME_CONTENT == uri.scheme) {
                 val cursor = context.contentResolver.query(
-                        uri,
-                        arrayOf(MediaStore.Images.Media.DATA),
-                        null,
-                        null,
-                        null
+                    uri,
+                    arrayOf(MediaStore.Images.Media.DATA),
+                    null,
+                    null,
+                    null
                 )
                 if (cursor != null) {
                     if (cursor.moveToFirst()) {
@@ -352,10 +366,10 @@ object UriUtils {
     }
 
     private fun getDataColumn(
-            context: Context,
-            uri: Uri,
-            selection: String?,
-            selectionArgs: Array<String>?
+        context: Context,
+        uri: Uri,
+        selection: String?,
+        selectionArgs: Array<String>?
     ): String? {
         var cursor: Cursor? = null
         val column = "_data"
@@ -376,13 +390,13 @@ object UriUtils {
     }
 
     private fun isExternalStorageDocument(uri: Uri): Boolean =
-            "com.android.externalstorage.documents" == uri.authority
+        "com.android.externalstorage.documents" == uri.authority
 
     private fun isDownloadsDocument(uri: Uri): Boolean =
-            "com.android.providers.downloads.documents" == uri.authority
+        "com.android.providers.downloads.documents" == uri.authority
 
     private fun isMediaDocument(uri: Uri): Boolean =
-            "com.android.providers.media.documents" == uri.authority
+        "com.android.providers.media.documents" == uri.authority
 
 }
 
@@ -390,10 +404,10 @@ object UriUtils {
 internal const val DEFAULT_CACHE_DIR = " /zenchn/tds"
 
 fun Context.getDiskCacheDir(): String =
-        (if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() || !Environment.isExternalStorageRemovable()) {
-            externalCacheDir?.path
-        } else null) ?: cacheDir.path
-        ?: (Environment.getExternalStorageDirectory().path + DEFAULT_CACHE_DIR)
+    (if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() || !Environment.isExternalStorageRemovable()) {
+        externalCacheDir?.path
+    } else null) ?: cacheDir.path
+    ?: (Environment.getExternalStorageDirectory().path + DEFAULT_CACHE_DIR)
 
 /**
  * 获取（创建）文件的文件夹

@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin.ui.tabhome
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.base.executeRequest
@@ -18,6 +19,22 @@ class TabHomeViewModel(application: Application) : BaseViewModel(application) {
     private val mRepository by lazy { HomeRepository() }
     val mBannerList: MutableLiveData<List<BannerEntity>> = MutableLiveData()
     val mArticleList: MutableLiveData<ArticleList> = MutableLiveData()
+
+    //用于更新悬浮栏歌曲信息
+    /**
+     * 歌曲名
+     */
+    var name: ObservableField<String> = ObservableField()
+
+    /**
+     * 专辑封面id
+     */
+    var albumId: ObservableField<Long> = ObservableField(0)
+
+    /**
+     * 是否正在播放
+     */
+    var playStatusSelected: ObservableField<Boolean> = ObservableField(false)
 
     fun getBanners() {
         executeRequest(request = { mRepository.getHomeBanner() },

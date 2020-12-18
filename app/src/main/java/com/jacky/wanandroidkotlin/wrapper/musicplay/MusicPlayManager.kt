@@ -57,7 +57,7 @@ object MusicPlayManager : IPlayerStatus {
      */
     private fun sendProgressToObserver(currDuration: Int) {
         observers.forEach { observer ->
-            mPlayListManager.currentAudioBean?.duration?.let { totalDuration ->
+            mPlayListManager.getCurrentAudioBean()?.duration?.let { totalDuration ->
                 observer.onProgress(currDuration, totalDuration)
             }
         }
@@ -71,6 +71,8 @@ object MusicPlayManager : IPlayerStatus {
             observers.remove(audioObserver)
         }
         observers.add(audioObserver)
+        //注册时主动触发一次更新观察者，粘性通知效果
+        notifyObserver(audioObserver)
     }
 
     /**
@@ -79,6 +81,20 @@ object MusicPlayManager : IPlayerStatus {
     fun unregister(audioObserver: AudioObserver) {
         if (observers.contains(audioObserver)) {
             observers.remove(audioObserver)
+        }
+    }
+
+    /**
+     * 手动更新观察者
+     */
+    private fun notifyObserver(audioObserver: AudioObserver) {
+        mPlayListManager.getCurrentAudioBean()?.let {
+            audioObserver.onAudioBean(it)
+            audioObserver.onProgress(playerHelper.getProgress(), it.duration)
+        }
+        audioObserver.apply {
+            onPlayMode(mPlayListManager.getPlayMode())
+            onPlayerStatus(playStatus)
         }
     }
 
@@ -93,7 +109,7 @@ object MusicPlayManager : IPlayerStatus {
      * 播放暂停控制
      */
     fun playOrPause() {
-        if (mPlayListManager.currentAudioBean == null) {
+        if (mPlayListManager.getCurrentAudioBean() == null) {
             //第一次进入播放
             startPlay()
         } else {
@@ -113,15 +129,15 @@ object MusicPlayManager : IPlayerStatus {
     }
 
     //暂停
-    private fun pause(){
-        playStatus=PlayerStatus.PLAY_PAUSE
+    private fun pause() {
+        playStatus = PlayerStatus.PLAY_PAUSE
         playerHelper.pause()
         sendPlayStatusToObserver()
     }
 
     //恢复播放
-    private fun resume(){
-        playStatus=PlayerStatus.PLAY_RESUME
+    private fun resume() {
+        playStatus = PlayerStatus.PLAY_RESUME
         playerHelper.resume()
         sendPlayStatusToObserver()
     }
@@ -135,12 +151,33 @@ object MusicPlayManager : IPlayerStatus {
             playerHelper.reset()
             sendResetToObserver()
         } else {
-            playStatus=PlayerStatus.PLAY_START
-            mPlayListManager.currentAudioBean=audioBean
+            playStatus = PlayerStatus.PLAY_START
+            mPlayListManager.setCurrentAudioBean(audioBean)
             audioBean.path?.let { playerHelper.play(it) }
             sendAudioBeanToObserver(audioBean)
             sendPlayStatusToObserver()
         }
+    }
+
+    /**
+     * 播放下一首
+     */
+    fun nextAudio() {
+        playNewAudio(mPlayListManager.nextAudio())
+    }
+
+    /**
+     * 播放上一首
+     */
+    fun previousAudio() {
+        playNewAudio(mPlayListManager.previousAudio())
+    }
+
+    /**
+     * 跳转播放
+     */
+    fun seekToPlay(duration: Int) {
+        playerHelper.seekToPlay(duration)
     }
 
     private fun sendPlayModeToObserver(switchPlayMode: Int) {
@@ -162,16 +199,20 @@ object MusicPlayManager : IPlayerStatus {
     }
 
     override fun onBufferingUpdate(percent: Int) {
-
+        //缓冲进度回调
     }
 
     override fun onPlayComplete() {
+        //当前播放完成，播放下一首
+        nextAudio()
     }
 
     /**
      * 释放资源
      */
-    fun release(){
+    fun release() {
+        mCountDownTimer?.cancel()
+        mCountDownTimer = null
         mPlayListManager.clear()
         playerHelper.reset()
         playerHelper.release()
@@ -179,24 +220,26 @@ object MusicPlayManager : IPlayerStatus {
 }
 
 //播放器状态，当前有4种
+// 如果整型字面量的值在-128到127之间，那么不会new新的Integer对象，而是直接引用常量池中的Integer对象，
+// 所以playStatus设置大于127就会自动装箱成Integer，对应的引用也就不同，达到更新目的。
 object PlayerStatus {
     /**
      * 重置
      */
-    const val PLAY_RESET = 11
+    const val PLAY_RESET = 100
 
     /**
      * 从头播放
      */
-    const val PLAY_START = 12
+    const val PLAY_START = 200
 
     /**
      * 恢复播放
      */
-    const val PLAY_RESUME = 13
+    const val PLAY_RESUME = 300
 
     /**
      * 暂停播放
      */
-    const val PLAY_PAUSE = 14
+    const val PLAY_PAUSE = 400
 }

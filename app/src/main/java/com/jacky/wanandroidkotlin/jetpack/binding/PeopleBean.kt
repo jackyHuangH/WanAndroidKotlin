@@ -40,5 +40,5 @@ import androidx.databinding.ObservableField
 /**
  * 使用ObservableField进行单向绑定，ObservableField是对BaseObservable的简单封装
  */
-class PeopleBean constructor(val name: ObservableField<String>, val age: ObservableField<Int>) :
-    BaseObservable() {}
+class PeopleBean constructor(val name: ObservableField<String>, val age: ObservableField<Int>)
+//    : BaseObservable()

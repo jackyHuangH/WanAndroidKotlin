@@ -13,7 +13,9 @@ import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.util.DisplayUtils
+import com.jacky.wanandroidkotlin.util.ResolveUtils
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
+import com.jacky.wanandroidkotlin.wrapper.loadCircle
 import com.jacky.wanandroidkotlin.wrapper.orNotNullNotEmpty
 import kotlinx.android.synthetic.main.layout_float_play.view.*
 import kotlin.math.absoluteValue
@@ -56,6 +58,7 @@ class FloatPlayLayout : LinearLayout {
 
     private fun initView(context: Context) {
         LayoutInflater.from(context).inflate(R.layout.layout_float_play, this).apply {
+            tv_song_name.isSelected = true
             iv_music_pic.setOnAntiShakeClickListener {
                 //收缩状态进行展开动画
                 startAnim()
@@ -177,7 +180,33 @@ class FloatPlayLayout : LinearLayout {
         }
     }
 
+    /**
+     * 悬浮播放控制是否播放
+     */
+    fun setPlayControlSelected(selected: Boolean) {
+        iv_play.isSelected = selected
+    }
+
+    /**
+     * 更新歌曲名称
+     */
     fun updateMusicName(name: String?) {
         tv_song_name.text = name.orNotNullNotEmpty("暂无曲目")
+        tv_song_name.isSelected = true
+    }
+
+    /**
+     * 更新歌曲专辑图片
+     */
+    fun updateMusicAlbum(albumId: Long) {
+        if (albumId <= 0) {
+            iv_music_pic.setImageResource(R.drawable.ic_music_def)
+            return
+        }
+        iv_music_pic.loadCircle(
+            context,
+            ResolveUtils.albumUriById(albumId),
+            R.drawable.ic_music_def
+        )
     }
 }

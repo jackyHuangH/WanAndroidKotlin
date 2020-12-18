@@ -9,13 +9,17 @@ package com.jacky.wanandroidkotlin.ui.music
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
+import com.gyf.immersionbar.ImmersionBar
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.databinding.ActivityMusicPlayBinding
+import com.jacky.wanandroidkotlin.jetpack.binding.AnimBinding
+import com.jacky.wanandroidkotlin.util.StatusBarUtil
 import com.jacky.wanandroidkotlin.util.formatMusicTime
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.musicplay.*
@@ -40,17 +44,28 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
         mActivityBinding.lifecycleOwner = this
     }
 
+    override fun initStatusBar() {
+        mImmersionBar = ImmersionBar.with(this).apply {
+            transparentStatusBar()
+            statusBarDarkFont(false)
+            init()
+        }
+        StatusBarUtil.setStatusBarMargin(this, ibt_back)
+    }
+
     override fun initWidget() {
+        MusicPlayManager.initPlayer(this)
         MusicPlayManager.register(this)
         ibt_back.setOnAntiShakeClickListener { onBackPressed() }
         initSeekBar()
         initClick()
     }
 
-    //TODO 点击事件监听
+    //点击事件监听
     private fun initClick() {
         ibt_collect.setOnAntiShakeClickListener {
             //收藏
+            ibt_collect.isSelected = ibt_collect.isSelected.not()
         }
         ivMode.setOnAntiShakeClickListener {
             //播放模式
@@ -58,6 +73,7 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
         }
         ivPrevious.setOnAntiShakeClickListener {
             //上一首
+            MusicPlayManager.previousAudio()
         }
         ivPlay.setOnAntiShakeClickListener {
             //播放、暂停
@@ -65,38 +81,46 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
         }
         ivNext.setOnAntiShakeClickListener {
             //下一首
+            MusicPlayManager.nextAudio()
         }
         ivMusicList.setOnAntiShakeClickListener {
-            //播放列表
+            //TODO 播放列表
         }
     }
 
     private fun initSeekBar() {
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                tv_start_time.text = formatMusicTime(seekBar.progress)
+                mViewModel.playDurationString.set(formatMusicTime(seekBar.progress))
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
                 //拖动播放
+                MusicPlayManager.seekToPlay(seekBar.progress)
             }
 
         })
     }
 
     override fun onAudioBean(audioBean: AudioBean) {
+        mViewModel.audioInfo.set(audioBean)
+        mViewModel.maxProgress.set(audioBean.duration)
+        mViewModel.totalDurationString.set(formatMusicTime(audioBean.duration))
     }
 
     override fun onPlayerStatus(playStatus: Int) {
         val isPlaying =
             (playStatus == PlayerStatus.PLAY_RESUME || playStatus == PlayerStatus.PLAY_START)
         mViewModel.playStatusSelected.set(isPlaying)
+        Log.d("MusicAct", "oldStatus:${mViewModel.playStatus.get()}----newStatus:$playStatus")
+        mViewModel.playStatus.set(playStatus)
     }
 
     override fun onProgress(currentDuration: Int, totalDuration: Int) {
+        mViewModel.playProgress.set(currentDuration)
     }
 
     override fun onPlayMode(playMode: Int) {
@@ -119,6 +143,7 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
 
     override fun onDestroy() {
         MusicPlayManager.unregister(this)
+        AnimBinding.releaseAnim()
         super.onDestroy()
     }
 
@@ -133,14 +158,40 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
     }
 }
 
-class MusicPlayViewModel(application: Application) : BaseViewModel(application) {
+open class MusicPlayViewModel(application: Application) : BaseViewModel(application) {
     //播放模式按钮图片
     val playModePic: ObservableField<Int> = ObservableField<Int>(R.drawable.play_order)
 
     //播放按钮状态，是否在播放
-    val playStatusSelected: ObservableField<Boolean> = ObservableField<Boolean>()
+    val playStatusSelected: ObservableField<Boolean> = ObservableField()
 
-    fun reset(){
+    //播放按钮状态，是否在播放
+    // 如果整型字面量的值在-128到127之间，那么不会new新的Integer对象，而是直接引用常量池中的Integer对象，
+    // 所以playStatus设置大于127就会自动装箱成Integer，对应的引用也就不同，达到更新目的。
+    val playStatus = ObservableField<Int>()
+
+    //总进度
+    val maxProgress: ObservableField<Int> = ObservableField()
+
+    //播放进度
+    val playProgress: ObservableField<Int> = ObservableField()
+
+    //总时长
+    val totalDurationString: ObservableField<String> = ObservableField()
+
+    //播放时长
+    val playDurationString: ObservableField<String> = ObservableField()
+
+    //音乐信息
+    val audioInfo: ObservableField<AudioBean> = ObservableField()
+
+    fun reset() {
         playStatusSelected.set(false)
+        maxProgress.set(0)
+        playProgress.set(0)
+        playStatus.set(PlayerStatus.PLAY_PAUSE)
+        playDurationString.set("00:00")
+        totalDurationString.set("00:00")
+        audioInfo.set(AudioBean(name = "暂无曲目", singer = "", albumId = -1L))
     }
 }

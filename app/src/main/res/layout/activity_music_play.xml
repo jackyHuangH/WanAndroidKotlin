@@ -8,6 +8,7 @@
         <variable
             name="vm"
             type="com.jacky.wanandroidkotlin.ui.music.MusicPlayViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,8 +18,10 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_album_blur"
+            imgBlurUri="@{vm.audioInfo.albumId}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
 
         <!--为背景加图层,避免图片过于生硬-->
         <View
@@ -46,26 +49,27 @@
             android:layout_marginEnd="20dp"
             android:ellipsize="marquee"
             android:singleLine="true"
+            android:text="@{vm.audioInfo.name,default=暂无歌曲}"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ibt_back"
-            app:layout_constraintTop_toTopOf="@+id/ibt_back"
-            tools:text="公路之歌" />
+            app:layout_constraintTop_toTopOf="@+id/ibt_back" />
 
         <TextView
             android:id="@+id/tv_singer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{vm.audioInfo.singer,default=未知}"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/tv_music_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_music_name"
-            tools:text="痛仰" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_music_name" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_album"
+            rotateAnim="@{vm.playStatus}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="40dp"
@@ -90,6 +94,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_album_pic"
+                imgCircleUri="@{vm.audioInfo.albumId}"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="50dp"
@@ -107,6 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:text="@{vm.playDurationString}"
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/seekBar"
@@ -131,8 +137,10 @@
             android:layout_marginStart="3dp"
             android:layout_marginEnd="3dp"
             android:layout_marginBottom="20dp"
+            android:max="@{vm.maxProgress}"
             android:maxHeight="2.5dp"
             android:minHeight="2.5dp"
+            android:progress="@{vm.playProgress}"
             android:progressDrawable="@drawable/seek_bar_bg"
             android:thumb="@drawable/seek_bar_thumb"
             app:layout_constraintBottom_toTopOf="@+id/ivPlay"
@@ -144,6 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:text="@{vm.totalDurationString}"
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/seekBar"

@@ -73,7 +73,7 @@ class StatusBarUtil {
         }
 
         /** 增加View上边距（MarginTop）一般是给高度为 WARP_CONTENT 的小控件用的 */
-        fun setMargin(context: Context, view: View) {
+        fun setStatusBarMargin(context: Context, view: View) {
             if (Build.VERSION.SDK_INT >= MIN_API) {
                 val lp = view.layoutParams
                 if (lp is ViewGroup.MarginLayoutParams) {

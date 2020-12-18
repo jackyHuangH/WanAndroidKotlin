@@ -8,6 +8,7 @@ import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.jacky.wanandroidkotlin.wrapper.orNotNullNotEmpty
 import java.util.*
 
 /**
@@ -100,5 +101,5 @@ fun formatMusicTime(timeMs: Int): String {
     val seconds = totalSeconds % 60
     val minutes = (totalSeconds / 60) % 60
 
-    return Formatter().format("%02d:%02d", minutes, seconds).toString()
+    return Formatter().format("%02d:%02d", minutes, seconds).toString().orNotNullNotEmpty("00:00")
 }

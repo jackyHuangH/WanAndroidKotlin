@@ -1,79 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
+    <data>
+
+        <variable
+            name="vm"
+            type="com.jacky.wanandroidkotlin.ui.tabhome.TabHomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rlv"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/bt_back_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/shape_bg_primary_20"
-        android:paddingStart="15dp"
-        android:paddingTop="5dp"
-        android:paddingEnd="15dp"
-        android:paddingBottom="5dp"
-        android:text="@string/back_to_top"
-        android:textColor="@color/common_white"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rlv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_girl"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_girl"
-        app:backgroundTint="@color/colorBottomNavigationPrimary"
-        app:borderWidth="0dp"
-        app:elevation="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/bt_back_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_bg_primary_20"
+            android:paddingStart="15dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="5dp"
+            android:text="@string/back_to_top"
+            android:textColor="@color/common_white"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_google_maven_search"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_google"
-        app:backgroundTint="@color/picture_color_4d"
-        app:borderWidth="0dp"
-        app:elevation="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/fab_girl"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_girl"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_girl"
+            app:backgroundTint="@color/colorBottomNavigationPrimary"
+            app:borderWidth="0dp"
+            app:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.jacky.wanandroidkotlin.widget.FloatPlayLayout
-        android:id="@+id/play_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_google_maven_search"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_google"
+            app:backgroundTint="@color/picture_color_4d"
+            app:borderWidth="0dp"
+            app:elevation="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/fab_girl"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.jacky.wanandroidkotlin.widget.FloatPlayLayout
+            android:id="@+id/play_layout"
+            floatImgCircleUri="@{vm.albumId}"
+            floatMusicName="@{vm.name}"
+            floatPlayControlSelected="@{vm.playStatusSelected}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

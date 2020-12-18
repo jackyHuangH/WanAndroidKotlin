@@ -15,7 +15,7 @@
         android:id="@+id/iv_music_pic"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:padding="13dp"
+        android:padding="10dp"
         android:src="@drawable/ic_music_def" />
 
     <LinearLayout
@@ -31,8 +31,8 @@
             android:id="@+id/tv_song_name"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:textColor="@color/black_white"
             android:textSize="15sp"
             tools:text="暂无曲目" />

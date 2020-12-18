@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
+import com.jacky.wanandroidkotlin.databinding.FragmentTabHomeBinding
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.model.entity.BannerEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
@@ -23,6 +26,7 @@ import com.jacky.wanandroidkotlin.ui.music.MusicPlayActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideBannerImageLoader
+import com.jacky.wanandroidkotlin.wrapper.musicplay.*
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerFabScrollListener
 import com.youth.banner.Banner
@@ -38,13 +42,15 @@ import kotlinx.android.synthetic.main.fragment_tab_home.*
  * record：
  */
 class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnItemClickListener,
-    BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+    BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener,
+    AudioObserver {
 
     private val mHomeAdapter: HomeListAdapter by lazy { HomeListAdapter() }
     private var mPageNum = 0
     private val mBannerUrls = mutableListOf<String>()
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
     private var mBannerHome: Banner? = null
+    private lateinit var binding: FragmentTabHomeBinding
 
     companion object {
         fun getInstance(): TabHomeFragment {
@@ -55,10 +61,31 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.fragment_tab_home
+    override fun getLayoutId(): Int = 0
 
-    override fun lazyLoad() {
-        Log.d("TabHome", "lazyLoad")
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        //DataBinding添加绑定
+        binding = DataBindingUtil.inflate<FragmentTabHomeBinding>(
+            inflater,
+            R.layout.fragment_tab_home,
+            container,
+            false
+        )
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        MusicPlayManager.register(this)
+        binding.vm = mViewModel
+    }
+
+    override fun initWidget() {
+        super.initWidget()
         initRecyclerView()
         initRefreshLayout()
         initFab()
@@ -73,15 +100,17 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
                 //跳转播放音乐界面
                 activity?.let { MusicPlayActivity.launch(it) }
             }
+            onPlayClick {
+                //播放暂停控制
+                MusicPlayManager.playOrPause()
+            }
         }
     }
 
     private fun initFab() {
         activity?.let { act ->
             fab_google_maven_search.setOnAntiShakeClickListener {
-                GoogleMavenSearchActivity.launch(
-                    act
-                )
+                GoogleMavenSearchActivity.launch(act)
             }
             fab_girl.setOnAntiShakeClickListener { GirlsActivity.launch(act) }
             rlv.addOnScrollListener(RecyclerFabScrollListener { visible ->
@@ -266,5 +295,30 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
             swipe_refresh.isRefreshing = false
         }
         super.onApiFailure(msg)
+    }
+
+    override fun onAudioBean(audioBean: AudioBean) {
+        mViewModel.albumId.set(audioBean.albumId)
+        mViewModel.name.set(audioBean.name)
+    }
+
+    override fun onPlayerStatus(playStatus: Int) {
+        val selected =
+            playStatus == PlayerStatus.PLAY_START || playStatus == PlayerStatus.PLAY_RESUME
+        mViewModel.playStatusSelected.set(selected)
+    }
+
+    override fun onProgress(currentDuration: Int, totalDuration: Int) {
+    }
+
+    override fun onPlayMode(playMode: Int) {
+    }
+
+    override fun onReset() {
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        MusicPlayManager.unregister(this)
     }
 }

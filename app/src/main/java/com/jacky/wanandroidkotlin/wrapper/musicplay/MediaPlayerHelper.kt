@@ -60,10 +60,10 @@ class MediaPlayerHelper : IPlayer,
             mediaPlayer.setDataSource(audioPath)
         }.onSuccess {
             //找到文件，开始准备
-            mediaPlayer.prepare()
+            mediaPlayer.prepareAsync()
         }.onFailure {
             //找不到文件，提示错误
-            Log.e(TAG, "${it.printStackTrace()}")
+            Log.e(TAG, "${it.message}")
             ToastUtils.show("无效的音频文件！")
         }
     }

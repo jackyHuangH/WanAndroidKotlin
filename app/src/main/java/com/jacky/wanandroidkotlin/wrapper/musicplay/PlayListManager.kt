@@ -28,7 +28,7 @@ class PlayListManager {
     private var currentPlayList = mutableListOf<AudioBean>()
 
     //当前的音乐歌曲信息
-    var currentAudioBean: AudioBean? = null
+    private var currentAudioBean: AudioBean? = null
 
     /**
      * 当前播放音频对象在对应播放列表的位置
@@ -77,12 +77,7 @@ class PlayListManager {
                 }
                 PlayModeEnum.RANDOM_PLAY.playMode -> {
                     //随机播放
-                    val temCurrIndex = currentIndex
-                    var random = Random.nextInt(0, totalSize - 1)
-                    if (random == temCurrIndex) {
-                        random = Random.nextInt(0, totalSize - 1)
-                    }
-                    currentIndex = random
+                    currentIndex = Random.nextInt(0, totalSize - 1)
                 }
                 PlayModeEnum.SINGLE_CYCLE.playMode -> {
                     //单曲循环，不做处理
@@ -111,12 +106,7 @@ class PlayListManager {
                 }
                 PlayModeEnum.RANDOM_PLAY.playMode -> {
                     //随机播放
-                    val temCurrIndex = currentIndex
-                    var random = Random.nextInt(0, totalSize - 1)
-                    if (random == temCurrIndex) {
-                        random = Random.nextInt(0, totalSize - 1)
-                    }
-                    currentIndex = random
+                    currentIndex = Random.nextInt(0, totalSize - 1)
                 }
                 PlayModeEnum.SINGLE_CYCLE.playMode -> {
                     //单曲循环，不做处理
@@ -157,11 +147,36 @@ class PlayListManager {
         return playMode
     }
 
+    fun getCurrentAudioBean(): AudioBean? = currentAudioBean
+
+    //设置当前正在播放的对象
+    fun setCurrentAudioBean(audioBean: AudioBean) {
+        currentAudioBean = audioBean
+        currentIndex = getIndexByAudio(audioBean)
+    }
+
+    /**
+     * 通过currentAudio获取所在的index
+     * 之所以没有全局开放一个index,是为了尽可能的降低 index 的操作权限
+     */
+    private fun getIndexByAudio(audioBean: AudioBean): Int {
+        val size = currentPlayList.size
+        for (index in 0 until size) {
+            if (audioBean == currentPlayList[index]) {
+                return index
+            }
+        }
+        //默认返回0
+        return 0
+    }
+
+    fun getPlayMode() = playMode
+
     /**
      * 清除播放器播放资源
      */
-    fun clear(){
-        currentAudioBean=null
+    fun clear() {
+        currentAudioBean = null
     }
 }
 
