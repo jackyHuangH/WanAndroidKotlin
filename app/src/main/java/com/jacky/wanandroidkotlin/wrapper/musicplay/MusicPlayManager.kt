@@ -143,6 +143,11 @@ object MusicPlayManager : IPlayerStatus {
     }
 
     /**
+     *获取当前播放曲目列表
+     */
+    fun getCurrentAudioList(): MutableList<AudioBean> = mPlayListManager.getCurrentAudioList()
+
+    /**
      * 播放一个新的音频
      */
     fun playNewAudio(audioBean: AudioBean?) {

@@ -53,6 +53,11 @@ class PlayListManager {
     }
 
     /**
+     *获取当前播放曲目列表
+     */
+    fun getCurrentAudioList(): MutableList<AudioBean> = currentPlayList
+
+    /**
      * 第一次播放的音频，默认列表第一个
      */
     fun startPlayAudio(): AudioBean? {

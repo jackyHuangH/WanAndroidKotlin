@@ -10,26 +10,40 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gyf.immersionbar.ImmersionBar
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.databinding.ActivityMusicPlayBinding
 import com.jacky.wanandroidkotlin.jetpack.binding.AnimBinding
+import com.jacky.wanandroidkotlin.ui.adapter.MusicListAdapter
 import com.jacky.wanandroidkotlin.util.StatusBarUtil
 import com.jacky.wanandroidkotlin.util.formatMusicTime
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
+import com.jacky.wanandroidkotlin.wrapper.childViewExt
 import com.jacky.wanandroidkotlin.wrapper.musicplay.*
 import com.zenchn.support.router.Router
+import com.zenchn.support.utils.AndroidKit
 import kotlinx.android.synthetic.main.activity_music_play.*
+import kotlinx.android.synthetic.main.fragment_tab_home.*
+import kotlinx.android.synthetic.main.layout_music_list_bottom_dialog.*
 
 
 class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
 
     private lateinit var mActivityBinding: ActivityMusicPlayBinding
+    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private val musicListAdapter by lazy { MusicListAdapter() }
 
     override fun getLayoutId(): Int = 0
 
@@ -54,11 +68,59 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
     }
 
     override fun initWidget() {
-        MusicPlayManager.initPlayer(this)
         MusicPlayManager.register(this)
         ibt_back.setOnAntiShakeClickListener { onBackPressed() }
         initSeekBar()
+        initBottomSheet()
         initClick()
+    }
+
+    private fun initBottomSheet() {
+        bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialog)
+        val bottomView =
+            LayoutInflater.from(this)
+                .inflate(R.layout.layout_music_list_bottom_dialog, null)
+                .apply {
+                    post {
+                        val lp = this.layoutParams
+                        lp.height = AndroidKit.Dimens.getScreenHeight() * 2 / 3
+                        this.layoutParams = lp
+                    }
+                    val tvCount = findViewById<TextView>(R.id.tv_audio_count)
+                    childViewExt<RecyclerView>(R.id.rv_audio) {
+                        initRecyclerView(tvCount, this)
+                    }
+                }
+        bottomSheetDialog.setContentView(bottomView)
+        bottomSheetDialog.behavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                Log.d("MusicBottom", "newState:$newState")
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+
+        })
+    }
+
+    private fun initRecyclerView(textView: TextView, rv: RecyclerView) {
+        rv.apply {
+            layoutManager = LinearLayoutManager(this@MusicPlayActivity)
+            setHasFixedSize(true)
+            adapter = musicListAdapter.apply {
+                setOnItemClickListener { adapter, view, position ->
+                    val item = adapter.data[position] as? AudioBean
+                    item?.let {
+                        MusicPlayManager.playNewAudio(it)
+                        musicListAdapter.updateSelect(it)
+                    }
+                }
+            }
+        }
+        val audioList = MusicPlayManager.getCurrentAudioList()
+        musicListAdapter.setNewData(audioList)
+        textView.text = "歌曲列表（${audioList.size}）"
     }
 
     //点击事件监听
@@ -84,7 +146,8 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
             MusicPlayManager.nextAudio()
         }
         ivMusicList.setOnAntiShakeClickListener {
-            //TODO 播放列表
+            //播放列表
+            bottomSheetDialog.show()
         }
     }
 
@@ -109,6 +172,7 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
         mViewModel.audioInfo.set(audioBean)
         mViewModel.maxProgress.set(audioBean.duration)
         mViewModel.totalDurationString.set(formatMusicTime(audioBean.duration))
+        musicListAdapter.updateSelect(audioBean)
     }
 
     override fun onPlayerStatus(playStatus: Int) {
@@ -143,7 +207,6 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
 
     override fun onDestroy() {
         MusicPlayManager.unregister(this)
-        AnimBinding.releaseAnim()
         super.onDestroy()
     }
 

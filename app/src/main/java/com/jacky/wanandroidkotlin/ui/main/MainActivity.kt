@@ -18,6 +18,7 @@ import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
 import com.jacky.wanandroidkotlin.common.TOOL_URL
+import com.jacky.wanandroidkotlin.jetpack.binding.AnimBinding
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
 import com.jacky.wanandroidkotlin.test.TestActivity
@@ -239,6 +240,11 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         mErrorMsg.observe(this@MainActivity, Observer {
             showMessage(it)
         })
+    }
+
+    override fun onDestroy() {
+        AnimBinding.releaseAnim()
+        super.onDestroy()
     }
 
     private var mExitTime: Long = 0

@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+
     <!-- 默认背景色 -->
     <color name="backgroundColor">#EEEEEE</color>
     <color name="common_white">#FFFFFF</color>
@@ -13,4 +14,5 @@
     <color name="color_8e9dac">#8e9dac</color>
     <color name="color_play_bg">#FFFFFF</color>
     <color name="color_seek_end">#D5D4D4</color>
+    <color name="white_black">#FFFFFF</color>
 </resources>

@@ -50,5 +50,10 @@ data class AudioBean(
     /**
      * 所属播放列表
      */
-    var playListType: Int = PlayListType.LOCAL_PLAY_LIST
+    var playListType: Int = PlayListType.LOCAL_PLAY_LIST,
+
+    /**
+     * 是否选中播放
+     */
+    var hasSelected: Boolean = false
 )

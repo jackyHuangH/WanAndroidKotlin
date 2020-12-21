@@ -58,7 +58,6 @@ class FloatPlayLayout : LinearLayout {
 
     private fun initView(context: Context) {
         LayoutInflater.from(context).inflate(R.layout.layout_float_play, this).apply {
-            tv_song_name.isSelected = true
             iv_music_pic.setOnAntiShakeClickListener {
                 //收缩状态进行展开动画
                 startAnim()
@@ -185,6 +184,7 @@ class FloatPlayLayout : LinearLayout {
      */
     fun setPlayControlSelected(selected: Boolean) {
         iv_play.isSelected = selected
+        tv_song_name.isSelected = selected
     }
 
     /**
@@ -192,7 +192,6 @@ class FloatPlayLayout : LinearLayout {
      */
     fun updateMusicName(name: String?) {
         tv_song_name.text = name.orNotNullNotEmpty("暂无曲目")
-        tv_song_name.isSelected = true
     }
 
     /**

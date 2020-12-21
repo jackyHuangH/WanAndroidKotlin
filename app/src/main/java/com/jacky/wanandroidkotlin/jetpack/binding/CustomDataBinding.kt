@@ -82,9 +82,9 @@ fun imgCircleUri(imageView: ImageView, albumId: Long) {
         imageView.setImageResource(R.drawable.play_album_default)
         return
     }
+    val uri = ResolveUtils.albumUriById(albumId)
     imageView.loadCircle(
-        imageView.context,
-        ResolveUtils.albumUriById(albumId),
+        imageView.context, uri,
         R.drawable.play_album_default
     )
 }
