@@ -66,6 +66,7 @@ fun ImageView.loadCircle(context: Context, uri: Uri, @DrawableRes fallbackResId:
     Glide.with(context)
         .load(uri)
         .fallback(fallbackResId)
+        .error(fallbackResId)
         .apply(RequestOptions.bitmapTransform(CircleCrop()))
         .into(this)
 }
