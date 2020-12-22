@@ -242,11 +242,6 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         })
     }
 
-    override fun onDestroy() {
-        AnimBinding.releaseAnim()
-        super.onDestroy()
-    }
-
     private var mExitTime: Long = 0
     override fun onBackPressed() {
         if (System.currentTimeMillis().minus(mExitTime) <= 2000) {

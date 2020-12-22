@@ -135,12 +135,11 @@ object AnimBinding {
             }*/
         }
         when (playStatus) {
-            PlayerStatus.PLAY_START -> {
-                rotateAnimator?.start()
-            }
-            PlayerStatus.PLAY_RESUME -> {
+            PlayerStatus.PLAY_START, PlayerStatus.PLAY_RESUME -> {
                 if (rotateAnimator?.isPaused == true) {
                     rotateAnimator?.resume()
+                } else {
+                    rotateAnimator?.start()
                 }
             }
             PlayerStatus.PLAY_PAUSE -> {

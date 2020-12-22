@@ -318,7 +318,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         MusicPlayManager.unregister(this)
+        super.onDestroyView()
     }
 }

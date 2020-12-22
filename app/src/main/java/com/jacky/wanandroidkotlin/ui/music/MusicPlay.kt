@@ -109,6 +109,7 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
             layoutManager = LinearLayoutManager(this@MusicPlayActivity)
             setHasFixedSize(true)
             adapter = musicListAdapter.apply {
+                setHasStableIds(true)
                 setOnItemClickListener { adapter, view, position ->
                     val item = adapter.data[position] as? AudioBean
                     item?.let {
@@ -207,6 +208,7 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
 
     override fun onDestroy() {
         MusicPlayManager.unregister(this)
+        AnimBinding.releaseAnim()
         super.onDestroy()
     }
 
