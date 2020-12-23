@@ -49,6 +49,12 @@ interface WanApiService {
     suspend fun getHomeArticles(@Path("page") page: Int): WanResponse<ArticleList>
 
     /**
+     * 首页置顶文章列表
+     */
+    @GET("/article/top/json")
+    suspend fun getHomeTopArticles(): WanResponse<List<ArticleEntity>>
+
+    /**
      * 首页banner
      */
     @GET("/banner/json")

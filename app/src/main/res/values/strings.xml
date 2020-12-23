@@ -64,4 +64,7 @@
     <string name="setting_language">语言</string>
     <string name="setting_theme">主题</string>
     <string name="setting_theme_not_support">抱歉，您的系统版本低于Android Q，无法更改主题模式！</string>
+
+    <string name="home_article_tag_top">置顶</string>
+    <string name="home_article_tag_new">新</string>
 </resources>

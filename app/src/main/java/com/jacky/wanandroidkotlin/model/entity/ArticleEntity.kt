@@ -29,6 +29,6 @@ data class ArticleEntity(
     val projectLink: String,
     val superChapterId: Int,
     val superChapterName: String?,
-    val type: Int,
-    val fresh: Boolean
+    val type: Int,//1 置顶 0普通
+    val fresh: Boolean//是否 新
 ) : Serializable

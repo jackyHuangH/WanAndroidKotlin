@@ -65,4 +65,7 @@
     <string name="setting_language">language</string>
     <string name="setting_theme">theme mode</string>
     <string name="setting_theme_not_support">Sorry, your system version is lower than Android Q, you cannot change the theme mode!</string>
+
+    <string name="home_article_tag_top">Top</string>
+    <string name="home_article_tag_new">New</string>
 </resources>
