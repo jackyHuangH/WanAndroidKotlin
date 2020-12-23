@@ -1,7 +1,6 @@
 package com.jacky.wanandroidkotlin.ui.tabhome
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -233,11 +232,14 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
             onItemClickListener = this@TabHomeFragment
             onItemChildClickListener = this@TabHomeFragment
             setOnLoadMoreListener(this@TabHomeFragment, rlv)
-            val header =
-                LayoutInflater.from(activity)
-                    .inflate(R.layout.recycler_header_banner_home, rlv, false)
-            mBannerHome = header.findViewById(R.id.banner_home)
-            addHeaderView(header)
+            if (headerLayoutCount <= 0) {
+                //避免重复添加header
+                val header =
+                    LayoutInflater.from(activity)
+                        .inflate(R.layout.recycler_header_banner_home, rlv, false)
+                mBannerHome = header.findViewById(R.id.banner_home)
+                addHeaderView(header)
+            }
             setLoadMoreView(CustomLoadMoreView())
             rlv.adapter = this
         }
