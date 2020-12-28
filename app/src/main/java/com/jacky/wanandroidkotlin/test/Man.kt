@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin.test
 
 import android.content.Context
+import android.util.LruCache
 import android.widget.Toast
 import java.util.concurrent.Executors
 
@@ -273,6 +274,12 @@ fun main(args: Array<String>) {
 //    man.testCar()
 //    man.testLet()
 
+//    testLruCache()
+
+    testFor()
+}
+
+fun testThreadPool() {
     val cachedThreadPool = Executors.newCachedThreadPool()
     for (i in 0 until 10) {
         Thread.sleep(i * 1000L)
@@ -281,4 +288,28 @@ fun main(args: Array<String>) {
         }
     }
     println("the end")
+}
+
+fun testFor() {
+    out@ for (i in 0..10) {
+        println("out index:$i")
+        for (j in 0..8) {
+            println("inner index:$j")
+            if (j % 2 == 1) {
+                break@out
+            }
+        }
+    }
+}
+
+fun testLruCache() {
+    val lruCache = object : LruCache<Int, Int>(8) {
+        override fun sizeOf(key: Int?, value: Int?): Int {
+            return 2
+        }
+    }
+    for (i in 0..10) {
+        lruCache.put(i, i)
+    }
+    println("$lruCache")
 }

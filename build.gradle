@@ -1,8 +1,7 @@
 apply from:'config.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.4.10'
-    ext.antlr_version = '4.7.1'
+    ext.kotlin_version = '1.4.21'
     repositories {
         google()
         jcenter()
@@ -35,20 +34,6 @@ subprojects {
                 details.useVersion '1.3.2'
             }
         }
-    }
-}
-
-//groovy
-configurations.all {
-    resolutionStrategy.force "org.antlr:antlr4-runtime:$antlr_version"
-    resolutionStrategy.force "org.antlr:antlr4-tool:$antlr_version"
-}
-
-//kotlin DSL
-configurations.all {
-    resolutionStrategy {
-        force("org.antlr:antlr4-runtime:$antlr_version")
-        force("org.antlr:antlr4-tool:$antlr_version")
     }
 }
 

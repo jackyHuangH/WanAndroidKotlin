@@ -1,5 +1,6 @@
 package com.jacky.wanandroidkotlin.model.api
 
+import android.annotation.SuppressLint
 import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
@@ -27,6 +28,7 @@ object WanRetrofitClient : BaseRetrofitClient() {
         PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(ContextModel.getApplicationContext()))
     }
 
+    @SuppressLint("MissingPermission")
     override fun handleBuilder(builder: OkHttpClient.Builder) {
         //添加cookie
         val applicationContext = ContextModel.getApplicationContext()

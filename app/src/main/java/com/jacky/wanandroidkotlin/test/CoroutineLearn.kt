@@ -24,10 +24,9 @@ import kotlinx.coroutines.*
 //    println("coroutineScope is over")//这一行在内嵌 launch 执行完之后才输出
 //}
 
-fun main()= runBlocking{
+fun main() = runBlocking {
     testCoroutine()
 }
-
 
 fun testCoroutine() {
     GlobalScope.launch {
