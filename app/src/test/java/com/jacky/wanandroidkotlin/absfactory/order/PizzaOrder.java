@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
  * record：
  */
 public class PizzaOrder {
-   AbsFactory factory;
+    AbsFactory factory;
 
     public void setFactory(AbsFactory factory) {
         this.factory = factory;
