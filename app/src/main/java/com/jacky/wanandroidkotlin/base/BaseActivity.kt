@@ -22,8 +22,8 @@ import com.zenchn.support.utils.AndroidKit
 abstract class BaseActivity : AppCompatActivity(), IView {
 
     protected lateinit var mImmersionBar: ImmersionBar
-    protected var instanceState: Bundle? = null
-    protected val mUiDelegate: IUiController by lazy {
+    private var instanceState: Bundle? = null
+    private val mUiDelegate: IUiController by lazy {
         DefaultUiController(
             this,
             this
