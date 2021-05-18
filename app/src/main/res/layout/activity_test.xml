@@ -27,7 +27,22 @@
             android:id="@+id/bt_test_data_binding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAllCaps="false"
             android:text="test DataBinding" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:hint="输入测试url"
+            android:text="http://"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_url"/>
+
+        <Button
+            android:id="@+id/bt_test_web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="test x5Web" />
 
         <Switch
             android:id="@+id/sw_btn"

@@ -12,6 +12,7 @@ import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
+import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.zenchn.support.router.Router
 import kotlinx.android.synthetic.main.activity_test.*
 import java.util.*
@@ -66,6 +67,12 @@ class TestActivity : BaseActivity() {
 
         bt_test_data_binding.setOnClickListener {
             startActivity(Intent(this, TwoActivity::class.java))
+        }
+
+        bt_test_web.setOnClickListener {
+            et_url.text?.toString()?.trim()?.let { testUrl ->
+                BrowserActivity.launch(this, testUrl)
+            }
         }
 
         //对象实例化
