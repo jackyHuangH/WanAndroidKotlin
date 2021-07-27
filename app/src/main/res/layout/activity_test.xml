@@ -27,49 +27,38 @@
             android:id="@+id/bt_test_data_binding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="test DataBinding" />
+            android:text="test DataBinding"
+            android:textAllCaps="false" />
 
         <EditText
+            android:id="@+id/et_url"
             android:layout_width="match_parent"
-            android:hint="输入测试url"
-            android:text="http://"
             android:layout_height="wrap_content"
-            android:id="@+id/et_url"/>
+            android:hint="输入测试url"
+            android:text="http://" />
 
         <Button
             android:id="@+id/bt_test_web"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="test x5Web" />
+            android:text="test x5Web"
+            android:textAllCaps="false" />
 
-        <Switch
-            android:id="@+id/sw_btn"
+        <Button
+            android:id="@+id/btn_wifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textColor="@color/colorPrimary"
-            android:textOff="关"
-            android:textOn="开"
-            android:textSize="13sp" />
+            android:text="wifi info"
+            android:textColor="@color/colorPrimary" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
+        <TextView
+            android:id="@+id/tv_info"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_10"
-            android:layout_marginTop="10dp" />
-
-        <FrameLayout
-            android:layout_width="100dp"
-            android:layout_height="wrap_content">
-
-            <com.jacky.wanandroidkotlin.test.SquareView
-                android:layout_width="120dp"
-                android:layout_height="60dp"
-                android:layout_margin="5dp"
-                android:background="@color/colorAccent" />
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/color_282828"
+            android:textSize="12sp" />
 
         <com.jacky.wanandroidkotlin.test.MyLinearLayout
             android:layout_width="match_parent"
@@ -78,7 +67,7 @@
 
             <Button
                 android:layout_width="60dp"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="button1" />
 
             <Button
@@ -91,66 +80,6 @@
                 android:layout_height="wrap_content"
                 android:text="button3" />
         </com.jacky.wanandroidkotlin.test.MyLinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <View
-                android:id="@+id/bg1"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_40"
-                android:layout_marginStart="5dp"
-                android:background="@drawable/selector_primary"
-                android:clickable="true"
-                android:focusable="true"
-                app:layout_constraintEnd_toStartOf="@+id/bg2"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/bg2"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_40"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/selector_accend"
-                android:clickable="true"
-                android:focusable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@+id/bg1"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_girl"
-                android:drawablePadding="3dp"
-                android:gravity="center"
-                android:text="充币"
-                app:layout_constraintBottom_toBottomOf="@+id/bg1"
-                app:layout_constraintEnd_toEndOf="@+id/bg1"
-                app:layout_constraintStart_toStartOf="@+id/bg1"
-                app:layout_constraintTop_toTopOf="@+id/bg1" />
-
-            <TextView
-                android:id="@+id/tv2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_girl"
-                android:drawablePadding="3dp"
-                android:gravity="center"
-                android:text="充币"
-                app:layout_constraintBottom_toBottomOf="@+id/bg2"
-                app:layout_constraintEnd_toEndOf="@+id/bg2"
-                app:layout_constraintStart_toStartOf="@+id/bg2"
-                app:layout_constraintTop_toTopOf="@+id/bg2" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="wrap_content"

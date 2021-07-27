@@ -24,6 +24,6 @@ public class TryCatchTest {
         } finally {
             System.out.println("finally:");
         }
-        return null;
+        return "666";
     }
 }

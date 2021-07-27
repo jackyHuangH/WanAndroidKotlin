@@ -1,12 +1,14 @@
 package com.jacky.wanandroidkotlin.test
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.LevelListDrawable
 import android.graphics.drawable.TransitionDrawable
+import android.net.wifi.WifiManager
+import android.widget.Button
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
@@ -16,7 +18,6 @@ import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.zenchn.support.router.Router
 import kotlinx.android.synthetic.main.activity_test.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  *
@@ -29,7 +30,7 @@ class TestActivity : BaseActivity() {
     /**
      * 后期初始化属性
      */
-    private lateinit var mRlv: RecyclerView
+    private lateinit var mTvInfo: TextView
 
     /**
      * 声明一个延迟初始化（懒加载）属性
@@ -46,15 +47,14 @@ class TestActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.activity_test
 
     override fun initWidget() {
-        mRlv = findViewById(R.id.list)
-        mRlv.layoutManager = LinearLayoutManager(this)
-        val datas = ArrayList<String>()
-        for (i in 0 until 25) {
-            datas.add("元素$i")
-        }
+        mTvInfo = findViewById(R.id.tv_info)
 
-        sw_btn.setOnCheckedChangeListener { _, isChecked ->
-            bt.text = if (isChecked) "打开" else "关闭"
+        findViewById<Button>(R.id.btn_wifi).setOnClickListener { _ ->
+            (applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager)?.apply {
+                val wifiInfo = connectionInfo
+                mTvInfo.text = wifiInfo.toString()
+            }
+
         }
 
         bt.setOnClickListener {
@@ -109,6 +109,7 @@ class TestActivity : BaseActivity() {
      */
     companion object Num {
         const val NUM_C = "伴生对象中声明"
+        const val TAG = "TEST"
 
         fun launch(from: FragmentActivity) {
             Router
