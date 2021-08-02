@@ -4,10 +4,16 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
+import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
@@ -16,23 +22,31 @@ import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerViewHelper
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
+import com.jacky.wanandroidkotlin.wrapper.viewClickListener
+import com.jacky.wanandroidkotlin.wrapper.viewVisibleExt
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.zenchn.support.router.Router
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.widget.VerticalItemDecoration
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
+import com.zhy.view.flowlayout.TagFlowLayout
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_search.*
 
 /**
  * 搜索
  */
-class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnItemClickListener,
-    BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemChildClickListener {
+class SearchActivity : BaseVMActivity<SearchViewModel>(), OnItemClickListener,
+    OnLoadMoreListener, OnItemChildClickListener {
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var etSearch: EditText
+    private lateinit var webTaglayout: TagFlowLayout
+    private lateinit var hotTaglayout: TagFlowLayout
 
     private var mPageNum = 0
     private var mKeyword = ""
@@ -42,10 +56,15 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
     private val mCompositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
+
     override fun getLayoutId(): Int = R.layout.activity_search
 
     override fun initWidget() {
-        ibt_back.setOnClickListener { onBackPressed() }
+        viewClickListener(R.id.ibt_back) { onBackPressed() }
+        swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
+        etSearch = getView<EditText>(R.id.et_search)
+        webTaglayout = getView<TagFlowLayout>(R.id.web_tagLayout)
+        hotTaglayout = getView<TagFlowLayout>(R.id.hot_tagLayout)
         initRecyclerView()
         initRefreshLayout()
         initTagFlowLayout()
@@ -55,11 +74,11 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     private fun initEditText() {
         mCompositeDisposable.add(
             RxTextView
-                .editorActions(et_search)
+                .editorActions(etSearch)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     if (it == EditorInfo.IME_ACTION_SEARCH) {
-                        mKeyword = et_search.text.toString()
+                        mKeyword = etSearch.text.toString()
                         doSearch()
                     }
                 }
@@ -67,7 +86,7 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     }
 
     private fun initTagFlowLayout() {
-        web_tagLayout.apply {
+        webTaglayout.apply {
             adapter = object : TagAdapter<HotEntity>(mCommonWebsiteList) {
                 override fun getView(parent: FlowLayout?, position: Int, t: HotEntity?): View {
                     val tvTag =
@@ -83,7 +102,7 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
                 true
             }
         }
-        hot_tagLayout.apply {
+        hotTaglayout.apply {
             adapter = object : TagAdapter<HotEntity>(mHotKeyList) {
                 override fun getView(parent: FlowLayout?, position: Int, t: HotEntity?): View {
                     val tvTag =
@@ -95,7 +114,7 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
             }
             setOnTagClickListener { view, position, parent ->
                 mKeyword = mHotKeyList[position].name
-                et_search.setText(mKeyword)
+                etSearch.setText(mKeyword)
                 doSearch()
                 true
             }
@@ -103,7 +122,7 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     }
 
     private fun initRefreshLayout() {
-        swipe_refresh.apply {
+        swipeRefreshLayout.apply {
             setColorSchemeResources(R.color.colorAccent)
             setOnRefreshListener {
                 //搜索内容
@@ -119,13 +138,14 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
             return
         }
         //下拉刷新时禁用加载更多
-        mListAdapter.setEnableLoadMore(false)
-        swipe_refresh.isRefreshing = true
+        mListAdapter.loadMoreModule.isEnableLoadMore = false
+        swipeRefreshLayout.isRefreshing = true
         mPageNum = 0
         mViewModel.searchWithKeyword(mPageNum, mKeyword)
     }
 
     private fun initRecyclerView() {
+        val rlv = getView<RecyclerView>(R.id.rlv)
         rlv.apply {
             layoutManager = LinearLayoutManager(this@SearchActivity)
             setHasFixedSize(true)
@@ -135,16 +155,17 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
                 )
             )
             adapter = mListAdapter.apply {
-                onItemClickListener = this@SearchActivity
-                onItemChildClickListener = this@SearchActivity
-                emptyView = RecyclerViewHelper.getCommonEmptyView(rlv)
-                setOnLoadMoreListener(this@SearchActivity, rlv)
-                setLoadMoreView(CustomLoadMoreView())
+                setOnItemClickListener(this@SearchActivity)
+                addChildClickViewIds(R.id.ibt_star)
+                setOnItemChildClickListener(this@SearchActivity)
+                setEmptyView(RecyclerViewHelper.getCommonEmptyView(rlv))
+                loadMoreModule.setOnLoadMoreListener(this@SearchActivity)
+                loadMoreModule.loadMoreView = CustomLoadMoreView()
             }
         }
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         // 跳转详情
         adapter?.run {
             val entity = data[position] as ArticleEntity
@@ -152,12 +173,12 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
         }
     }
 
-    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        when (view?.id) {
+    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+        when (view.id) {
             R.id.ibt_star -> {
                 if (mIsLogin) {
                     //收藏
-                    adapter?.run {
+                    adapter.run {
                         val entity = data[position] as ArticleEntity
                         entity.run {
                             collect = !collect
@@ -173,7 +194,7 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
         }
     }
 
-    override fun onLoadMoreRequested() {
+    override fun onLoadMore() {
         // 加载更多
         mPageNum++
         mViewModel.searchWithKeyword(mPageNum, mKeyword)
@@ -182,10 +203,10 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     override val startObserve: SearchViewModel.() -> Unit = {
         mArticleList.observe(this@SearchActivity, Observer { articleList ->
             articleList?.let {
-                swipe_refresh.visibility = View.VISIBLE
-                scroll_view.visibility = View.GONE
+                swipeRefreshLayout.visibility = View.VISIBLE
+                viewVisibleExt(R.id.scroll_view, false)
                 if (mPageNum == 0) {
-                    mListAdapter.setNewData(it.datas)
+                    mListAdapter.setNewInstance(it.datas)
                 } else {
                     mListAdapter.addData(it.datas)
                 }
@@ -196,14 +217,14 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
             list?.let {
                 mCommonWebsiteList.clear()
                 mCommonWebsiteList.addAll(it)
-                web_tagLayout.adapter.notifyDataChanged()
+                webTaglayout.adapter.notifyDataChanged()
             }
         })
         mHotKeyData.observe(this@SearchActivity, Observer { list ->
             list?.let {
                 mHotKeyList.clear()
                 mHotKeyList.addAll(it)
-                hot_tagLayout.adapter.notifyDataChanged()
+                hotTaglayout.adapter.notifyDataChanged()
             }
         })
         mErrorMsg.observe(this@SearchActivity, Observer {
@@ -212,29 +233,23 @@ class SearchActivity : BaseVMActivity<SearchViewModel>(), BaseQuickAdapter.OnIte
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
         }
-        mListAdapter.apply {
-            if (hasNextPage) {
-                loadMoreComplete()
-            } else {
-                loadMoreEnd()
-            }
-        }
+        mListAdapter.updateLoadMoreStatus(hasNextPage)
     }
 
     override fun onApiFailure(msg: String) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
         }
         super.onApiFailure(msg)
     }
 
     override fun onBackPressed() {
-        if (swipe_refresh.visibility == View.VISIBLE) {
-            swipe_refresh.visibility = View.GONE
-            scroll_view.visibility = View.VISIBLE
+        if (swipeRefreshLayout.visibility == View.VISIBLE) {
+            swipeRefreshLayout.visibility = View.GONE
+            viewVisibleExt(R.id.scroll_view, true)
         } else {
             super.onBackPressed()
         }

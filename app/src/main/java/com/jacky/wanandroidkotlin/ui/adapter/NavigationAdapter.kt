@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.model.entity.NavigationEntity
@@ -29,14 +29,15 @@ class NavigationAdapter(layoutResId: Int = R.layout.recycler_item_navigation) :
             adapter = object : TagAdapter<ArticleEntity>(item.articles) {
                 override fun getView(parent: FlowLayout?, position: Int, t: ArticleEntity): View {
                     val tvTag =
-                        LayoutInflater.from(parent?.context).inflate(R.layout.item_tag, parent, false) as TextView
+                        LayoutInflater.from(parent?.context)
+                            .inflate(R.layout.item_tag, parent, false) as TextView
                     tvTag.text = t.title
                     return tvTag
                 }
             }
 
             setOnTagClickListener { view, position, parent ->
-                BrowserActivity.launch(mContext as Activity, item.articles[position].link)
+                BrowserActivity.launch(context as Activity, item.articles[position].link)
                 true
             }
         }

@@ -6,7 +6,7 @@ package com.jacky.wanandroidkotlin.wrapper.musicplay
  * desc  ：播放过程回调接口
  * record：
  */
-interface IPlayerStatus {
+interface IPlayerStatusListener {
     /**
      * 缓冲更新
      */

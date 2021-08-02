@@ -5,12 +5,16 @@ import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.TextView
+import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 import com.zenchn.support.router.Router
-import kotlinx.android.synthetic.main.activity_browser.*
 
 
 /**
@@ -20,65 +24,70 @@ import kotlinx.android.synthetic.main.activity_browser.*
  * record：
  */
 class BrowserActivity : BaseActivity() {
+    private lateinit var webView: WebView
 
-    override fun getLayoutId(): Int = com.jacky.wanandroidkotlin.R.layout.activity_browser
+    override fun getLayoutId(): Int = R.layout.activity_browser
 
     override fun initWidget() {
         window.setFormat(PixelFormat.TRANSLUCENT)//（这个对宿主没什么影响，建议声明）
-        ibt_back.setOnClickListener { onBackPressed() }
-        tv_title.isSelected = true
+        webView = getView<WebView>(R.id.web_view)
+        getView<ImageButton>(R.id.ibt_back).setOnClickListener { onBackPressed() }
+        getView<TextView>(R.id.tv_title).isSelected = true
         initWebView()
     }
 
+
     private fun initWebView() {
+        val pbLoading = getView<ProgressBar>(R.id.pb_loading)
+        val tvTitle = getView<TextView>(R.id.tv_title)
         intent?.getStringExtra(EXTRA_URL)?.let {
-            web_view.loadUrl(it)
+            webView.loadUrl(it)
         }
 
-        web_view.run {
+        webView.run {
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(p0: WebView?, p1: String?) {
                     super.onPageFinished(p0, p1)
-                    pb_loading.visibility = View.GONE
+                    pbLoading.visibility = View.GONE
                 }
 
                 override fun onPageStarted(p0: WebView?, p1: String?, p2: Bitmap?) {
                     super.onPageStarted(p0, p1, p2)
-                    pb_loading.visibility = View.VISIBLE
+                    pbLoading.visibility = View.VISIBLE
                 }
             }
             webChromeClient = object : WebChromeClient() {
                 override fun onReceivedTitle(p0: WebView?, p1: String?) {
                     super.onReceivedTitle(p0, p1)
-                    p1?.let { tv_title.text = it }
+                    p1?.let { tvTitle.text = it }
                 }
 
                 override fun onProgressChanged(p0: WebView?, p1: Int) {
                     super.onProgressChanged(p0, p1)
-                    pb_loading.progress = p1
+                    pbLoading.progress = p1
                 }
             }
         }
 
-        Log.d("是否为x5", ":${web_view.x5WebViewExtension}")
+        Log.d("是否为x5", ":${webView.x5WebViewExtension}")
     }
 
     override fun onBackPressed() {
-        if (web_view.canGoBack()) {
-            web_view.goBack()
+        if (webView.canGoBack()) {
+            webView.goBack()
         } else {
             super.onBackPressed()
         }
     }
 
     override fun onDestroy() {
-        if (web_view != null) {
+        if (webView != null) {
             //加载null内容
-            web_view.loadDataWithBaseURL(null, "", "text/html", "utf-8", null)
+            webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null)
             //清除历史记录
-            web_view.clearHistory()
+            webView.clearHistory()
             //销毁VebView
-            web_view.destroy()
+            webView.destroy()
         }
         super.onDestroy()
     }

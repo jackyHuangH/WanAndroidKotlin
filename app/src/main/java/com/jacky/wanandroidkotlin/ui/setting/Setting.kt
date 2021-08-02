@@ -2,6 +2,7 @@ package com.jacky.wanandroidkotlin.ui.setting
 
 import android.app.Activity
 import android.os.Build
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.*
 import com.afollestad.materialdialogs.MaterialDialog
@@ -10,10 +11,9 @@ import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.util.LanguageUtils
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
-import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
+import com.jacky.wanandroidkotlin.wrapper.viewClickListener
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.router.Router
-import kotlinx.android.synthetic.main.activity_setting.*
-import kotlinx.android.synthetic.main.toolbar_layout.*
 
 /**
  * @author:Hzj
@@ -29,11 +29,11 @@ class SettingActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.activity_setting
 
     override fun initWidget() {
-        toolbar.apply {
+        viewExt<Toolbar>(R.id.toolbar) {
             setNavigationOnClickListener { onBackPressed() }
             title = getString(R.string.setting_title)
         }
-        tv_language.setOnAntiShakeClickListener {
+        viewClickListener(R.id.tv_language) {
             //多语言设置
             MaterialDialog(this).show {
                 listItemsSingleChoice(
@@ -44,7 +44,7 @@ class SettingActivity : BaseActivity() {
                 }
             }
         }
-        tv_theme.setOnAntiShakeClickListener {
+        viewClickListener(R.id.tv_theme) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 //主题模式设置
                 MaterialDialog(this).show {

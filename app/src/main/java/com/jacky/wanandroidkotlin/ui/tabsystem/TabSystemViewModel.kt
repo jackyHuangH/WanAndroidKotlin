@@ -16,7 +16,7 @@ import com.jacky.wanandroidkotlin.model.repositry.SystemRepository
  */
 class TabSystemViewModel(application: Application) : BaseViewModel(application) {
     private val mRepository by lazy { SystemRepository() }
-    val mTreeList: MutableLiveData<List<TreeParentEntity>> = MutableLiveData()
+    val mTreeList: MutableLiveData<MutableList<TreeParentEntity>> = MutableLiveData()
     val mArticleList: MutableLiveData<ArticleList> = MutableLiveData()
 
     //获取体系树列表

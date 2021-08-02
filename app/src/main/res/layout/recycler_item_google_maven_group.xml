@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    style="@style/RippleStyle">
 
     <TextView
         android:id="@+id/tv_artifact_name"

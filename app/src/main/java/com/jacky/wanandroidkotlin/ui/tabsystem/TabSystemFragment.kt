@@ -1,21 +1,21 @@
 package com.jacky.wanandroidkotlin.ui.tabsystem
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.ui.adapter.SystemListAdapter
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemClassifyActivity
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.widget.VerticalItemDecoration
-import kotlinx.android.synthetic.main.fragment_tab_system.*
 
 /**
  * @author:Hzj
@@ -23,8 +23,9 @@ import kotlinx.android.synthetic.main.fragment_tab_system.*
  * desc  ：体系Tab
  * record：
  */
-class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(),
-    BaseQuickAdapter.OnItemClickListener {
+class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(), OnItemClickListener {
+    private lateinit var rlv: RecyclerView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private val mAdapter by lazy { SystemListAdapter() }
 
@@ -40,10 +41,12 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(),
     override fun getLayoutId(): Int = R.layout.fragment_tab_system
 
     override fun lazyLoad() {
+        rlv = getView<RecyclerView>(R.id.rlv)
+        swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         initRecyclerView()
         initRefreshLayout()
         onRefresh()
-        swipe_refresh.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = true
     }
 
     private fun initRecyclerView() {
@@ -52,37 +55,35 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(),
             setHasFixedSize(true)
             addItemDecoration(VerticalItemDecoration(AndroidKit.Dimens.dp2px(10)))
             adapter = mAdapter.apply {
-                onItemClickListener = this@TabSystemFragment
+                setOnItemClickListener(this@TabSystemFragment)
             }
         }
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         // 跳转详情
-        adapter?.run {
+        adapter.run {
             val entity = data[position] as TreeParentEntity
             activity?.let { SystemClassifyActivity.launch(it, entity) }
         }
     }
 
     private fun initRefreshLayout() {
-        swipe_refresh.setColorSchemeResources(R.color.colorAccent)
-        swipe_refresh.setOnRefreshListener {
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
+        swipeRefreshLayout.setOnRefreshListener {
             //刷新数据
             onRefresh()
         }
     }
 
     private fun onRefresh() {
-        //下拉刷新时禁用加载更多
-        mAdapter.setEnableLoadMore(false)
         mViewModel.getSystemTreeList()
     }
 
     override val startObserve: TabSystemViewModel.() -> Unit = {
         mTreeList.observe(this@TabSystemFragment, Observer {
-            swipe_refresh.isRefreshing = false
-            it.run { mAdapter.setNewData(it) }
+            swipeRefreshLayout.isRefreshing = false
+            it.run { mAdapter.setNewInstance(it) }
         })
         mErrorMsg.observe(this@TabSystemFragment, Observer {
             onApiFailure(it)
@@ -90,8 +91,8 @@ class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(),
     }
 
     override fun onApiFailure(msg: String) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
         }
         super.onApiFailure(msg)
     }

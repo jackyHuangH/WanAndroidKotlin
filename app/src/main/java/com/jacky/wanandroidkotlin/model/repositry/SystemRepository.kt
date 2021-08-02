@@ -16,7 +16,7 @@ class SystemRepository : CollectRepository() {
     /**
      * 获取体系树 列表
      */
-    suspend fun getSystemTreeList(): WanResponse<List<TreeParentEntity>> {
+    suspend fun getSystemTreeList(): WanResponse<MutableList<TreeParentEntity>> {
         return WanRetrofitClient.mService.getSystemTreeList()
     }
 

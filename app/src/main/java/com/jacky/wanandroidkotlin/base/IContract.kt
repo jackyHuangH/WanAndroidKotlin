@@ -1,5 +1,11 @@
 package com.jacky.wanandroidkotlin.base
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import com.zenchn.support.base.IActivity
 import java.lang.reflect.ParameterizedType

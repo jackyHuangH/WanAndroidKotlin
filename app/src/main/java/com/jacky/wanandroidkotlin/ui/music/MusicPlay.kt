@@ -12,8 +12,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,15 +33,16 @@ import com.jacky.wanandroidkotlin.util.StatusBarUtil
 import com.jacky.wanandroidkotlin.util.formatMusicTime
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.childViewExt
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.musicplay.*
+import com.jacky.wanandroidkotlin.wrapper.viewClickListener
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.router.Router
 import com.zenchn.support.utils.AndroidKit
-import kotlinx.android.synthetic.main.activity_music_play.*
-import kotlinx.android.synthetic.main.fragment_tab_home.*
-import kotlinx.android.synthetic.main.layout_music_list_bottom_dialog.*
 
 
 class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
+    private lateinit var ibtBack: ImageButton
 
     private lateinit var mActivityBinding: ActivityMusicPlayBinding
     private lateinit var bottomSheetDialog: BottomSheetDialog
@@ -64,12 +67,13 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
             statusBarDarkFont(false)
             init()
         }
-        StatusBarUtil.setStatusBarMargin(this, ibt_back)
+        StatusBarUtil.setStatusBarMargin(this, ibtBack)
     }
 
     override fun initWidget() {
         MusicPlayManager.register(this)
-        ibt_back.setOnAntiShakeClickListener { onBackPressed() }
+        ibtBack = getView<ImageButton>(R.id.ibt_back)
+        ibtBack.setOnAntiShakeClickListener { onBackPressed() }
         initSeekBar()
         initBottomSheet()
         initClick()
@@ -126,47 +130,51 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
 
     //点击事件监听
     private fun initClick() {
-        ibt_collect.setOnAntiShakeClickListener {
-            //收藏
-            ibt_collect.isSelected = ibt_collect.isSelected.not()
+        viewExt<AppCompatImageView>(R.id.ibt_collect) {
+            setOnAntiShakeClickListener {
+                //收藏
+                isSelected = isSelected.not()
+            }
         }
-        ivMode.setOnAntiShakeClickListener {
+        viewClickListener(R.id.ivMode) {
             //播放模式
             MusicPlayManager.switchPlayMode()
         }
-        ivPrevious.setOnAntiShakeClickListener {
+        viewClickListener(R.id.ivPrevious) {
             //上一首
             MusicPlayManager.previousAudio()
         }
-        ivPlay.setOnAntiShakeClickListener {
+        viewClickListener(R.id.ivPlay) {
             //播放、暂停
             MusicPlayManager.playOrPause()
         }
-        ivNext.setOnAntiShakeClickListener {
+        viewClickListener(R.id.ivNext) {
             //下一首
             MusicPlayManager.nextAudio()
         }
-        ivMusicList.setOnAntiShakeClickListener {
+        viewClickListener(R.id.ivMusicList) {
             //播放列表
             bottomSheetDialog.show()
         }
     }
 
     private fun initSeekBar() {
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                mViewModel.playDurationString.set(formatMusicTime(seekBar.progress))
-            }
+        viewExt<SeekBar>(R.id.seekBar) {
+            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                    mViewModel.playDurationString.set(formatMusicTime(seekBar.progress))
+                }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                }
 
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                //拖动播放
-                MusicPlayManager.seekToPlay(seekBar.progress)
-            }
+                override fun onStopTrackingTouch(seekBar: SeekBar) {
+                    //拖动播放
+                    MusicPlayManager.seekToPlay(seekBar.progress)
+                }
 
-        })
+            })
+        }
     }
 
     override fun onAudioBean(audioBean: AudioBean) {

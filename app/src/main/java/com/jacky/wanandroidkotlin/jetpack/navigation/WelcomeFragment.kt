@@ -12,21 +12,21 @@ import androidx.navigation.fragment.findNavController
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.base.BaseViewModel
-import kotlinx.android.synthetic.main.fragment_welcome.*
+import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 
 class WelcomeFragment : BaseVMFragment<WelcomeViewModel>() {
 
     override fun getLayoutId(): Int = R.layout.fragment_welcome
 
     override fun initWidget() {
-        btn_login.setOnClickListener {
+        viewClickListener(R.id.btn_login) {
             //通过Navigation切换Fragment
             //携带参数
             val bundle = Bundle()
 //            bundle.putString("name","我是欢迎页传递的参数")
             findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment, bundle)
         }
-        btn_register.setOnClickListener {
+        viewClickListener(R.id.btn_register) {
             //通过Navigation切换Fragment
             findNavController().navigate(R.id.action_welcomeFragment_to_registerFragment)
         }

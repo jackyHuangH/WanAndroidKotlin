@@ -15,7 +15,7 @@ class NavRepository {
     /**
      * 获取导航列表
      */
-    suspend fun getNavigationList(): WanResponse<List<NavigationEntity>> {
+    suspend fun getNavigationList(): WanResponse<MutableList<NavigationEntity>> {
         return WanRetrofitClient.mService.getNavigation()
     }
 }

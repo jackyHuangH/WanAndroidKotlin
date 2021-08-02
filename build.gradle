@@ -28,9 +28,23 @@ allprojects {
 subprojects {
     project.configurations.all {
         resolutionStrategy.eachDependency { details ->
-            if (details.requested.group == 'androidx.core'
-                    && !details.requested.name.contains('androidx')) {
+            if (details.requested.group == 'androidx.core' && details.requested.name.contains('androidx')) {
                 details.useVersion '1.3.2'
+            }
+            if (details.requested.group == 'androidx.activity' && details.requested.name.contains('activity')) {
+                details.useVersion "1.2.4"
+            }
+            if (details.requested.group == 'androidx.drawerlayout' && details.requested.name.contains('drawerlayout')) {
+                details.useVersion "1.1.1"
+            }
+            if (details.requested.group == 'androidx.annotation' && details.requested.name.contains('annotation')) {
+                details.useVersion "1.1.0"
+            }
+            if (details.requested.group == 'androidx.recyclerview' && details.requested.name.contains('recyclerview')) {
+                details.useVersion "1.2.1"
+            }
+            if (details.requested.group == 'androidx.constraintlayout') {
+                details.useVersion "2.0.1"
             }
         }
     }

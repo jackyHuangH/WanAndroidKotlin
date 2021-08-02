@@ -112,7 +112,7 @@ interface WanApiService {
      * 获取体系分类树列表
      */
     @GET("/tree/json")
-    suspend fun getSystemTreeList(): WanResponse<List<TreeParentEntity>>
+    suspend fun getSystemTreeList(): WanResponse<MutableList<TreeParentEntity>>
 
     /**
      * 根据体系子id分页获取文章列表
@@ -127,7 +127,7 @@ interface WanApiService {
      * 获取导航列表
      */
     @GET("/navi/json")
-    suspend fun getNavigation(): WanResponse<List<NavigationEntity>>
+    suspend fun getNavigation(): WanResponse<MutableList<NavigationEntity>>
 
     /**
      * 获取我的收藏文章列表
@@ -162,7 +162,7 @@ interface WanApiService {
      * Google Maven仓库快速查询
      */
     @GET("/maven_pom/search/json")
-    suspend fun searchGoogleMavenPom(@Query("k") key: String): WanResponse<List<GoogleMavenEntity>>
+    suspend fun searchGoogleMavenPom(@Query("k") key: String): WanResponse<MutableList<GoogleMavenEntity>>
 
     /**
      * 干货提供的福利图片api

@@ -280,6 +280,19 @@ rx.internal.util.atomic.LinkedQueueNode consumerNode;
 #ToastUtils
 -keep class com.hjq.toast.** {*;}
 
+#Aria
+-dontwarn com.arialyy.aria.**
+-keep class com.arialyy.aria.**{*;}
+-keep class **$$DownloadListenerProxy{ *; }
+-keep class **$$UploadListenerProxy{ *; }
+-keep class **$$DownloadGroupListenerProxy{ *; }
+-keep class **$$DGSubListenerProxy{ *; }
+-keepclasseswithmembernames class * {
+    @Download.* <methods>;
+    @Upload.* <methods>;
+    @DownloadGroup.* <methods>;
+}
+
 #===============================包名相关-===================================
 # 不混淆实体类
 -keep class com.jacky.wanandroidkotlin.model.entity.**{*;}

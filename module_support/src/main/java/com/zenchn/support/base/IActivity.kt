@@ -1,5 +1,6 @@
 package com.zenchn.support.base
 
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import com.zenchn.support.permission.IPermission
@@ -14,6 +15,8 @@ interface IActivity : IUiController, IPermission {
     fun getLayoutId(): Int
 
     fun initWidget()
+
+    fun <V : View> findViewWithId(viewId: Int): V
 }
 
 interface IUiController {

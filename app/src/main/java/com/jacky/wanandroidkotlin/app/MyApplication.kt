@@ -4,27 +4,23 @@ import android.app.Activity
 import android.app.Application
 import android.app.NotificationManager
 import android.content.Intent
-import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.multidex.MultiDexApplication
+import com.arialyy.aria.core.Aria
 import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.jacky.wanandroidkotlin.util.LanguageUtils
-import com.tencent.smtt.export.external.TbsCoreSettings
-import com.tencent.smtt.sdk.QbSdk
-import com.tencent.smtt.sdk.QbSdk.PreInitCallback
 import com.zenchn.support.base.ICrashCallback
 import com.zenchn.support.crash.DefaultUncaughtHandler
+import java.net.SocketTimeoutException
 
 
 class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        //其他初始化
-        ApplicationKit.initKit(this)
         //读取语言配置
         LanguageUtils.attachBaseContext(this)
         //多语言设置初始化
@@ -44,6 +40,8 @@ class ApplicationKit {
         application?.let {
             clearNotify(it)
             initCrashHandler(it)
+            //init Aria
+            Aria.init(it)
         }
     }
 
@@ -54,7 +52,11 @@ class ApplicationKit {
     protected fun initCrashHandler(application: Application) {
         DefaultUncaughtHandler.getInstance().init(application, object : ICrashCallback {
             override fun onCrash(thread: Thread?, ex: Throwable?) {
-                GlobalLifecycleObserver.INSTANCE.exitApp()
+                if (ex is SocketTimeoutException) {
+                    ToastUtils.show("无法连接服务器")
+                } else {
+                    GlobalLifecycleObserver.INSTANCE.exitApp()
+                }
             }
         })
     }

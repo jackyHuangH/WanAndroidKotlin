@@ -14,6 +14,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -22,7 +23,7 @@ import com.jacky.wanandroidkotlin.base.BaseFragment
 import com.jacky.wanandroidkotlin.databinding.FragmentLoginBinding
 import com.jacky.wanandroidkotlin.jetpack.nike.NikeMainActivity
 import com.jacky.wanandroidkotlin.wrapper.isNotNullAndNotEmpty
-import kotlinx.android.synthetic.main.fragment_login.*
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 
 
 class LoginFragment : BaseFragment() {
@@ -49,8 +50,8 @@ class LoginFragment : BaseFragment() {
 
     override fun initWidget() {
         //获取携带过来的参数 name,若没有传递值，则使用nav中定义的默认值
-        arguments?.getString("name")?.apply {
-            btn_login.text = this
+        arguments?.getString("name")?.let { name ->
+            viewExt<Button>(R.id.btn_login) { text = name }
         }
         /* btn_back.setOnClickListener {
              //返回上一个fragment

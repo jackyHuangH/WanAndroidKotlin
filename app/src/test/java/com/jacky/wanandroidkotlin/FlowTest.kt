@@ -42,9 +42,9 @@ fun main() = runBlocking {
 }
 
 suspend fun createFlow() {
-    //flowOf()
+    //1.flowOf()
 //    flowOf(1, 2, 3, 4, 5)
-    //asFlow()
+    //2.asFlow()
     val time = measureTimeMillis {
         listOf(1, 2, 3, 4, 5).asFlow()
             .onEach {

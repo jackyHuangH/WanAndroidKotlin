@@ -15,7 +15,7 @@ import com.jacky.wanandroidkotlin.model.repositry.NavRepository
  */
 class NavViewModel(application: Application) : BaseViewModel(application) {
     private val mRepository by lazy { NavRepository() }
-    val mNavList: MutableLiveData<List<NavigationEntity>> = MutableLiveData()
+    val mNavList: MutableLiveData<MutableList<NavigationEntity>> = MutableLiveData()
 
     fun getNavigation() {
         executeRequest(showLoading = true,

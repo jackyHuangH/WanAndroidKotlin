@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin.base
 
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +39,8 @@ abstract class BaseActivity : AppCompatActivity(), IView {
         initStatusBar()
         initLifecycleObserver()
     }
+
+    override fun <V : View> findViewWithId(viewId: Int): V = findViewById<V>(viewId)
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)

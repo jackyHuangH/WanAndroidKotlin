@@ -6,11 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.Button
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
+import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.chad.library.adapter.base.listener.OnLoadMoreListener
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.databinding.FragmentTabHomeBinding
@@ -24,15 +32,19 @@ import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.music.MusicPlayActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
+import com.jacky.wanandroidkotlin.widget.FloatPlayLayout
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideBannerImageLoader
 import com.jacky.wanandroidkotlin.wrapper.musicplay.*
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerFabScrollListener
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
+import com.jacky.wanandroidkotlin.wrapper.viewClickListener
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.widget.VerticalItemDecoration
-import kotlinx.android.synthetic.main.fragment_tab_home.*
 
 /**
  * @author:Hzj
@@ -40,9 +52,9 @@ import kotlinx.android.synthetic.main.fragment_tab_home.*
  * desc  ：首页Tab
  * record：
  */
-class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnItemClickListener,
-    BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener,
-    AudioObserver {
+class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
+    OnItemChildClickListener, OnLoadMoreListener, AudioObserver {
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private val mHomeAdapter: HomeListAdapter by lazy { HomeListAdapter() }
     private var mPageNum = 0
@@ -85,16 +97,17 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
 
     override fun initWidget() {
         super.initWidget()
+        swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         initRecyclerView()
         initRefreshLayout()
         initFab()
         initFloatPlayer()
         onRefresh()
-        swipe_refresh.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = true
     }
 
     private fun initFloatPlayer() {
-        play_layout.apply {
+        viewExt<FloatPlayLayout>(R.id.play_layout) {
             onFloatPlayClick {
                 //跳转播放音乐界面
                 activity?.let { MusicPlayActivity.launch(it) }
@@ -107,31 +120,34 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     }
 
     private fun initFab() {
+        val rlv = getView<RecyclerView>(R.id.rlv)
+        val fabGoogleMavenSearch = getView<FloatingActionButton>(R.id.fab_google_maven_search)
+        val fabGirl = getView<FloatingActionButton>(R.id.fab_girl)
         activity?.let { act ->
-            fab_google_maven_search.setOnAntiShakeClickListener {
+            viewClickListener(R.id.fab_google_maven_search) {
                 GoogleMavenSearchActivity.launch(act)
             }
-            fab_girl.setOnAntiShakeClickListener { GirlsActivity.launch(act) }
+            viewClickListener(R.id.fab_girl) { GirlsActivity.launch(act) }
             rlv.addOnScrollListener(RecyclerFabScrollListener { visible ->
-                fab_google_maven_search.animate().apply {
+                fabGoogleMavenSearch.animate().apply {
                     if (visible) {
                         translationY(0F).interpolator = DecelerateInterpolator(3F)
                     } else {
                         val layoutParams =
-                            fab_google_maven_search.layoutParams as ConstraintLayout.LayoutParams
-                        translationY((fab_google_maven_search.height + layoutParams.bottomMargin).toFloat()).interpolator =
+                            fabGoogleMavenSearch.layoutParams as ConstraintLayout.LayoutParams
+                        translationY((fabGoogleMavenSearch.height + layoutParams.bottomMargin).toFloat()).interpolator =
                             AccelerateInterpolator(3F)
                     }
                 }
-                fab_girl.animate().apply {
+                fabGirl.animate().apply {
                     if (visible) {
                         translationY(0F).interpolator = DecelerateInterpolator(3F)
                     } else {
-                        val layoutParams = fab_girl.layoutParams as ConstraintLayout.LayoutParams
-                        translationY((fab_girl.height + layoutParams.bottomMargin).toFloat()).interpolator =
+                        val layoutParams = fabGirl.layoutParams as ConstraintLayout.LayoutParams
+                        translationY((fabGirl.height + layoutParams.bottomMargin).toFloat()).interpolator =
                             AccelerateInterpolator(3F)
                     }
-                    bt_back_top.apply {
+                    viewExt<TextView>(R.id.bt_back_top) {
                         visibility = if (visible) View.GONE else View.VISIBLE
                         setOnAntiShakeClickListener {
                             rlv.smoothScrollToPosition(0)
@@ -144,7 +160,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     }
 
     private fun initRefreshLayout() {
-        swipe_refresh.apply {
+        swipeRefreshLayout.apply {
             setColorSchemeResources(R.color.colorAccent)
             setOnRefreshListener {
                 //刷新数据
@@ -155,7 +171,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
 
     private fun onRefresh() {
         //下拉刷新时禁用加载更多
-        mHomeAdapter.setEnableLoadMore(false)
+        mHomeAdapter.loadMoreModule.isEnableLoadMore = false
         mViewModel.getBanners()
         mPageNum = 0
         mViewModel.getArticleList(mPageNum)
@@ -205,19 +221,14 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
         }
-        if (hasNextPage) {
-            mHomeAdapter.loadMoreComplete()
-        } else {
-            mHomeAdapter.loadMoreEnd()
-        }
-        mHomeAdapter.notifyDataSetChanged()
+        mHomeAdapter.updateLoadMoreStatus(hasNextPage)
     }
 
     private fun initRecyclerView() {
-        rlv.apply {
+        viewExt<RecyclerView>(R.id.rlv) {
             layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
             if (itemDecorationCount == 0) {
@@ -227,21 +238,21 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
                     )
                 )
             }
-        }
-        mHomeAdapter.apply {
-            onItemClickListener = this@TabHomeFragment
-            onItemChildClickListener = this@TabHomeFragment
-            setOnLoadMoreListener(this@TabHomeFragment, rlv)
-            if (headerLayoutCount <= 0) {
-                //避免重复添加header
-                val header =
-                    LayoutInflater.from(activity)
-                        .inflate(R.layout.recycler_header_banner_home, rlv, false)
-                mBannerHome = header.findViewById(R.id.banner_home)
-                addHeaderView(header)
+            adapter = mHomeAdapter.apply {
+                setOnItemClickListener(this@TabHomeFragment)
+                addChildClickViewIds(R.id.ibt_star)
+                setOnItemChildClickListener(this@TabHomeFragment)
+                loadMoreModule.setOnLoadMoreListener(this@TabHomeFragment)
+                loadMoreModule.loadMoreView = CustomLoadMoreView()
+                if (headerLayoutCount <= 0) {
+                    //避免重复添加header
+                    val header =
+                        LayoutInflater.from(activity)
+                            .inflate(R.layout.recycler_header_banner_home, this@viewExt, false)
+                    mBannerHome = header.findViewById(R.id.banner_home)
+                    addHeaderView(header)
+                }
             }
-            setLoadMoreView(CustomLoadMoreView())
-            rlv.adapter = this
         }
     }
 
@@ -254,12 +265,12 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
 //        Debug.stopMethodTracing()
     }
 
-    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        when (view?.id) {
+    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+        when (view.id) {
             R.id.ibt_star -> {
                 if (mIsLogin) {
                     //收藏
-                    adapter?.run {
+                    adapter.run {
                         val entity = data[position] as ArticleEntity
                         entity.run {
                             collect = !collect
@@ -275,7 +286,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
         }
     }
 
-    override fun onLoadMoreRequested() {
+    override fun onLoadMore() {
         // 加载更多
         mPageNum++
         mViewModel.getArticleList(mPageNum)
@@ -289,12 +300,12 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), BaseQuickAdapter.OnI
     override fun onStop() {
         super.onStop()
         mBannerHome?.stopAutoPlay()
-        swipe_refresh.isRefreshing = false
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun onApiFailure(msg: String) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
         }
         super.onApiFailure(msg)
     }

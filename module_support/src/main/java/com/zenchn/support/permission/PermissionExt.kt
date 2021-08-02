@@ -8,6 +8,7 @@ import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.Boot
 import com.yanzhenjie.permission.runtime.option.RuntimeOption
 import com.yanzhenjie.permission.source.Source
+import com.zenchn.support.base.IActivity
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 
@@ -16,6 +17,33 @@ interface IPermission
 abstract class PermissionSource : Source()
 
 const val REQUEST_CODE_OS_SETTING = 9999
+
+
+fun IActivity.runOnPermissionsGranted(
+    @NotNull vararg permissions: String,
+    @NotNull granted: () -> Unit
+) = checkSelfPermissions(*permissions) { _, hasPermissions ->
+    if (hasPermissions) granted.invoke()
+    else applySelfPermissionsStrict(*permissions) { granted.invoke() }
+}
+
+fun IActivity.applySelfPermissionsStrict(
+    @NotNull vararg permissions: String,
+    @NotNull onGranted: () -> Unit
+) = applySelfPermissions(*permissions) { _, result ->
+    if (result) onGranted.invoke()
+    else navigateToPermissionSetting(RequestCode.OS_SETTING)
+}
+
+fun IActivity.checkSelfPermission(
+    @NotNull vararg permissions: String,
+    @NotNull onGranted: (granted: String) -> Unit,
+    @NotNull onDenied: (denied: String) -> Unit
+) = checkSelfPermissions(*permissions) { permission, hasPermission ->
+    if (hasPermission) onGranted.invoke(permission)
+    else onDenied.invoke(permission)
+}
+
 
 @Suppress("DEPRECATION")
 private fun IPermission.runtime(): RuntimeOption = when (this) {

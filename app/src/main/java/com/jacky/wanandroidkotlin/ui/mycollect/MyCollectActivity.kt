@@ -2,20 +2,26 @@ package com.jacky.wanandroidkotlin.ui.mycollect
 
 import android.app.Activity
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.router.Router
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.widget.VerticalItemDecoration
-import kotlinx.android.synthetic.main.activity_my_collect.*
-import kotlinx.android.synthetic.main.toolbar_layout.*
 
 /**
  * @author:Hzj
@@ -23,19 +29,21 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
  * desc  ：我的收藏
  * record：
  */
-class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(),
-    BaseQuickAdapter.OnItemClickListener,
-    BaseQuickAdapter.RequestLoadMoreListener {
+class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(), OnItemClickListener,
+    OnLoadMoreListener {
+    private lateinit var swipeRefresh: SwipeRefreshLayout
 
     private var mPageNum = 0
-    private val mListAdapter by lazy { HomeListAdapter() }
+    private val mListAdapter by lazy { HomeListAdapter(false) }
 
     override fun getLayoutId(): Int = R.layout.activity_my_collect
 
     override fun initWidget() {
-        toolbar.setNavigationOnClickListener { onBackPressed() }
-        toolbar.title = getString(R.string.my_collect_title)
-
+        viewExt<Toolbar>(R.id.toolbar) {
+            setNavigationOnClickListener { onBackPressed() }
+            title = getString(R.string.my_collect_title)
+        }
+        swipeRefresh = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         initRecyclerView()
         initRefreshLayout()
 
@@ -43,8 +51,8 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(),
     }
 
     private fun initRefreshLayout() {
-        swipe_refresh.setColorSchemeResources(R.color.colorAccent)
-        swipe_refresh.setOnRefreshListener {
+        swipeRefresh.setColorSchemeResources(R.color.colorAccent)
+        swipeRefresh.setOnRefreshListener {
             //刷新数据
             onRefresh()
         }
@@ -52,27 +60,30 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(),
 
     private fun onRefresh() {
         //下拉刷新时禁用加载更多
-        mListAdapter.setEnableLoadMore(false)
+        mListAdapter.loadMoreModule.isEnableLoadMore = false
         mPageNum = 0
         mViewModel.getMyCollectArticleList(mPageNum)
     }
 
     private fun initRecyclerView() {
-        rlv.layoutManager = LinearLayoutManager(this)
-        rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(
-            VerticalItemDecoration(
-                AndroidKit.Dimens.dp2px(10)
+        viewExt<RecyclerView>(R.id.rlv) {
+            layoutManager = LinearLayoutManager(this@MyCollectActivity)
+            setHasFixedSize(true)
+            addItemDecoration(
+                VerticalItemDecoration(
+                    AndroidKit.Dimens.dp2px(10)
+                )
             )
-        )
-        mListAdapter.onItemClickListener = this
-        mListAdapter.setOnLoadMoreListener(this, rlv)
-        mListAdapter.setLoadMoreView(CustomLoadMoreView())
-        mListAdapter.showStar(false)
-        rlv.adapter = mListAdapter
+            mListAdapter.apply {
+                setOnItemClickListener(this@MyCollectActivity)
+                loadMoreModule.setOnLoadMoreListener(this@MyCollectActivity)
+                loadMoreModule.loadMoreView = CustomLoadMoreView()
+            }
+            adapter = mListAdapter
+        }
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         // 跳转详情
         adapter?.run {
             val entity = data[position] as ArticleEntity
@@ -80,7 +91,7 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(),
         }
     }
 
-    override fun onLoadMoreRequested() {
+    override fun onLoadMore() {
         // 加载更多
         mPageNum++
         mViewModel.getMyCollectArticleList(mPageNum)
@@ -103,20 +114,15 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(),
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefresh.isRefreshing) {
+            swipeRefresh.isRefreshing = false
         }
-        if (hasNextPage) {
-            mListAdapter.loadMoreComplete()
-        } else {
-            mListAdapter.loadMoreEnd()
-        }
-        mListAdapter.notifyDataSetChanged()
+        mListAdapter.updateLoadMoreStatus(hasNextPage)
     }
 
     override fun onApiFailure(msg: String) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefresh.isRefreshing) {
+            swipeRefresh.isRefreshing = false
         }
         super.onApiFailure(msg)
     }

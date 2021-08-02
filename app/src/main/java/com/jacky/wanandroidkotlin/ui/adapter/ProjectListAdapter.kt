@@ -4,7 +4,8 @@ import android.os.Build
 import android.text.Html
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.module.LoadMoreModule
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
@@ -16,7 +17,7 @@ import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
  * record：
  */
 class ProjectListAdapter(layoutResId: Int = R.layout.recycler_item_project) :
-    BaseQuickAdapter<ArticleEntity, BaseViewHolder>(layoutResId) {
+    BaseQuickAdapter<ArticleEntity, BaseViewHolder>(layoutResId),LoadMoreModule {
 
     override fun convert(helper: BaseViewHolder, item: ArticleEntity) {
         var title = ""
@@ -30,9 +31,8 @@ class ProjectListAdapter(layoutResId: Int = R.layout.recycler_item_project) :
             .setText(R.id.tv_desc, item.desc)
             .setText(R.id.tv_title, title)
             .setText(R.id.tv_time, item.niceDate)
-            .addOnClickListener(R.id.ibt_star)
 
-        GlideApp.with(mContext)
+        GlideApp.with(context)
             .load(item.envelopePic)
             .placeholder(R.drawable.pic_default)
             .error(R.drawable.pic_default)

@@ -1,12 +1,13 @@
 package com.jacky.wanandroidkotlin.ui.fragmentwrap
 
 import android.app.Activity
+import androidx.appcompat.widget.Toolbar
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.ui.project.ProjectFragment
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.zenchn.support.managers.HFragmentManager
 import com.zenchn.support.router.Router
-import kotlinx.android.synthetic.main.toolbar_layout.*
 
 /**
  * @author:Hzj
@@ -18,6 +19,7 @@ class FragmentWrapActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.activity_fragment_wrap
 
     override fun initWidget() {
+        val toolbar = getView<Toolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener { onBackPressed() }
         val isBlog = intent.getBooleanExtra(EXTRA_IS_BLOG, false)
         toolbar.title = getString(if (isBlog) R.string.nv_item_blog else R.string.nv_item_type)

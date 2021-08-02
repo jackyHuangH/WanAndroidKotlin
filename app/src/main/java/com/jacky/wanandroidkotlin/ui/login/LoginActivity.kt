@@ -1,17 +1,18 @@
 package com.jacky.wanandroidkotlin.ui.login
 
-import android.Manifest
 import android.app.Activity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
+import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
-import com.zenchn.support.permission.checkSelfPermission
+import com.jacky.wanandroidkotlin.wrapper.getView
+import com.jacky.wanandroidkotlin.wrapper.viewClickListener
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.router.Router
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.toolbar_layout.*
 
 /**
  * @author:Hzj
@@ -30,10 +31,12 @@ class LoginActivity : BaseVMActivity<LoginViewModel>() {
     override fun getLayoutId(): Int = R.layout.activity_login
 
     override fun initWidget() {
-        toolbar.title = getString(R.string.login_bt_login)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
-        bt_login.setOnClickListener { login() }
-        bt_register.setOnClickListener { register() }
+        viewExt<Toolbar>(R.id.toolbar) {
+            title = getString(R.string.login_bt_login)
+            setNavigationOnClickListener { onBackPressed() }
+        }
+        viewClickListener(R.id.bt_login) { login() }
+        viewClickListener(R.id.bt_register) { register() }
     }
 
     private fun login() {
@@ -53,6 +56,8 @@ class LoginActivity : BaseVMActivity<LoginViewModel>() {
     }
 
     private fun checkNotEmpty(): Boolean {
+        val userNameLayout = getView<TextInputLayout>(R.id.userNameLayout)
+        val pswLayout = getView<TextInputLayout>(R.id.pswLayout)
         mUserName = userNameLayout.editText?.text.toString()
         mPassword = pswLayout.editText?.text.toString()
         if (mUserName.isEmpty()) {

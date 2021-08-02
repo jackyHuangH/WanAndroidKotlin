@@ -6,20 +6,22 @@ import android.content.Intent
 import android.net.Uri
 import android.view.Gravity
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.common.GITHUB_HOME
 import com.jacky.wanandroidkotlin.common.GITHUB_URL
 import com.jacky.wanandroidkotlin.common.ISSUE_URL
 import com.jacky.wanandroidkotlin.util.openBrowser
-import com.zenchn.support.utils.AndroidKit
+import com.jacky.wanandroidkotlin.wrapper.getView
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.router.Router
+import com.zenchn.support.utils.AndroidKit
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20
 import de.psdev.licensesdialog.model.Notice
-import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.toolbar_layout.*
 
 /**
  * @author:Hzj
@@ -33,12 +35,14 @@ class AboutActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun initWidget() {
-        toolbar.setNavigationOnClickListener { onBackPressed() }
-        toolbar.title = getString(R.string.about_title)
+        viewExt<Toolbar>(R.id.toolbar) {
+            setNavigationOnClickListener { onBackPressed() }
+            title = getString(R.string.about_title)
+        }
         val versionName = AndroidKit.Package.getVersionName(this)
-        tv_version.text = "V$versionName"
+        getView<TextView>(R.id.tv_version).text = "V$versionName"
 
-        tv_license.setOnClickListener {
+        getView<TextView>(R.id.tv_license).setOnClickListener {
             val license = ApacheSoftwareLicense20()
             val notice = Notice(getString(R.string.app_name), GITHUB_URL, "", license)
             LicensesDialog.Builder(this)
@@ -47,19 +51,20 @@ class AboutActivity : BaseActivity() {
                 .show()
         }
 
-        tv_source.setOnClickListener { openBrowser(GITHUB_URL) }
-        tv_feedback.setOnClickListener { showFeedBackMenu() }
-        tv_thirdLib.setOnClickListener {
+        getView<TextView>(R.id.tv_source).setOnClickListener { openBrowser(GITHUB_URL) }
+        getView<TextView>(R.id.tv_feedback).setOnClickListener { showFeedBackMenu() }
+        getView<TextView>(R.id.tv_thirdLib).setOnClickListener {
             LicensesDialog.Builder(this)
                 .setNotices(R.raw.licenses)
                 .build()
                 .show()
         }
-        tv_developer.setOnClickListener { openBrowser(GITHUB_HOME) }
+        getView<TextView>(R.id.tv_developer).setOnClickListener { openBrowser(GITHUB_HOME) }
     }
 
     private fun showFeedBackMenu() {
-        val feedbackMenu = PopupMenu(this, tv_feedback, Gravity.END)
+        val tvFeedback = getView<TextView>(R.id.tv_feedback)
+        val feedbackMenu = PopupMenu(this, tvFeedback, Gravity.END)
         feedbackMenu.menuInflater.inflate(R.menu.menu_feedback, feedbackMenu.menu)
         feedbackMenu.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {

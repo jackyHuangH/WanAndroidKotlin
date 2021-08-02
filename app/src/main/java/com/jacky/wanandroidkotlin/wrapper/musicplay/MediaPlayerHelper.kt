@@ -14,7 +14,7 @@ class MediaPlayerHelper : IPlayer,
     MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener,
     MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
     private val mediaPlayer by lazy { MediaPlayer() }
-    private var iPlayerStatus: IPlayerStatus? = null
+    private var iPlayerStatusListener: IPlayerStatusListener? = null
 
     companion object {
         private const val TAG = "MediaPlayerHelper"
@@ -39,23 +39,23 @@ class MediaPlayerHelper : IPlayer,
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        iPlayerStatus?.onPlayComplete()
+        iPlayerStatusListener?.onPlayComplete()
     }
 
     override fun onBufferingUpdate(mp: MediaPlayer?, percent: Int) {
-        iPlayerStatus?.onBufferingUpdate(percent)
+        iPlayerStatusListener?.onBufferingUpdate(percent)
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean = true
 
-    override fun setPlayStatus(iPlayerStatus: IPlayerStatus) {
-        this.iPlayerStatus = iPlayerStatus
+    override fun setPlayStatusListener(iPlayerStatusListener: IPlayerStatusListener) {
+        this.iPlayerStatusListener = iPlayerStatusListener
     }
 
     override fun play(audioPath: String) {
         //从头播放歌曲
         mediaPlayer.reset()
-        kotlin.runCatching {
+        runCatching {
             //设置播放源，可能找不到文件
             mediaPlayer.setDataSource(audioPath)
         }.onSuccess {
@@ -102,7 +102,7 @@ class MediaPlayerHelper : IPlayer,
  */
 interface IPlayer {
     //设置状态监听回调
-    fun setPlayStatus(iPlayerStatus: IPlayerStatus)
+    fun setPlayStatusListener(iPlayerStatusListener: IPlayerStatusListener)
 
     //播放新的音频
     fun play(audioPath: String)

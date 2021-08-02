@@ -4,7 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
+import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
@@ -13,10 +18,12 @@ import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.tabsystem.TabSystemViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.widget.VerticalItemDecoration
-import kotlinx.android.synthetic.main.fragment_tab_home.*
 
 /**
  * @author:Hzj
@@ -25,8 +32,8 @@ import kotlinx.android.synthetic.main.fragment_tab_home.*
  * record：
  */
 class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
-    BaseQuickAdapter.OnItemClickListener,
-    BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+    OnItemClickListener, OnItemChildClickListener, OnLoadMoreListener {
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private val mCid by lazy { arguments?.getInt(EXTRA_CID) }
     private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_IS_BLOG) }
@@ -50,15 +57,16 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
     }
 
     override fun initWidget() {
+        swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         initRecyclerView()
         initRefreshLayout()
         onRefresh()
-        swipe_refresh.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = true
     }
 
     private fun initRefreshLayout() {
-        swipe_refresh.setColorSchemeResources(R.color.colorAccent)
-        swipe_refresh.setOnRefreshListener {
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
+        swipeRefreshLayout.setOnRefreshListener {
             //刷新数据
             onRefresh()
         }
@@ -66,7 +74,7 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
 
     private fun onRefresh() {
         //下拉刷新时禁用加载更多
-        mHomeAdapter.setEnableLoadMore(false)
+        mHomeAdapter.loadMoreModule.isEnableLoadMore = false
         mPageNum = 0
         mCid?.let {
             mIsBlog?.run {
@@ -98,46 +106,46 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
         }
-        if (hasNextPage) {
-            mHomeAdapter.loadMoreComplete()
-        } else {
-            mHomeAdapter.loadMoreEnd()
-        }
-        mHomeAdapter.notifyDataSetChanged()
+        mHomeAdapter.updateLoadMoreStatus(hasNextPage)
     }
 
     private fun initRecyclerView() {
-        rlv.layoutManager = LinearLayoutManager(activity)
-        rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(
-            VerticalItemDecoration(
-                AndroidKit.Dimens.dp2px(10)
+        viewExt<RecyclerView>(R.id.rlv) {
+            layoutManager = LinearLayoutManager(activity)
+            setHasFixedSize(true)
+            addItemDecoration(
+                VerticalItemDecoration(
+                    AndroidKit.Dimens.dp2px(10)
+                )
             )
-        )
-        mHomeAdapter.onItemClickListener = this
-        mHomeAdapter.onItemChildClickListener = this
-        mHomeAdapter.setOnLoadMoreListener(this, rlv)
-        mHomeAdapter.setLoadMoreView(CustomLoadMoreView())
-        rlv.adapter = mHomeAdapter
+            mHomeAdapter.apply {
+                setOnItemClickListener(this@SystemListFragment)
+                addChildClickViewIds(R.id.ibt_star)
+                setOnItemChildClickListener(this@SystemListFragment)
+                loadMoreModule.setOnLoadMoreListener(this@SystemListFragment)
+                loadMoreModule.loadMoreView = CustomLoadMoreView()
+            }
+            adapter = mHomeAdapter
+        }
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         // 跳转详情
-        adapter?.run {
+        adapter.run {
             val entity = data[position] as ArticleEntity
             activity?.let { BrowserActivity.launch(it, entity.link) }
         }
     }
 
-    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         when (view?.id) {
             R.id.ibt_star -> {
                 if (mIsLogin) {
                     //收藏
-                    adapter?.run {
+                    adapter.run {
                         val entity = data[position] as ArticleEntity
                         entity.run {
                             collect = !collect
@@ -153,7 +161,7 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
         }
     }
 
-    override fun onLoadMoreRequested() {
+    override fun onLoadMore() {
         // 加载更多
         mPageNum++
         mCid?.let {
@@ -169,8 +177,8 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
     }
 
     override fun onApiFailure(msg: String) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
         }
         super.onApiFailure(msg)
     }

@@ -5,14 +5,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
-import com.jacky.wanandroidkotlin.ui.fragmentwrap.FragmentWrapActivity
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemListFragment
 import com.jacky.wanandroidkotlin.ui.tabhome.TabHomeFragment
 import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
-import kotlinx.android.synthetic.main.fragment_project.*
+import com.jacky.wanandroidkotlin.wrapper.getView
 
 /**
  * @author:Hzj
@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_project.*
  * record：
  */
 class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
+    private lateinit var viewPager: ViewPager
     private val mProjectTypeList = mutableListOf<TreeParentEntity>()
     private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_IS_BLOG, false) }
 
@@ -46,6 +47,8 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
     }
 
     override fun initWidget() {
+        viewPager = getView<ViewPager>(R.id.viewPager)
+        val tabLayout = getView<TabLayout>(R.id.tabLayout)
         fragmentManager?.let {
             viewPager.adapter =
                 object : FragmentStatePagerAdapter(it, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

@@ -10,14 +10,15 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.BounceInterpolator
 import android.view.animation.OvershootInterpolator
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.util.DisplayUtils
 import com.jacky.wanandroidkotlin.util.ResolveUtils
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.loadCircle
 import com.jacky.wanandroidkotlin.wrapper.orNotNullNotEmpty
-import kotlinx.android.synthetic.main.layout_float_play.view.*
 import kotlin.math.absoluteValue
 
 /**
@@ -27,6 +28,11 @@ import kotlin.math.absoluteValue
  * record：
  */
 class FloatPlayLayout : LinearLayout {
+    private lateinit var llFloatRoot: LinearLayout
+    private lateinit var llControl: LinearLayout
+    private lateinit var tvSongName: TextView
+    private lateinit var ivPlay: ImageView
+    private lateinit var ivMusicPic: ImageView
 
     /**
      * 是否已展开
@@ -58,12 +64,17 @@ class FloatPlayLayout : LinearLayout {
 
     private fun initView(context: Context) {
         LayoutInflater.from(context).inflate(R.layout.layout_float_play, this).apply {
-            iv_music_pic.setOnAntiShakeClickListener {
+            llControl = findViewById(R.id.ll_control)
+            llFloatRoot = findViewById(R.id.ll_float_root)
+            tvSongName = findViewById(R.id.tv_song_name)
+            ivPlay = findViewById(R.id.iv_play)
+            ivMusicPic = findViewById(R.id.iv_music_pic)
+            findViewById<ImageView>(R.id.iv_music_pic).setOnAntiShakeClickListener {
                 //收缩状态进行展开动画
                 startAnim()
                 mHasExpanded = mHasExpanded.not()
             }
-            iv_shrink.setOnAntiShakeClickListener {
+            findViewById<ImageView>(R.id.iv_shrink).setOnAntiShakeClickListener {
                 //展开状态收缩
                 if (mHasExpanded) {
                     startAnim()
@@ -93,10 +104,10 @@ class FloatPlayLayout : LinearLayout {
         animator.addUpdateListener {
             //平滑的动态设置整体宽度
             val animateWidth = it.animatedValue as Int
-            val lp = ll_control.layoutParams.apply {
+            val lp = llControl.layoutParams.apply {
                 width = animateWidth
             }
-            ll_control.layoutParams = lp
+            llControl.layoutParams = lp
         }
         animator.start()
     }
@@ -165,7 +176,7 @@ class FloatPlayLayout : LinearLayout {
      * 播放按钮点击事件
      */
     fun onPlayClick(click: (View) -> Unit) {
-        iv_play.setOnAntiShakeClickListener {
+        ivPlay.setOnAntiShakeClickListener {
             click.invoke(it)
         }
     }
@@ -174,7 +185,7 @@ class FloatPlayLayout : LinearLayout {
      * 悬浮窗点击事件
      */
     fun onFloatPlayClick(click: (View) -> Unit) {
-        ll_float_root.setOnAntiShakeClickListener {
+        llFloatRoot.setOnAntiShakeClickListener {
             click.invoke(it)
         }
     }
@@ -183,15 +194,15 @@ class FloatPlayLayout : LinearLayout {
      * 悬浮播放控制是否播放
      */
     fun setPlayControlSelected(selected: Boolean) {
-        iv_play.isSelected = selected
-        tv_song_name.isSelected = selected
+        ivPlay.isSelected = selected
+        tvSongName.isSelected = selected
     }
 
     /**
      * 更新歌曲名称
      */
     fun updateMusicName(name: String?) {
-        tv_song_name.text = name.orNotNullNotEmpty("暂无曲目")
+        tvSongName.text = name.orNotNullNotEmpty("暂无曲目")
     }
 
     /**
@@ -199,10 +210,10 @@ class FloatPlayLayout : LinearLayout {
      */
     fun updateMusicAlbum(albumId: Long) {
         if (albumId <= 0) {
-            iv_music_pic.setImageResource(R.drawable.ic_music_def)
+            ivMusicPic.setImageResource(R.drawable.ic_music_def)
             return
         }
-        iv_music_pic.loadCircle(
+        ivMusicPic.loadCircle(
             context,
             ResolveUtils.albumUriById(albumId),
             R.drawable.ic_music_def

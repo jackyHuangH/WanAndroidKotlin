@@ -3,7 +3,7 @@ package com.jacky.wanandroidkotlin.ui.adapter
 import android.annotation.SuppressLint
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.util.formatMusicTime
 import com.jacky.wanandroidkotlin.wrapper.musicplay.AudioBean

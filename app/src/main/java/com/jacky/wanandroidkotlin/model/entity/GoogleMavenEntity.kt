@@ -8,7 +8,7 @@ package com.jacky.wanandroidkotlin.model.entity
  */
 
 data class GoogleMavenEntity(
-    val artifactMap: HashMap<String, List<ArtifactEntity>>? = null,
+    val artifactMap: HashMap<String, MutableList<ArtifactEntity>>? = null,
     val groupName: String? = null,
     var groupExpand: Boolean = true
 )
@@ -16,7 +16,7 @@ data class GoogleMavenEntity(
 //Group map转换成对应数据实体
 data class ArtifactMapDTO(
     val mapKeyName: String? = null,
-    val artifactList: List<ArtifactEntity>? = null,
+    val artifactList: MutableList<ArtifactEntity>? = null,
     var expand: Boolean = false
 )
 

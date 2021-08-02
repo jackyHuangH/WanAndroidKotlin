@@ -9,7 +9,7 @@ import androidx.databinding.ObservableField
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.databinding.TwoDataBinding
-import kotlinx.android.synthetic.main.activity_three.*
+import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 
 /**
  * @author:Hzj
@@ -86,7 +86,7 @@ class ThreeActivity : BaseActivity() {
     }
 
     override fun initWidget() {
-        tv_jump_self.setOnClickListener {
+        viewClickListener(R.id.tv_jump_self) {
             startActivity(Intent(this, ThreeActivity::class.java))
         }
     }

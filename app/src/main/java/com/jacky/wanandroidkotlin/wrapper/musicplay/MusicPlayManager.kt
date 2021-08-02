@@ -9,7 +9,7 @@ import android.os.CountDownTimer
  * desc  ：音乐播放管理工具
  * record：
  */
-object MusicPlayManager : IPlayerStatus {
+object MusicPlayManager : IPlayerStatusListener {
 
     /**
      * 播放状态，默认为重置
@@ -31,7 +31,7 @@ object MusicPlayManager : IPlayerStatus {
     //初始化播放器
     fun initPlayer(context: Context) {
         mPlayListManager = PlayListManager.instance
-        playerHelper.setPlayStatus(this)
+        playerHelper.setPlayStatusListener(this)
         startTimer()
     }
 

@@ -4,7 +4,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.model.entity.ArtifactEntity
 import com.jacky.wanandroidkotlin.model.entity.ArtifactMapDTO
@@ -24,9 +24,8 @@ class GoogleMavenSearchAdapter(layoutId: Int = R.layout.recycler_item_google_mav
     override fun convert(helper: BaseViewHolder, item: GoogleMavenEntity) {
         helper.setText(
             R.id.tv_group_name,
-            "${mContext.getString(R.string.package_name)}：${item.groupName}"
+            "${context.getString(R.string.package_name)}：${item.groupName}"
         )
-            .addOnClickListener(R.id.tv_group_name)
         (helper.getView<TextView>(R.id.tv_group_name) as TextView).apply {
             setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
@@ -39,12 +38,13 @@ class GoogleMavenSearchAdapter(layoutId: Int = R.layout.recycler_item_google_mav
         val rvGroup = helper.getView<RecyclerView>(R.id.rv_group_list)
         val artifactList = item.artifactMap?.map { ArtifactMapDTO(it.key, it.value) } as MutableList
         rvGroup.apply {
-            layoutManager = LinearLayoutManager(mContext)
+            layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             if (itemDecorationCount <= 0) {
                 addItemDecoration(VerticalItemDecoration(AndroidKit.Dimens.dp2px(1)))
             }
             adapter = GoogleMavenGroupListAdapter().apply {
+                addChildClickViewIds(R.id.tv_artifact_name)
                 setOnItemChildClickListener { adapter, view, position ->
                     val artifactMapDTO = artifactList[position]
                     if (view.id == R.id.tv_artifact_name) {
@@ -52,7 +52,7 @@ class GoogleMavenSearchAdapter(layoutId: Int = R.layout.recycler_item_google_mav
                         notifyDataSetChanged()
                     }
                 }
-                setNewData(artifactList)
+                setNewInstance(artifactList)
             }
         }
     }
@@ -64,7 +64,6 @@ class GoogleMavenGroupListAdapter(layoutId: Int = R.layout.recycler_item_google_
 
     override fun convert(helper: BaseViewHolder, item: ArtifactMapDTO) {
         helper.setText(R.id.tv_artifact_name, item.mapKeyName)
-            .addOnClickListener(R.id.tv_artifact_name)
         (helper.getView<TextView>(R.id.tv_artifact_name) as TextView).apply {
             setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
@@ -77,12 +76,14 @@ class GoogleMavenGroupListAdapter(layoutId: Int = R.layout.recycler_item_google_
         helper.setGone(R.id.rv_artifact_list, item.expand)
         val rvArtifact = helper.getView<RecyclerView>(R.id.rv_artifact_list)
         rvArtifact.apply {
-            layoutManager = LinearLayoutManager(mContext)
+            layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             if (itemDecorationCount <= 0) {
-                addItemDecoration(VerticalItemDecoration(AndroidKit.Dimens.dp2px(2),true))
+                addItemDecoration(VerticalItemDecoration(AndroidKit.Dimens.dp2px(2), true))
             }
-            adapter = GoogleMavenArtifactListAdapter().apply { setNewData(item.artifactList?.reversed()) }
+
+            adapter =
+                GoogleMavenArtifactListAdapter().apply { setNewInstance(item.artifactList?.asReversed()) }
         }
     }
 }

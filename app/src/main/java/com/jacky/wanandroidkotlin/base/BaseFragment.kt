@@ -44,6 +44,8 @@ abstract class BaseFragment : Fragment(), IView {
         return rootView
     }
 
+    override fun <V : View> findViewWithId(viewId: Int): V = requireView().findViewById<V>(viewId)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onNewInstanceState(savedInstanceState)

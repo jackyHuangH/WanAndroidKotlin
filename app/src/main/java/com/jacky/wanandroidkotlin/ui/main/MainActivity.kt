@@ -5,12 +5,15 @@ import android.app.Activity
 import android.content.Intent
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.jacky.wanandroidkotlin.BuildConfig
 import com.jacky.wanandroidkotlin.R
@@ -18,7 +21,6 @@ import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
 import com.jacky.wanandroidkotlin.common.TOOL_URL
-import com.jacky.wanandroidkotlin.jetpack.binding.AnimBinding
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
 import com.jacky.wanandroidkotlin.test.TestActivity
@@ -38,13 +40,14 @@ import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.util.StatusBarUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.DialogProvider
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
+import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.zenchn.support.permission.RequestCode
 import com.zenchn.support.permission.applySelfPermissionsStrict
 import com.zenchn.support.permission.checkSelfPermission
 import com.zenchn.support.router.Router
 import com.zenchn.support.widget.CircleTextImageView
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
 
@@ -67,6 +70,8 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     private var mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
     private var mUserInfo by PreferenceUtil(PreferenceUtil.KEY_USER_INFO, "")
     private lateinit var mTvUserName: TextView
+    private lateinit var navigation: NavigationView
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun getLayoutId() = R.layout.activity_main
 
@@ -80,12 +85,14 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     override fun initWidget() {
+        navigation = getView<NavigationView>(R.id.navigation)
+        drawerLayout = getView<DrawerLayout>(R.id.drawer_layout)
         initPermissions()
         navigation.setNavigationItemSelectedListener(this)
         initViewPager()
         initUserHead()
         resetNvHeader()
-        ibt_search.setOnClickListener {
+        viewClickListener(R.id.ibt_search) {
             // 跳转搜索
             SearchActivity.launch(this@MainActivity)
         }
@@ -127,8 +134,9 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     private fun initViewPager() {
         val vpAdapter =
             BaseFragmentPagerAdapter(supportFragmentManager, mFragments, mTitles)
+        val vp = getView<ViewPager>(R.id.vp)
         vp.adapter = vpAdapter
-        tabLayout.setupWithViewPager(vp)
+        getView<TabLayout>(R.id.tabLayout).setupWithViewPager(vp)
     }
 
     private fun initUserHead() {
@@ -150,12 +158,13 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     private fun resetNvHeader() {
-        StatusBarUtil.setPaddingSmart(this, ll_title)
+        val llTitle = getView<LinearLayout>(R.id.ll_title)
+        StatusBarUtil.setPaddingSmart(this, llTitle)
         StatusBarUtil.setPaddingSmart(this, navigation)
     }
 
     private fun initDrawerListener() {
-        drawer_layout.apply {
+        drawerLayout.apply {
             addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
                 override fun onDrawerClosed(drawerView: View) {
                     performDrawerNavigation(this@apply)
@@ -165,7 +174,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        drawer_layout.apply {
+        drawerLayout.apply {
             tag = item
             closeDrawer(GravityCompat.START)
         }

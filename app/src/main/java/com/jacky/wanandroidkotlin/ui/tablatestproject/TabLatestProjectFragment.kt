@@ -4,7 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
+import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
@@ -13,10 +18,12 @@ import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.project.ProjectViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.widget.VerticalItemDecoration
-import kotlinx.android.synthetic.main.fragment_tab_latest_project.*
 
 /**
  * @author:Hzj
@@ -25,8 +32,8 @@ import kotlinx.android.synthetic.main.fragment_tab_latest_project.*
  * record：
  */
 class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
-    BaseQuickAdapter.OnItemClickListener,
-    BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+    OnItemClickListener, OnItemChildClickListener, OnLoadMoreListener {
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private var mPageNum = 0
     private var mIsDownRefresh = true//是否是下拉刷新数据
@@ -50,43 +57,49 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
     }
 
     override fun lazyLoad() {
+        swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         intiRecyclerView()
         initRefreshLayout()
         onRefresh()
-        swipe_refresh.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = true
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_tab_latest_project
 
     private fun intiRecyclerView() {
-        rlv.layoutManager = LinearLayoutManager(activity)
-        rlv.setHasFixedSize(true)
-        rlv.addItemDecoration(
-            VerticalItemDecoration(
-                AndroidKit.Dimens.dp2px(10)
+        viewExt<RecyclerView>(R.id.rlv) {
+            layoutManager = LinearLayoutManager(activity)
+            setHasFixedSize(true)
+            addItemDecoration(
+                VerticalItemDecoration(
+                    AndroidKit.Dimens.dp2px(10)
+                )
             )
-        )
-        mAdapter.onItemClickListener = this
-        mAdapter.onItemChildClickListener = this
-        mAdapter.setOnLoadMoreListener(this, rlv)
-        mAdapter.setLoadMoreView(CustomLoadMoreView())
-        rlv.adapter = mAdapter
+            mAdapter.apply {
+                setOnItemClickListener(this@TabLatestProjectFragment)
+                addChildClickViewIds(R.id.ibt_star)
+                setOnItemChildClickListener(this@TabLatestProjectFragment)
+                loadMoreModule.setOnLoadMoreListener(this@TabLatestProjectFragment)
+                loadMoreModule.loadMoreView = CustomLoadMoreView()
+            }
+            adapter = mAdapter
+        }
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         // 跳转详情
-        adapter?.run {
+        adapter.run {
             val entity = data[position] as ArticleEntity
             activity?.let { BrowserActivity.launch(it, entity.link) }
         }
     }
 
-    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         when (view?.id) {
             R.id.ibt_star -> {
                 if (mIsLogin) {
                     //收藏
-                    adapter?.run {
+                    adapter.run {
                         val entity = data[position] as ArticleEntity
                         entity.run {
                             collect = !collect
@@ -102,7 +115,7 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
         }
     }
 
-    override fun onLoadMoreRequested() {
+    override fun onLoadMore() {
         mIsDownRefresh = false
         mIsLatest?.run {
             if (this) {
@@ -115,8 +128,8 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
     }
 
     private fun initRefreshLayout() {
-        swipe_refresh.setColorSchemeResources(R.color.colorAccent)
-        swipe_refresh.setOnRefreshListener {
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
+        swipeRefreshLayout.setOnRefreshListener {
             //刷新数据
             onRefresh()
         }
@@ -125,7 +138,7 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
     private fun onRefresh() {
         //下拉刷新时禁用加载更多
         mIsDownRefresh = true
-        mAdapter.setEnableLoadMore(false)
+        mAdapter.loadMoreModule.isEnableLoadMore = false
         mIsLatest?.run {
             if (this) {
                 //最新项目
@@ -156,20 +169,15 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
         }
-        if (hasNextPage) {
-            mAdapter.loadMoreComplete()
-        } else {
-            mAdapter.loadMoreEnd()
-        }
-        mAdapter.notifyDataSetChanged()
+        mAdapter.updateLoadMoreStatus(hasNextPage)
     }
 
     override fun onApiFailure(msg: String) {
-        if (swipe_refresh.isRefreshing) {
-            swipe_refresh.isRefreshing = false
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
         }
         super.onApiFailure(msg)
     }

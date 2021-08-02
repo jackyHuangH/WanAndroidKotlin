@@ -1,14 +1,17 @@
 package com.jacky.wanandroidkotlin.ui.systemclassify
 
 import android.app.Activity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
+import com.jacky.wanandroidkotlin.wrapper.getView
+import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.router.Router
-import kotlinx.android.synthetic.main.activity_system_classify.*
 
 /**
  * @author:Hzj
@@ -22,7 +25,7 @@ class SystemClassifyActivity : BaseActivity() {
 
     override fun initWidget() {
         mTreeParent = intent.getSerializableExtra(EXTRA_TREE_PARENT) as TreeParentEntity
-        toolbar.apply {
+        viewExt<Toolbar>(R.id.toolbar) {
             title = mTreeParent.name
             setNavigationOnClickListener { onBackPressed() }
         }
@@ -30,6 +33,8 @@ class SystemClassifyActivity : BaseActivity() {
     }
 
     private fun initViewPager() {
+        val viewPager = getView<ViewPager>(R.id.viewPager)
+        val tabLayout = getView<TabLayout>(R.id.tab_layout)
         //这里fragment数量较多，使用FragmentStatePagerAdapter
         viewPager.adapter = object : FragmentStatePagerAdapter(
             supportFragmentManager,
@@ -44,7 +49,7 @@ class SystemClassifyActivity : BaseActivity() {
             override fun getPageTitle(position: Int): CharSequence? =
                 mTreeParent.children[position].name
         }
-        tab_layout.setupWithViewPager(viewPager)
+        tabLayout.setupWithViewPager(viewPager)
     }
 
     companion object {

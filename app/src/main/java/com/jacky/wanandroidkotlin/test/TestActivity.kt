@@ -5,7 +5,9 @@ import android.content.Intent
 import android.graphics.drawable.LevelListDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.net.wifi.WifiManager
+import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -15,8 +17,9 @@ import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
+import com.jacky.wanandroidkotlin.wrapper.getView
+import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.zenchn.support.router.Router
-import kotlinx.android.synthetic.main.activity_test.*
 import java.util.*
 
 /**
@@ -57,20 +60,16 @@ class TestActivity : BaseActivity() {
 
         }
 
-        bt.setOnClickListener {
-
-        }
-
-        bt_main.setOnClickListener {
+        viewClickListener(R.id.bt_main) {
             WelcomeActivity.launch(this)
         }
 
-        bt_test_data_binding.setOnClickListener {
+        viewClickListener(R.id.bt_test_data_binding) {
             startActivity(Intent(this, TwoActivity::class.java))
         }
 
-        bt_test_web.setOnClickListener {
-            et_url.text?.toString()?.trim()?.let { testUrl ->
+        viewClickListener(R.id.bt_test_web) {
+            getView<EditText>(R.id.et_url).text?.toString()?.trim()?.let { testUrl ->
                 BrowserActivity.launch(this, testUrl)
             }
         }
@@ -85,7 +84,7 @@ class TestActivity : BaseActivity() {
         val man = Man(25, "张三")
         val eat = man.eat("面包", lazyString)
         man.toast(this, eat)
-        bt.text = String.format(Locale.CHINA, "$eat:$NUM_A=$NUM_B-$NUM_C")
+        getView<Button>(R.id.bt).text = String.format(Locale.CHINA, "$eat:$NUM_A=$NUM_B-$NUM_C")
 
         val zhang = Person(5)
         println("zhang:$zhang")
@@ -96,11 +95,11 @@ class TestActivity : BaseActivity() {
         val levelListDrawable =
             ContextCompat.getDrawable(this, R.drawable.level_list_drawable) as? LevelListDrawable
         levelListDrawable?.level = 3
-        v_level_list.background = levelListDrawable
+        getView<View>(R.id.v_level_list).background = levelListDrawable
 
         val transitionDrawable =
             ContextCompat.getDrawable(this, R.drawable.transition_drawable) as? TransitionDrawable
-        v_transition.background = transitionDrawable
+        getView<View>(R.id.v_transition).background = transitionDrawable
         transitionDrawable?.startTransition(3000)
     }
 

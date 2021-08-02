@@ -84,6 +84,9 @@ dependencies {
     implementation rootProject.ext.dependencies["retrofit_rxjava2_adapter"]
     implementation rootProject.ext.dependencies["cookieJar"]
 
+    implementation rootProject.ext.dependencies["aria_core"]
+    kapt rootProject.ext.dependencies["aria_compiler"]
+
     //use leakcanary
 //    debugImplementation rootProject.ext.dependencies["leakcanary"]
 }

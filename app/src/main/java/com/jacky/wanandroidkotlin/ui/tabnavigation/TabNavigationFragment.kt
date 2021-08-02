@@ -8,9 +8,9 @@ import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.ui.adapter.NavVerticalTabAdapter
 import com.jacky.wanandroidkotlin.ui.adapter.NavigationAdapter
+import com.jacky.wanandroidkotlin.wrapper.getView
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.widget.VerticalItemDecoration
-import kotlinx.android.synthetic.main.fragment_tab_navigation.*
 import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.widget.TabView
 
@@ -21,6 +21,9 @@ import q.rorbin.verticaltablayout.widget.TabView
  * record：
  */
 class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
+    private lateinit var rlv: RecyclerView
+    private lateinit var verticalTabLayout: VerticalTabLayout
+
     private val mNavAdapter by lazy { NavigationAdapter() }
     private val mLayoutManager by lazy { LinearLayoutManager(activity) }
 
@@ -36,6 +39,8 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
     override fun getLayoutId(): Int = R.layout.fragment_tab_navigation
 
     override fun lazyLoad() {
+        rlv = getView<RecyclerView>(R.id.rlv)
+        verticalTabLayout = getView<VerticalTabLayout>(R.id.vertical_tab)
         initRlv()
         initTab()
         mViewModel.getNavigation()
@@ -55,14 +60,15 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
                     super.onScrolled(recyclerView, dx, dy)
                     //监听列表滑动，改变tab选中状态
                     val firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition()
-                    vertical_tab.setTabSelected(firstVisibleItemPosition, false)
+                    verticalTabLayout.setTabSelected(firstVisibleItemPosition, false)
                 }
             })
         }
     }
 
     private fun initTab() {
-        vertical_tab.addOnTabSelectedListener(object : VerticalTabLayout.OnTabSelectedListener {
+        verticalTabLayout.addOnTabSelectedListener(object :
+            VerticalTabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabView?, position: Int) {
             }
 
@@ -93,8 +99,8 @@ class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
             list?.let {
                 val tabAdapter =
                     activity?.let { ctx -> NavVerticalTabAdapter(it.map { it.name }, ctx) }
-                vertical_tab.setTabAdapter(tabAdapter)
-                mNavAdapter.setNewData(list)
+                verticalTabLayout.setTabAdapter(tabAdapter)
+                mNavAdapter.setNewInstance(list)
             }
         })
         mErrorMsg.observe(this@TabNavigationFragment, Observer { msg ->
