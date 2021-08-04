@@ -7,6 +7,7 @@ import androidx.startup.Initializer
 import com.hjq.toast.ToastUtils
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
+import com.zenchn.support.utils.LoggerKit
 
 class CommonInitializer : Initializer<Unit> {
     override fun create(context: Context) {
@@ -25,6 +26,8 @@ internal object ModuleManager {
             initX5Preload(application)
             //初始化ToastUtils
             ToastUtils.init(application)
+            //Logger初始化
+            LoggerKit.init(SupportConfig.DEFAULT_TAG)
         }
     }
 

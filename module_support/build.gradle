@@ -59,6 +59,7 @@ dependencies {
     api rootProject.ext.dependencies["tencent_tbs"]
 
     api rootProject.ext.dependencies["andPermission"]
+    implementation rootProject.ext.dependencies["logger"]
 }
 
 configurations.all {
