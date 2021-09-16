@@ -16,6 +16,7 @@ import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
+import com.jacky.wanandroidkotlin.ui.baidumap.BaiDuMapLearnActivity
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
@@ -58,6 +59,10 @@ class TestActivity : BaseActivity() {
                 mTvInfo.text = wifiInfo.toString()
             }
 
+        }
+
+        viewClickListener(R.id.btn_baidu_map){
+            BaiDuMapLearnActivity.launch(this,1,true,null)
         }
 
         viewClickListener(R.id.bt_main) {

@@ -7,6 +7,8 @@ import android.content.Intent
 import androidx.annotation.CallSuper
 import androidx.multidex.MultiDexApplication
 import com.arialyy.aria.core.Aria
+import com.baidu.mapapi.CoordType
+import com.baidu.mapapi.SDKInitializer
 import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
@@ -21,6 +23,7 @@ class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        ApplicationKit.initKit(this)
         //读取语言配置
         LanguageUtils.attachBaseContext(this)
         //多语言设置初始化
@@ -42,6 +45,12 @@ class ApplicationKit {
             initCrashHandler(it)
             //init Aria
             Aria.init(it)
+            //百度地图初始化
+            //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+            SDKInitializer.initialize(it)
+            //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
+            //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
+            SDKInitializer.setCoordType(CoordType.GCJ02)
         }
     }
 

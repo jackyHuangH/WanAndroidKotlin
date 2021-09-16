@@ -52,6 +52,14 @@
             android:text="wifi info"
             android:textColor="@color/colorPrimary" />
 
+        <Button
+            android:id="@+id/btn_baidu_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="百度地图选坐标"
+            android:textColor="@color/colorPrimary" />
+
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="match_parent"

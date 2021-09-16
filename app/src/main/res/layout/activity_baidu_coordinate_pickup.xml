@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zenchn.support.widget.TitleBar
+        android:id="@+id/mTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:title_bar_center_text="选择坐标" />
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mTitleBar"
+        android:clickable="true" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_fixed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/position_fix"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/ll_pickup_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="15dp"
+            android:paddingEnd="5dp">
+
+            <TextView
+                android:id="@+id/tv_latLng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:drawablePadding="10dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textColor="@color/color_282828"
+                android:textSize="15sp"
+                tools:text="当前坐标：120.070265,30.311616" />
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:textColor="@color/color_999999"
+                tools:text="杭州市西湖区西园四路2号" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="17dp"
+                android:background="@color/color_999999"
+                android:minWidth="1dp" />
+
+            <Button
+                android:id="@+id/btChoose"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:text="确定"
+                android:textColor="@color/colorAccent" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

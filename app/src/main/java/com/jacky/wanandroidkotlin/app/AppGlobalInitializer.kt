@@ -14,7 +14,6 @@ import com.zenchn.support.CommonInitializer
 class AppGlobalInitializer : Initializer<Unit> {
     override fun create(context: Context) {
         //do initialize
-        ApplicationKit.initKit(context as Application)
     }
 
     override fun dependencies(): MutableList<Class<out Initializer<*>>> {
