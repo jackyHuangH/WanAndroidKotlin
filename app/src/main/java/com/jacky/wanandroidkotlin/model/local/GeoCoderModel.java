@@ -47,7 +47,7 @@ public class GeoCoderModel {
         // 设置请求参数
         mReverseGeoCodeOption.location(latLng)
                 // 设置是否返回新数据 默认值0不返回，1返回
-                .newVersion(1);
+                .newVersion(1).radius(50);
         // 设置查询结果监听者
         mGeoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
             @Override

@@ -60,6 +60,8 @@ public class LocationModel {
         option.setScanSpan(1000);
         //可选，设置是否需要地址信息，默认不需要
         option.setIsNeedAddress(true);
+        //设置坐标类型，默认GCJ02
+        option.setCoorType("gcj02");
         //可选，设置是否需要地址描述
         option.setIsNeedLocationDescribe(true);
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，
