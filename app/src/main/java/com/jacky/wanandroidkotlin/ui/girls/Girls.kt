@@ -26,6 +26,7 @@ import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
@@ -35,6 +36,7 @@ import com.jacky.wanandroidkotlin.widget.IGallery
 import com.jacky.wanandroidkotlin.widget.RemoteImageSource
 import com.jacky.wanandroidkotlin.widget.previewPicture
 import com.jacky.wanandroidkotlin.wrapper.AriaDownload
+import com.jacky.wanandroidkotlin.wrapper.DownloadUtils
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
@@ -120,7 +122,12 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), OnItemClickListener,
             R.id.ibt_download_img -> {
                 //下载图片到本地
                 val item = adapter.data[position] as GirlEntity
-                AriaDownload.downloadFile(item)
+//                AriaDownload.downloadFile(item)
+                DownloadUtils.download(item,onDownloadSuccess = {file->
+                    ToastUtils.show("下载完成，文件已保存:${file.path}")
+                },onDownloadFail = {e->
+                    ToastUtils.show("下载失败,请重试!")
+                })
             }
         }
     }
