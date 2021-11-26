@@ -1,4 +1,4 @@
-package com.jacky.wanandroidkotlin.ui.girls
+package com.jacky.wanandroidkotlin.ui.demos
 
 /**
  * @author:Hzj
@@ -35,7 +35,6 @@ import com.jacky.wanandroidkotlin.model.entity.GirlEntity
 import com.jacky.wanandroidkotlin.widget.IGallery
 import com.jacky.wanandroidkotlin.widget.RemoteImageSource
 import com.jacky.wanandroidkotlin.widget.previewPicture
-import com.jacky.wanandroidkotlin.wrapper.AriaDownload
 import com.jacky.wanandroidkotlin.wrapper.DownloadUtils
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
@@ -122,10 +121,9 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), OnItemClickListener,
             R.id.ibt_download_img -> {
                 //下载图片到本地
                 val item = adapter.data[position] as GirlEntity
-//                AriaDownload.downloadFile(item)
-                DownloadUtils.download(item,onDownloadSuccess = {file->
+                DownloadUtils.download(item, onDownloadSuccess = { file ->
                     ToastUtils.show("下载完成，文件已保存:${file.path}")
-                },onDownloadFail = {e->
+                }, onDownloadFail = { e ->
                     ToastUtils.show("下载失败,请重试!")
                 })
             }
@@ -158,11 +156,6 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), OnItemClickListener,
     override fun onApiFailure(msg: String) {
         getView<SwipeRefreshLayout>(R.id.swipe_refresh).isRefreshing = false
         super.onApiFailure(msg)
-    }
-
-    override fun onDestroy() {
-        AriaDownload.clearDownloadTask(this)
-        super.onDestroy()
     }
 }
 

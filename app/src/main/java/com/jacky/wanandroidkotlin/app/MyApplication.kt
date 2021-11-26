@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.content.Intent
 import androidx.annotation.CallSuper
 import androidx.multidex.MultiDexApplication
-import com.arialyy.aria.core.Aria
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.hjq.toast.ToastUtils
@@ -43,8 +42,6 @@ class ApplicationKit {
         application?.let {
             clearNotify(it)
             initCrashHandler(it)
-            //init Aria
-            Aria.init(it)
             //百度地图初始化
             //在使用SDK各组件之前初始化context信息，传入ApplicationContext
             SDKInitializer.initialize(it)

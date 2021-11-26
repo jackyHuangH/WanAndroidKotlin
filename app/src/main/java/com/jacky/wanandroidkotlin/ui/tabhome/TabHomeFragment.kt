@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
@@ -26,7 +25,7 @@ import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.model.entity.BannerEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
-import com.jacky.wanandroidkotlin.ui.girls.GirlsActivity
+import com.jacky.wanandroidkotlin.ui.demos.GirlsActivity
 import com.jacky.wanandroidkotlin.ui.googlemavensearch.GoogleMavenSearchActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.music.MusicPlayActivity

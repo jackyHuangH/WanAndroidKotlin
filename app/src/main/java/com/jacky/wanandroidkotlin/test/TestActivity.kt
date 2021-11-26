@@ -18,6 +18,7 @@ import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
 import com.jacky.wanandroidkotlin.ui.baidumap.BaiDuMapLearnActivity
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
+import com.jacky.wanandroidkotlin.ui.demos.NetEasyDemoActivity
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.zenchn.support.router.Router
@@ -67,6 +68,10 @@ class TestActivity : BaseActivity() {
 
         viewClickListener(R.id.bt_main) {
             WelcomeActivity.launch(this)
+        }
+
+        viewClickListener(R.id.btn_netease) {
+            startActivity(Intent(this, NetEasyDemoActivity::class.java))
         }
 
         viewClickListener(R.id.bt_test_data_binding) {
