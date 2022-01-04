@@ -48,16 +48,22 @@ class MyLayout : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val centerPoint = getCenterPoint()
+        //移动坐标中心点到屏幕中心
+        canvas.translate(centerPoint[0],centerPoint[1])
         //绘制圆中心点
         mPaint.color = Color.parseColor("#0094ff")
-        canvas.drawCircle(centerPoint[0], centerPoint[1], 5F, mPaint)
+        canvas.drawCircle(0F, 0F, 5F, mPaint)
 
         //绘制圆
         mPaint.setColor(Color.BLUE)
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = 15F
         val radius = context.resources.displayMetrics.widthPixels / 2 - 15
-        canvas.drawCircle(centerPoint[0], centerPoint[1], radius.toFloat(), mPaint)
+        //使用canvas.translate,scale
+        for (i in 0..20) {
+            canvas.drawCircle(0F, 0F, radius.toFloat(), mPaint)
+            canvas.scale(0.9F, 0.9F)
+        }
 
         if (mDownX >= 0 || mDownY >= 0) {
             //绘制点击的点
@@ -66,7 +72,7 @@ class MyLayout : View {
             canvas.drawPoint(mDownX, mDownY, mPaint)
             //绘制三角起始边
             mPaint.setColor(Color.GREEN)
-            canvas.drawLine(centerPoint[0], centerPoint[1], mDownX, mDownY, mPaint)
+            canvas.drawLine(0F, 0F, mDownX, mDownY, mPaint)
         }
 
         if (mUpX >= 0 || mUpY >= 0) {
@@ -76,7 +82,7 @@ class MyLayout : View {
             canvas.drawPoint(mUpX, mUpY, mPaint)
             //绘制三角结束边
             mPaint.setColor(Color.WHITE)
-            canvas.drawLine(centerPoint[0], centerPoint[1], mUpX, mUpY, mPaint)
+            canvas.drawLine(0F, 0F, mUpX, mUpY, mPaint)
         }
     }
 
@@ -105,8 +111,8 @@ class MyLayout : View {
                 val moveY = event.y
                 Log.d(TAG, "move: $moveX , $moveY")
                 //移动过程中绘制点
-                mUpX=moveX
-                mUpY=moveY
+                mUpX = moveX
+                mUpY = moveY
                 invalidate()
             }
             MotionEvent.ACTION_UP -> {
@@ -114,8 +120,8 @@ class MyLayout : View {
                 val upY = event.y
                 Log.d(TAG, "up: $upX , $upY")
                 //绘制三角结束边
-                mUpX=upX
-                mUpY=upY
+                mUpX = upX
+                mUpY = upY
                 invalidate()
             }
             else -> {
