@@ -8,8 +8,6 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import com.jacky.wanandroidkotlin.util.DisplayUtils
-import q.rorbin.verticaltablayout.util.DisplayUtil
 
 /**
  * @author:Hzj
@@ -22,11 +20,19 @@ import q.rorbin.verticaltablayout.util.DisplayUtil
 class MyLayout : View {
 
     private val mPaint by lazy { Paint() }
-    private lateinit var mCanvas: Canvas
+    private val mCanvas by lazy { Canvas() }
+    private var mDownX: Float = -1F
+    private var mDownY: Float = -1F
+    private var mUpX: Float = -1F
+    private var mUpY: Float = -1F
 
     constructor(context: Context) : super(context) {}
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        mPaint.isAntiAlias = true
+        mPaint.style = Paint.Style.FILL
+        mPaint.strokeWidth = 15F
+    }
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
@@ -41,13 +47,9 @@ class MyLayout : View {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        mCanvas = canvas
         val centerPoint = getCenterPoint()
         //绘制圆中心点
-        mPaint.isAntiAlias = true
-        mPaint.setColor(Color.parseColor("#0094ff"))
-        mPaint.style = Paint.Style.FILL
-        mPaint.strokeWidth = 10F
+        mPaint.color = Color.parseColor("#0094ff")
         canvas.drawCircle(centerPoint[0], centerPoint[1], 5F, mPaint)
 
         //绘制圆
@@ -56,6 +58,26 @@ class MyLayout : View {
         mPaint.strokeWidth = 15F
         val radius = context.resources.displayMetrics.widthPixels / 2 - 15
         canvas.drawCircle(centerPoint[0], centerPoint[1], radius.toFloat(), mPaint)
+
+        if (mDownX >= 0 || mDownY >= 0) {
+            //绘制点击的点
+            mPaint.color = Color.RED
+//            canvas?.drawCircle(downX, downY, 15F, mPaint)
+            canvas.drawPoint(mDownX, mDownY, mPaint)
+            //绘制三角起始边
+            mPaint.setColor(Color.GREEN)
+            canvas.drawLine(centerPoint[0], centerPoint[1], mDownX, mDownY, mPaint)
+        }
+
+        if (mUpX >= 0 || mUpY >= 0) {
+            //绘制离开的点
+            mPaint.color = Color.YELLOW
+//            canvas?.drawCircle(downX, downY, 15F, mPaint)
+            canvas.drawPoint(mUpX, mUpY, mPaint)
+            //绘制三角结束边
+            mPaint.setColor(Color.WHITE)
+            canvas.drawLine(centerPoint[0], centerPoint[1], mUpX, mUpY, mPaint)
+        }
     }
 
     private fun getCenterPoint(): FloatArray {
@@ -70,12 +92,11 @@ class MyLayout : View {
             MotionEvent.ACTION_DOWN -> {
                 val downX = event.x
                 val downY = event.y
-                mPaint.strokeWidth=20F
                 //绘制三角起点
-//                mCanvas.drawCircle(downX, downY, 15F, mPaint)
-                mCanvas.drawPoint(downX,downY,mPaint)
                 //绘制三角起始边
-                drawLineToCenter(downX, downY, Color.GREEN)
+                mDownX = downX
+                mDownY = downY
+                invalidate()
                 Log.d(TAG, "down: $downX , $downY")
                 return true
             }
@@ -84,26 +105,23 @@ class MyLayout : View {
                 val moveY = event.y
                 Log.d(TAG, "move: $moveX , $moveY")
                 //移动过程中绘制点
-//                mPaint.setColor(Color.YELLOW)
-//                mCanvas.drawCircle(moveX, moveY, 5F, mPaint)
+                mUpX=moveX
+                mUpY=moveY
+                invalidate()
             }
             MotionEvent.ACTION_UP -> {
                 val upX = event.x
                 val upY = event.y
                 Log.d(TAG, "up: $upX , $upY")
                 //绘制三角结束边
-//                drawLineToCenter(upX, upY, Color.GREEN)
+                mUpX=upX
+                mUpY=upY
+                invalidate()
             }
             else -> {
                 Log.d(TAG, "other")
             }
         }
         return super.onTouchEvent(event)
-    }
-
-    private fun drawLineToCenter(destX: Float, destY: Float, color: Int) {
-        val center = getCenterPoint()
-        mPaint.setColor(color)
-        mCanvas.drawLine(center[0], center[1], destX, destY, mPaint)
     }
 }
