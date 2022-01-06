@@ -8,6 +8,8 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.graphics.withSave
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 /**
  * @author:Hzj
@@ -48,42 +50,67 @@ class MyLayout : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val centerPoint = getCenterPoint()
+
+        //canvas 快照(save)和回滚(restore),用于保存和恢复canvas状态
+        canvas.save()
+
         //移动坐标中心点到屏幕中心
-        canvas.translate(centerPoint[0],centerPoint[1])
+        canvas.translate(centerPoint[0], centerPoint[1])
         //绘制圆中心点
         mPaint.color = Color.parseColor("#0094ff")
         canvas.drawCircle(0F, 0F, 5F, mPaint)
 
         //绘制圆
-        mPaint.setColor(Color.BLUE)
+        mPaint.setColor(Color.WHITE)
         mPaint.style = Paint.Style.STROKE
-        mPaint.strokeWidth = 15F
-        val radius = context.resources.displayMetrics.widthPixels / 2 - 15
+        mPaint.strokeWidth = 10F
+        val radiusOuter = (context.resources.displayMetrics.widthPixels / 2 - 15).toFloat()
+        val radiusInner = radiusOuter - 30F
+        canvas.drawCircle(0F, 0F, radiusOuter, mPaint)
+        canvas.drawCircle(0F, 0F, radiusInner, mPaint)
         //使用canvas.translate,scale
-        for (i in 0..20) {
-            canvas.drawCircle(0F, 0F, radius.toFloat(), mPaint)
-            canvas.scale(0.9F, 0.9F)
+        for (degree in 0..60) {
+            canvas.drawLine(0F, radiusInner, 0F, radiusOuter, mPaint)
+            canvas.rotate(6F)
         }
 
         if (mDownX >= 0 || mDownY >= 0) {
             //绘制点击的点
             mPaint.color = Color.RED
+            //由于canvas中心点从默认左上角移动到屏幕中心了，所以触摸点要经过换算
+            val touchX = mDownX - centerPoint[0]
+            val touchY = mDownY - centerPoint[1]
 //            canvas?.drawCircle(downX, downY, 15F, mPaint)
-            canvas.drawPoint(mDownX, mDownY, mPaint)
+            canvas.drawPoint(touchX, touchY, mPaint)
             //绘制三角起始边
             mPaint.setColor(Color.GREEN)
-            canvas.drawLine(0F, 0F, mDownX, mDownY, mPaint)
+            canvas.drawLine(0F, 0F, touchX, touchY, mPaint)
         }
+
+        //恢复屏幕左上角坐标原点
+        canvas.restore()
 
         if (mUpX >= 0 || mUpY >= 0) {
             //绘制离开的点
             mPaint.color = Color.YELLOW
-//            canvas?.drawCircle(downX, downY, 15F, mPaint)
-            canvas.drawPoint(mUpX, mUpY, mPaint)
+            //由于canvas中心点从默认左上角移动到屏幕中心了，所以离开点要经过换算
+//            val leaveX = mUpX - centerPoint[0]
+//            val leaveY = mUpY - centerPoint[1]
+//            canvas.drawPoint(leaveX, leaveY, mPaint)
+            //绘制三角结束边
+//            mPaint.setColor(Color.WHITE)
+//            canvas.drawLine(0F, 0F, leaveX, leaveY, mPaint)
+
+            //restore后的坐标点绘制
+            val leaveX = mUpX
+            val leaveY = mUpY
+            mPaint.style=Paint.Style.FILL
+            canvas.drawCircle(leaveX, leaveY, 15F, mPaint)
             //绘制三角结束边
             mPaint.setColor(Color.WHITE)
-            canvas.drawLine(0F, 0F, mUpX, mUpY, mPaint)
+            canvas.drawLine(centerPoint[0], centerPoint[1], leaveX, leaveY, mPaint)
         }
+
     }
 
     private fun getCenterPoint(): FloatArray {
