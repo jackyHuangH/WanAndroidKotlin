@@ -9,14 +9,12 @@ package com.jacky.wanandroidkotlin.ui.demos
 import android.app.Application
 import android.graphics.Matrix
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.SeekBar
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
-import com.jacky.wanandroidkotlin.widget.MyLayout
 import com.jacky.wanandroidkotlin.wrapper.viewExt
 
 

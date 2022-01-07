@@ -32,7 +32,7 @@
         android:visibility="gone"
         tools:progress="50" />
 
-    <com.jacky.wanandroidkotlin.widget.MyLayout
+    <com.jacky.wanandroidkotlin.test.MyLayout
         android:id="@+id/my_view"
         android:visibility="visible"
         android:layout_width="match_parent"

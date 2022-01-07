@@ -1,20 +1,17 @@
-package com.jacky.wanandroidkotlin.widget
+package com.jacky.wanandroidkotlin.test
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
+import android.graphics.drawable.PictureDrawable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import androidx.core.graphics.withSave
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 /**
  * @author:Hzj
  * @date  :2021/11/22
- * desc  ：仿网易云 歌单切换效果
+ * desc  ：自定义view练习
  * record：
  */
 
@@ -22,7 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 class MyLayout : View {
 
     private val mPaint by lazy { Paint() }
-    private val mCanvas by lazy { Canvas() }
+    private val mPicture by lazy { Picture() }
     private var mDownX: Float = -1F
     private var mDownY: Float = -1F
     private var mUpX: Float = -1F
@@ -34,6 +31,8 @@ class MyLayout : View {
         mPaint.isAntiAlias = true
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = 15F
+
+        recording()
     }
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -45,6 +44,35 @@ class MyLayout : View {
 
     companion object {
         const val TAG = "MyLayout"
+    }
+
+    //canvas.drawPicture 将canvas绘制的内容存储到picture（此处应翻译成影片）对象中，类似于影像录制,记得关闭硬件加速！
+    //注意：录制内容，即将一些Canvas操作用Picture存储起来，录制的内容是不会直接显示在屏幕上的，只是存储起来了而已
+    //主要3个方法：
+    //public Canvas beginRecording (int width, int height)	开始录制 (返回一个Canvas，在Canvas中所有的绘制都会存储在Picture中)
+    //public void endRecording ()	结束录制
+    //public void draw (Canvas canvas)	将Picture中内容绘制到Canvas中
+    /**
+     * 将Picture中的内容绘制出来可以有以下几种方法:一般使用2，3
+     * 1.picture.draw() 不推荐，会影响canvas状态
+     * 2.canvas.drawPicture()
+     * 3.new PictureDrawable(picture).draw()
+     */
+
+    private fun recording(){
+        //开始录制
+        val recordCanvas:Canvas = mPicture.beginRecording(500, 500)
+        //创建画笔
+        val paint=Paint().apply {
+            isAntiAlias=true
+            color=Color.GREEN
+            style=Paint.Style.FILL
+        }
+
+        recordCanvas.translate(250F,250F)
+        recordCanvas.drawCircle(0F,0F,100F,paint)
+        //结束录制
+        mPicture.endRecording()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -111,6 +139,14 @@ class MyLayout : View {
             canvas.drawLine(centerPoint[0], centerPoint[1], leaveX, leaveY, mPaint)
         }
 
+
+        //绘制Picture记录的内容
+//        mPicture.draw(canvas) 不推荐
+//        canvas.drawPicture(mPicture, Rect(0,0,mPicture.width,300)) 会缩放图形
+        PictureDrawable(mPicture).apply {
+            //此处setBounds是设置在画布上的绘制区域，并非根据该区域进行缩放，也不是剪裁Picture，每次都从Picture的左上角开始绘制。
+            setBounds(0,0,mPicture.width,300)
+        }.draw(canvas)
     }
 
     private fun getCenterPoint(): FloatArray {
