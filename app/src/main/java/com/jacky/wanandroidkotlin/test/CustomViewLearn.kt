@@ -75,6 +75,18 @@ class MyLayout : View {
         mPicture.endRecording()
     }
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+       super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+//        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+//        val measuredWidth = MeasureSpec.getSize(widthMeasureSpec)
+//        resolveSize(measuredWidth,widthMode)
+//        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+//        val measuredHeight = MeasureSpec.getSize(heightMeasureSpec)
+//        resolveSize(measuredHeight,heightMode)
+//        setMeasuredDimension(measuredWidth,measuredHeight)
+    }
+
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val centerPoint = getCenterPoint()
@@ -92,7 +104,7 @@ class MyLayout : View {
         mPaint.setColor(Color.WHITE)
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = 10F
-        val radiusOuter = (context.resources.displayMetrics.widthPixels / 2 - 15).toFloat()
+        val radiusOuter = (measuredWidth / 2 - 15).toFloat()
         val radiusInner = radiusOuter - 30F
         canvas.drawCircle(0F, 0F, radiusOuter, mPaint)
         canvas.drawCircle(0F, 0F, radiusInner, mPaint)
@@ -151,8 +163,10 @@ class MyLayout : View {
 
     private fun getCenterPoint(): FloatArray {
         val displayMetrics = context.resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels.toFloat()
-        val screenHeight = displayMetrics.heightPixels.toFloat()
+//        val screenWidth = displayMetrics.widthPixels.toFloat()
+//        val screenHeight = displayMetrics.heightPixels.toFloat()
+        val screenWidth = measuredWidth.toFloat()
+        val screenHeight =measuredHeight.toFloat()
         return floatArrayOf(screenWidth / 2, screenHeight / 2)
     }
 
