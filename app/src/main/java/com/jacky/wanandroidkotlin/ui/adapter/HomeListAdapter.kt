@@ -30,13 +30,12 @@ class HomeListAdapter(
             Html.fromHtml(item.title).toString()
         }
 
-        val topDesc =
-            if (item.type == 1) context.getString(R.string.home_article_tag_top) else null
-        val newDesc = if (item.fresh) context.getString(R.string.home_article_tag_new) else null
-        val show = topDesc.isNotNullAndNotEmpty() && newDesc.isNotNullAndNotEmpty()
+        val topDesc = if (item.type == 1) context.getString(R.string.home_article_tag_top) else ""
+        val newDesc = if (item.fresh) context.getString(R.string.home_article_tag_new) else ""
+        val show = topDesc.isNotNullAndNotEmpty() || newDesc.isNotNullAndNotEmpty()
         helper.setText(R.id.tv_author, item.author)
             .setText(R.id.tv_top_new, "$topDesc $newDesc")
-            .setGone(R.id.tv_top_new, show)
+            .setGone(R.id.tv_top_new, !show)
             .setText(R.id.tv_tag, "${item.superChapterName ?: ""} ${item.chapterName}")
             .setText(R.id.tv_title, title)
             .setText(R.id.tv_time, item.niceDate)
