@@ -276,7 +276,10 @@ fun main(args: Array<String>) {
 
 //    testLruCache()
 
-    testFor()
+//    testFor()
+
+    Car.callStatic()
+    Car.callNonStatic()
 }
 
 fun testThreadPool() {

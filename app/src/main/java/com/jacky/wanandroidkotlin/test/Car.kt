@@ -26,4 +26,39 @@ class Car {
     override fun toString(): String {
         return "name:${this.name},price:${this.price}"
     }
+
+    //私有函数，返回类型是匿名对象类型
+    private fun pFoo() = object {
+        val x = "x"
+    }
+
+    private val aaa = object {
+        val x = "x"
+    }
+
+    //object修饰类，对象声明
+    object Mazda{
+
+    }
+
+    companion object {
+        @JvmStatic fun callStatic() {
+            println("callStatic")
+        }
+        fun callNonStatic() {
+            println("callNonStatic")
+        }
+    }
+
+    //公有函数，返回类型是Any
+    fun publicFoo() = object {
+        val y: String = "y"
+    }
+
+    fun go() {
+        val x = pFoo().x
+        val xx = aaa.x
+        //无法解析引用 y
+//        val y = publicFoo().y
+    }
 }

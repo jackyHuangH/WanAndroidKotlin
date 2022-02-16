@@ -19,9 +19,13 @@ import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
 import com.jacky.wanandroidkotlin.ui.baidumap.BaiDuMapLearnActivity
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.demos.NetEasyDemoActivity
+import com.jacky.wanandroidkotlin.util.CountDownClock
+import com.jacky.wanandroidkotlin.util.CountDownClock.Companion.createCountDownClock
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.zenchn.support.router.Router
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import java.util.*
 
 /**
@@ -30,12 +34,14 @@ import java.util.*
  */
 private const val NUM_A: String = "顶层声明常量"
 
-class TestActivity : BaseActivity() {
+class TestActivity : BaseActivity(),CoroutineScope by MainScope() {
 
     /**
      * 后期初始化属性
      */
     private lateinit var mTvInfo: TextView
+
+    private var countDownClock: CountDownClock?=null
 
     /**
      * 声明一个延迟初始化（懒加载）属性
@@ -60,6 +66,12 @@ class TestActivity : BaseActivity() {
                 mTvInfo.text = wifiInfo.toString()
             }
 
+        }
+
+        viewClickListener(R.id.bt){
+            countDownClock=createCountDownClock(10,lifecycle){time->
+                (it as? TextView)?.text = "倒计时：$time"
+            }.apply { start() }
         }
 
         viewClickListener(R.id.btn_baidu_map){
@@ -111,6 +123,11 @@ class TestActivity : BaseActivity() {
             ContextCompat.getDrawable(this, R.drawable.transition_drawable) as? TransitionDrawable
         getView<View>(R.id.v_transition).background = transitionDrawable
         transitionDrawable?.startTransition(3000)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        countDownClock?.stop()
     }
 
     /**
