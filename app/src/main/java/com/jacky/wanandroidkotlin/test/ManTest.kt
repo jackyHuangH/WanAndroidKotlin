@@ -3,6 +3,7 @@ package com.jacky.wanandroidkotlin.test
 import android.content.Context
 import android.util.LruCache
 import android.widget.Toast
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 
 /**
@@ -278,9 +279,8 @@ fun main(args: Array<String>) {
 
 //    testFor()
 
-    Car.callStatic()
-    Car.callNonStatic()
 }
+
 
 fun testThreadPool() {
     val cachedThreadPool = Executors.newCachedThreadPool()

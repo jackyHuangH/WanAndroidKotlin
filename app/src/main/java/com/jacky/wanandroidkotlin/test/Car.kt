@@ -42,6 +42,7 @@ class Car {
     }
 
     companion object {
+        //java 调用时，jvm会转成静态方法
         @JvmStatic fun callStatic() {
             println("callStatic")
         }

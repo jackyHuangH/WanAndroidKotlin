@@ -18,6 +18,12 @@
             tools:text="点我开始倒计时" />
 
         <Button
+            android:id="@+id/bt_oom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="测试oom" />
+
+        <Button
             android:id="@+id/bt_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

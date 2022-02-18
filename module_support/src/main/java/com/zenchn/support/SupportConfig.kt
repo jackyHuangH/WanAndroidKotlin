@@ -9,7 +9,7 @@ import android.os.Environment
  * @author hzj
  */
 object SupportConfig {
-    const val DEFAULT_TAG = "wanandroid"
+    const val DEFAULT_TAG = "Logger"
 
     // #crash 是否收集报错日志
     const val isReport = true

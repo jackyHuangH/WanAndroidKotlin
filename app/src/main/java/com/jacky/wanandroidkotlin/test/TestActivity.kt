@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.drawable.LevelListDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.net.wifi.WifiManager
+import android.os.Process
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -24,8 +26,11 @@ import com.jacky.wanandroidkotlin.util.CountDownClock.Companion.createCountDownC
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.zenchn.support.router.Router
+import com.zenchn.support.utils.LoggerKit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import java.io.IOException
+import java.io.RandomAccessFile
 import java.util.*
 
 /**
@@ -34,14 +39,14 @@ import java.util.*
  */
 private const val NUM_A: String = "顶层声明常量"
 
-class TestActivity : BaseActivity(),CoroutineScope by MainScope() {
+class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
 
     /**
      * 后期初始化属性
      */
     private lateinit var mTvInfo: TextView
 
-    private var countDownClock: CountDownClock?=null
+    private var countDownClock: CountDownClock? = null
 
     /**
      * 声明一个延迟初始化（懒加载）属性
@@ -68,14 +73,18 @@ class TestActivity : BaseActivity(),CoroutineScope by MainScope() {
 
         }
 
-        viewClickListener(R.id.bt){
-            countDownClock=createCountDownClock(10,lifecycle){time->
+        viewClickListener(R.id.bt) {
+            countDownClock = createCountDownClock(10, lifecycle) { time ->
                 (it as? TextView)?.text = "倒计时：$time"
             }.apply { start() }
         }
 
-        viewClickListener(R.id.btn_baidu_map){
-            BaiDuMapLearnActivity.launch(this,1,true,null)
+        viewClickListener(R.id.bt_oom) {
+            testCreateThread()
+        }
+
+        viewClickListener(R.id.btn_baidu_map) {
+            BaiDuMapLearnActivity.launch(this, 1, true, null)
         }
 
         viewClickListener(R.id.bt_main) {
@@ -123,6 +132,52 @@ class TestActivity : BaseActivity(),CoroutineScope by MainScope() {
             ContextCompat.getDrawable(this, R.drawable.transition_drawable) as? TransitionDrawable
         getView<View>(R.id.v_transition).background = transitionDrawable
         transitionDrawable?.startTransition(3000)
+    }
+
+    //一直创建线程
+    private fun testCreateThread() {
+        var i = 0
+        while (true) {
+            Log.e("oom" , "i..." + i++)
+            try {
+                if (i == 1801) {
+                    Thread.sleep(200);
+                }
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+            Thread({
+                try {
+                    if (i == 1800) {
+                        //获取proc/pid/status状态
+                        Log.e("oom","i..." + getProcessData())
+                    }
+                    //保证线程尽量活着
+                    Thread.sleep(100000)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }, "i..." + i).start()
+        }
+
+    }
+
+    private fun getProcessData(): String {
+        try {
+            val pid = Process.myPid().toString()
+            val reader2 = RandomAccessFile("/proc/$pid/status", "r")
+            val sb = StringBuilder()
+            var tempStr: String?
+            while (reader2.readLine().also { tempStr = it } != null) {
+                Log.d("ddebug", tempStr.orEmpty())
+                sb.append(tempStr).append("\n")
+            }
+            reader2.close()
+            return sb.toString()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return ""
     }
 
     override fun onStop() {
