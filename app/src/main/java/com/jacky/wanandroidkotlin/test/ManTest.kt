@@ -3,7 +3,6 @@ package com.jacky.wanandroidkotlin.test
 import android.content.Context
 import android.util.LruCache
 import android.widget.Toast
-import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 
 /**
@@ -275,12 +274,10 @@ fun main(args: Array<String>) {
 //    man.testCar()
 //    man.testLet()
 
-//    testLruCache()
 
-//    testFor()
+//    testThreadPool()
 
 }
-
 
 fun testThreadPool() {
     val cachedThreadPool = Executors.newCachedThreadPool()
@@ -305,14 +302,3 @@ fun testFor() {
     }
 }
 
-fun testLruCache() {
-    val lruCache = object : LruCache<Int, Int>(8) {
-        override fun sizeOf(key: Int?, value: Int?): Int {
-            return 2
-        }
-    }
-    for (i in 0..10) {
-        lruCache.put(i, i)
-    }
-    println("$lruCache")
-}

@@ -7,6 +7,7 @@ import android.graphics.drawable.TransitionDrawable
 import android.net.wifi.WifiManager
 import android.os.Process
 import android.util.Log
+import android.util.LruCache
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -80,7 +81,8 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
         }
 
         viewClickListener(R.id.bt_oom) {
-            testCreateThread()
+//            testCreateThread()
+            testLruCache()
         }
 
         viewClickListener(R.id.btn_baidu_map) {
@@ -132,6 +134,18 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
             ContextCompat.getDrawable(this, R.drawable.transition_drawable) as? TransitionDrawable
         getView<View>(R.id.v_transition).background = transitionDrawable
         transitionDrawable?.startTransition(3000)
+    }
+
+    private fun testLruCache() {
+        val lruCache = object : LruCache<Int, Int>(88) {
+            override fun sizeOf(key: Int?, value: Int?): Int {
+                return 1
+            }
+        }
+        for (i in 0..10) {
+            lruCache.put(i, i)
+        }
+        LoggerKit.d("lruCache:${lruCache.toString()}")
     }
 
     //一直创建线程

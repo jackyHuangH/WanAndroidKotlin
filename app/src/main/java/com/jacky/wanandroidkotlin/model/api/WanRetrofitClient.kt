@@ -18,14 +18,22 @@ import java.io.File
  * record：
  */
 object WanRetrofitClient : BaseRetrofitClient() {
-
+    /**
+     * 控制缓存开关的字段Pragma Cache-Control
+     * Pragma有两个字段Pragma和Expires。Pragma的值为no-cache时，表示禁用缓存，Expires的值是一个GMT时间，表示该缓存的有效时间。
+     *Pragma是旧产物，已经逐步抛弃，有些网站为了向下兼容还保留了这两个字段。如果一个报文中同时出现Pragma和Cache-Control时，以Pragma为准。
+     *同时出现Cache-Control和Expires时，以Cache-Control为准。优先级从高到低是 Pragma -> Cache-Control -> Expires
+     */
     private const val HEADER_PRAGMA = "Pragma"
     private const val HEADER_CACHE_CONTROL = "Cache-Control"
 
     val mService by lazy { getService(WanApiService::class.java, WanApiService.BASE_URL) }
 
     val mCookieJar by lazy {
-        PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(ContextModel.getApplicationContext()))
+        PersistentCookieJar(
+            SetCookieCache(),
+            SharedPrefsCookiePersistor(ContextModel.getApplicationContext())
+        )
     }
 
     @SuppressLint("MissingPermission")
@@ -51,7 +59,10 @@ object WanRetrofitClient : BaseRetrofitClient() {
                     val maxStale = 60 * 60 * 24 * 28 // tolerate 4-weeks stale
                     response.newBuilder()
                         .removeHeader(HEADER_PRAGMA)
-                        .addHeader(HEADER_CACHE_CONTROL, "public, only-if-cached, max-stale=$maxStale")
+                        .addHeader(
+                            HEADER_CACHE_CONTROL,
+                            "public, only-if-cached, max-stale=$maxStale"
+                        )
                 } else {
                     val maxAge = 60 * 60
                     response.newBuilder()
