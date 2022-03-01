@@ -5,9 +5,11 @@ import android.content.Intent
 import android.graphics.drawable.LevelListDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.net.wifi.WifiManager
+import android.os.Bundle
 import android.os.Process
 import android.util.Log
 import android.util.LruCache
+import android.util.SparseArray
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -30,6 +32,7 @@ import com.zenchn.support.router.Router
 import com.zenchn.support.utils.LoggerKit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import org.greenrobot.eventbus.EventBus
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.util.*
@@ -64,6 +67,7 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
     override fun getLayoutId(): Int = R.layout.activity_test
 
     override fun initWidget() {
+
         mTvInfo = findViewById(R.id.tv_info)
 
         findViewById<Button>(R.id.btn_wifi).setOnClickListener { _ ->

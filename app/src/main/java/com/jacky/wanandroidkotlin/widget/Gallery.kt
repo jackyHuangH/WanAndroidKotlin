@@ -2,6 +2,7 @@ package com.jacky.wanandroidkotlin.widget
 
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.PointF
@@ -19,6 +20,7 @@ import android.widget.TextView
 import androidx.annotation.IntRange
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter
@@ -35,12 +37,13 @@ import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.util.UriUtils
 import com.jacky.wanandroidkotlin.util.openDiskCacheDir
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
+import com.jacky.wanandroidkotlin.widget.ImageLoaderUtils.assertValidRequest
 import com.jacky.wanandroidkotlin.wrapper.checkNotNull
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.engine.ImageEngine
 import com.luck.picture.lib.entity.LocalMedia
-import com.luck.picture.lib.listener.ImageCompleteCallback
+import com.luck.picture.lib.listener.OnImageCompleteCallback
 import com.luck.picture.lib.tools.MediaUtils
 import com.luck.picture.lib.widget.longimage.ImageViewState
 import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView
@@ -190,7 +193,7 @@ object FrameWrapper {
             ImageSource.Type.URI -> (source as? Uri)?.let { UriUtils.getFilePathByUri(context, it) }
             else -> null
         }
-        return LocalMedia(path, 0, PictureMimeType.ofImage(), "image/*")
+        return LocalMedia.parseLocalMedia(path, 0, PictureMimeType.ofImage())
     }
 
     private fun transformMedia(context: Context, source: List<ImageSource>): List<LocalMedia> {
@@ -230,6 +233,9 @@ internal class GlideEngine private constructor() : ImageEngine {
      * @param imageView
      */
     override fun loadImage(context: Context, url: String, imageView: ImageView) {
+        if (!ImageLoaderUtils.assertValidRequest(context)) {
+            return;
+        }
         val drawableCrossFadeFactory =
             DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
         Glide.with(context)
@@ -239,7 +245,7 @@ internal class GlideEngine private constructor() : ImageEngine {
     }
 
     /**
-     * 加载图片
+     * 加载网络图片适配长图
      *
      * @param context
      * @param url
@@ -250,8 +256,12 @@ internal class GlideEngine private constructor() : ImageEngine {
         url: String,
         imageView: ImageView,
         longImageView: SubsamplingScaleImageView,
-        callback: ImageCompleteCallback?
+        callback: OnImageCompleteCallback?
     ) {
+        if (!ImageLoaderUtils.assertValidRequest(context)) {
+            return;
+        }
+
         Glide.with(context)
             .asBitmap()
             .load(url)
@@ -294,51 +304,6 @@ internal class GlideEngine private constructor() : ImageEngine {
     }
 
     /**
-     * 加载网络图片适配长图方案
-     * # 注意：此方法只有加载网络图片才会回调
-     *
-     * @param context
-     * @param url
-     * @param imageView
-     * @param longImageView
-     */
-    override fun loadImage(
-        context: Context,
-        url: String,
-        imageView: ImageView,
-        longImageView: SubsamplingScaleImageView
-    ) {
-        Glide.with(context)
-            .asBitmap()
-            .load(url)
-            .into<ImageViewTarget<Bitmap>>(object : ImageViewTarget<Bitmap>(imageView) {
-                override fun setResource(resource: Bitmap?) {
-                    if (resource != null) {
-                        val eqLongImage = MediaUtils.isLongImg(resource.width, resource.height)
-                        longImageView.visibility = if (eqLongImage) View.VISIBLE else View.GONE
-                        imageView.visibility = if (eqLongImage) View.GONE else View.VISIBLE
-                        if (eqLongImage) {
-                            // 加载长图
-                            longImageView.isQuickScaleEnabled = true
-                            longImageView.isZoomEnabled = true
-                            longImageView.isPanEnabled = true
-                            longImageView.setDoubleTapZoomDuration(100)
-                            longImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
-                            longImageView.setDoubleTapZoomDpi(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER)
-                            longImageView.setImage(
-                                com.luck.picture.lib.widget.longimage.ImageSource.bitmap(resource),
-                                ImageViewState(0f, PointF(0f, 0f), 0)
-                            )
-                        } else {
-                            // 普通图片
-                            imageView.setImageBitmap(resource)
-                        }
-                    }
-                }
-            })
-    }
-
-    /**
      * 加载相册目录
      *
      * @param context   上下文
@@ -346,41 +311,24 @@ internal class GlideEngine private constructor() : ImageEngine {
      * @param imageView 承载图片ImageView
      */
     override fun loadFolderImage(context: Context, url: String, imageView: ImageView) {
+        if (!assertValidRequest(context)) {
+            return
+        }
         Glide.with(context)
             .asBitmap()
             .load(url)
-            .apply(RequestOptions().apply {
-                override(180, 180)
-                centerCrop()
-                sizeMultiplier(0.5f)
-                placeholder(R.drawable.pic_default)
-            })
-            .into<BitmapImageViewTarget>(object : BitmapImageViewTarget(imageView) {
+            .override(180, 180)
+            .centerCrop()
+            .sizeMultiplier(0.5f)
+            .placeholder(R.drawable.picture_image_placeholder)
+            .into(object : BitmapImageViewTarget(imageView) {
                 override fun setResource(resource: Bitmap?) {
-                    val circularBitmapDrawable =
+                    val circularBitmapDrawable: RoundedBitmapDrawable =
                         RoundedBitmapDrawableFactory.create(context.resources, resource)
-                    circularBitmapDrawable.cornerRadius = 8f
+                    circularBitmapDrawable.setCornerRadius(8F)
                     imageView.setImageDrawable(circularBitmapDrawable)
                 }
             })
-    }
-
-
-    /**
-     * 加载gif
-     *
-     * @param context   上下文
-     * @param url       图片路径
-     * @param imageView 承载图片ImageView
-     */
-    override fun loadAsGifImage(
-        context: Context, url: String,
-        imageView: ImageView
-    ) {
-        Glide.with(context)
-            .asGif()
-            .load(url)
-            .into(imageView)
     }
 
     /**
@@ -391,7 +339,9 @@ internal class GlideEngine private constructor() : ImageEngine {
      * @param imageView 承载图片ImageView
      */
     override fun loadGridImage(context: Context, url: String, imageView: ImageView) {
-        // * other https://www.jianshu.com/p/28f5bcee409f
+        if (!ImageLoaderUtils.assertValidRequest(context)) {
+            return;
+        }
         val drawableCrossFadeFactory =
             DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
         Glide.with(context)
@@ -409,8 +359,32 @@ internal class GlideEngine private constructor() : ImageEngine {
     companion object {
 
         val INSTANCE: GlideEngine by lazy { GlideEngine() }
+
     }
 }
+
+object ImageLoaderUtils {
+    fun assertValidRequest(context: Context?): Boolean {
+        if (context is Activity) {
+            return !isDestroy(context)
+        } else if (context is ContextWrapper) {
+            val contextWrapper = context
+            if (contextWrapper.baseContext is Activity) {
+                val activity = contextWrapper.baseContext as Activity
+                return !isDestroy(activity)
+            }
+        }
+        return true
+    }
+
+    private fun isDestroy(activity: Activity?): Boolean {
+        return if (activity == null) {
+            true
+        } else activity.isFinishing || activity.isDestroyed
+    }
+}
+
+
 //===========================大图浏览,支持本地、网络图片======================================
 /**
  * 作   者：HZJ on 2019/12/22/022 16:59
@@ -449,7 +423,7 @@ class PhotoBrowserActivity : AppCompatActivity() {
     }
 
     private fun initWidget() {
-        val adapter = PhotoBrowserAdapter(imageSourceList) { onBackPressed() }
+        val adapter = PhotoBrowserAdapter(imageSourceList as ArrayList) { onBackPressed() }
         val tvIndex = findViewById<TextView>(R.id.tv_index)
         findViewById<ViewPager>(R.id.viewpager).apply {
             addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {

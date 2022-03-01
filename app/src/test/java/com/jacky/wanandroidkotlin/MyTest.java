@@ -2,6 +2,13 @@ package com.jacky.wanandroidkotlin;
 
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * @author:Hzj
  * @date :2022/2/21
@@ -26,23 +33,47 @@ public class MyTest {
 //
 //        System.out.println(s3 == s4);
 
-        int age = getAge();
-        System.out.println("getAge："+age);
+//        int age = getAge();
+//        System.out.println("getAge：" + age);
 
+        testLinkedHashMap();
+
+        Observable.just(1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    private int getAge(){
-        int a=90;
+    private void testLinkedHashMap() {
+        //accessOrder 表示是否开启访问排序，空参构造默认为false
+        LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>(16,0.75F,true);
+        for (int i = 0; i < 8; i++) {
+            map.put(i, i);
+        }
+
+        System.out.println(map);
+
+        map.get(1);
+        map.get(2);
+
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
+    }
+
+
+    private int getAge() {
+        int a = 90;
         //此处发生异常，try代码块都无法执行
 //            a=a/0;
         try {
             System.out.println("try");
-            a=a/0;
+            a = a / 0;
             return a;
-        }catch (Exception e){
-            System.out.println("catch:"+e.getMessage());
+        } catch (Exception e) {
+            System.out.println("catch:" + e.getMessage());
             return 9;
-        }finally {
+        } finally {
             System.out.println("finally");
             //不要在finally中return,finally的return会屏蔽上面的return语句
             return 0;
