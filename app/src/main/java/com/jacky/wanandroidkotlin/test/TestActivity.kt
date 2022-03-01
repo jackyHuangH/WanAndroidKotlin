@@ -198,9 +198,35 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
         return ""
     }
 
+    override fun onStart() {
+        super.onStart()
+        println("onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("onResume")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("onRestart")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("onPause")
+    }
+
     override fun onStop() {
         super.onStop()
+        println("onStop")
         countDownClock?.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("onDestroy")
     }
 
     /**
