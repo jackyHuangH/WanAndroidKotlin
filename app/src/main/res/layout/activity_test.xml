@@ -24,6 +24,12 @@
             android:text="测试oom" />
 
         <Button
+            android:id="@+id/bt_aidl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="测试aidl" />
+
+        <Button
             android:id="@+id/bt_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -5,11 +5,9 @@ import android.content.Intent
 import android.graphics.drawable.LevelListDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.net.wifi.WifiManager
-import android.os.Bundle
 import android.os.Process
 import android.util.Log
 import android.util.LruCache
-import android.util.SparseArray
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -17,10 +15,10 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.jacky.wanandroidkotlin.R
+import com.jacky.wanandroidkotlin.aidltest.AidlTestActivity
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
-import com.jacky.wanandroidkotlin.test.TestActivity.Constants.NUM_B
 import com.jacky.wanandroidkotlin.ui.baidumap.BaiDuMapLearnActivity
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.demos.NetEasyDemoActivity
@@ -32,10 +30,8 @@ import com.zenchn.support.router.Router
 import com.zenchn.support.utils.LoggerKit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import org.greenrobot.eventbus.EventBus
 import java.io.IOException
 import java.io.RandomAccessFile
-import java.util.*
 
 /**
  *
@@ -89,6 +85,10 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
             testLruCache()
         }
 
+        viewClickListener(R.id.bt_aidl) {
+            startActivity(Intent(this, AidlTestActivity::class.java))
+        }
+
         viewClickListener(R.id.btn_baidu_map) {
             BaiDuMapLearnActivity.launch(this, 1, true, null)
         }
@@ -111,22 +111,6 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
             }
         }
 
-        //对象实例化
-        /**
-         * 我是块注释,块注释允许嵌套
-         * /**
-         * 我也是块注释
-         * */
-         */
-        val man = Man(25, "张三")
-        val eat = man.eat("面包", lazyString)
-        man.toast(this, eat)
-        getView<Button>(R.id.bt).text = String.format(Locale.CHINA, "$eat:$NUM_A=$NUM_B-$NUM_C")
-
-        val zhang = Person(5)
-        println("zhang:$zhang")
-        val wang = Person(52, "老王")
-        println("zhang:$wang")
 
         //drawable test
         val levelListDrawable =
@@ -156,7 +140,7 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
     private fun testCreateThread() {
         var i = 0
         while (true) {
-            Log.e("oom" , "i..." + i++)
+            Log.e("oom", "i..." + i++)
             try {
                 if (i == 1801) {
                     Thread.sleep(200);
@@ -168,7 +152,7 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
                 try {
                     if (i == 1800) {
                         //获取proc/pid/status状态
-                        Log.e("oom","i..." + getProcessData())
+                        Log.e("oom", "i..." + getProcessData())
                     }
                     //保证线程尽量活着
                     Thread.sleep(100000)
