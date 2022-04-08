@@ -22,7 +22,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
+
+import com.google.android.material.internal.ContextUtils;
 
 import java.util.List;
 
@@ -455,6 +458,18 @@ public class AndroidKit {
             LocationManager mLocationManager = ((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
             List<String> mAccessibleProviders = mLocationManager.getProviders(true);
             return mAccessibleProviders != null && mAccessibleProviders.size() > 0;
+        }
+
+        /**
+         * 判断 系统定位服务是否开启
+         *
+         * @return
+         */
+        public static boolean isLocationEnabled(Context context) {
+            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            return gps || network;
         }
 
         /**

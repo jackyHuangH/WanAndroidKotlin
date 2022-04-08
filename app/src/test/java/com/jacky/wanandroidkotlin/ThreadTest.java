@@ -7,7 +7,8 @@ import java.util.Queue;
 /**
  * @author:Hzj
  * @date :2019/6/26/026
- * desc  ：
+ * desc  ：Thread.stop()强制停止线程，不推荐
+ *          Thread.interrupt()设置停止标记，配合isInterrupted()在runnable中使用
  * record：
  */
 public class ThreadTest {
@@ -20,12 +21,15 @@ public class ThreadTest {
 //        producer.start();
 //        consumer.start();
 
-        //死锁例子
+        //死锁例子，2个线程互相持有对方的对象锁，无法释放
         Thread t1 = new Thread(new DeadLock(true), "线程1");
         Thread t2 = new Thread(new DeadLock(false), "线程2");
 
         t1.start();
         t2.start();
+
+        //设置当前线程为终止状态，不管之前是否已终止
+//        Thread.interrupted();
     }
 
     class Producer extends Thread {
