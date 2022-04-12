@@ -8,7 +8,7 @@ import androidx.lifecycle.Lifecycle
 /**
  * 管理fragment切换的manager
  */
-class HFragmentManager(
+class FragmentSwitchHelper(
     // 管理类FragmentManager
     private val mFragmentManager: FragmentManager?,
     // 容器布局id containerViewId
@@ -24,8 +24,14 @@ class HFragmentManager(
 
         // 开启事物
         mFragmentManager?.beginTransaction()?.apply {
-            // 第一个参数是Fragment的容器id，需要添加的Fragment
-            add(mContainerViewId, fragment)
+            if (fragment.isAdded) {
+                show(fragment)
+            } else {
+                //已添加，需要先移除
+                remove(fragment)
+                // 第一个参数是Fragment的容器id，需要添加的Fragment
+                add(mContainerViewId, fragment)
+            }
             // 一定要commit
             commit()
             setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
@@ -40,15 +46,15 @@ class HFragmentManager(
         mFragmentManager?.beginTransaction()?.apply {
             // 1.先隐藏当前所有的Fragment
             val childFragments = mFragmentManager.fragments
-            for (childFragment in childFragments) {
-                hide(childFragment!!)
+            childFragments.filter { it.isAdded }.forEach { childFragment ->
+                hide(childFragment)
             }
 
             // 2.如果容器里面没有我们就添加，否则显示
-            if (!childFragments.contains(fragment)) {
-                add(mContainerViewId, fragment)
-            } else {
+            if (fragment.isAdded || childFragments.contains(fragment)) {
                 show(fragment)
+            } else {
+                add(mContainerViewId, fragment)
             }
             // 替换Fragment
             // fragmentTransaction.replace(R.id.main_tab_fl,mHomeFragment);
@@ -58,4 +64,14 @@ class HFragmentManager(
         }
     }
 
+    /**
+     * 清空之前的fragments
+     */
+    fun clearPreviousFragments() {
+        val fragmentTransaction = mFragmentManager?.beginTransaction()
+        val fragments = mFragmentManager?.fragments?.forEach { frag ->
+            fragmentTransaction?.apply { remove(frag) }
+        }
+        fragmentTransaction?.commitNowAllowingStateLoss()
+    }
 }

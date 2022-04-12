@@ -6,7 +6,7 @@ import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.ui.project.ProjectFragment
 import com.jacky.wanandroidkotlin.wrapper.getView
-import com.zenchn.support.managers.HFragmentManager
+import com.zenchn.support.managers.FragmentSwitchHelper
 import com.zenchn.support.router.Router
 
 /**
@@ -24,7 +24,7 @@ class FragmentWrapActivity : BaseActivity() {
         val isBlog = intent.getBooleanExtra(EXTRA_IS_BLOG, false)
         toolbar.title = getString(if (isBlog) R.string.nv_item_blog else R.string.nv_item_type)
 
-        val hFragmentManager = HFragmentManager(supportFragmentManager, R.id.fl_content)
+        val hFragmentManager = FragmentSwitchHelper(supportFragmentManager, R.id.fl_content)
         hFragmentManager.add(ProjectFragment.getInstance(isBlog))
     }
 
