@@ -10,6 +10,7 @@ import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
 import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
+import com.jacky.wanandroidkotlin.wrapper.adaptHighRefresh
 import com.zenchn.support.base.DefaultUiController
 import com.zenchn.support.base.IUiController
 import com.zenchn.support.utils.AndroidKit
@@ -32,6 +33,8 @@ abstract class BaseActivity : AppCompatActivity(), IView {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //适配屏幕高刷新率
+        adaptHighRefresh()
         super.onCreate(savedInstanceState)
         onNewInstanceState(savedInstanceState)
         getLayoutId().takeIf { it > 0 }?.let { setContentView(it) }
