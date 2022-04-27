@@ -96,6 +96,9 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
             // 跳转搜索
             SearchActivity.launch(this@MainActivity)
         }
+        viewClickListener(R.id.ibt_menu) {
+            if (drawerLayout.isOpen) drawerLayout.close() else drawerLayout.open()
+        }
         //根据是否已登录显示和隐藏退出登录按钮
         navigation.menu.findItem(R.id.nv_logout).isVisible = mIsLogin
 

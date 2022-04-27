@@ -15,6 +15,7 @@ import android.widget.SeekBar
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.test.ADashboard
 import com.jacky.wanandroidkotlin.wrapper.viewExt
 
 
@@ -46,6 +47,10 @@ class NetEasyDemoActivity : BaseVMActivity<NetEasyDemoViewModel>() {
                     getViewMatrix(mV1)?.mapPoints(points)
                     Log.d(TAG,"$points")
                     showMessage("蓝点在View中吗？${if (pointInView(mV1, points)) "在在在" else "不不不不"}")
+                    //动态设置进度
+                    viewExt<ADashboard>(R.id.a_dash){
+                        this.updateProgress(progress/100.toFloat())
+                    }
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {

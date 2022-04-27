@@ -20,7 +20,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ibt_menu"
+                style="@style/RippleStyle"
+                android:layout_width="46dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_menu_open_white" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
@@ -37,11 +47,11 @@
 
             <ImageButton
                 android:id="@+id/ibt_search"
+                style="@style/RippleStyle"
                 android:layout_width="46dp"
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:contentDescription="@string/app_name"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:src="@drawable/search" />
         </LinearLayout>
 

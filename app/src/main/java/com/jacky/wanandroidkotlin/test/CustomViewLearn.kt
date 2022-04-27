@@ -2,11 +2,17 @@ package com.jacky.wanandroidkotlin.test
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.Shader.TileMode
 import android.graphics.drawable.PictureDrawable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.FloatRange
+import androidx.core.content.ContextCompat
+import com.jacky.wanandroidkotlin.R
+import com.jacky.wanandroidkotlin.util.DisplayUtils
+
 
 /**
  * @author:Hzj
@@ -59,24 +65,24 @@ class MyLayout : View {
      * 3.new PictureDrawable(picture).draw()
      */
 
-    private fun recording(){
+    private fun recording() {
         //开始录制
-        val recordCanvas:Canvas = mPicture.beginRecording(500, 500)
+        val recordCanvas: Canvas = mPicture.beginRecording(500, 500)
         //创建画笔
-        val paint=Paint().apply {
-            isAntiAlias=true
-            color=Color.GREEN
-            style=Paint.Style.FILL
+        val paint = Paint().apply {
+            isAntiAlias = true
+            color = Color.GREEN
+            style = Paint.Style.FILL
         }
 
-        recordCanvas.translate(250F,250F)
-        recordCanvas.drawCircle(0F,0F,100F,paint)
+        recordCanvas.translate(250F, 250F)
+        recordCanvas.drawCircle(0F, 0F, 100F, paint)
         //结束录制
         mPicture.endRecording()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-       super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 //        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
 //        val measuredWidth = MeasureSpec.getSize(widthMeasureSpec)
 //        resolveSize(measuredWidth,widthMode)
@@ -144,7 +150,7 @@ class MyLayout : View {
             //restore后的坐标点绘制
             val leaveX = mUpX
             val leaveY = mUpY
-            mPaint.style=Paint.Style.FILL
+            mPaint.style = Paint.Style.FILL
             canvas.drawCircle(leaveX, leaveY, 15F, mPaint)
             //绘制三角结束边
             mPaint.setColor(Color.WHITE)
@@ -157,7 +163,7 @@ class MyLayout : View {
 //        canvas.drawPicture(mPicture, Rect(0,0,mPicture.width,300)) 会缩放图形
         PictureDrawable(mPicture).apply {
             //此处setBounds是设置在画布上的绘制区域，并非根据该区域进行缩放，也不是剪裁Picture，每次都从Picture的左上角开始绘制。
-            setBounds(0,0,mPicture.width,300)
+            setBounds(0, 0, mPicture.width, 300)
         }.draw(canvas)
     }
 
@@ -166,7 +172,7 @@ class MyLayout : View {
 //        val screenWidth = displayMetrics.widthPixels.toFloat()
 //        val screenHeight = displayMetrics.heightPixels.toFloat()
         val screenWidth = measuredWidth.toFloat()
-        val screenHeight =measuredHeight.toFloat()
+        val screenHeight = measuredHeight.toFloat()
         return floatArrayOf(screenWidth / 2, screenHeight / 2)
     }
 
@@ -206,5 +212,177 @@ class MyLayout : View {
             }
         }
         return super.onTouchEvent(event)
+    }
+}
+
+/**
+ * 自定义仪表盘练习
+ */
+class ADashboard : View {
+    private val paint by lazy { Paint() }
+
+    //外圈半径
+    private var outCircleRadius: Float = 0f
+
+    //刻度半径f
+    private var dashCircleRadius: Float = 0f
+
+    //进度
+    private var progress: Float = 0.0f
+
+    companion object {
+        const val START_ANGEL = 135f
+
+        //默认扫过角度270,进度需配置
+        const val SWEEP_ANGEL = 270F
+    }
+
+    constructor(context: Context) : this(context, null)
+
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        initPaint()
+    }
+
+    private fun initPaint() {
+        paint.apply {
+            isAntiAlias = true
+        }
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        Log.d("ADash", "onSizeChanged: ")
+        //计算外圈和刻度半径
+        outCircleRadius = (measuredWidth / 2 - DisplayUtils.dp2px(10)).toFloat()
+        dashCircleRadius = outCircleRadius - DisplayUtils.dp2px(20)
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val minSize = DisplayUtils.dp2px(150)
+        setMeasuredDimension(minSize, minSize)
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        canvas?.let {
+            //移动画布到View中心
+            val centerPoint = getCenterPoint()
+            canvas.translate(centerPoint[0], centerPoint[1])
+            //绘制最外层进度圆弧
+            drawOutCircle(canvas)
+            canvas.save()
+            //绘制刻度
+            drawDashLine(canvas)
+            canvas.restore()
+            //绘制中心渐变圆环
+            drawInnerRing(canvas)
+            //清除渐变色
+            paint.shader = null
+            canvas.save()
+            //绘制文字
+            drawText(canvas)
+            canvas.restore()
+        }
+    }
+
+    //绘制文字
+    private fun drawText(canvas: Canvas) {
+        canvas.rotate(-45f)
+        paint.color = ContextCompat.getColor(context, R.color.white)
+        paint.textSize = DisplayUtils.sp2px(15).toFloat()
+        val offset = DisplayUtils.dp2px(20).toFloat()
+        canvas.drawText("0", -outCircleRadius - DisplayUtils.dp2px(5), offset, paint)
+        canvas.rotate(90f)
+        canvas.drawText("100", outCircleRadius - DisplayUtils.dp2px(10), offset, paint)
+        canvas.restore()
+        //绘制中心文字
+        paint.textSize = DisplayUtils.sp2px(30).toFloat()
+        val str = "%.1f".format(progress * 100)
+        var rect = Rect()
+        //返回包围整个字符串的最小的一个Rect区域
+        paint.getTextBounds(str, 0, str.length, rect)
+        var textWidth = rect.width().toFloat()
+        var textHeight = rect.height().toFloat()
+        canvas.drawText(str, -textWidth / 2, 0f, paint)
+        val strUnit = "%"
+        rect = Rect()
+        //返回包围整个字符串的最小的一个Rect区域
+        paint.getTextBounds(strUnit, 0, strUnit.length, rect)
+        textWidth = rect.width().toFloat()
+        textHeight = rect.height().toFloat()
+        canvas.drawText(
+            strUnit,
+            -textWidth / 2,
+            textHeight + DisplayUtils.dp2px(5).toFloat(),
+            paint
+        )
+    }
+
+    //绘制中间圆环
+    private fun drawInnerRing(canvas: Canvas) {
+        paint.style = Paint.Style.FILL
+        val radialColors = intArrayOf(
+            ContextCompat.getColor(context, R.color.black_white),
+            ContextCompat.getColor(context, R.color.colorPrimary),
+        )
+        val ringRadius = dashCircleRadius - DisplayUtils.dp2px(10)
+        val radialGradient =
+            RadialGradient(0f, 0f, ringRadius * 1.5f, radialColors, null, TileMode.REPEAT)
+        paint.shader = radialGradient
+        canvas.drawCircle(0f, 0f, ringRadius, paint)
+    }
+
+    //绘制中间刻度
+    private fun drawDashLine(canvas: Canvas) {
+        paint.strokeWidth = DisplayUtils.dp2px(1).toFloat()
+        paint.color = ContextCompat.getColor(context, R.color.colorAccent)
+        //先将画布旋转至起始角度
+        canvas.rotate(-50f)
+        //旋转刻度单位
+        val rotateUnit = 5f
+        val dashCount = ((SWEEP_ANGEL + 10) / rotateUnit).toInt()
+        for (i in 0..dashCount) {
+            val lineLength =
+                if (i % 2 == 0) {
+                    DisplayUtils.dp2px(8)
+                } else {
+                    DisplayUtils.dp2px(5)
+                }
+            canvas.drawLine(-dashCircleRadius, 0f, -dashCircleRadius - lineLength, 0f, paint)
+            canvas.rotate(rotateUnit)
+        }
+    }
+
+    //绘制最外层进度圆弧
+    private fun drawOutCircle(canvas: Canvas) {
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = DisplayUtils.dp2px(18).toFloat()
+        //绘制外圈进度底色
+        paint.color = ContextCompat.getColor(context, R.color.colorPrimaryDark)
+        canvas.drawArc(-outCircleRadius, -outCircleRadius, outCircleRadius, outCircleRadius, START_ANGEL, SWEEP_ANGEL, false, paint)
+        paint.color = ContextCompat.getColor(context, R.color.colorAccent)
+        //绘制进度，
+        val drawAngel = SWEEP_ANGEL * progress
+        canvas.drawArc(-outCircleRadius, -outCircleRadius, outCircleRadius, outCircleRadius, START_ANGEL, drawAngel, false, paint)
+    }
+
+    private fun getCenterPoint(): FloatArray {
+        val viewWidth = measuredWidth.toFloat()
+        val viewHeight = measuredHeight.toFloat()
+        return floatArrayOf(viewWidth / 2, viewHeight / 2)
+    }
+
+    /**
+     * 更新进度
+     */
+    fun updateProgress(@FloatRange(from = 0.0, to = 1.0) progress: Float) {
+        this.progress = progress
+        invalidate()
     }
 }

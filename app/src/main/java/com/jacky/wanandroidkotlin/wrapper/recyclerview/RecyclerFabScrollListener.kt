@@ -38,10 +38,10 @@ class RecyclerFabScrollListener(private val fabVisibleListener: ((Boolean) -> Un
             //不可见并且向下滑动时
             mDistanceY += dy
         }
-        Log.d(
-            TAG,
-            "onScrolled: mDistanceY=$mDistanceY"
-        )
+//        Log.d(
+//            TAG,
+//            "onScrolled: mDistanceY=$mDistanceY"
+//        )
     }
 
     companion object {

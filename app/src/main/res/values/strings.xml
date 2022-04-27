@@ -5,7 +5,7 @@
     <string name="login_error_grant_refused">当前账号在别处设备登录，请注意账号使用安全</string>
 
     <string name="main_tab_home">首页</string>
-    <string name="main_tab_latest_project">最新项目</string>
+    <string name="main_tab_latest_project">项目</string>
     <string name="main_tab_system">体系</string>
     <string name="main_tab_nav">导航</string>
 
