@@ -6,13 +6,13 @@ dependencies {
     testImplementation rootProject.ext.dependencies["junit"]
 
     //如果aar包有很多，也可以一样象jar包统一添加一个文件夹下的所有包：
-    def dir = new File('app/libs')
-    dir.traverse(
-            nameFilter: ~/.*\.aar/
-    ) { file ->
-        def name = file.getName().replace('.aar', '')
-        implementation(name: name, ext: 'aar')
-    }
+//    def dir = new File('app/libs')
+//    dir.traverse(
+//            nameFilter: ~/.*\.aar/
+//    ) { file ->
+//        def name = file.getName().replace('.aar', '')
+//        implementation(name: name, ext: 'aar')
+//    }
 
     //------------module依赖----------------------------------
     implementation rootProject.ext.dependencies["module_support"]
@@ -41,6 +41,8 @@ dependencies {
     implementation rootProject.ext.dependencies["immersionbar"]
 
     implementation rootProject.ext.dependencies["ahbottomnavigation"]
+    
+    implementation rootProject.ext.dependencies["youth_banner"]
 
     implementation rootProject.ext.dependencies["pictureSelector"]
     implementation rootProject.ext.dependencies["photoview_smooth"]
@@ -65,6 +67,8 @@ dependencies {
     implementation rootProject.ext.dependencies["rxbinding2"]
     implementation rootProject.ext.dependencies["rxjava2"]
     implementation rootProject.ext.dependencies["rxandroid2"]
+
+    implementation(name: 'BaiduLBS_AndroidSDK_Lib', ext: 'aar')
 
 //    implementation rootProject.ext.dependencies["amap_3dmap"]
 //    implementation rootProject.ext.dependencies["amap_search"]

@@ -33,17 +33,24 @@ import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.widget.FloatPlayLayout
 import com.jacky.wanandroidkotlin.wrapper.getView
-import com.jacky.wanandroidkotlin.wrapper.glide.GlideBannerImageLoader
-import com.jacky.wanandroidkotlin.wrapper.musicplay.*
+import com.jacky.wanandroidkotlin.wrapper.glide.ImageBannerAdapter
+import com.jacky.wanandroidkotlin.wrapper.musicplay.AudioBean
+import com.jacky.wanandroidkotlin.wrapper.musicplay.AudioObserver
+import com.jacky.wanandroidkotlin.wrapper.musicplay.MusicPlayManager
+import com.jacky.wanandroidkotlin.wrapper.musicplay.PlayerStatus
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerFabScrollListener
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.youth.banner.Banner
-import com.youth.banner.BannerConfig
+import com.youth.banner.config.BannerConfig
+import com.youth.banner.config.IndicatorConfig
+import com.youth.banner.indicator.CircleIndicator
+import com.youth.banner.util.BannerUtils
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.widget.VerticalItemDecoration
+
 
 /**
  * @author:Hzj
@@ -57,9 +64,8 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
 
     private val mHomeAdapter: HomeListAdapter by lazy { HomeListAdapter() }
     private var mPageNum = 0
-    private val mBannerUrls = mutableListOf<String>()
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
-    private var mBannerHome: Banner? = null
+    private var mBannerHome: Banner<BannerEntity, ImageBannerAdapter>? = null
     private lateinit var binding: FragmentTabHomeBinding
 
     companion object {
@@ -197,25 +203,19 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
     }
 
     private fun setupBanner(bannerEntities: List<BannerEntity>) {
-        val imgList = mutableListOf<String>()
-        val titles = mutableListOf<String>()
-        for (entity in bannerEntities) {
-            imgList.add(entity.imagePath)
-            titles.add(entity.title)
-            mBannerUrls.add(entity.url)
-        }
         //填充banner
         mBannerHome?.apply {
-            setImageLoader(GlideBannerImageLoader())
-            setBannerStyle(BannerConfig.LEFT)
-            setImages(imgList)
-            setBannerTitles(titles)
-            setOnBannerListener { view, position ->
+            addBannerLifecycleObserver(this@TabHomeFragment)
+            setAdapter(ImageBannerAdapter(bannerEntities))
+            indicator = CircleIndicator(requireContext())
+            setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
+            setIndicatorMargins(
+                IndicatorConfig.Margins(0, 0, BannerConfig.INDICATOR_MARGIN, BannerUtils.dp2px(12f))
+            )
+            setOnBannerListener { item, _ ->
                 // 跳转详情
-                val url = mBannerUrls[position]
-                activity?.let { BrowserActivity.launch(it, url) }
+                activity?.let { BrowserActivity.launch(it, item.url) }
             }
-            start()
         }
     }
 
@@ -291,14 +291,8 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
         mViewModel.getArticleList(mPageNum)
     }
 
-    override fun onResume() {
-        super.onResume()
-        mBannerHome?.startAutoPlay()
-    }
-
     override fun onStop() {
         super.onStop()
-        mBannerHome?.stopAutoPlay()
         swipeRefreshLayout.isRefreshing = false
     }
 

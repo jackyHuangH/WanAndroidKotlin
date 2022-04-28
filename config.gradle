@@ -80,6 +80,9 @@ ext {
             //侧滑删除菜单
             "swipeDelMenu"                   : 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0',
 
+            //banner
+            "youth_banner"                   : 'io.github.youth5201314:banner:2.2.2',
+
             //纵向tab
             "verticalTab"                    : 'q.rorbin:VerticalTabLayout:1.2.5',
             "flowlayout"                     : 'com.hyman:flowlayout-lib:1.1.2',
