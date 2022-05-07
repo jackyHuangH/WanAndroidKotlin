@@ -409,6 +409,28 @@ class PhotoBrowserActivity : AppCompatActivity() {
         }
     }
 
+    private fun adapterHighRefreshRate(){
+        /*
+     M 是 6.0，6.0修改了新的api，并且就已经支持修改window的刷新率了。
+     但是6.0那会儿，也没什么手机支持高刷新率吧，所以也没什么人注意它。
+     我更倾向于直接判断 O，也就是 Android 8.0，我觉得这个时候支持高刷新率的手机已经开始了。
+     */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // 获取系统window支持的模式
+            val modes = window.windowManager.defaultDisplay.supportedModes
+            // 对获取的模式，基于刷新率的大小进行排序，从小到大排序
+            modes.sortBy {
+                it.refreshRate
+            }
+            window.let {
+                val lp = it.attributes
+                // 取出最大的那一个刷新率，直接设置给window
+                lp.preferredDisplayModeId = modes.last().modeId
+                it.attributes = lp
+            }
+        }
+    }
+
     private val imageSourceList by lazy {
         intent.getParcelableArrayListExtra<ImageSource>(
             EXTRA_IMAGE_URLS
@@ -417,6 +439,7 @@ class PhotoBrowserActivity : AppCompatActivity() {
     private val currentPosition by lazy { intent.getIntExtra(EXTRA_CURRENT_POSITION, 0) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        adapterHighRefreshRate()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pic_browse)
         initWidget()
@@ -473,7 +496,6 @@ private class PhotoBrowserAdapter(
             .dontAnimate()
             .placeholder(R.drawable.pic_default)
             .error(R.drawable.pic_default)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)//跳过磁盘缓存
         Glide
             .with(context)
             .load(imageSourceInfo.get())

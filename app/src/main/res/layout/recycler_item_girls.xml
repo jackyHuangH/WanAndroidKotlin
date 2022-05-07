@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/RippleStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp">
+    app:cardBackgroundColor="@color/common_white"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="10dp"
+    app:cardMaxElevation="10dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false"
+    app:contentPadding="0dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_girl"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="200dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/girl" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_girl_desc"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_alignBottom="@+id/iv_girl"
-        android:layout_centerHorizontal="true"
-        android:background="@color/color_8e9dac"
-        android:gravity="center"
-        android:textColor="@color/black_white"
-        tools:text="作者" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_girl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/girl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/ibt_download_img"
-        style="@style/RippleStyle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/tv_girl_desc"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@null"
-        android:src="@drawable/ic_download" />
+        <TextView
+            android:id="@+id/tv_girl_desc"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/shape_dark_5"
+            android:gravity="center"
+            android:textColor="@color/white_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="作者" />
 
-</RelativeLayout>
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibt_download_img"
+            style="@style/RippleStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:src="@drawable/ic_download"
+            app:layout_constraintBottom_toTopOf="@+id/tv_girl_desc"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -7,13 +7,10 @@ package com.jacky.wanandroidkotlin.model.entity
  * record：
  */
 data class GirlEntity(
-    val _id: String,
-    val createdAt: String,
-    val desc: String,
-    val publishedAt: String,
-    val source: String,
-    val type: String,
+    val author: String,
+    val download_url: String,
+    val height: Int,
+    val id: String,
     val url: String,
-    val used: Boolean,
-    val who: String
+    val width: Int
 )

@@ -2,6 +2,7 @@ package com.jacky.wanandroidkotlin.wrapper
 
 import android.os.Environment
 import android.util.Log
+import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.model.entity.GirlEntity
 import com.zenchn.support.utils.FileIOUtils
 import com.zenchn.support.utils.LoggerKit
@@ -48,9 +49,9 @@ object DownloadUtils {
         onDownloadFail: ((Exception) -> Unit)? = null
     ) {
         val downloadFilePath = getShpFileRootDirPath()
-        val destFileName = "${fileInfo.desc}.jpg"
+        val destFileName = "${fileInfo.author}.jpg"
         download(
-            fileInfo.url,
+            fileInfo.download_url,
             downloadFilePath,
             destFileName,
             onDownloadSuccess,
@@ -75,6 +76,8 @@ object DownloadUtils {
         onDownloadFail: ((Exception) -> Unit)? = null
     ) {
         val request: Request = Request.Builder().url(url).build()
+
+        ToastUtils.show("开始下载：$destFileName")
 
         //异步请求
         okHttpClient.newCall(request).enqueue(object : Callback {

@@ -1,6 +1,6 @@
 package com.jacky.wanandroidkotlin.model.api
 
-import com.google.gson.JsonObject
+import com.google.gson.JsonArray
 import com.jacky.wanandroidkotlin.model.entity.*
 import retrofit2.http.*
 
@@ -167,6 +167,9 @@ interface WanApiService {
     /**
      * 干货提供的福利图片api
      */
-    @GET("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/{page}")
-    suspend fun getGirlsList(@Path("page") page: Int): JsonObject
+    @GET("https://picsum.photos/v2/list")
+    suspend fun getGirlsList(
+        @Query("page") page: Int,
+        @Query("limit") pageSize: Int = 10
+    ): JsonArray?
 }

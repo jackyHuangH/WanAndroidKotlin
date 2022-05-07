@@ -8,8 +8,8 @@ package com.jacky.wanandroidkotlin.ui.demos
  */
 import android.app.Application
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +17,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
@@ -32,6 +34,8 @@ import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.GirlEntity
+import com.jacky.wanandroidkotlin.util.DisplayUtils
+import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.widget.IGallery
 import com.jacky.wanandroidkotlin.widget.RemoteImageSource
 import com.jacky.wanandroidkotlin.widget.previewPicture
@@ -40,8 +44,9 @@ import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerViewHelper
-import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.StaggeredDividerItemDecoration
 import com.jacky.wanandroidkotlin.wrapper.viewExt
+import com.jacky.wanandroidkotlin.wrapper.viewVisibleExt
 import com.yanzhenjie.permission.runtime.Permission
 import com.zenchn.support.permission.IPermission
 import com.zenchn.support.permission.applySelfPermissions
@@ -78,11 +83,35 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), OnItemClickListener,
 
     private fun initRecyclerView() {
         val rlv = getView<RecyclerView>(R.id.rlv)
-        rlv.layoutManager =
+        val staggeredLayoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
                 //可防止Item切换
                 gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
             }
+        rlv.layoutManager = staggeredLayoutManager
+        //去除item动画
+        rlv.itemAnimator = null
+        if (rlv.itemDecorationCount <= 0) {
+            rlv.addItemDecoration(StaggeredDividerItemDecoration(this, 5))
+        }
+        rlv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val first = IntArray(2)
+                staggeredLayoutManager.findFirstCompletelyVisibleItemPositions(first)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && (first[0] == 0 || first[1] == 1)) {
+                    //重新布局
+                    staggeredLayoutManager.invalidateSpanAssignments()
+                }
+                viewVisibleExt(R.id.bt_back_top, first[0] > 0)
+            }
+        })
+        viewExt<TextView>(R.id.bt_back_top) {
+            setOnAntiShakeClickListener {
+                rlv.scrollToPosition(0)
+                visibility = View.GONE
+            }
+        }
         rlv.adapter = girlAdapter.apply {
             setOnItemClickListener(this@GirlsActivity)
             loadMoreModule.setOnLoadMoreListener(this@GirlsActivity)
@@ -113,7 +142,7 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), OnItemClickListener,
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         val item = adapter.data[position] as GirlEntity
-        previewPicture(RemoteImageSource(item.url), 0)
+        previewPicture(RemoteImageSource(item.download_url), 0)
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
@@ -123,6 +152,8 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), OnItemClickListener,
                 val item = adapter.data[position] as GirlEntity
                 DownloadUtils.download(item, onDownloadSuccess = { file ->
                     ToastUtils.show("下载完成，文件已保存:${file.path}")
+                }, onDownloadProgress = { p ->
+                    ToastUtils.show("下载中:$p%")
                 }, onDownloadFail = { e ->
                     ToastUtils.show("下载失败,请重试!")
                 })
@@ -138,15 +169,24 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), OnItemClickListener,
         if (getView<SwipeRefreshLayout>(R.id.swipe_refresh).isRefreshing) {
             getView<SwipeRefreshLayout>(R.id.swipe_refresh).isRefreshing = false
         }
-        girlAdapter.updateLoadMoreStatus(hasNextPage)
+        if (hasNextPage) {
+            girlAdapter.loadMoreModule.loadMoreComplete()
+        } else {
+            girlAdapter.loadMoreModule.loadMoreEnd()
+        }
     }
 
     override val startObserve: GirlsViewModel.() -> Unit = {
         girlsList.observe(this@GirlsActivity, Observer {
             if (it.first == 1) {
                 girlAdapter.setNewInstance(it.second)
+                //局部刷新，防止瀑布流错乱
+                girlAdapter.notifyItemRangeChanged(0, it.second.size)
             } else {
+                val start = girlAdapter.data.size
                 girlAdapter.addData(it.second)
+                //局部刷新，防止瀑布流错乱
+                girlAdapter.notifyItemRangeInserted(start, girlAdapter.data.size)
             }
             setLoadStatus(it.third)
         })
@@ -161,17 +201,23 @@ class GirlsActivity : BaseVMActivity<GirlsViewModel>(), OnItemClickListener,
 
 private class GirlsAdapter :
     BaseQuickAdapter<GirlEntity, BaseViewHolder>(R.layout.recycler_item_girls), LoadMoreModule {
-    override fun convert(helper: BaseViewHolder, item: GirlEntity) {
-        helper.setText(R.id.tv_girl_desc, item.desc)
-        val imageView = helper.getView<ImageView>(R.id.iv_girl)
+
+    override fun convert(holder: BaseViewHolder, item: GirlEntity) {
+        val position = holder.absoluteAdapterPosition
+        holder.setText(R.id.tv_girl_desc, item.author)
+        val imageView = holder.getView<ImageView>(R.id.iv_girl)
+        val scale = item.width / item.height
         imageView.layoutParams.apply {
-            height = if (helper.adapterPosition == 0) 500 else ViewGroup.LayoutParams.WRAP_CONTENT
+            height = if (position % 2 == 0) {
+                DisplayUtils.dp2px(200)
+            } else {
+                DisplayUtils.dp2px(350)
+            }
         }
         GlideApp.with(context)
-            .load(item.url)
-            .override(500, 800)
-            .transition(DrawableTransitionOptions().crossFade())
-            .placeholder(R.drawable.girl)
+            .load(item.download_url)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .transform(CenterCrop(), RoundedCorners(DisplayUtils.dp2px(5)))
             .error(R.drawable.girl)
             .into(imageView)
     }
@@ -181,7 +227,7 @@ class GirlsViewModel(application: Application) : BaseViewModel(application) {
     val girlsList: MutableLiveData<Triple<Int, MutableList<GirlEntity>, Boolean>> =
         MutableLiveData()
     private var page = 1
-
+    private val pageSize = 20
     fun getGirlsList(isRefresh: Boolean = true) {
         launchOnUI {
             val result = withContext(Dispatchers.IO) {
@@ -191,11 +237,10 @@ class GirlsViewModel(application: Application) : BaseViewModel(application) {
                     } else {
                         page++
                     }
-                    val jsonObject = WanRetrofitClient.mService.getGirlsList(page)
-                    if (jsonObject["error"].asBoolean.not()) {
-                        val jsonArray = jsonObject["results"].asJsonArray
+                    val jsonArray = WanRetrofitClient.mService.getGirlsList(page, pageSize)
+                    if (jsonArray != null && jsonArray.size() > 0) {
                         val typeToken = object : TypeToken<MutableList<GirlEntity>>() {}.type
-                        Gson().fromJson<MutableList<GirlEntity>>(jsonArray, typeToken)
+                        Gson().fromJson(jsonArray, typeToken)
                     } else {
                         mutableListOf()
                     }
@@ -204,7 +249,7 @@ class GirlsViewModel(application: Application) : BaseViewModel(application) {
                     mutableListOf<GirlEntity>()
                 }
             }
-            val hasNextPage = result.size >= 10
+            val hasNextPage = result.size >= pageSize
             girlsList.value = Triple(page, result, hasNextPage)
         }
     }
