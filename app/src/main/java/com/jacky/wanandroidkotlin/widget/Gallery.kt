@@ -51,7 +51,6 @@ import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 //文件路径
 internal const val FILE_DIR_TEP = "/tmp"
@@ -409,7 +408,7 @@ class PhotoBrowserActivity : AppCompatActivity() {
         }
     }
 
-    private fun adapterHighRefreshRate(){
+    private fun adapterHighRefreshRate() {
         /*
      M 是 6.0，6.0修改了新的api，并且就已经支持修改window的刷新率了。
      但是6.0那会儿，也没什么手机支持高刷新率吧，所以也没什么人注意它。
@@ -494,8 +493,7 @@ private class PhotoBrowserAdapter(
         val requestOptions = RequestOptions()
             .fitCenter()
             .dontAnimate()
-            .placeholder(R.drawable.pic_default)
-            .error(R.drawable.pic_default)
+            .error(R.drawable.ic_pic_error)
         Glide
             .with(context)
             .load(imageSourceInfo.get())

@@ -218,7 +218,8 @@ private class GirlsAdapter :
             .load(item.download_url)
             .transition(DrawableTransitionOptions.withCrossFade())
             .transform(CenterCrop(), RoundedCorners(DisplayUtils.dp2px(5)))
-            .error(R.drawable.girl)
+            .placeholder(R.drawable.pic_default)
+            .error(R.drawable.ic_pic_error)
             .into(imageView)
     }
 }
