@@ -182,6 +182,9 @@
         <activity
             android:name=".aidltest.AidlTestActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.demos.MotionLayoutDemoActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--        androidx startup 优化过多使用contentProvider初始化造成启动速度慢：

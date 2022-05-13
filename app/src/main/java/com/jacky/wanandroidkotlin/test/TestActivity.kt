@@ -21,6 +21,7 @@ import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.ui.baidumap.BaiDuMapLearnActivity
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
+import com.jacky.wanandroidkotlin.ui.demos.MotionLayoutDemoActivity
 import com.jacky.wanandroidkotlin.ui.demos.NetEasyDemoActivity
 import com.jacky.wanandroidkotlin.util.CountDownClock
 import com.jacky.wanandroidkotlin.util.CountDownClock.Companion.createCountDownClock
@@ -95,6 +96,10 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
 
         viewClickListener(R.id.bt_main) {
             WelcomeActivity.launch(this)
+        }
+
+        viewClickListener(R.id.btn_motion_demo) {
+            MotionLayoutDemoActivity.launch(this)
         }
 
         viewClickListener(R.id.btn_netease) {
