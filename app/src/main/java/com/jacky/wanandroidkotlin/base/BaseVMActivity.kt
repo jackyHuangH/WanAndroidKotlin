@@ -2,7 +2,7 @@ package com.jacky.wanandroidkotlin.base
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 
 /**
  * @author:Hzj
@@ -22,12 +22,13 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), IVMView<VM> 
     //初始化ViewModel绑定
     private fun initViewModel() {
         provideViewModelClass()?.let { clazz ->
-            mViewModel = ViewModelProviders.of(this).get(clazz).apply {
-                mErrorMsg.observe(this@BaseVMActivity, Observer { showMessage(msg = it) })
-                mShowLoadingProgress.observe(this@BaseVMActivity, Observer { show ->
-                    if (show) showProgress() else hideProgress()
-                })
-            }
+            mViewModel =
+                ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(clazz).apply {
+                    mErrorMsg.observe(this@BaseVMActivity, Observer { showMessage(msg = it) })
+                    mShowLoadingProgress.observe(this@BaseVMActivity, Observer { show ->
+                        if (show) showProgress() else hideProgress()
+                    })
+                }
         }
     }
 
