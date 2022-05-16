@@ -61,7 +61,7 @@ class ApplicationKit {
                 if (ex is SocketTimeoutException) {
                     ToastUtils.show("无法连接服务器")
                 } else {
-                    GlobalLifecycleObserver.INSTANCE.exitApp()
+                    GlobalLifecycleObserver.INSTANCE.killApp()
                 }
             }
         })

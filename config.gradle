@@ -26,6 +26,7 @@ ext {
             "androidx_annotations"           : "androidx.annotation:annotation:1.2.0",
             "androidx_fragment"              : "androidx.fragment:fragment:1.3.6",
             "andriodx_appcompat"             : "androidx.appcompat:appcompat:1.4.1",
+            "andriodx_viewpager2"            : "androidx.viewpager2:viewpager2:1.0.0",
             "androidx_constraint_layout"     : "androidx.constraintlayout:constraintlayout:2.1.3",
             "androidx_recyclerview"          : "androidx.recyclerview:recyclerview:1.2.1",
             "androidx_cardview"              : "androidx.cardview:cardview:1.0.0",
@@ -159,7 +160,7 @@ ext {
             "amap_2dmap"                     : "com.amap.api:map2d:latest.integration",//  2D地图
             "amap_navi"                      : "com.amap.api:navi-3dmap:latest.integration",//  导航
 
-            "leakcanary"                     : 'com.squareup.leakcanary:leakcanary-android:2.1',
+            "leakcanary"                     : 'com.squareup.leakcanary:leakcanary-android:2.9.1',
 
     ]
 }

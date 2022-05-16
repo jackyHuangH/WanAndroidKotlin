@@ -101,7 +101,7 @@ class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(), OnItemClickListe
         mArticleList.observe(this@MyCollectActivity, Observer { list ->
             list?.let {
                 if (mPageNum == 0) {
-                    mListAdapter.setNewData(it.datas)
+                    mListAdapter.setNewInstance(it.datas)
                 } else {
                     mListAdapter.addData(it.datas)
                 }

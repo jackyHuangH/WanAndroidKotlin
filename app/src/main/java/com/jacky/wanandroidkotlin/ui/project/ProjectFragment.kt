@@ -2,10 +2,11 @@ package com.jacky.wanandroidkotlin.ui.project
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
@@ -21,7 +22,7 @@ import com.jacky.wanandroidkotlin.wrapper.getView
  * record：
  */
 class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
-    private lateinit var viewPager: ViewPager
+    private lateinit var viewPager: ViewPager2
     private val mProjectTypeList = mutableListOf<TreeParentEntity>()
     private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_IS_BLOG, false) }
 
@@ -47,19 +48,26 @@ class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
     }
 
     override fun initWidget() {
-        viewPager = getView<ViewPager>(R.id.viewPager)
+        viewPager = getView(R.id.viewPager)
         val tabLayout = getView<TabLayout>(R.id.tabLayout)
-        fragmentManager?.let {
-            viewPager.adapter =
-                object : FragmentStatePagerAdapter(it, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-                    override fun getCount(): Int = mProjectTypeList.size
+        viewPager.adapter =
+            object : FragmentStateAdapter(
+                parentFragmentManager,
+                lifecycle
+            ) {
+                //                override fun getCount(): Int = mProjectTypeList.size
+//
+//                override fun getItem(position: Int): Fragment = chooseFragment(position)
+//
+//                override fun getPageTitle(position: Int) = mProjectTypeList[position].name
+                override fun getItemCount(): Int = mProjectTypeList.size
 
-                    override fun getItem(position: Int): Fragment = chooseFragment(position)
-
-                    override fun getPageTitle(position: Int) = mProjectTypeList[position].name
-                }
-            tabLayout.setupWithViewPager(viewPager)
-        }
+                override fun createFragment(position: Int): Fragment = chooseFragment(position)
+            }
+//        tabLayout.setupWithViewPager(viewPager)
+        TabLayoutMediator(tabLayout, viewPager) { tab, index ->
+            tab.text = mProjectTypeList[index].name
+        }.attach()
     }
 
     private fun chooseFragment(position: Int): Fragment {

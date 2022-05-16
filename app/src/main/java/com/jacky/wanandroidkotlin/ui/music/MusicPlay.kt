@@ -124,7 +124,7 @@ class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
             }
         }
         val audioList = MusicPlayManager.getCurrentAudioList()
-        musicListAdapter.setNewData(audioList)
+        musicListAdapter.setNewInstance(audioList)
         textView.text = "歌曲列表（${audioList.size}）"
     }
 

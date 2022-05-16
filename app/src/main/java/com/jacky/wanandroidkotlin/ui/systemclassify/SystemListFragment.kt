@@ -60,6 +60,10 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
         swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         initRecyclerView()
         initRefreshLayout()
+    }
+
+    override fun onResume() {
+        super.onResume()
         onRefresh()
         swipeRefreshLayout.isRefreshing = true
     }
@@ -73,6 +77,7 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
     }
 
     private fun onRefresh() {
+//        mHomeAdapter.data.clear()
         //下拉刷新时禁用加载更多
         mHomeAdapter.loadMoreModule.isEnableLoadMore = false
         mPageNum = 0
@@ -93,7 +98,7 @@ class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
         mArticleList.observe(this@SystemListFragment, Observer {
             it?.let {
                 if (mPageNum == 0) {
-                    mHomeAdapter.setNewData(it.datas)
+                    mHomeAdapter.setNewInstance(it.datas)
                 } else {
                     mHomeAdapter.addData(it.datas)
                 }

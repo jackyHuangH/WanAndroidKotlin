@@ -20,6 +20,7 @@ import com.jacky.wanandroidkotlin.ui.project.ProjectViewModel
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerViewHelper
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
 import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.utils.AndroidKit
@@ -33,7 +34,7 @@ import com.zenchn.support.widget.VerticalItemDecoration
  */
 class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
     OnItemClickListener, OnItemChildClickListener, OnLoadMoreListener {
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     private var mPageNum = 0
     private var mIsDownRefresh = true//是否是下拉刷新数据
@@ -60,8 +61,12 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
         swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         intiRecyclerView()
         initRefreshLayout()
+    }
+
+    override fun onResume() {
+        super.onResume()
         onRefresh()
-        swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout?.isRefreshing = true
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_tab_latest_project
@@ -81,6 +86,7 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
                 setOnItemChildClickListener(this@TabLatestProjectFragment)
                 loadMoreModule.setOnLoadMoreListener(this@TabLatestProjectFragment)
                 loadMoreModule.loadMoreView = CustomLoadMoreView()
+                setEmptyView(RecyclerViewHelper.getCommonEmptyView(this@viewExt))
             }
             adapter = mAdapter
         }
@@ -128,8 +134,8 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
     }
 
     private fun initRefreshLayout() {
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
-        swipeRefreshLayout.setOnRefreshListener {
+        swipeRefreshLayout?.setColorSchemeResources(R.color.colorAccent)
+        swipeRefreshLayout?.setOnRefreshListener {
             //刷新数据
             onRefresh()
         }
@@ -156,7 +162,7 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
         mArticleList.observe(this@TabLatestProjectFragment, Observer { list ->
             list?.let {
                 if (mIsDownRefresh) {
-                    mAdapter.setNewData(it.datas)
+                    mAdapter.setList(it.datas)
                 } else {
                     mAdapter.addData(it.datas)
                 }
@@ -169,15 +175,15 @@ class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
-        if (swipeRefreshLayout.isRefreshing) {
-            swipeRefreshLayout.isRefreshing = false
+        if (swipeRefreshLayout?.isRefreshing == true) {
+            swipeRefreshLayout?.isRefreshing = false
         }
         mAdapter.updateLoadMoreStatus(hasNextPage)
     }
 
     override fun onApiFailure(msg: String) {
-        if (swipeRefreshLayout.isRefreshing) {
-            swipeRefreshLayout.isRefreshing = false
+        if (swipeRefreshLayout?.isRefreshing == true) {
+            swipeRefreshLayout?.isRefreshing = false
         }
         super.onApiFailure(msg)
     }

@@ -11,9 +11,10 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.jacky.wanandroidkotlin.BuildConfig
 import com.jacky.wanandroidkotlin.R
@@ -25,7 +26,7 @@ import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
 import com.jacky.wanandroidkotlin.test.TestActivity
 import com.jacky.wanandroidkotlin.ui.about.AboutActivity
-import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPagerAdapter
+import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPager2Adapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.fragmentwrap.FragmentWrapActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
@@ -134,12 +135,24 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
         }
     }
 
+    //A to B --> pair<A,B>
+    private val tabs = arrayOf(
+        "首页" to R.drawable.ic_launcher_foreground,
+        "商场" to R.drawable.ic_launcher_foreground,
+        "我的" to R.drawable.ic_launcher_foreground
+    )
+
+
     private fun initViewPager() {
-        val vpAdapter =
-            BaseFragmentPagerAdapter(supportFragmentManager, mFragments, mTitles)
-        val vp = getView<ViewPager>(R.id.vp)
+        val vpAdapter = BaseFragmentPager2Adapter(supportFragmentManager, lifecycle, mFragments)
+        val vp = getView<ViewPager2>(R.id.vp)
         vp.adapter = vpAdapter
-        getView<TabLayout>(R.id.tabLayout).setupWithViewPager(vp)
+        val tablayout = getView<TabLayout>(R.id.tabLayout)
+        //TabLayout绑定viewpager2
+        TabLayoutMediator(tablayout, vp) { tab, index ->
+            //绑定标题
+            tab.text = mTitles[index]
+        }.attach()
     }
 
     private fun initUserHead() {
@@ -257,7 +270,8 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     private var mExitTime: Long = 0
     override fun onBackPressed() {
         if (System.currentTimeMillis().minus(mExitTime) <= 2000) {
-            GlobalLifecycleObserver.INSTANCE.exitApp()
+            GlobalLifecycleObserver.INSTANCE.clearActivityStackAndCallback()
+            finish()
         } else {
             mExitTime = System.currentTimeMillis()
             showResMessage(R.string.common_click_double_to_exit_app)

@@ -3,6 +3,8 @@ package com.jacky.wanandroidkotlin.ui.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
 /**
  * @author:Hzj
@@ -37,4 +39,21 @@ class BaseFragmentPagerAdapter(
     override fun getCount(): Int {
         return mFragments?.size ?: 0
     }
+}
+
+/**
+ * viewpager2 pagerAdapter
+ */
+class BaseFragmentPager2Adapter(
+    fm: FragmentManager, lifecycle: Lifecycle,
+    private val fragments: List<Fragment>
+) : FragmentStateAdapter(fm, lifecycle) {
+    override fun getItemCount(): Int {
+        return fragments.size
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return fragments[position]
+    }
+
 }

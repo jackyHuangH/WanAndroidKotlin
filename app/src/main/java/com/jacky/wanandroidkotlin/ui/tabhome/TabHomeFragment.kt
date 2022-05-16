@@ -190,7 +190,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
         mArticleList.observe(this@TabHomeFragment, Observer {
             it?.let {
                 if (mPageNum == 0) {
-                    mHomeAdapter.setNewData(it.datas)
+                    mHomeAdapter.setNewInstance(it.datas)
                 } else {
                     mHomeAdapter.addData(it.datas)
                 }

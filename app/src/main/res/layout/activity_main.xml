@@ -55,7 +55,7 @@
                 android:src="@drawable/search" />
         </LinearLayout>
 
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

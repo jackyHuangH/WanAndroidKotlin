@@ -20,6 +20,7 @@ dependencies {
     //==============================组件依赖 kotlin用kapt替换annotationProcessor===============================
     implementation rootProject.ext.dependencies["androidx_constraint_layout"]
     implementation rootProject.ext.dependencies["androidx_recyclerview"]
+    implementation rootProject.ext.dependencies["andriodx_viewpager2"]
     implementation rootProject.ext.dependencies["androidx_material_design"]
     implementation rootProject.ext.dependencies["androidx_cardview"]
     implementation rootProject.ext.dependencies["androidx_gridLayout"]

@@ -73,12 +73,22 @@ class GlobalLifecycleObserver : DefaultLifecycleObserver {
         }
     }
 
-    fun exitApp() {
+    /**
+     * 清除activity栈和所有回调
+     */
+    fun clearActivityStackAndCallback() {
         for (i in callbackStack.indices.reversed()) {
             callbackStack[i].get()?.onDestroyedSelf()
         }
         finishAllActivity()
         clearAll()
+    }
+
+    /**
+     * 强制杀掉App进程，暴力方式
+     */
+    fun killApp() {
+        clearActivityStackAndCallback()
         Process.killProcess(Process.myPid())
     }
 
