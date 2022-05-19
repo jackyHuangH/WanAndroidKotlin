@@ -109,7 +109,8 @@ abstract class BaseFragment : Fragment(), IView {
             .fitsSystemWindows(true)
             .statusBarColor(R.color.colorPrimary)
             .statusBarDarkFont(false)
-
+            .transparentNavigationBar()
+//            .navigationBarColor(android.R.color.transparent)
         //是否需要监听键盘
         if (addOnKeyboardListener() != null) {
             mImmersionBar

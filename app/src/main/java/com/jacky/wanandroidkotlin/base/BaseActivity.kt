@@ -66,6 +66,7 @@ abstract class BaseActivity : AppCompatActivity(), IView {
             .fitsSystemWindows(true)
             .statusBarColor(R.color.colorPrimary)
             .statusBarDarkFont(false)
+            .navigationBarColor(R.color.backgroundColor)
         //是否需要监听键盘
         if (addOnKeyboardListener() != null) {
             mImmersionBar
