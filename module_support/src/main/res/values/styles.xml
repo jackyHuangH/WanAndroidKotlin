@@ -14,11 +14,7 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
-    <style name="ButtonStyle">
-        <item name="android:clickable">true</item>
-    </style>
-
-    <style name="RippleStyle" parent="ButtonStyle">
+    <style name="RippleStyle">
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 

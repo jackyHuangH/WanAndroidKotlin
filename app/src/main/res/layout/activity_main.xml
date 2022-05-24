@@ -68,6 +68,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/backgroundColor"
+        app:itemTextColor="@color/black_white"
         app:headerLayout="@layout/header_home_navigation"
         app:insetForeground="@null"
         app:menu="@menu/menu_home_navigation" />

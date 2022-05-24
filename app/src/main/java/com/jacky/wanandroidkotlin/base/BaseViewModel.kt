@@ -86,6 +86,7 @@ fun <T> BaseViewModel.executeRequest(
             },
             handleCancellationExceptionManually = true
         )?.let {
+            Log.d("Thread", "response:${Thread.currentThread().name}")
             if (it.isApiSuccess()) {
                 onNext?.invoke(true, it.data, null)
             } else {

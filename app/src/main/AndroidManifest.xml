@@ -60,19 +60,13 @@
             android:value="${CHANNEL_VALUE}" />
         <meta-data
             android:name="CHANNEL_ID"
-            android:value="${CHANNEL_ID}" /> <!-- 头条屏幕适配参数 -->
-        <meta-data
-            android:name="design_width_in_dp"
-            android:value="360" />
-        <meta-data
-            android:name="design_height_in_dp"
-            android:value="640" /> <!-- 全面屏适配 -->
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="2.4" /> <!-- 适配华为（huawei）刘海屏 -->
+            android:value="${CHANNEL_ID}" />
+
+        <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
             android:name="android.notch_support"
-            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
+            android:value="true" />
+        <!-- 适配小米（xiaomi）刘海屏 -->
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />

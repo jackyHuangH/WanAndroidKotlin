@@ -84,13 +84,13 @@ class BaiDuMapLearnActivity : BaseVMActivity<BaiDuMapLearnViewModel>(),
         mFlCommit.visibility = if (mEditable) View.VISIBLE else View.GONE
 
         viewClickListener(R.id.btChoose) {
-            val data = Intent()
-            mCameraCenterPosition?.let { latLng ->
-                data.putExtra("latLng", latLng)
-                data.putExtra("address", tvLocation.text.toString())
-            }
-            setResult(Activity.RESULT_OK, data)
-            finish()
+//            val data = Intent()
+//            mCameraCenterPosition?.let { latLng ->
+//                data.putExtra("latLng", latLng)
+//                data.putExtra("address", tvLocation.text.toString())
+//            }
+//            setResult(Activity.RESULT_OK, data)
+//            finish()
         }
         initBaiduMap()
         initPermissions()

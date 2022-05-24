@@ -17,8 +17,8 @@ ext {
             "kotlin_std"                     : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             "kotlin_reflect"                 : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             // 引入kotlin协程
-            "coroutine_core"                 : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1',
-            "coroutine_android"              : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1',
+            "coroutine_core"                 : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1',
+            "coroutine_android"              : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1',
 
             //工具类
             "androidx_multidex"              : "androidx.multidex:multidex:2.0.1",
@@ -77,7 +77,7 @@ ext {
             "ahbottomnavigation"             : 'com.aurelhubert:ahbottomnavigation:2.2.0',
 
             //baseAdapter For RecyclerView
-            "brvah"                          : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6',
+            "brvah"                          : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7',
             //侧滑删除菜单
             "swipeDelMenu"                   : 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0',
 
@@ -143,6 +143,7 @@ ext {
             //bugly升级
             "bugly_upgrade"                  : 'com.tencent.bugly:crashreport_upgrade:1.4.5',
             "bugly_native"                   : 'com.tencent.bugly:nativecrashreport:3.6.0',
+            //tencent X5 Web
             "tencent_tbs"                    : 'com.tencent.tbs.tbssdk:sdk:43939',
 
             //dagger2

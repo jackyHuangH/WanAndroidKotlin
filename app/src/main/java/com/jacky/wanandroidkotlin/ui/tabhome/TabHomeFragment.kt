@@ -190,7 +190,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
         mArticleList.observe(this@TabHomeFragment, Observer {
             it?.let {
                 if (mPageNum == 0) {
-                    mHomeAdapter.setNewInstance(it.datas)
+                    mHomeAdapter.setList(it.datas)
                 } else {
                     mHomeAdapter.addData(it.datas)
                 }
@@ -257,11 +257,8 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         // 跳转详情
-        //使用trace 性能分析
-//        Debug.startMethodTracing("Van")
         val entity = adapter.data[position] as ArticleEntity
         activity?.let { BrowserActivity.launch(it, entity.link) }
-//        Debug.stopMethodTracing()
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
@@ -275,7 +272,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
                             collect = !collect
                             mViewModel.collectArticle(id, collect)
                         }
-                        notifyDataSetChanged()
+                        notifyItemChanged(position)
                     }
                 } else {
                     //未登录，跳转登录
