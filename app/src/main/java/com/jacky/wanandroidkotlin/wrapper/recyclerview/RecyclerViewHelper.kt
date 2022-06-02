@@ -41,7 +41,6 @@ fun BaseQuickAdapter<*, *>.updateLoadMoreStatus(hasNextPage: Boolean) {
     } else {
         loadMoreModule.loadMoreEnd()
     }
-    notifyDataSetChanged()
 }
 
 /**

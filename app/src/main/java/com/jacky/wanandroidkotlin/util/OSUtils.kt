@@ -22,6 +22,8 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.Html
 import android.util.DisplayMetrics
+import android.util.Log
+import android.view.Choreographer
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.annotation.*
@@ -95,6 +97,44 @@ fun Context.getMetaData(key: String, packageName: String = this.packageName): St
 //        packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData?.getString(key)
 //    } ?: defaultValue
 //}
+
+/**
+ * 屏幕刷新率：
+ *  屏幕刷新率代表屏幕在一秒内刷新屏幕的次数，这个值用赫兹来表示，取决于硬件的固定参数。这个值一般是60Hz,即每16.66ms系统发出一个 VSYNC 信号来通知刷新一次屏幕。
+ *
+ *  帧速率：
+ *  帧速率代表了GPU在一秒内绘制操作的帧数，比如30fps/60fps。
+ */
+object RateUtil {
+    private var mLastFrameTime: Long = 0L
+    private var mFrameCount: Int = 0
+
+    /**
+     * 检测当前屏幕刷新率
+     */
+    fun detectRefreshRate() {
+        Choreographer.getInstance().postFrameCallback(object : Choreographer.FrameCallback {
+
+            override fun doFrame(frameTimeNanos: Long) {
+                if (mLastFrameTime == 0L) {
+                    mLastFrameTime = frameTimeNanos;
+                }
+                //得到毫秒，正常是 16.66 ms
+                val diff = (frameTimeNanos - mLastFrameTime) / 1000000.0f
+                if (diff > 500) {
+                    val fps: Double = (((mFrameCount * 1000L)) / diff).toDouble()
+                    mFrameCount = 0;
+                    mLastFrameTime = 0;
+                    Log.d("doFrame", "doFrame: " + fps);
+                } else {
+                    ++mFrameCount;
+                }
+                Choreographer.getInstance().postFrameCallback(this)
+            }
+        });
+    }
+}
+
 
 object KeyboardUtils {
 

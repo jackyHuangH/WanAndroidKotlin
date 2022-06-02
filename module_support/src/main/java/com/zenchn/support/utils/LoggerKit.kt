@@ -1,6 +1,7 @@
 package com.zenchn.support.utils
 
 import com.orhanobut.logger.*
+import com.zenchn.support.BuildConfig
 
 /**
  * 作    者：hzj
@@ -30,74 +31,50 @@ object LoggerKit {
     }
 
     fun log(priority: Int, tag: String?, message: String?, throwable: Throwable?) {
-        if (BuildConfig.DEBUG) {
-            Logger.log(priority, tag, message, throwable)
-        }
+        Logger.log(priority, tag, message, throwable)
     }
 
     fun d(message: String?, vararg args: Any?) {
-        if (BuildConfig.DEBUG) {
-            Logger.d(message, *args)
-        }
+        Logger.d(message, *args)
     }
 
     fun d(`object`: Any?) {
-        if (BuildConfig.DEBUG) {
-            Logger.d(`object`)
-        }
+        Logger.d(`object`)
     }
 
     fun e(throwable: Throwable?, message: String?, vararg args: Any?) {
-        if (BuildConfig.DEBUG) {
-            Logger.e(throwable, message, *args)
-        }
+        Logger.e(throwable, message, *args)
     }
 
     fun e(message: String?, vararg args: Any?) {
-        if (BuildConfig.DEBUG) {
-            Logger.e(message, *args)
-        }
+        Logger.e(message, *args)
     }
 
     fun e(e: Exception, vararg args: Any?) {
-        if (BuildConfig.DEBUG) {
-            Logger.e(e.toString(), *args)
-        }
+        Logger.e(e.toString(), *args)
     }
 
     fun i(message: String?, vararg args: Any?) {
-        if (BuildConfig.DEBUG) {
-            Logger.i(message, *args)
-        }
+        Logger.i(message, *args)
     }
 
     fun v(message: String?, vararg args: Any?) {
-        if (BuildConfig.DEBUG) {
-            Logger.v(message, *args)
-        }
+        Logger.v(message, *args)
     }
 
     fun w(message: String?, vararg args: Any?) {
-        if (BuildConfig.DEBUG) {
-            Logger.w(message, *args)
-        }
+        Logger.w(message, *args)
     }
 
     fun wtf(message: String?, vararg args: Any?) {
-        if (BuildConfig.DEBUG) {
-            Logger.wtf(message, *args)
-        }
+        Logger.wtf(message, *args)
     }
 
     fun json(json: String?) {
-        if (BuildConfig.DEBUG) {
-            Logger.json(json)
-        }
+        Logger.json(json)
     }
 
     fun xml(xml: String?) {
-        if (BuildConfig.DEBUG) {
-            Logger.xml(xml)
-        }
+        Logger.xml(xml)
     }
 }

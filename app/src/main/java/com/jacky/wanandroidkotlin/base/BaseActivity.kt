@@ -34,7 +34,7 @@ abstract class BaseActivity : AppCompatActivity(), IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //适配屏幕高刷新率
-        adaptHighRefresh()
+//        adaptHighRefresh()
         super.onCreate(savedInstanceState)
         onNewInstanceState(savedInstanceState)
         getLayoutId().takeIf { it > 0 }?.let { setContentView(it) }

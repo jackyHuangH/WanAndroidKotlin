@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -54,7 +54,7 @@ dependencies {
     api rootProject.ext.dependencies["toast"]
 
     api rootProject.ext.dependencies["Android_Pickerview"]
-    api rootProject.ext.dependencies["tencent_tbs"]
+//    api rootProject.ext.dependencies["tencent_tbs"]
 
     api rootProject.ext.dependencies["andPermission"]
     implementation rootProject.ext.dependencies["logger"]

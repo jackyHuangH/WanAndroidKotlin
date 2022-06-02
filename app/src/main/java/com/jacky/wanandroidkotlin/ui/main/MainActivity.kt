@@ -38,6 +38,7 @@ import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
 import com.jacky.wanandroidkotlin.ui.tabnavigation.TabNavigationFragment
 import com.jacky.wanandroidkotlin.ui.tabsystem.TabSystemFragment
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
+import com.jacky.wanandroidkotlin.util.RateUtil
 import com.jacky.wanandroidkotlin.util.StatusBarUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.DialogProvider
@@ -105,6 +106,8 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
 
         navigation.menu.findItem(R.id.nv_test).isVisible = BuildConfig.DEBUG
         initDrawerListener()
+        //检测屏幕刷新率
+//        RateUtil.detectRefreshRate()
     }
 
     private fun initPermissions() {
