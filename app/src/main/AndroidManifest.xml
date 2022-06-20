@@ -42,7 +42,6 @@
     <application
         android:name=".app.App"
         android:allowBackup="true"
-        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
@@ -177,6 +176,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.demos.MotionLayoutDemoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".test.RoomTestActivity"
             android:screenOrientation="portrait" />
 
 

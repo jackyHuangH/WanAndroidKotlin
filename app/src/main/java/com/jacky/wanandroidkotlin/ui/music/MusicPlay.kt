@@ -41,7 +41,7 @@ import com.zenchn.support.router.Router
 import com.zenchn.support.utils.AndroidKit
 
 
-class MusicPlayActivity : BaseVMActivity<MusicPlayViewModel>(), AudioObserver {
+class MusicPlayActivity : BaseVMActivity<ActivityMusicPlayBinding,MusicPlayViewModel>(), AudioObserver {
     private lateinit var ibtBack: ImageButton
 
     private lateinit var mActivityBinding: ActivityMusicPlayBinding

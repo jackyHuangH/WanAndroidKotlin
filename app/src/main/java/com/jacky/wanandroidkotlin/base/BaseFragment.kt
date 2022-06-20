@@ -9,32 +9,35 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
+import com.jacky.wanandroidkotlin.wrapper.createViewBinding
 import com.zenchn.support.base.DefaultUiController
 import com.zenchn.support.base.IUiController
 import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.utils.LoggerKit
 
-
-abstract class BaseFragment : Fragment(), IView {
-
+/**
+ * Fragment基类，集成ViewBinding
+ */
+abstract class BaseFragment<VB : ViewBinding> : Fragment(), IView {
+    protected lateinit var mViewBinding: VB
     protected lateinit var mImmersionBar: ImmersionBar
     protected var mUiDelegate: IUiController? = null
     private var rootView: View? = null
     protected var instanceState: Bundle? = null
 
     override fun onAttach(context: Context) {
-        Log.d("BaseFragment"," onAttach")
+        Log.d("BaseFragment", " onAttach")
         super.onAttach(context)
         mUiDelegate = context as? IUiController ?: DefaultUiController(context, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("BaseFragment"," onCreate")
+        Log.d("BaseFragment", " onCreate")
     }
 
     override fun onCreateView(
@@ -43,11 +46,16 @@ abstract class BaseFragment : Fragment(), IView {
         savedInstanceState: Bundle?
     ): View? {
         if (rootView == null) {
-            getLayoutId().takeIf { it > 0 }?.let {
-                rootView = inflater.inflate(it, null)
+//            getLayoutId().takeIf { it > 0 }?.let {
+//                rootView = inflater.inflate(it, null)
+//            }
+            mViewBinding = requireContext().createViewBinding(javaClass, inflater)
+                ?: throw IllegalStateException("ViewBinding init fail.")
+            mViewBinding?.let {
+                rootView = it.root
             }
         }
-        Log.d("BaseFragment"," onCreateView")
+        Log.d("BaseFragment", " onCreateView")
         return rootView
     }
 
@@ -55,13 +63,13 @@ abstract class BaseFragment : Fragment(), IView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d("BaseFragment"," onActivityCreated")
+        Log.d("BaseFragment", " onActivityCreated")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onNewInstanceState(savedInstanceState)
-        Log.d("BaseFragment"," onViewCreated")
+        Log.d("BaseFragment", " onViewCreated")
         //注意：懒加载模式时不要使用initWidget()，容易出现重复初始化问题，
         // 使用onFragmentFirstVisible()
         initWidget()
@@ -73,12 +81,12 @@ abstract class BaseFragment : Fragment(), IView {
 
     override fun onStart() {
         super.onStart()
-        Log.d("BaseFragment"," onStart")
+        Log.d("BaseFragment", " onStart")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("BaseFragment"," onStop")
+        Log.d("BaseFragment", " onStop")
     }
 
     override fun initWidget() {
@@ -168,7 +176,7 @@ abstract class BaseFragment : Fragment(), IView {
     }
 
     override fun onPause() {
-        Log.d("BaseFragment"," onPause")
+        Log.d("BaseFragment", " onPause")
         AndroidKit.Keyboard.hideSoftInput(requireActivity())
         super.onPause()
     }
@@ -181,7 +189,7 @@ abstract class BaseFragment : Fragment(), IView {
     private var mFirstTimeVisible = false
 
     override fun onResume() {
-        Log.d("BaseFragment"," onResume")
+        Log.d("BaseFragment", " onResume")
         super.onResume()
         //懒加载配置
         if (!mFirstTimeVisible) {
@@ -191,19 +199,19 @@ abstract class BaseFragment : Fragment(), IView {
     }
 
     override fun onDestroyView() {
-        Log.d("BaseFragment"," onDestroyView")
         super.onDestroyView()
+        Log.d("BaseFragment", " onDestroyView")
         mFirstTimeVisible = false
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("BaseFragment"," onDestroy")
+        Log.d("BaseFragment", " onDestroy")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.d("BaseFragment"," onDetach")
+        Log.d("BaseFragment", " onDetach")
     }
 
     /**

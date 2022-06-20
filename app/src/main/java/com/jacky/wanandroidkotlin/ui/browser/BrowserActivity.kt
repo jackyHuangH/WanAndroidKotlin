@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin.ui.browser
 
 import android.app.Activity
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.util.Log
@@ -8,13 +9,16 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.databinding.ActivityBrowserBinding
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 import com.zenchn.support.router.Router
+import com.zenchn.support.utils.LoggerKit
 
 
 /**
@@ -23,7 +27,7 @@ import com.zenchn.support.router.Router
  * desc  ：基于腾讯X5内核 webview 浏览器
  * record：
  */
-class BrowserActivity : BaseActivity() {
+class BrowserActivity : BaseActivity<ActivityBrowserBinding>() {
     private lateinit var webView: WebView
 
     override fun getLayoutId(): Int = R.layout.activity_browser
@@ -67,6 +71,10 @@ class BrowserActivity : BaseActivity() {
                     pbLoading.progress = p1
                 }
             }
+            //获取当前是否是暗黑模式
+            val isDarkTheme: Boolean = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+            // enable:true(日间模式)，enable：false（夜间模式）
+            settingsExtension.setDayOrNight(!isDarkTheme)
         }
 
         Log.d("是否为x5", ":${webView.x5WebViewExtension}")

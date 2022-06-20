@@ -12,7 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.chad.library.adapter.base.listener.OnItemClickListener
@@ -58,9 +57,9 @@ import com.zenchn.support.widget.VerticalItemDecoration
  * desc  ：首页Tab
  * record：
  */
-class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
+class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>(),
+    OnItemClickListener,
     OnItemChildClickListener, OnLoadMoreListener, AudioObserver {
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private val mHomeAdapter: HomeListAdapter by lazy { HomeListAdapter() }
     private var mPageNum = 0
@@ -102,13 +101,12 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
 
     override fun initWidget() {
         super.initWidget()
-        swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         initRecyclerView()
         initRefreshLayout()
         initFab()
         initFloatPlayer()
         onRefresh()
-        swipeRefreshLayout.isRefreshing = true
+        binding.swipeRefresh.isRefreshing = true
     }
 
     private fun initFloatPlayer() {
@@ -125,7 +123,6 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
     }
 
     private fun initFab() {
-        val rlv = getView<RecyclerView>(R.id.rlv)
         val fabGoogleMavenSearch = getView<FloatingActionButton>(R.id.fab_google_maven_search)
         val fabGirl = getView<FloatingActionButton>(R.id.fab_girl)
         activity?.let { act ->
@@ -133,7 +130,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
                 GoogleMavenSearchActivity.launch(act)
             }
             viewClickListener(R.id.fab_girl) { GirlsActivity.launch(act) }
-            rlv.addOnScrollListener(RecyclerFabScrollListener { visible ->
+            binding.rlv.addOnScrollListener(RecyclerFabScrollListener { visible ->
                 fabGoogleMavenSearch.animate().apply {
                     if (visible) {
                         translationY(0F).interpolator = DecelerateInterpolator(3F)
@@ -155,7 +152,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
                     viewExt<TextView>(R.id.bt_back_top) {
                         visibility = if (visible) View.GONE else View.VISIBLE
                         setOnAntiShakeClickListener {
-                            rlv.smoothScrollToPosition(0)
+                            binding.rlv.smoothScrollToPosition(0)
                             visibility = View.GONE
                         }
                     }
@@ -165,7 +162,7 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
     }
 
     private fun initRefreshLayout() {
-        swipeRefreshLayout.apply {
+        binding.swipeRefresh.apply {
             setColorSchemeResources(R.color.colorAccent)
             setOnRefreshListener {
                 //刷新数据
@@ -220,8 +217,8 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
-        if (swipeRefreshLayout.isRefreshing) {
-            swipeRefreshLayout.isRefreshing = false
+        if (binding.swipeRefresh.isRefreshing) {
+            binding.swipeRefresh.isRefreshing = false
         }
         mHomeAdapter.updateLoadMoreStatus(hasNextPage)
     }
@@ -290,12 +287,12 @@ class TabHomeFragment : BaseVMFragment<TabHomeViewModel>(), OnItemClickListener,
 
     override fun onStop() {
         super.onStop()
-        swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefresh.isRefreshing = false
     }
 
     override fun onApiFailure(msg: String) {
-        if (swipeRefreshLayout.isRefreshing) {
-            swipeRefreshLayout.isRefreshing = false
+        if (binding.swipeRefresh.isRefreshing) {
+            binding.swipeRefresh.isRefreshing = false
         }
         super.onApiFailure(msg)
     }

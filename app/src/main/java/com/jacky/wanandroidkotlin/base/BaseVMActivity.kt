@@ -3,6 +3,7 @@ package com.jacky.wanandroidkotlin.base
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBinding
 
 /**
  * @author:Hzj
@@ -10,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
  * desc  ：ViewModel封装基类Activity
  * record：
  */
-abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), IVMView<VM> {
+abstract class BaseVMActivity<VB : ViewBinding, VM : BaseViewModel> : BaseActivity<VB>(), IVMView<VM> {
 
     override lateinit var mViewModel: VM
 
@@ -21,9 +22,11 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), IVMView<VM> 
 
     //初始化ViewModel绑定
     private fun initViewModel() {
-        provideViewModelClass()?.let { clazz ->
+        provideViewModelClass(1)?.let { clazz ->
             mViewModel =
-                ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(clazz).apply {
+                ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+                    clazz
+                ).apply {
                     mErrorMsg.observe(this@BaseVMActivity, Observer { showMessage(msg = it) })
                     mShowLoadingProgress.observe(this@BaseVMActivity, Observer { show ->
                         if (show) showProgress() else hideProgress()

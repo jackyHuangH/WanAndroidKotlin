@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
+import com.jacky.wanandroidkotlin.databinding.FragmentSystemListBinding
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
@@ -31,7 +32,7 @@ import com.zenchn.support.widget.VerticalItemDecoration
  * desc  ：体系列表 ,公众号分类页面共用
  * record：
  */
-class SystemListFragment : BaseVMFragment<TabSystemViewModel>(),
+class SystemListFragment : BaseVMFragment<FragmentSystemListBinding,TabSystemViewModel>(),
     OnItemClickListener, OnItemChildClickListener, OnLoadMoreListener {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 

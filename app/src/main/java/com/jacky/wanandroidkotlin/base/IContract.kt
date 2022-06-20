@@ -1,11 +1,5 @@
 package com.jacky.wanandroidkotlin.base
 
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
-import android.widget.EditText
-import android.widget.TextView
-import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import com.zenchn.support.base.IActivity
 import java.lang.reflect.ParameterizedType
@@ -28,8 +22,11 @@ interface IVMView<VM : ViewModel> {
     val startObserve: (VM.() -> Unit)
 }
 
-//反射获取ViewModel实例
+/**
+ *反射获取ViewModel实例
+ * @param index viewModel泛型所在索引
+ */
 @Suppress("UNCHECKED_CAST")
-fun <T : ViewModel> IVMView<T>.provideViewModelClass(): Class<T>? {
-    return (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as? Class<T>
+fun <T : ViewModel> IVMView<T>.provideViewModelClass(index: Int = 0): Class<T>? {
+    return (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[index] as? Class<T>
 }

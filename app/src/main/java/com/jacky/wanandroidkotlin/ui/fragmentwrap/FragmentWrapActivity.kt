@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.appcompat.widget.Toolbar
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.databinding.ActivityFragmentWrapBinding
 import com.jacky.wanandroidkotlin.ui.project.ProjectFragment
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.zenchn.support.managers.FragmentSwitchHelper
@@ -15,7 +16,7 @@ import com.zenchn.support.router.Router
  * desc  ：fragment容器Activity
  * record：
  */
-class FragmentWrapActivity : BaseActivity() {
+class FragmentWrapActivity : BaseActivity<ActivityFragmentWrapBinding>() {
     override fun getLayoutId(): Int = R.layout.activity_fragment_wrap
 
     override fun initWidget() {

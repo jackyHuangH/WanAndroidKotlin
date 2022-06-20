@@ -9,6 +9,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.databinding.ActivitySettingBinding
 import com.jacky.wanandroidkotlin.util.LanguageUtils
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
@@ -21,7 +22,7 @@ import com.zenchn.support.router.Router
  * desc  ： 设置
  * record：
  */
-class SettingActivity : BaseActivity() {
+class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
     private var mThemeSetting by PreferenceUtil<Int>(PreferenceUtil.KEY_SETTING_THEME, 0)
     private var mLanguageSetting by PreferenceUtil<Int>(PreferenceUtil.KEY_SETTING_LANGUAGE, 0)

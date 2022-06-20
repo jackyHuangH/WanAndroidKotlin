@@ -26,7 +26,7 @@ import com.jacky.wanandroidkotlin.wrapper.isNotNullAndNotEmpty
 import com.jacky.wanandroidkotlin.wrapper.viewExt
 
 
-class LoginFragment : BaseFragment() {
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun getLayoutId(): Int = R.layout.fragment_login
 
@@ -42,7 +42,7 @@ class LoginFragment : BaseFragment() {
             container,
             false
         )
-        val viewModel = LoginModel("", "", context!!)
+        val viewModel = LoginModel("", "", requireContext())
         binding.model = viewModel
         binding.activity = activity
         return binding.root

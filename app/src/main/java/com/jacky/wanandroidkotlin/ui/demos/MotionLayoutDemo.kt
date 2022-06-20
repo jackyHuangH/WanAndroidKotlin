@@ -12,12 +12,13 @@ import android.widget.ImageView
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.databinding.ActivityDemoMotionSceneOneBinding
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.zenchn.support.router.Router
 
 
-class MotionLayoutDemoActivity : BaseVMActivity<MotionLayoutDemoViewModel>() {
+class MotionLayoutDemoActivity : BaseVMActivity<ActivityDemoMotionSceneOneBinding,MotionLayoutDemoViewModel>() {
 
     override fun getLayoutId(): Int = R.layout.activity_demo_motion_scene_one
 

@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
+import com.jacky.wanandroidkotlin.databinding.FragmentTabSystemBinding
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.ui.adapter.SystemListAdapter
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemClassifyActivity
@@ -23,7 +24,7 @@ import com.zenchn.support.widget.VerticalItemDecoration
  * desc  ：体系Tab
  * record：
  */
-class TabSystemFragment : BaseVMFragment<TabSystemViewModel>(), OnItemClickListener {
+class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding,TabSystemViewModel>(), OnItemClickListener {
     private lateinit var rlv: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 

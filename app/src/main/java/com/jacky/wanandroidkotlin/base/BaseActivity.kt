@@ -5,12 +5,14 @@ import android.view.View
 import android.view.WindowManager
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
 import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.OnKeyboardListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.ApplicationKit
 import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.jacky.wanandroidkotlin.wrapper.adaptHighRefresh
+import com.jacky.wanandroidkotlin.wrapper.createViewBinding
 import com.zenchn.support.base.DefaultUiController
 import com.zenchn.support.base.IUiController
 import com.zenchn.support.utils.AndroidKit
@@ -18,12 +20,15 @@ import com.zenchn.support.utils.AndroidKit
 /**
  * @author:Hzj
  * @date  :2018/10/30/030
- * desc  ：
+ * desc  ：baseActivity 基类
  * record：
  */
-abstract class BaseActivity : AppCompatActivity(), IView {
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IView {
+
+    protected lateinit var mViewBinding: VB
 
     protected lateinit var mImmersionBar: ImmersionBar
+
     private var instanceState: Bundle? = null
     private val mUiDelegate: IUiController by lazy {
         DefaultUiController(
@@ -34,13 +39,22 @@ abstract class BaseActivity : AppCompatActivity(), IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //适配屏幕高刷新率
-//        adaptHighRefresh()
+        adaptHighRefresh()
         super.onCreate(savedInstanceState)
         onNewInstanceState(savedInstanceState)
-        getLayoutId().takeIf { it > 0 }?.let { setContentView(it) }
-        initWidget()
-        initStatusBar()
-        initLifecycleObserver()
+        try {
+            mViewBinding = createViewBinding(javaClass, layoutInflater)
+                ?: throw IllegalStateException("ViewBinding init fail.")
+            mViewBinding.let {
+                //                getLayoutId().takeIf { it > 0 }?.let { setContentView(it) }
+                setContentView(it.root)
+                initWidget()
+                initStatusBar()
+                initLifecycleObserver()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun <V : View> findViewWithId(viewId: Int): V = findViewById<V>(viewId)

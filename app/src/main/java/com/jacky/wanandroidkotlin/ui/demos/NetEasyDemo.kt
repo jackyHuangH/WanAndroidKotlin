@@ -15,11 +15,12 @@ import android.widget.SeekBar
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.databinding.ActivityNetEasyBinding
 import com.jacky.wanandroidkotlin.test.ADashboard
 import com.jacky.wanandroidkotlin.wrapper.viewExt
 
 
-class NetEasyDemoActivity : BaseVMActivity<NetEasyDemoViewModel>() {
+class NetEasyDemoActivity : BaseVMActivity<ActivityNetEasyBinding,NetEasyDemoViewModel>() {
 
     private lateinit var mViewGroup: RelativeLayout
     private lateinit var mV1: View

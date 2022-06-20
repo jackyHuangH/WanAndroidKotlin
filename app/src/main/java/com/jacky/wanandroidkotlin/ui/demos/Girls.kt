@@ -32,6 +32,7 @@ import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.databinding.ActivityGirlsBinding
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.GirlEntity
 import com.jacky.wanandroidkotlin.util.DisplayUtils
@@ -55,7 +56,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 
-class GirlsActivity : BaseVMActivity<GirlsViewModel>(), OnItemClickListener,
+class GirlsActivity : BaseVMActivity<ActivityGirlsBinding,GirlsViewModel>(), OnItemClickListener,
     OnLoadMoreListener, OnItemChildClickListener, IGallery, IPermission {
     private val girlAdapter by lazy { GirlsAdapter() }
 

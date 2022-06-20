@@ -1,6 +1,8 @@
 package com.jacky.wanandroidkotlin.ui.splash
 
 import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.jacky.wanandroidkotlin.base.BaseActivity
 
 /**
@@ -9,11 +11,10 @@ import com.jacky.wanandroidkotlin.base.BaseActivity
  * desc  ：闪屏页
  * record：
  */
-class SplashActivity : BaseActivity() {
+class SplashActivity : AppCompatActivity() {
 
-    override fun getLayoutId(): Int = 0
-
-    override fun initWidget() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         // 避免从桌面启动程序后，会重新实例化入口类的activity
         if (!this.isTaskRoot) {
             if (intent != null) {

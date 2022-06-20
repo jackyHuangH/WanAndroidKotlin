@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
@@ -18,11 +20,10 @@ import kotlinx.coroutines.*
  * desc  ：app初始化页面
  * record：
  */
-class StartActivity : BaseActivity(), CoroutineScope by MainScope() {
+class StartActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
-    override fun getLayoutId(): Int = 0
-
-    override fun initWidget() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         MusicPlayManager.initPlayer(this)
         //如果有自动登录功能就替换此处跳转逻辑
         MainActivity.launch(this@StartActivity)

@@ -20,16 +20,9 @@ class ProjectListAdapter(layoutResId: Int = R.layout.recycler_item_project) :
     BaseQuickAdapter<ArticleEntity, BaseViewHolder>(layoutResId),LoadMoreModule {
 
     override fun convert(helper: BaseViewHolder, item: ArticleEntity) {
-        var title = ""
-        title = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY).toString()
-        } else {
-            Html.fromHtml(item.title).toString()
-        }
-
         helper.setText(R.id.tv_author, item.author)
             .setText(R.id.tv_desc, item.desc)
-            .setText(R.id.tv_title, title)
+            .setText(R.id.tv_title, item.title)
             .setText(R.id.tv_time, item.niceDate)
 
         GlideApp.with(context)

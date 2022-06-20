@@ -9,6 +9,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
+import com.jacky.wanandroidkotlin.databinding.FragmentProjectBinding
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemListFragment
 import com.jacky.wanandroidkotlin.ui.tabhome.TabHomeFragment
@@ -21,7 +22,7 @@ import com.jacky.wanandroidkotlin.wrapper.getView
  * desc  ：项目列表页面
  * record：
  */
-class ProjectFragment : BaseVMFragment<ProjectViewModel>() {
+class ProjectFragment : BaseVMFragment<FragmentProjectBinding,ProjectViewModel>() {
     private lateinit var viewPager: ViewPager2
     private val mProjectTypeList = mutableListOf<TreeParentEntity>()
     private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_IS_BLOG, false) }

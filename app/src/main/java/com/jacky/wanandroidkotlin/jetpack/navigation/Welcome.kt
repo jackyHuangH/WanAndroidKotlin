@@ -9,10 +9,11 @@ package com.jacky.wanandroidkotlin.jetpack.navigation
 import android.app.Activity
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
+import com.jacky.wanandroidkotlin.databinding.ActivityWelcomeBinding
 import com.zenchn.support.router.Router
 
 
-class WelcomeActivity : BaseVMActivity<WelcomeViewModel>() {
+class WelcomeActivity : BaseVMActivity<ActivityWelcomeBinding,WelcomeViewModel>() {
 
     override fun getLayoutId(): Int = R.layout.activity_welcome
 

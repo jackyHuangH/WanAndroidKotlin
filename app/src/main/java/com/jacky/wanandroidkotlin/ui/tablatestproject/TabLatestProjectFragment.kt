@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
+import com.jacky.wanandroidkotlin.databinding.FragmentTabLatestProjectBinding
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.ui.adapter.ProjectListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
@@ -32,7 +33,7 @@ import com.zenchn.support.widget.VerticalItemDecoration
  * desc  ：最新项目Tab,项目分类公用页面
  * record：
  */
-class TabLatestProjectFragment : BaseVMFragment<ProjectViewModel>(),
+class TabLatestProjectFragment : BaseVMFragment<FragmentTabLatestProjectBinding,ProjectViewModel>(),
     OnItemClickListener, OnItemChildClickListener, OnLoadMoreListener {
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 

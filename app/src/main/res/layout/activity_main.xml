@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,6 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:visibility="gone"
                 app:tabIndicatorColor="@color/colorAccent"
                 app:tabIndicatorHeight="2dp"
                 app:tabMinWidth="100dp"
@@ -44,6 +46,16 @@
                 app:tabSelectedTextColor="@color/colorAccent"
                 app:tabTextAppearance="@style/TabTextStyle"
                 app:tabTextColor="@color/color_d5d5d5" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/common_white"
+                android:textSize="18sp"
+                tools:text="标题" />
 
             <ImageButton
                 android:id="@+id/ibt_search"
@@ -58,7 +70,28 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/fl_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+                android:id="@+id/meow_bottom_nav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:focusable="true"
+                app:mbn_backgroundBottomColor="@color/colorPrimary" />
+        </FrameLayout>
+
     </LinearLayout>
 
     <!--侧边抽屉-->
@@ -68,8 +101,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/backgroundColor"
-        app:itemTextColor="@color/black_white"
         app:headerLayout="@layout/header_home_navigation"
         app:insetForeground="@null"
+        app:itemTextColor="@color/black_white"
         app:menu="@menu/menu_home_navigation" />
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -20,7 +20,7 @@
         android:layout_height="3dp"
         android:layout_alignStart="@+id/v1"
         android:layout_alignTop="@+id/v1"
-        android:background="@color/colorBottomNavigationPrimaryDark"
+        android:background="@color/colorPrimaryDark"
         android:visibility="gone" />
 
 

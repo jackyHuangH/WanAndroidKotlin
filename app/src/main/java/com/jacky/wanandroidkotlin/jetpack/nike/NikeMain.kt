@@ -3,6 +3,7 @@ package com.jacky.wanandroidkotlin.jetpack.nike
 import android.app.Activity
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.databinding.ActivityNikeMainBinding
 import com.zenchn.support.router.Router
 
 /**
@@ -11,7 +12,7 @@ import com.zenchn.support.router.Router
  * desc  ：
  * record：
  */
-class NikeMainActivity : BaseActivity() {
+class NikeMainActivity : BaseActivity<ActivityNikeMainBinding>() {
 
     override fun getLayoutId(): Int = R.layout.activity_nike_main
 

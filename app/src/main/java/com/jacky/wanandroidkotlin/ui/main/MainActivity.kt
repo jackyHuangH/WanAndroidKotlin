@@ -12,6 +12,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
+import com.amitshekhar.DebugDB
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -22,6 +24,7 @@ import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
 import com.jacky.wanandroidkotlin.common.TOOL_URL
+import com.jacky.wanandroidkotlin.databinding.ActivityMainBinding
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
 import com.jacky.wanandroidkotlin.test.TestActivity
@@ -38,17 +41,18 @@ import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
 import com.jacky.wanandroidkotlin.ui.tabnavigation.TabNavigationFragment
 import com.jacky.wanandroidkotlin.ui.tabsystem.TabSystemFragment
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
-import com.jacky.wanandroidkotlin.util.RateUtil
 import com.jacky.wanandroidkotlin.util.StatusBarUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.DialogProvider
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
+import com.zenchn.support.managers.FragmentSwitchHelper
 import com.zenchn.support.permission.RequestCode
 import com.zenchn.support.permission.applySelfPermissionsStrict
 import com.zenchn.support.permission.checkSelfPermission
 import com.zenchn.support.router.Router
+import com.zenchn.support.utils.LoggerKit
 import com.zenchn.support.widget.CircleTextImageView
 import kotlin.random.Random
 
@@ -56,9 +60,10 @@ import kotlin.random.Random
 /**
  * 首页
  */
-class MainActivity : BaseVMActivity<MainViewModel>(),
+class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
     NavigationView.OnNavigationItemSelectedListener {
 
+    private lateinit var mTvUserName: TextView
     private val mTitles by lazy {
         arrayListOf(
             getString(R.string.main_tab_home),
@@ -71,9 +76,6 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
 
     private var mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
     private var mUserInfo by PreferenceUtil(PreferenceUtil.KEY_USER_INFO, "")
-    private lateinit var mTvUserName: TextView
-    private lateinit var navigation: NavigationView
-    private lateinit var drawerLayout: DrawerLayout
 
     override fun getLayoutId() = R.layout.activity_main
 
@@ -87,11 +89,10 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     override fun initWidget() {
-        navigation = getView<NavigationView>(R.id.navigation)
-        drawerLayout = getView<DrawerLayout>(R.id.drawer_layout)
         initPermissions()
-        navigation.setNavigationItemSelectedListener(this)
-        initViewPager()
+        mViewBinding.navigation.setNavigationItemSelectedListener(this)
+        initMeowNav()
+//        initViewPager()
         initUserHead()
         resetNvHeader()
         viewClickListener(R.id.ibt_search) {
@@ -99,15 +100,16 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
             SearchActivity.launch(this@MainActivity)
         }
         viewClickListener(R.id.ibt_menu) {
-            if (drawerLayout.isOpen) drawerLayout.close() else drawerLayout.open()
+            if (mViewBinding.drawerLayout.isOpen) mViewBinding.drawerLayout.close() else mViewBinding.drawerLayout.open()
         }
         //根据是否已登录显示和隐藏退出登录按钮
-        navigation.menu.findItem(R.id.nv_logout).isVisible = mIsLogin
+        mViewBinding.navigation.menu.findItem(R.id.nv_logout).isVisible = mIsLogin
 
-        navigation.menu.findItem(R.id.nv_test).isVisible = BuildConfig.DEBUG
+        mViewBinding.navigation.menu.findItem(R.id.nv_test).isVisible = BuildConfig.DEBUG
         initDrawerListener()
         //检测屏幕刷新率
 //        RateUtil.detectRefreshRate()
+        LoggerKit.d("debug db:${DebugDB.getAddressLog()}")
     }
 
     private fun initPermissions() {
@@ -140,11 +142,28 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
 
     //A to B --> pair<A,B>
     private val tabs = arrayOf(
-        "首页" to R.drawable.ic_launcher_foreground,
-        "商场" to R.drawable.ic_launcher_foreground,
-        "我的" to R.drawable.ic_launcher_foreground
+        0 to "首页",
+        1 to "商场",
+        2 to "我的",
     )
 
+    private fun initMeowNav() {
+        val fragmentSwitchHelper = FragmentSwitchHelper(supportFragmentManager, R.id.fl_container)
+        mViewBinding.meowBottomNav.add(MeowBottomNavigation.Model(0, R.drawable.ic_tab_home))
+        mViewBinding.meowBottomNav.add(MeowBottomNavigation.Model(1, R.drawable.ic_tab_project))
+        mViewBinding.meowBottomNav.add(MeowBottomNavigation.Model(2, R.drawable.ic_tab_system))
+        mViewBinding.meowBottomNav.add(MeowBottomNavigation.Model(3, R.drawable.ic_tab_nav))
+        //默认显示首页
+        fragmentSwitchHelper.add(mFragments[0])
+        mViewBinding.meowBottomNav.show(0)
+        mViewBinding.tvTitle.text = mTitles[0]
+        mViewBinding.meowBottomNav.setOnClickMenuListener {
+            mViewBinding.tvTitle.text = mTitles[it.id]
+            //切换fragment
+            val targetFragment = mFragments[it.id]
+            fragmentSwitchHelper.switchFragment(targetFragment)
+        }
+    }
 
     private fun initViewPager() {
         val vpAdapter = BaseFragmentPager2Adapter(supportFragmentManager, lifecycle, mFragments)
@@ -159,7 +178,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     private fun initUserHead() {
-        val headerView = navigation.getHeaderView(0)
+        val headerView = mViewBinding.navigation.getHeaderView(0)
         val circleTextImageView = headerView.findViewById(R.id.civ_user) as CircleTextImageView
         mTvUserName = headerView.findViewById(R.id.tv_username) as TextView
         if (mIsLogin && mUserInfo.isNotEmpty()) {
@@ -179,11 +198,11 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     private fun resetNvHeader() {
         val llTitle = getView<LinearLayout>(R.id.ll_title)
         StatusBarUtil.setPaddingSmart(this, llTitle)
-        StatusBarUtil.setPaddingSmart(this, navigation)
+        StatusBarUtil.setPaddingSmart(this, mViewBinding.navigation)
     }
 
     private fun initDrawerListener() {
-        drawerLayout.apply {
+        mViewBinding.drawerLayout.apply {
             addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
                 override fun onDrawerClosed(drawerView: View) {
                     performDrawerNavigation(this@apply)
@@ -193,7 +212,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        drawerLayout.apply {
+        mViewBinding.drawerLayout.apply {
             tag = item
             closeDrawer(GravityCompat.START)
         }
@@ -257,7 +276,7 @@ class MainActivity : BaseVMActivity<MainViewModel>(),
             //退出登录成功
             it.run {
                 showMessage(it)
-                navigation.menu.findItem(R.id.nv_logout).isVisible = false
+                mViewBinding.navigation.menu.findItem(R.id.nv_logout).isVisible = false
                 //清除用户信息和登录信息缓存
                 mIsLogin = false
                 mUserInfo = ""

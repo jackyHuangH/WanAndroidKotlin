@@ -24,20 +24,9 @@ android {
         enabled true
     }
 
-    //加快gradle编译配置
-    dexOptions {
-        //是否支持大工程模式
-        jumboMode = true
-        //进程内执行dex分包
-        dexInProcess true
-        //使用增量模式构建
-//        incremental true
-        //最大堆内存
-        javaMaxHeapSize "2g"
-        //预编译
-        preDexLibraries = true
-        //线程数
-        threadCount = 8
+    //viewBinding开启
+    buildFeatures {
+        viewBinding = true
     }
 
     defaultConfig {
@@ -57,14 +46,21 @@ android {
             //arm-v7a 兼容v8a,上架谷歌商店必须加v8a
             abiFilters 'armeabi-v7a', 'arm64-v8a'//, 'x86', 'x86_64'
         }
+
+        //room配置，输出数据库配置信息
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     sourceSets {
         main {
             jniLibs.srcDir 'libs'
         }
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
+//        debug.setRoot('build-types/debug')
+//        release.setRoot('build-types/release')
     }
 
     repositories {

@@ -21,6 +21,7 @@ import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.base.executeRequest
+import com.jacky.wanandroidkotlin.databinding.ActivityGoogleMavenSearchBinding
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.GoogleMavenEntity
 import com.jacky.wanandroidkotlin.ui.adapter.GoogleMavenSearchAdapter
@@ -35,7 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 
-class GoogleMavenSearchActivity : BaseVMActivity<GoogleMavenSearchViewModel>() {
+class GoogleMavenSearchActivity : BaseVMActivity<ActivityGoogleMavenSearchBinding,GoogleMavenSearchViewModel>() {
 
     private var mKeyword = ""
     private val mCompositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }

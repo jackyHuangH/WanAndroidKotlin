@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.databinding.ActivityMusicPlayBinding
+import com.jacky.wanandroidkotlin.databinding.ActivityThreeBinding
 import com.jacky.wanandroidkotlin.databinding.TwoDataBinding
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 
@@ -73,7 +75,7 @@ class MyClickListener(private val peopleBean: PeopleBean) {
     }
 }
 
-class ThreeActivity : BaseActivity() {
+class ThreeActivity : BaseActivity<ActivityThreeBinding>() {
     companion object {
         const val Tag = "Three"
     }

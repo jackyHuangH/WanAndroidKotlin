@@ -23,12 +23,12 @@ class HomeListAdapter(
     BaseQuickAdapter<ArticleEntity, BaseViewHolder>(layoutRes), LoadMoreModule {
 
     override fun convert(helper: BaseViewHolder, item: ArticleEntity) {
-        var title = ""
-        title = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY).toString()
-        } else {
-            Html.fromHtml(item.title).toString()
-        }
+        val title = item.title
+//        title = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY).toString()
+//        } else {
+//            Html.fromHtml(item.title).toString()
+//        }
 
         val topDesc = if (item.type == 1) context.getString(R.string.home_article_tag_top) else ""
         val newDesc = if (item.fresh) context.getString(R.string.home_article_tag_new) else ""

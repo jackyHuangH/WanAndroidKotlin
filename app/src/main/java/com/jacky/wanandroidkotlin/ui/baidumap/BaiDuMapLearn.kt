@@ -22,6 +22,7 @@ import com.baidu.mapapi.model.LatLng
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.databinding.ActivityBaiduCoordinatePickupBinding
 import com.jacky.wanandroidkotlin.model.local.GeoCoderModel
 import com.jacky.wanandroidkotlin.model.local.LocationModel
 import com.jacky.wanandroidkotlin.util.ApkUtils
@@ -37,7 +38,7 @@ import java.math.BigDecimal
 import java.util.*
 
 
-class BaiDuMapLearnActivity : BaseVMActivity<BaiDuMapLearnViewModel>(),
+class BaiDuMapLearnActivity : BaseVMActivity<ActivityBaiduCoordinatePickupBinding,BaiDuMapLearnViewModel>(),
     TitleBar.OnLeftClickListener, BaiduMap.OnMapLoadedCallback {
 
     private lateinit var mTitleBar: TitleBar

@@ -1,15 +1,20 @@
 package com.jacky.wanandroidkotlin.wrapper
 
 import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.IdRes
+import androidx.annotation.RequiresApi
+import androidx.viewbinding.ViewBinding
 import com.zenchn.support.base.IActivity
+import java.lang.reflect.ParameterizedType
 
 /**
  * @author:Hzj
@@ -125,4 +130,30 @@ fun Activity.adaptHighRefresh(){
             it.attributes = lp
         }
     }
+}
+
+/**
+ * 创建ViewBinding实例
+ */
+fun <VB : ViewBinding?> Context.createViewBinding(
+    targetClass: Class<*>,
+    layoutInflater: LayoutInflater
+): VB? {
+    val genericSuperclass = targetClass.genericSuperclass
+    if (genericSuperclass is ParameterizedType) {
+        try {
+            val types = genericSuperclass.actualTypeArguments
+            if (types.isNotEmpty()) {
+                for (type in types) {
+                    if (type.toString().endsWith("Binding")) {
+                        val method = (type as? Class<VB>)?.getDeclaredMethod("inflate", LayoutInflater::class.java)
+                        return method?.invoke(null, layoutInflater) as? VB
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    return null
 }

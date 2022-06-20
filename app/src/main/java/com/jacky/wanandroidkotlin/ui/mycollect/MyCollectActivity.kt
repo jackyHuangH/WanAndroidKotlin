@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
+import com.jacky.wanandroidkotlin.databinding.ActivityMyCollectBinding
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
@@ -29,7 +30,7 @@ import com.zenchn.support.widget.VerticalItemDecoration
  * desc  ：我的收藏
  * record：
  */
-class MyCollectActivity : BaseVMActivity<MyCollectViewModel>(), OnItemClickListener,
+class MyCollectActivity : BaseVMActivity<ActivityMyCollectBinding,MyCollectViewModel>(), OnItemClickListener,
     OnLoadMoreListener {
     private lateinit var swipeRefresh: SwipeRefreshLayout
 

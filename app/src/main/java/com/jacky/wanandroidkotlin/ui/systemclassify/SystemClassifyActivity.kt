@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.databinding.ActivitySystemClassifyBinding
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewExt
@@ -19,7 +20,7 @@ import com.zenchn.support.router.Router
  * desc  ：体系分类页面
  * record：
  */
-class SystemClassifyActivity : BaseActivity() {
+class SystemClassifyActivity : BaseActivity<ActivitySystemClassifyBinding>() {
     private lateinit var mTreeParent: TreeParentEntity
     override fun getLayoutId(): Int = R.layout.activity_system_classify
 

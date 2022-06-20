@@ -12,9 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.databinding.FragmentWelcomeBinding
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 
-class WelcomeFragment : BaseVMFragment<WelcomeViewModel>() {
+class WelcomeFragment : BaseVMFragment<FragmentWelcomeBinding,WelcomeViewModel>() {
 
     override fun getLayoutId(): Int = R.layout.fragment_welcome
 

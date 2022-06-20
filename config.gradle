@@ -10,7 +10,7 @@ ext {
             versionName      : '1.0.0'
     ]
 
-    roomVersion = '2.2.0'
+    roomVersion = '2.4.2'
 
     dependencies = [
             "junit"                          : 'junit:junit:4.12',
@@ -75,6 +75,8 @@ ext {
             "progressmanager"                : 'me.jessyan:progressmanager:1.5.0',
 
             "ahbottomnavigation"             : 'com.aurelhubert:ahbottomnavigation:2.2.0',
+            //meow bottom navigation
+            "meow_bottom_nav"                : 'com.etebarian:meow-bottom-navigation:1.2.0',
 
             //baseAdapter For RecyclerView
             "brvah"                          : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7',
@@ -161,7 +163,12 @@ ext {
             "amap_2dmap"                     : "com.amap.api:map2d:latest.integration",//  2D地图
             "amap_navi"                      : "com.amap.api:navi-3dmap:latest.integration",//  导航
 
+            //内存泄漏监控
             "leakcanary"                     : 'com.squareup.leakcanary:leakcanary-android:2.9.1',
+            //BlockCanary进行卡顿监控和提示
+            "blockcanary"                    : 'com.github.markzhai:blockcanary-android:1.5.0',
+            //sqllite调试工具
+            "db_debug"                       : 'com.amitshekhar.android:debug-db:1.0.6',
 
     ]
 }

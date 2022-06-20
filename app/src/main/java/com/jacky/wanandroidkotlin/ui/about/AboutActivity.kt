@@ -14,6 +14,7 @@ import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.common.GITHUB_HOME
 import com.jacky.wanandroidkotlin.common.GITHUB_URL
 import com.jacky.wanandroidkotlin.common.ISSUE_URL
+import com.jacky.wanandroidkotlin.databinding.ActivityAboutBinding
 import com.jacky.wanandroidkotlin.util.openBrowser
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewExt
@@ -29,7 +30,7 @@ import de.psdev.licensesdialog.model.Notice
  * desc  ：
  * record：
  */
-class AboutActivity : BaseActivity() {
+class AboutActivity : BaseActivity<ActivityAboutBinding>() {
 
     override fun getLayoutId(): Int = R.layout.activity_about
 

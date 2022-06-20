@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
+import com.jacky.wanandroidkotlin.databinding.ActivitySearchBinding
 import com.jacky.wanandroidkotlin.model.entity.ArticleEntity
 import com.jacky.wanandroidkotlin.model.entity.HotEntity
 import com.jacky.wanandroidkotlin.ui.adapter.HomeListAdapter
@@ -41,7 +42,7 @@ import io.reactivex.disposables.CompositeDisposable
 /**
  * 搜索
  */
-class SearchActivity : BaseVMActivity<SearchViewModel>(), OnItemClickListener,
+class SearchActivity : BaseVMActivity<ActivitySearchBinding,SearchViewModel>(), OnItemClickListener,
     OnLoadMoreListener, OnItemChildClickListener {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var etSearch: EditText

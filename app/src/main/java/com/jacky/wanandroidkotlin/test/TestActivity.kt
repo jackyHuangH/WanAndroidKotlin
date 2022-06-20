@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentActivity
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.aidltest.AidlTestActivity
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.databinding.ActivityTestBinding
 import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.ui.baidumap.BaiDuMapLearnActivity
@@ -40,7 +41,7 @@ import java.io.RandomAccessFile
  */
 private const val NUM_A: String = "顶层声明常量"
 
-class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
+class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by MainScope() {
 
     /**
      * 后期初始化属性
@@ -108,6 +109,10 @@ class TestActivity : BaseActivity(), CoroutineScope by MainScope() {
 
         viewClickListener(R.id.bt_test_data_binding) {
             startActivity(Intent(this, TwoActivity::class.java))
+        }
+
+        viewClickListener(R.id.bt_room) {
+            startActivity(Intent(this, RoomTestActivity::class.java))
         }
 
         viewClickListener(R.id.bt_test_web) {

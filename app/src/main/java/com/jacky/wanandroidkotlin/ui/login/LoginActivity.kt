@@ -7,6 +7,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
+import com.jacky.wanandroidkotlin.databinding.ActivityLoginBinding
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.getView
@@ -20,7 +21,7 @@ import com.zenchn.support.router.Router
  * desc  ：登录页
  * record：
  */
-class LoginActivity : BaseVMActivity<LoginViewModel>() {
+class LoginActivity : BaseVMActivity<ActivityLoginBinding,LoginViewModel>() {
 
     private var mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
     private var mUserInfo by PreferenceUtil(PreferenceUtil.KEY_USER_INFO, "")

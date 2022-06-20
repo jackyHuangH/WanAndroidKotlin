@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
+import com.jacky.wanandroidkotlin.databinding.FragmentTabNavigationBinding
 import com.jacky.wanandroidkotlin.ui.adapter.NavVerticalTabAdapter
 import com.jacky.wanandroidkotlin.ui.adapter.NavigationAdapter
 import com.jacky.wanandroidkotlin.wrapper.getView
@@ -20,12 +21,12 @@ import q.rorbin.verticaltablayout.widget.TabView
  * desc  ：导航Tab
  * record：
  */
-class TabNavigationFragment : BaseVMFragment<NavViewModel>() {
+class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding,NavViewModel>() {
     private lateinit var rlv: RecyclerView
     private lateinit var verticalTabLayout: VerticalTabLayout
 
     private val mNavAdapter by lazy { NavigationAdapter() }
-    private val mLayoutManager by lazy { LinearLayoutManager(activity) }
+    private val mLayoutManager by lazy { LinearLayoutManager(requireContext()) }
 
     companion object {
         fun getInstance(): TabNavigationFragment {
