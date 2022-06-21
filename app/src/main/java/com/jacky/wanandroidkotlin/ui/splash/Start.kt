@@ -27,6 +27,7 @@ class StartActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         MusicPlayManager.initPlayer(this)
         //如果有自动登录功能就替换此处跳转逻辑
         MainActivity.launch(this@StartActivity)
+        finish()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -41,6 +42,7 @@ class StartActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         } else {
             MainActivity.launch(this@StartActivity)
         }
+        finish()
     }
 
     companion object {

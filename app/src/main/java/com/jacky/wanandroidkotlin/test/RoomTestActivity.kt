@@ -7,6 +7,7 @@ package com.jacky.wanandroidkotlin.test
  * record：
  */
 import android.app.Application
+import android.graphics.BitmapFactory
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -48,7 +49,6 @@ class RoomTestActivity : BaseVMActivity<ActivityRoomTestBinding,RoomTestViewMode
             }
         })
     }
-
 }
 
 class RoomTestViewModel(application: Application) : BaseViewModel(application) {

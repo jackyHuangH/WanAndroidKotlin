@@ -9,6 +9,10 @@
         <item name="android:windowBackground">@color/backgroundColor</item>
     </style>
 
+    <style name="TransparentStatusBarTheme" parent="VanAppTheme">
+        <item name="android:statusBarColor">@color/transparent</item>
+    </style>
+
     <style name="AppFullScreenTheme" parent="VanAppTheme">
         <!-- All customizations that are NOT specific to common_footer_loading particular API-level can go here. -->
         <item name="windowNoTitle">true</item>
@@ -19,7 +23,7 @@
     </style>
 
     <style name="SplashFullScreen" parent="AppFullScreenTheme">
-        <item name="android:windowBackground">@raw/bg_splash</item>
+        <item name="android:windowBackground">@drawable/bg_splash</item>
         <!--        解决刘海屏全屏黑状态栏问题-->
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>

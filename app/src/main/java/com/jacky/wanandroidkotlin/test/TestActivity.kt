@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.aidltest.AidlTestActivity
 import com.jacky.wanandroidkotlin.base.BaseActivity
@@ -76,10 +77,9 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
 
         }
 
-        viewClickListener(R.id.bt) {
-            countDownClock = createCountDownClock(10, lifecycle) { time ->
-                (it as? TextView)?.text = "倒计时：$time"
-            }.apply { start() }
+        //测试状态栏透明
+        viewClickListener(R.id.bt_test_status_bar) {
+            startActivity(Intent(this, StatusBarTestActivity::class.java))
         }
 
         viewClickListener(R.id.bt_oom) {
@@ -132,6 +132,13 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
             ContextCompat.getDrawable(this, R.drawable.transition_drawable) as? TransitionDrawable
         getView<View>(R.id.v_transition).background = transitionDrawable
         transitionDrawable?.startTransition(3000)
+    }
+
+    private fun startCountDown(){
+        //倒计时
+        countDownClock = createCountDownClock(10, lifecycle) { time ->
+            ToastUtils.show("倒计时：$time")
+        }.apply { start() }
     }
 
     private fun testLruCache() {
