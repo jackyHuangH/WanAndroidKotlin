@@ -72,7 +72,7 @@ fun Context.dataFormat(total: Long): String {
 }
 
 /** 浏览器打开指定网页 */
-fun Context.openBrowser(url: String) {
+fun Context.openBrowser(url: String?) {
     Intent(Intent.ACTION_VIEW, Uri.parse(url)).run { startActivity(this) }
 }
 

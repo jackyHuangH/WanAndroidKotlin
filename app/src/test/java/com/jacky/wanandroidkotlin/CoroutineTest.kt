@@ -54,6 +54,16 @@ fun calTwoAsync() = GlobalScope.async {
     calTwo()
 }
 
+suspend fun calOne(): Int {
+    delay(1000L)//模拟耗时
+    return 1
+}
+
+suspend fun calTwo(): Int {
+    delay(1000L)
+    return 2
+}
+
 //调试协程，打印协程名称
 fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
 
@@ -97,26 +107,29 @@ fun setText(response: String) {
 
 //=-------------------------------------------------------
 
-fun main() = runBlocking<Unit> {
-    //多协程并行执行
+class CoroutineUnitTest {
+
+    @Test
+    fun main1() = runBlocking<Unit> {
+        //多协程并行执行
 
 
-    //---------------------------------------------
-    //协程执行顺序
-    /*val token = GlobalScope.async {
-        return@async getToken()
-    }.await()
+        //---------------------------------------------
+        //协程执行顺序
+        /*val token = GlobalScope.async {
+            return@async getToken()
+        }.await()
 
-    val response = GlobalScope.async {
-        return@async getResponse(token)
-    }.await()
+        val response = GlobalScope.async {
+            return@async getResponse(token)
+        }.await()
 
-    setText(response)*/
+        setText(response)*/
 
-    println("协程 开始执行，时间:  ${System.currentTimeMillis()}")
-    val token = getToken()
-    val response = getResponse(token)
-    setText(response)
+        println("协程 开始执行，时间:  ${System.currentTimeMillis()}")
+        val token = getToken()
+        val response = getResponse(token)
+        setText(response)
 
 //    GlobalScope.launch(Dispatchers.Default) {
 //        for (a in 1..8) {
@@ -124,13 +137,13 @@ fun main() = runBlocking<Unit> {
 //        }
 //    }
 
-    for (i in 1..10) {
-        println("主线程打印第$i 次，时间:  ${System.currentTimeMillis()}")
-    }
+        for (i in 1..10) {
+            println("主线程打印第$i 次，时间:  ${System.currentTimeMillis()}")
+        }
 
-    //-----------------------------------------------
+        //-----------------------------------------------
 
-    //共享可变状态与并发
+        //共享可变状态与并发
 //    var num = 0
 //    massiveRun(mtContext) {
 //        mutex.withLock {
@@ -138,11 +151,11 @@ fun main() = runBlocking<Unit> {
 //        }
 //    }
 //    println("num=$num")
-    //------------------------------------------
+        //------------------------------------------
 
-    //通道Channel,延期的值提供了一种便捷的方法使单个值在多个协程之间进行相互传输。 通道提供了一种 *在流中传输值的方法*
-    //一个 Channel 是一个和 BlockingQueue 非常相似的概念。其中一个不同是它代替了阻塞的 put 操作并提供了挂起的 send，
-    // 还替代了阻塞的 take 操作并提供了挂起的 receive
+        //通道Channel,延期的值提供了一种便捷的方法使单个值在多个协程之间进行相互传输。 通道提供了一种 *在流中传输值的方法*
+        //一个 Channel 是一个和 BlockingQueue 非常相似的概念。其中一个不同是它代替了阻塞的 put 操作并提供了挂起的 send，
+        // 还替代了阻塞的 take 操作并提供了挂起的 receive
 //    val channel = Channel<Int>()
 //    launch {
 //        // 这里可能是消耗大量 CPU 运算的异步逻辑，我们将仅仅做 5 次整数的平方并发送
@@ -154,18 +167,18 @@ fun main() = runBlocking<Unit> {
 //            }
 //        }
 //    }
-    // 这里我们打印了 5 次被接收的整数：
+        // 这里我们打印了 5 次被接收的整数：
 //    repeat(5) {
 //        println(channel.receive())
 //    }
-    // 这里我们使用 `for` 循环来打印所有被接收到的元素（直到通道被关闭）
+        // 这里我们使用 `for` 循环来打印所有被接收到的元素（直到通道被关闭）
 //    for (y in channel) println(y)
 //    println("done!")
 
-    //-------------------------------------------------------
+        //-------------------------------------------------------
 
-    //子协程当一个协程被其它协程在 CoroutineScope 中启动的时候， 它将通过 CoroutineScope.coroutineContext 来承袭上下文，
-    // 并且这个新协程的 Job 将会成为父协程作业的 子 作业。当一个父协程被取消的时候，所有它的子协程也会被递归的取消。
+        //子协程当一个协程被其它协程在 CoroutineScope 中启动的时候， 它将通过 CoroutineScope.coroutineContext 来承袭上下文，
+        // 并且这个新协程的 Job 将会成为父协程作业的 子 作业。当一个父协程被取消的时候，所有它的子协程也会被递归的取消。
 //    val fatherRequest = launch {
 //        // 孵化了两个子作业, 其中一个通过 GlobalScope 启动
 //        GlobalScope.launch {
@@ -187,11 +200,11 @@ fun main() = runBlocking<Unit> {
 //    fatherRequest.cancel()//取消request请求
 //    delay(1000)
 //    println("main: Who has survived request cancellation?")
-    //-------------------------------------
+        //-------------------------------------
 //    CoroutineTest.testChangeThread()
 
-    //------------------------------------------------
-    //调试协程和线程
+        //------------------------------------------------
+        //调试协程和线程
 //    val a = async(coroutineContext) {
 //        log("I am doing something")
 //        6
@@ -202,9 +215,9 @@ fun main() = runBlocking<Unit> {
 //    }
 //    println("My job is ${coroutineContext[Job]}")
 //    log("the answer is ${a.await()+b.await()}")
-    //-----------------------------------------------------
+        //-----------------------------------------------------
 
-    //-调度器
+        //-调度器
 //    val job1 = GlobalScope.launch {
 //        // 运行在父协程的上下文中，即 runBlocking 主协程
 //        println("main runBlocking:current thread is ${Thread.currentThread().name}")
@@ -221,18 +234,18 @@ fun main() = runBlocking<Unit> {
 //    job1.join()
 //    job2.join()
 
-    /* GlobalScope.launch(Dispatchers.Default) {
-         // 将会获取默认调度器
-         println("Default:current thread is ${Thread.currentThread().name}")
-     }
-     GlobalScope.launch(newSingleThreadContext("newThread")) {
-         //获得一个新的线程
-         println("newSingleThreadContext:current thread is ${Thread.currentThread().name}")
-     }*/
+        /* GlobalScope.launch(Dispatchers.Default) {
+             // 将会获取默认调度器
+             println("Default:current thread is ${Thread.currentThread().name}")
+         }
+         GlobalScope.launch(newSingleThreadContext("newThread")) {
+             //获得一个新的线程
+             println("newSingleThreadContext:current thread is ${Thread.currentThread().name}")
+         }*/
 
-    //--------------------------------------------------------
+        //--------------------------------------------------------
 
-    //函数类型实例化
+        //函数类型实例化
 //    val stringPlus: (String, String) -> String = String::plus
 //    val intPlus: Int.(Int) -> Int = Int::plus
 //
@@ -244,7 +257,7 @@ fun main() = runBlocking<Unit> {
 //    //// 类扩展调用
 //    println(8.intPlus(9))
 
-    //--------------------------------------------------------------------------
+        //--------------------------------------------------------------------------
 
 //    val repeatFun: String.(Int) -> String = { times -> this.repeat(times) }
 //    val twoParameters: (String, Int) -> String = repeatFun // OK
@@ -255,12 +268,12 @@ fun main() = runBlocking<Unit> {
 //    val result2 = runTransformation(twoParameters) // OK
 //    println("result = $result,result2=$result2")
 
-    //--------------------------------------------------------------------------
+        //--------------------------------------------------------------------------
 
-    //launch返回了一个不携带任何结果的Job，但是async返回了一个Deferred，一个轻量级非阻塞的future，
-    // 表示一会就会返回结果的承诺。你可以在一个延期的值（deferred value）使用.await()来获取最终的结果，
-    // 但Deferred也是个Job， 因此，需要的话，你也可以取消掉。
-    //
+        //launch返回了一个不携带任何结果的Job，但是async返回了一个Deferred，一个轻量级非阻塞的future，
+        // 表示一会就会返回结果的承诺。你可以在一个延期的值（deferred value）使用.await()来获取最终的结果，
+        // 但Deferred也是个Job， 因此，需要的话，你也可以取消掉。
+        //
 //    val time = measureTimeMillis {
 //        //协程并发执行
 ////        val calOne = async(start = CoroutineStart.LAZY) { calOne() }
@@ -275,21 +288,21 @@ fun main() = runBlocking<Unit> {
 //    println("time:$time")
 
 
-    // 在后台启动一个新的协程，然后继续执行
-    /*GlobalScope.launch(Dispatchers.Default) {
-        delay(1000L)// 不阻塞的延迟1s
-        println("world!")// 延迟后打印
-    }
-    print("hello,")// 当协程延迟时，主线程还在跑
+        // 在后台启动一个新的协程，然后继续执行
+        /*GlobalScope.launch(Dispatchers.Default) {
+            delay(1000L)// 不阻塞的延迟1s
+            println("world!")// 延迟后打印
+        }
+        print("hello,")// 当协程延迟时，主线程还在跑
 
-    // 阻塞主线程2s，为了让jvm不挂掉
-    // Thread.sleep(2000L)
-    //我们使用runBlocking协程建造器，明确指明阻塞：
-    delay(2000L)*/
+        // 阻塞主线程2s，为了让jvm不挂掉
+        // Thread.sleep(2000L)
+        //我们使用runBlocking协程建造器，明确指明阻塞：
+        delay(2000L)*/
 
 
-    // 等待任务（Job）
-    //当另一个协程在运行时，延迟一段时间并不是一个好办法。让我们明确的等待（非阻塞的方式），直到我们启动的后台任务完成
+        // 等待任务（Job）
+        //当另一个协程在运行时，延迟一段时间并不是一个好办法。让我们明确的等待（非阻塞的方式），直到我们启动的后台任务完成
 //   val job= GlobalScope.launch {
 ////        delay(1000L)
 ////        print("协程！")
@@ -298,19 +311,19 @@ fun main() = runBlocking<Unit> {
 //    println("你好，")
 //    job.join()//等待子协程完成
 
-    //这里启动了十万个协程，一秒之后，每个协程打印了一个点。你用线程试试？（很有可能就OOM了）
-    // 启动大量的协程，并返回它们的任务
-    /*val jobs = List(100_000) {
-        GlobalScope.launch {
-            delay(1000L)
-            println(".")
+        //这里启动了十万个协程，一秒之后，每个协程打印了一个点。你用线程试试？（很有可能就OOM了）
+        // 启动大量的协程，并返回它们的任务
+        /*val jobs = List(100_000) {
+            GlobalScope.launch {
+                delay(1000L)
+                println(".")
+            }
         }
-    }
-    // 等待其他全部的任务完成
-    jobs.forEach { it.join() }*/
+        // 等待其他全部的任务完成
+        jobs.forEach { it.join() }*/
 
-    //协程像守护线程
-    //协程的取消需要配合，满足条件才会取消，否则要执行完才会自己结束
+        //协程像守护线程
+        //协程的取消需要配合，满足条件才会取消，否则要执行完才会自己结束
 //    val startTime = System.currentTimeMillis()
 //    val job = GlobalScope.launch(Dispatchers.Default) {
 //        var nextPrintTime = startTime
@@ -329,9 +342,9 @@ fun main() = runBlocking<Unit> {
 //    job.cancelAndJoin()//相当于上面两个函数同时调用
 //    println("main:now i am quit")
 
-    //用finally释放资源
-    //可取消的挂起函数在取消时会抛出CancellationException，通常的方式就可以处理了。
-    // 例如，try {...} finally {...}表达式或use函数，会在协程取消时，执行结束动作。
+        //用finally释放资源
+        //可取消的挂起函数在取消时会抛出CancellationException，通常的方式就可以处理了。
+        // 例如，try {...} finally {...}表达式或use函数，会在协程取消时，执行结束动作。
 //    val job = GlobalScope.launch {
 //        try {
 //            repeat(1000) { i ->
@@ -351,8 +364,8 @@ fun main() = runBlocking<Unit> {
 //    job.cancelAndJoin()//取消任务并等待结束
 //    println("main:now i am quit")
 
-    //超时withTimeOut 抛出TimeoutCancellationException
-    //withTimeoutOrNull，返回null而不是抛出异常：
+        //超时withTimeOut 抛出TimeoutCancellationException
+        //withTimeoutOrNull，返回null而不是抛出异常：
 //    val result = withTimeoutOrNull(1300L) {
 //        repeat(1000) { i ->
 //            println("I'm sleeping $i ...")
@@ -362,14 +375,5 @@ fun main() = runBlocking<Unit> {
 //    }
 //    println("result:$result")
 
-}
-
-suspend fun calOne(): Int {
-    delay(1000L)//模拟耗时
-    return 1
-}
-
-suspend fun calTwo(): Int {
-    delay(1000L)
-    return 2
+    }
 }

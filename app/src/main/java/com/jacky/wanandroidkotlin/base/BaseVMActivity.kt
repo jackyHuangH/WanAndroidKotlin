@@ -1,6 +1,7 @@
 package com.jacky.wanandroidkotlin.base
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
@@ -14,6 +15,8 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseVMActivity<VB : ViewBinding, VM : BaseViewModel> : BaseActivity<VB>(), IVMView<VM> {
 
     override lateinit var mViewModel: VM
+    //不使用泛型，官方扩展方式延时初始化方式：
+//    val viewModel by viewModels<XXViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initViewModel()

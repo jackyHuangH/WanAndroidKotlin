@@ -5,10 +5,7 @@ package com.jacky.wanandroidkotlin.util
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
-import android.content.ClipboardManager
-import android.content.ContentResolver
-import android.content.ContentUris
-import android.content.Context
+import android.content.*
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -88,15 +85,33 @@ fun Context.getMetaData(key: String, packageName: String = this.packageName): St
     }
 }
 
-//fun Context.getMetaData(
-//        key: String,
-//        defaultValue: String,
-//        packageName: String = this.packageName
-//): String {
-//    return safelyRun {
-//        packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData?.getString(key)
-//    } ?: defaultValue
-//}
+
+/**
+ * 调用系统分享
+ */
+fun Context.shareUrl(url: String?, name: String) {
+    val textIntent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, url)
+    }
+    startActivity(Intent.createChooser(textIntent, name))
+}
+
+/**
+ * 获取manifest 配置meta_data
+ */
+fun Context.getMetaData(
+    key: String,
+    defaultValue: String,
+    packageName: String = this.packageName
+): String {
+    return safelyRun {
+        packageManager.getApplicationInfo(
+            packageName,
+            PackageManager.GET_META_DATA
+        ).metaData?.getString(key)
+    } ?: defaultValue
+}
 
 /**
  * 屏幕刷新率：
@@ -332,6 +347,12 @@ object ClipboardUtils {
         return (context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager)?.run {
             primaryClip?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.text
         }
+    }
+
+    fun copyToClipboard(context: Context, text: String?) {
+        val systemService: ClipboardManager =
+            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        systemService.setPrimaryClip(ClipData.newPlainText("text", text))
     }
 }
 

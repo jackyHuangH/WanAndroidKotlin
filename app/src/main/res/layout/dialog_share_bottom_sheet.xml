@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/common_white"
+    android:orientation="horizontal"
+    android:paddingVertical="20dp">
+
+    <TextView
+        android:id="@+id/tv_copy_clipboard"
+        style="@style/RippleStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_copy"
+        android:gravity="center"
+        android:text="复制链接"
+        android:textColor="@color/black_white"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_open_in_browser"
+        style="@style/RippleStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_browser"
+        android:gravity="center"
+        android:text="浏览器打开"
+        android:textColor="@color/black_white"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_share"
+        style="@style/RippleStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_share"
+        android:gravity="center"
+        android:text="三方分享"
+        android:textColor="@color/black_white"
+        android:textSize="13sp" />
+
+
+</LinearLayout>

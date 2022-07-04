@@ -18,6 +18,8 @@ dependencies {
     implementation rootProject.ext.dependencies["module_support"]
 
     //==============================组件依赖 kotlin用kapt替换annotationProcessor===============================
+    implementation rootProject.ext.dependencies["androidx_fragment_ktx"]
+    implementation rootProject.ext.dependencies["androidx_activity_ktx"]
     implementation rootProject.ext.dependencies["palette"]
     implementation rootProject.ext.dependencies["androidx_constraint_layout"]
     implementation rootProject.ext.dependencies["androidx_recyclerview"]

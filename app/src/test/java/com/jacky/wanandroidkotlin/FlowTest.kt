@@ -2,6 +2,7 @@ package com.jacky.wanandroidkotlin
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import org.junit.Test
 import kotlin.system.measureTimeMillis
 
 /**
@@ -11,34 +12,38 @@ import kotlin.system.measureTimeMillis
  * record：flow 是 Cold Stream。在没有切换线程的情况下，生产者和消费者是同步非阻塞的。
  * channel 是 Hot Stream。而 channelFlow 实现了生产者和消费者异步非阻塞模型
  */
-fun main() = runBlocking {
-    launch {
-        for (i in 1..5){
-            delay(100)
-            println("I'm not bloked:$i")
-        }
-    }
+class FlowTest {
 
-    flow {
-        for (i in 1..5){
-            delay(100)
-            emit(i)
+    @Test
+    fun testFlow() = runBlocking {
+        launch {
+            for (i in 1..5) {
+                delay(100)
+                println("I'm not bloked:$i")
+            }
         }
-    }.collect {
-        println(it)
-    }
 
-    //Java sequence会阻塞主线程
-    sequence {
-        for (i in 6..10){
-            Thread.sleep(100)
-            yield(i)
+        flow {
+            for (i in 1..5) {
+                delay(100)
+                emit(i)
+            }
+        }.collect {
+            println(it)
         }
-    }.forEach { println(it) }
 
-    println("Done")
+        //Java sequence会阻塞主线程
+        sequence {
+            for (i in 6..10) {
+                Thread.sleep(100)
+                yield(i)
+            }
+        }.forEach { println(it) }
+
+        println("Done")
 //    createFlow()
 //    createChannel()
+    }
 }
 
 suspend fun createFlow() {
@@ -59,7 +64,7 @@ suspend fun createFlow() {
     println("flow thread:${Thread.currentThread().name} ,cost time:$time")
 }
 
-suspend fun createChannel()= withContext(Dispatchers.IO) {
+suspend fun createChannel() = withContext(Dispatchers.IO) {
     val time = measureTimeMillis {
         channelFlow {
             for (i in 1..5) {
@@ -68,9 +73,9 @@ suspend fun createChannel()= withContext(Dispatchers.IO) {
             }
         }
             .collect {
-            delay(100)
-            println(it)
-        }
+                delay(100)
+                println(it)
+            }
     }
     println("channel thread:${Thread.currentThread().name} ,cost time:$time")
 }
