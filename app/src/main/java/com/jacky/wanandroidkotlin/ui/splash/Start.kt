@@ -1,18 +1,16 @@
 package com.jacky.wanandroidkotlin.ui.splash
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.jacky.wanandroidkotlin.wrapper.musicplay.MusicPlayManager
-import com.zenchn.support.permission.checkSelfPermission
 import com.zenchn.support.router.Router
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
 /**
  * @author:Hzj
@@ -24,7 +22,7 @@ class StartActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MusicPlayManager.initPlayer(this)
+        MusicPlayManager.initPlayer(this@StartActivity)
         //如果有自动登录功能就替换此处跳转逻辑
         MainActivity.launch(this@StartActivity)
         finish()

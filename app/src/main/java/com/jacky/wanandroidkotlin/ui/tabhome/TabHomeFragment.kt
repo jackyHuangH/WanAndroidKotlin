@@ -265,11 +265,10 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
                     //收藏
                     adapter.run {
                         val entity = data[position] as ArticleEntity
-                        entity.run {
-                            collect = !collect
-                            mViewModel.collectArticle(id, collect)
-                        }
-                        notifyItemChanged(position)
+                        entity.collect = !entity.collect
+                        mViewModel.collectArticle(id, entity.collect)
+                        notifyDataSetChanged()
+//                        notifyItemChanged(position)
                     }
                 } else {
                     //未登录，跳转登录

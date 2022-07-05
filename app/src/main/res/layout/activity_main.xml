@@ -82,14 +82,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.etebarian.meowbottomnavigation.MeowBottomNavigation
-                android:id="@+id/meow_bottom_nav"
+            <me.ibrahimsn.lib.SmoothBottomBar
+                android:id="@+id/bottomBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_gravity="bottom"
-                android:clickable="true"
-                android:focusable="true"
-                app:mbn_backgroundBottomColor="@color/colorPrimary" />
+                app:backgroundColor="@color/colorPrimary"
+                app:menu="@menu/menu_bottom_nav" />
+
         </FrameLayout>
 
     </LinearLayout>

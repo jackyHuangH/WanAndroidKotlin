@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.amitshekhar.DebugDB
-import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -91,7 +90,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
     override fun initWidget() {
         initPermissions()
         mViewBinding.navigation.setNavigationItemSelectedListener(this)
-        initMeowNav()
+        initBottomNav()
 //        initViewPager()
         initUserHead()
         resetNvHeader()
@@ -147,24 +146,22 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
         2 to "我的",
     )
 
-    private fun initMeowNav() {
+    private fun initBottomNav() {
         val fragmentSwitchHelper = FragmentSwitchHelper(supportFragmentManager, R.id.fl_container)
-        mViewBinding.meowBottomNav.add(MeowBottomNavigation.Model(0, R.drawable.ic_tab_home))
-        mViewBinding.meowBottomNav.add(MeowBottomNavigation.Model(1, R.drawable.ic_tab_project))
-        mViewBinding.meowBottomNav.add(MeowBottomNavigation.Model(2, R.drawable.ic_tab_system))
-        mViewBinding.meowBottomNav.add(MeowBottomNavigation.Model(3, R.drawable.ic_tab_nav))
         //默认显示首页
         fragmentSwitchHelper.add(mFragments[0])
-        mViewBinding.meowBottomNav.show(0)
         mViewBinding.tvTitle.text = mTitles[0]
-        mViewBinding.meowBottomNav.setOnClickMenuListener {
-            mViewBinding.tvTitle.text = mTitles[it.id]
+        mViewBinding.bottomBar.onItemSelected = { pos ->
+            mViewBinding.tvTitle.text = mTitles[pos]
             //切换fragment
-            val targetFragment = mFragments[it.id]
+            val targetFragment = mFragments[pos]
             fragmentSwitchHelper.switchFragment(targetFragment)
         }
     }
 
+    /**
+     * viewpager2形式首页
+     */
     private fun initViewPager() {
         val vpAdapter = BaseFragmentPager2Adapter(supportFragmentManager, lifecycle, mFragments)
         val vp = getView<ViewPager2>(R.id.vp)

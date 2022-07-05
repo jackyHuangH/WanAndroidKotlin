@@ -12,10 +12,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +24,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gyf.immersionbar.ImmersionBar
 import com.jacky.wanandroidkotlin.R
-import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.databinding.ActivityMusicPlayBinding
 import com.jacky.wanandroidkotlin.jetpack.binding.AnimBinding
@@ -33,22 +32,17 @@ import com.jacky.wanandroidkotlin.util.StatusBarUtil
 import com.jacky.wanandroidkotlin.util.formatMusicTime
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.childViewExt
-import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.musicplay.*
-import com.jacky.wanandroidkotlin.wrapper.viewClickListener
-import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.zenchn.support.router.Router
 import com.zenchn.support.utils.AndroidKit
 
 
-class MusicPlayActivity : BaseVMActivity<ActivityMusicPlayBinding,MusicPlayViewModel>(), AudioObserver {
-    private lateinit var ibtBack: ImageButton
+class MusicPlayActivity : AppCompatActivity(), AudioObserver {
 
+    private val mViewModel by viewModels<MusicPlayViewModel>()
     private lateinit var mActivityBinding: ActivityMusicPlayBinding
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private val musicListAdapter by lazy { MusicListAdapter() }
-
-    override fun getLayoutId(): Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //1.设置dataBinding绑定关系
@@ -59,21 +53,22 @@ class MusicPlayActivity : BaseVMActivity<ActivityMusicPlayBinding,MusicPlayViewM
         mActivityBinding.vm = mViewModel
         //3.绑定lifecycle
         mActivityBinding.lifecycleOwner = this
+        initWidget()
+        initStatusBar()
     }
 
-    override fun initStatusBar() {
-        mImmersionBar = ImmersionBar.with(this).apply {
+    private fun initStatusBar() {
+        ImmersionBar.with(this).apply {
             transparentStatusBar()
             statusBarDarkFont(false)
             init()
         }
-        StatusBarUtil.setStatusBarMargin(this, ibtBack)
+        StatusBarUtil.setStatusBarMargin(this, mActivityBinding.ibtBack)
     }
 
-    override fun initWidget() {
+    private fun initWidget() {
         MusicPlayManager.register(this)
-        ibtBack = getView<ImageButton>(R.id.ibt_back)
-        ibtBack.setOnAntiShakeClickListener { onBackPressed() }
+        mActivityBinding.ibtBack.setOnAntiShakeClickListener { onBackPressed() }
         initSeekBar()
         initBottomSheet()
         initClick()
@@ -130,36 +125,38 @@ class MusicPlayActivity : BaseVMActivity<ActivityMusicPlayBinding,MusicPlayViewM
 
     //点击事件监听
     private fun initClick() {
-        viewExt<AppCompatImageView>(R.id.ibt_collect) {
+
+        mActivityBinding.ibtCollect.apply {
             setOnAntiShakeClickListener {
                 //收藏
                 isSelected = isSelected.not()
             }
         }
-        viewClickListener(R.id.ivMode) {
+
+        mActivityBinding.ivMode.setOnAntiShakeClickListener {
             //播放模式
             MusicPlayManager.switchPlayMode()
         }
-        viewClickListener(R.id.ivPrevious) {
+        mActivityBinding.ivPrevious.setOnAntiShakeClickListener {
             //上一首
             MusicPlayManager.previousAudio()
         }
-        viewClickListener(R.id.ivPlay) {
+        mActivityBinding.ivPlay.setOnAntiShakeClickListener {
             //播放、暂停
             MusicPlayManager.playOrPause()
         }
-        viewClickListener(R.id.ivNext) {
+        mActivityBinding.ivNext.setOnAntiShakeClickListener {
             //下一首
             MusicPlayManager.nextAudio()
         }
-        viewClickListener(R.id.ivMusicList) {
+        mActivityBinding.ivMusicList.setOnAntiShakeClickListener {
             //播放列表
             bottomSheetDialog.show()
         }
     }
 
     private fun initSeekBar() {
-        viewExt<SeekBar>(R.id.seekBar) {
+        mActivityBinding.seekBar.apply {
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                     mViewModel.playDurationString.set(formatMusicTime(seekBar.progress))
@@ -208,10 +205,6 @@ class MusicPlayActivity : BaseVMActivity<ActivityMusicPlayBinding,MusicPlayViewM
 
     override fun onReset() {
         mViewModel.reset()
-    }
-
-    override val startObserve: MusicPlayViewModel.() -> Unit = {
-
     }
 
     override fun onDestroy() {

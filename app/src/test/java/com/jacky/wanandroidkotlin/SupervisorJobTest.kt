@@ -31,6 +31,7 @@ class SupervisorJobTest {
 
         workManager.doWork3()
         workManager.doWork4()
+        //使用job.cancel时，后续dowork3不会执行；使用scope.coroutineContext.cancelChildren取消协程，后续dowork3正常执行
         workManager.cancelAllWork()
         workManager.doWork3()
     }
@@ -46,7 +47,6 @@ class WorkManager {
 
     val job = SupervisorJob()
     val scope = CoroutineScope(Dispatchers.IO + job)
-    val defScope = CoroutineScope(Dispatchers.Default + job)
 
 
     suspend fun doWork1(): Deferred<Int> = scope.async {
@@ -62,20 +62,20 @@ class WorkManager {
         21
     }
 
-    suspend fun doWork3() {
-        defScope.launch {
+    fun doWork3() {
+        scope.launch {
             println("work3")
         }
     }
 
-    suspend fun doWork4() {
-        defScope.launch {
+    fun doWork4() {
+        scope.launch {
             println("work4")
         }
     }
 
     fun cancelAllWork() {
 //        job.cancel()//以后再起的job无法工作
-        defScope.coroutineContext.cancelChildren()//以后再起来的job可以工作
+        scope.coroutineContext.cancelChildren()//以后再起来的job可以工作
     }
 }

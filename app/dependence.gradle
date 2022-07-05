@@ -44,7 +44,7 @@ dependencies {
 
     implementation rootProject.ext.dependencies["immersionbar"]
 
-    implementation rootProject.ext.dependencies["meow_bottom_nav"]
+    implementation rootProject.ext.dependencies["smooth_bottom_nav"]
 
     implementation rootProject.ext.dependencies["youth_banner"]
 

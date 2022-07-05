@@ -18,7 +18,7 @@ import kotlinx.coroutines.*
  * record：<p>suspend，用作修饰会被暂停的函数，被标记为 suspend 的函数只能运行在协程或者其他 suspend 函数当中。</p>
  */
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application),
-    LifecycleObserver {
+    DefaultLifecycleObserver {
 
     //错误信息
     val mErrorMsg: MutableLiveData<String> = MutableLiveData()
@@ -26,17 +26,18 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     //加载框通道
     val mShowLoadingProgress: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
 
+
     @Suppress("UNCHECKED_CAST")
     @CallSuper
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    open fun onCreate(owner: LifecycleOwner) {
+//    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    override fun onCreate(owner: LifecycleOwner) {
         //初始化ViewModel绑定
         (owner as? IVMView<ViewModel>)?.startObserve?.invoke(this)
     }
 
     @CallSuper
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    open fun onDestroy(owner: LifecycleOwner) {
+//    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    override fun onDestroy(owner: LifecycleOwner) {
 
     }
 
