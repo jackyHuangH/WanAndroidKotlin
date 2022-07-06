@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">WanAndroid</string>
+    <string name="app_name_rocket">RocketAndroid</string>
 
     <string name="common_click_double_to_exit_app">Press again to exit the application~</string>
     <string name="login_error_grant_refused">The current account is logged in from another device,
@@ -64,6 +65,7 @@
     <string name="setting_title">SetUp</string>
     <string name="setting_language">language</string>
     <string name="setting_theme">theme mode</string>
+    <string name="setting_change_icon">change Logo</string>
     <string name="setting_theme_not_support">Sorry, your system version is lower than Android Q, you cannot change the theme mode!</string>
 
     <string name="home_article_tag_top">Top</string>

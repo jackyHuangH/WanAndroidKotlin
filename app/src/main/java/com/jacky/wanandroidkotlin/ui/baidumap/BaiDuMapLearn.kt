@@ -216,7 +216,7 @@ class BaiDuMapLearnActivity : BaseVMActivity<ActivityBaiduCoordinatePickupBindin
                         ApkUtils.getCertificateSHA1Fingerprint(this@BaiDuMapLearnActivity)
                     LoggerKit.d(certificateSHA1Fingerprint)
                     mCameraCenterPosition?.let { position ->
-                        //todo 百度逆地理编码报错，尚未解决
+                        // 百度逆地理编码报错，尚未解决
                         mViewModel.analysisLocation(position)
                         if (mIsLastDrag) {
                             mPreDraggedLatLng = position

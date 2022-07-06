@@ -103,7 +103,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
         }
         //根据是否已登录显示和隐藏退出登录按钮
         mViewBinding.navigation.menu.findItem(R.id.nv_logout).isVisible = mIsLogin
-
+        //调试模式显示test模块
         mViewBinding.navigation.menu.findItem(R.id.nv_test).isVisible = BuildConfig.DEBUG
         initDrawerListener()
         //检测屏幕刷新率
@@ -202,7 +202,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
         mViewBinding.drawerLayout.apply {
             addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
                 override fun onDrawerClosed(drawerView: View) {
-                    performDrawerNavigation(this@apply)
+
                 }
             })
         }
@@ -210,7 +210,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         mViewBinding.drawerLayout.apply {
-            tag = item
+            performDrawerNavigation(item)
             closeDrawer(GravityCompat.START)
         }
         return true
@@ -219,10 +219,9 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
     /**
      * 执行侧栏跳转
      */
-    private fun performDrawerNavigation(drawerLayout: DrawerLayout) {
-        val item = drawerLayout.tag as? MenuItem
+    private fun performDrawerNavigation(item: MenuItem) {
         //navigation菜单点击事件
-        when (item?.itemId) {
+        when (item.itemId) {
             R.id.nv_blog -> {
                 //公众号
                 goToFragmentWrap(true)

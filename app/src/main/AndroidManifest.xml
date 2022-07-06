@@ -79,8 +79,10 @@
             android:process=":remote" />
         <!--  -->
 
+
         <activity
             android:name=".ui.splash.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashFullScreen">
             <intent-filter>
@@ -89,6 +91,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--    动态更换logo相关配置    -->
+
+        <!--        火箭logo-->
+        <activity-alias
+            android:name=".rocketLogo"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_rocket"
+            android:label="@string/app_name_rocket"
+            android:targetActivity=".ui.splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <!--        -->
 
         <activity
             android:name=".ui.splash.StartActivity"

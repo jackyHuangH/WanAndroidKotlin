@@ -8,13 +8,12 @@ import androidx.annotation.CallSuper
 import androidx.multidex.MultiDexApplication
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
-import com.github.moduth.blockcanary.BlockCanary
-import com.github.moduth.blockcanary.BlockCanaryContext
 import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.jacky.wanandroidkotlin.util.LanguageUtils
+import com.jacky.wanandroidkotlin.util.MMKVUtils
 import com.zenchn.support.base.ICrashCallback
 import com.zenchn.support.crash.DefaultUncaughtHandler
 import java.net.SocketTimeoutException
@@ -44,8 +43,9 @@ class ApplicationKit {
         application?.let {
             clearNotify(it)
             initCrashHandler(it)
+            MMKVUtils.init(it)
             //init blockcanary
-            BlockCanary.install(it, BlockCanaryContext()).start()
+//            BlockCanary.install(it, BlockCanaryContext()).start()
             //百度地图初始化
             //在使用SDK各组件之前初始化context信息，传入ApplicationContext
             SDKInitializer.initialize(it)

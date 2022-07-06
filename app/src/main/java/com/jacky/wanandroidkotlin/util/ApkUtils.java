@@ -167,7 +167,7 @@ public class ApkUtils {
      * @param context
      * @return
      */
-    private static PackageInfo getPackageInfo(Context context) {
+    public static PackageInfo getPackageInfo(Context context) {
         PackageInfo pi = null;
 
         try {

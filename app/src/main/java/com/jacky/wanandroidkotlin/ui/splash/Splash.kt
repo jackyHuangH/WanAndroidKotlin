@@ -3,7 +3,6 @@ package com.jacky.wanandroidkotlin.ui.splash
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.jacky.wanandroidkotlin.base.BaseActivity
 
 /**
  * @author:Hzj
@@ -11,7 +10,7 @@ import com.jacky.wanandroidkotlin.base.BaseActivity
  * desc  ：闪屏页
  * record：
  */
-class SplashActivity : AppCompatActivity() {
+open class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,4 +27,11 @@ class SplashActivity : AppCompatActivity() {
         StartActivity.launch(this)
         finish()
     }
+}
+
+/**
+ * 新的logo启动页配置
+ */
+class RocketSplashActivity : SplashActivity() {
+
 }

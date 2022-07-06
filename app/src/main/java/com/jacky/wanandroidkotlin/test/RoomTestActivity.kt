@@ -31,12 +31,12 @@ class RoomTestActivity : BaseVMActivity<ActivityRoomTestBinding,RoomTestViewMode
 
     override fun initWidget() {
         viewClickListener(R.id.bt_add) {
-            //todo 新增user
+            // 新增user
             val user = UserEntity(null, "张三", 43, "杭州市西湖区1号")
             mViewModel.addUser(user)
         }
         viewClickListener(R.id.bt_query) {
-            //todo 查询所有
+            // 查询所有
             mViewModel.getAllUser()
         }
         //implicit explicit

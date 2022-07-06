@@ -6,6 +6,7 @@
     android:background="@color/backgroundColor">
 
     <include
+        android:id="@+id/include_toolbar"
         layout="@layout/toolbar_layout"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -16,7 +17,7 @@
         android:background="@color/common_white"
         android:orientation="vertical"
         app:divider="@drawable/shape_divider"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/include_toolbar"
         app:showDividers="middle">
 
         <TextView
@@ -28,6 +29,11 @@
             android:id="@+id/tv_theme"
             style="@style/Setting_tv"
             android:text="@string/setting_theme" />
+
+        <TextView
+            android:id="@+id/tv_change_icon"
+            style="@style/Setting_tv"
+            android:text="@string/setting_change_icon" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

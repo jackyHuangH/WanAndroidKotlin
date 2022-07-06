@@ -55,6 +55,7 @@ dependencies {
 
     implementation rootProject.ext.dependencies["bugly_upgrade"]
     implementation rootProject.ext.dependencies["bugly_native"]
+    implementation rootProject.ext.dependencies["mmkv"]
 
     implementation rootProject.ext.dependencies["brvah"]
     implementation rootProject.ext.dependencies["verticalTab"]
@@ -92,7 +93,7 @@ dependencies {
 
     //use leakcanary
 //    debugImplementation rootProject.ext.dependencies["leakcanary"]
-    debugImplementation rootProject.ext.dependencies["blockcanary"]
+//    debugImplementation rootProject.ext.dependencies["blockcanary"]
 
     //sqlite调试工具
     debugImplementation rootProject.ext.dependencies["db_debug"]
