@@ -36,7 +36,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 
-class GoogleMavenSearchActivity : BaseVMActivity<ActivityGoogleMavenSearchBinding,GoogleMavenSearchViewModel>() {
+class GoogleMavenSearchActivity :
+    BaseVMActivity<ActivityGoogleMavenSearchBinding, GoogleMavenSearchViewModel>() {
 
     private var mKeyword = ""
     private val mCompositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
@@ -76,11 +77,13 @@ class GoogleMavenSearchActivity : BaseVMActivity<ActivityGoogleMavenSearchBindin
         rlv.apply {
             layoutManager = LinearLayoutManager(this@GoogleMavenSearchActivity)
             setHasFixedSize(true)
-            addItemDecoration(
-                VerticalItemDecoration(
-                    AndroidKit.Dimens.dp2px(1)
+            if (itemDecorationCount <= 0) {
+                addItemDecoration(
+                    VerticalItemDecoration(
+                        AndroidKit.Dimens.dp2px(1)
+                    )
                 )
-            )
+            }
             adapter = mListAdapter.apply {
                 addChildClickViewIds(R.id.tv_group_name)
                 setOnItemChildClickListener { adapter, view, position ->
@@ -114,7 +117,7 @@ class GoogleMavenSearchActivity : BaseVMActivity<ActivityGoogleMavenSearchBindin
     override val startObserve: GoogleMavenSearchViewModel.() -> Unit = {
         mGooglePomData.observe(this@GoogleMavenSearchActivity, Observer {
             swipeRefresh.isRefreshing = false
-            mListAdapter.setNewInstance(it)
+            mListAdapter.setList(it)
         })
         mSearchFailed.observe(this@GoogleMavenSearchActivity, Observer {
             swipeRefresh.isRefreshing = false

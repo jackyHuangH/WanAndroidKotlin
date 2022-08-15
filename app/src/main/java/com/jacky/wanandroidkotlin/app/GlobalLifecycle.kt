@@ -1,6 +1,8 @@
 package com.jacky.wanandroidkotlin.app
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Process
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -115,6 +117,15 @@ class GlobalLifecycleObserver : DefaultLifecycleObserver {
 
         fun restartApp(gotoLogin: Boolean = false) {
             INSTANCE.getTopActivity().navigateToRestart(gotoLogin)
+        }
+
+        /**
+         * 重启应用
+         */
+        fun restartApp(context: Context) {
+            val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+            intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
         }
     }
 }

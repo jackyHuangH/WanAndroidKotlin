@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jacky.wanandroidkotlin.R
@@ -14,7 +13,6 @@ import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemListFragment
 import com.jacky.wanandroidkotlin.ui.tabhome.TabHomeFragment
 import com.jacky.wanandroidkotlin.ui.tablatestproject.TabLatestProjectFragment
-import com.jacky.wanandroidkotlin.wrapper.getView
 
 /**
  * @author:Hzj
@@ -22,8 +20,7 @@ import com.jacky.wanandroidkotlin.wrapper.getView
  * desc  ：项目列表页面
  * record：
  */
-class ProjectFragment : BaseVMFragment<FragmentProjectBinding,ProjectViewModel>() {
-    private lateinit var viewPager: ViewPager2
+class ProjectFragment : BaseVMFragment<FragmentProjectBinding, ProjectViewModel>() {
     private val mProjectTypeList = mutableListOf<TreeParentEntity>()
     private val mIsBlog by lazy { arguments?.getBoolean(EXTRA_IS_BLOG, false) }
 
@@ -49,24 +46,16 @@ class ProjectFragment : BaseVMFragment<FragmentProjectBinding,ProjectViewModel>(
     }
 
     override fun initWidget() {
-        viewPager = getView(R.id.viewPager)
-        val tabLayout = getView<TabLayout>(R.id.tabLayout)
-        viewPager.adapter =
+        mViewBinding.viewPager2.adapter =
             object : FragmentStateAdapter(
                 parentFragmentManager,
                 lifecycle
             ) {
-                //                override fun getCount(): Int = mProjectTypeList.size
-//
-//                override fun getItem(position: Int): Fragment = chooseFragment(position)
-//
-//                override fun getPageTitle(position: Int) = mProjectTypeList[position].name
                 override fun getItemCount(): Int = mProjectTypeList.size
 
                 override fun createFragment(position: Int): Fragment = chooseFragment(position)
             }
-//        tabLayout.setupWithViewPager(viewPager)
-        TabLayoutMediator(tabLayout, viewPager) { tab, index ->
+        TabLayoutMediator(mViewBinding.tabLayout, mViewBinding.viewPager2) { tab, index ->
             tab.text = mProjectTypeList[index].name
         }.attach()
     }
@@ -84,7 +73,7 @@ class ProjectFragment : BaseVMFragment<FragmentProjectBinding,ProjectViewModel>(
             list?.let {
                 mProjectTypeList.clear()
                 mProjectTypeList.addAll(it)
-                viewPager.adapter?.notifyDataSetChanged()
+                mViewBinding.viewPager2.adapter?.notifyDataSetChanged()
             }
         })
     }

@@ -4,16 +4,12 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Process;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.zenchn.support.SupportConfig;
-import com.zenchn.support.base.ICrashCallback;
-import com.zenchn.support.utils.StringUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,54 +22,53 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * 作    者：wangr on 2017/5/4 10:54
  * 描    述：异常信息捕获者,持久化异常信息到本地
  * 修订记录：
+ *
+ * @author hzj
  */
-public final class DefaultUncaughtHandler implements UncaughtExceptionHandler {
+public final class UncaughtExHandler implements UncaughtExceptionHandler {
 
-    private ICrashConfig mCrashConfig;
+    private static final String DEFAULT_TAG = "Logger";
+    /**
+     * crash 是否收集报错日志
+     */
+    private final boolean mIsReportCrash = true;
+    private static final String FILE_NAME_PREFIX = "crash";
+    private static final String FILE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String FILE_NAME_SUFFIX = ".txt";
+
     private ICrashCallback mCrashCallback;
     private Context mContext;
+    //系统默认的UncaughtException处理类
+    private UncaughtExceptionHandler mDefaultHandler;
 
-    private DefaultUncaughtHandler() {
+    private UncaughtExHandler() {
     }
 
     private static class SingletonInstance {
-        private static final DefaultUncaughtHandler INSTANCE = new DefaultUncaughtHandler();
+        private static final UncaughtExHandler INSTANCE = new UncaughtExHandler();
     }
 
-    public static DefaultUncaughtHandler getInstance() {
+    public static UncaughtExHandler getInstance() {
         return SingletonInstance.INSTANCE;
     }
 
-    //这里主要完成初始化工作
+    /**
+     * 初始化方法必须放在application中才有效
+     *
+     * @param context
+     * @param crashCallback
+     */
     public void init(@NonNull Context context, @NonNull ICrashCallback crashCallback) {
-        init(context, crashCallback, null);
-    }
-
-    public void init(@NonNull Context context, @NonNull ICrashCallback crashCallback, @Nullable ICrashConfig crashConfig) {
-
-        //将当前实例设为系统默认的异常处理器
-        Thread.setDefaultUncaughtExceptionHandler(this);
-
         this.mCrashCallback = crashCallback;
         this.mContext = context.getApplicationContext();
-
-        if (crashConfig == null) {
-            crashConfig = new DefaultCrashConfig();
-        }
-
-        this.mCrashConfig = crashConfig;
+        mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+        //将当前实例设为系统默认的异常处理器
+        Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
-
-    public DefaultUncaughtHandler setCrashConfig(@NonNull ICrashConfig crashConfig) {
-        this.mCrashConfig = crashConfig;
-        return this;
-    }
-
-    public DefaultUncaughtHandler setCrashCallback(@NonNull ICrashCallback mCrashCallback) {
+    public UncaughtExHandler setCrashCallback(@NonNull ICrashCallback mCrashCallback) {
         this.mCrashCallback = mCrashCallback;
         return this;
     }
@@ -84,29 +79,54 @@ public final class DefaultUncaughtHandler implements UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-
-        //打印出当前调用栈信息
-        ex.printStackTrace();
-
-        //如果重写了异常处理，否则就由我们自己结束自己
-        if (mCrashConfig != null && mCrashConfig.getReportMode()) {
-            try {
-                //导出异常信息到SD卡中
-                File logFile = dumpExceptionToSDCard(ex);
-                //这里可以通过网络上传异常信息到服务器，便于开发人员分析日志从而解决bug
-                mCrashConfig.uploadExceptionToServer(logFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (mCrashCallback != null) {
-            mCrashCallback.onCrash(thread, ex);
+        if (!handleException(thread, ex) && mDefaultHandler != null) {
+            //如果用户没有处理则让系统默认的异常处理器来处理
+            mDefaultHandler.uncaughtException(thread, ex);
         } else {
-            Process.killProcess(Process.myPid());//结束进程
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Log.d(DEFAULT_TAG, "error:", e);
+            }
+            //退出程序
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
         }
     }
 
+    /**
+     * 自定义错误处理，收集错误信息，发送错误报告
+     *
+     * @param ex true:处理了该异常信息返回true,否则返回false;
+     * @return
+     */
+    private boolean handleException(Thread thread, Throwable ex) {
+        if (ex == null) {
+            return false;
+        }
+        //打印出当前调用栈信息
+        ex.printStackTrace();
+        if (mCrashCallback != null) {
+            mCrashCallback.onCrash(thread, ex);
+        }
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                //如果重写了异常处理，否则就由我们自己结束自己
+                if (mIsReportCrash) {
+                    try {
+                        //导出异常信息到SD卡中
+                        File logFile = dumpExceptionToSDCard(ex);
+                        //notice:这里可以通过网络上传异常信息到服务器，便于开发人员分析日志从而解决bug
+                        Log.d(DEFAULT_TAG, "uncaughtException: " + logFile.getPath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        return true;
+    }
 
     /**
      * 持久化异常信息
@@ -121,8 +141,8 @@ public final class DefaultUncaughtHandler implements UncaughtExceptionHandler {
 
         //如果SD卡不存在或无法使用，则无法把异常信息写入SD卡
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-
-            File dir = new File(mCrashConfig.getFilePath());
+            String logFilePath = mContext.getExternalFilesDir("/CrashLog/").getAbsolutePath();
+            File dir = new File(logFilePath);
             if (!dir.exists() || dir.isFile()) {
                 dir.mkdirs();
             }
@@ -131,7 +151,7 @@ public final class DefaultUncaughtHandler implements UncaughtExceptionHandler {
             String crashTime = getCrashTime();
 
             //以当前时间创建log文件
-            logFile = new File(dir, mCrashConfig.getFileNamePrefix() + crashTime + mCrashConfig.getFileNameSuffix());
+            logFile = new File(dir, FILE_NAME_PREFIX + crashTime + FILE_NAME_SUFFIX);
 
             try {
                 PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(logFile)));
@@ -165,12 +185,10 @@ public final class DefaultUncaughtHandler implements UncaughtExceptionHandler {
         String crashTime = "";
         long current = System.currentTimeMillis();
         try {
-            if (StringUtils.isNonNull(mCrashConfig.getDateFormat())) {
-                crashTime = new SimpleDateFormat(mCrashConfig.getDateFormat(), Locale.CHINA).format(new Date(current));
-            }
+            crashTime = new SimpleDateFormat(FILE_DATE_FORMAT, Locale.CHINA).format(new Date(current));
         } catch (Exception e) {
             e.printStackTrace();
-            crashTime = new SimpleDateFormat(SupportConfig.FILE_DATE_FORMAT, Locale.CHINA).format(new Date(current));
+            crashTime = new SimpleDateFormat(FILE_DATE_FORMAT, Locale.CHINA).format(new Date(current));
         }
         return crashTime;
     }
@@ -213,4 +231,11 @@ public final class DefaultUncaughtHandler implements UncaughtExceptionHandler {
         printWriter.append("================Exception================\n");
     }
 
+
+    public interface ICrashCallback {
+        /**
+         * crash回调
+         */
+        void onCrash(Thread thread, Throwable throwable);
+    }
 }

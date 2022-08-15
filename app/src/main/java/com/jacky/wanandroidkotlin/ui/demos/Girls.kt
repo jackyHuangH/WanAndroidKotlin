@@ -56,7 +56,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 
-class GirlsActivity : BaseVMActivity<ActivityGirlsBinding,GirlsViewModel>(), OnItemClickListener,
+class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), OnItemClickListener,
     OnLoadMoreListener, OnItemChildClickListener, IGallery, IPermission {
     private val girlAdapter by lazy { GirlsAdapter() }
 
@@ -180,7 +180,7 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding,GirlsViewModel>(), OnI
     override val startObserve: GirlsViewModel.() -> Unit = {
         girlsList.observe(this@GirlsActivity, Observer {
             if (it.first == 1) {
-                girlAdapter.setNewInstance(it.second)
+                girlAdapter.setList(it.second)
                 //局部刷新，防止瀑布流错乱
                 girlAdapter.notifyItemRangeChanged(0, it.second.size)
             } else {

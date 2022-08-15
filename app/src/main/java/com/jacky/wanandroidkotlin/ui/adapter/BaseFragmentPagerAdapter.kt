@@ -44,7 +44,7 @@ class BaseFragmentPagerAdapter(
 /**
  * viewpager2 pagerAdapter
  */
-class BaseFragmentPager2Adapter(
+class BaseViewPager2Adapter(
     fm: FragmentManager, lifecycle: Lifecycle,
     private val fragments: List<Fragment>
 ) : FragmentStateAdapter(fm, lifecycle) {

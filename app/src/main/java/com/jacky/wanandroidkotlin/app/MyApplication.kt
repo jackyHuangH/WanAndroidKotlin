@@ -14,8 +14,7 @@ import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.jacky.wanandroidkotlin.util.LanguageUtils
 import com.jacky.wanandroidkotlin.util.MMKVUtils
-import com.zenchn.support.base.ICrashCallback
-import com.zenchn.support.crash.DefaultUncaughtHandler
+import com.zenchn.support.crash.UncaughtExHandler
 import java.net.SocketTimeoutException
 
 
@@ -60,15 +59,14 @@ class ApplicationKit {
      */
     @CallSuper
     protected fun initCrashHandler(application: Application) {
-        DefaultUncaughtHandler.getInstance().init(application, object : ICrashCallback {
-            override fun onCrash(thread: Thread?, ex: Throwable?) {
-                if (ex is SocketTimeoutException) {
-                    ToastUtils.show("无法连接服务器")
-                } else {
-                    GlobalLifecycleObserver.INSTANCE.killApp()
-                }
+        UncaughtExHandler.getInstance().init(application) { thread, ex ->
+            if (ex is SocketTimeoutException) {
+                ToastUtils.show("无法连接服务器")
+            } else {
+                GlobalLifecycleObserver.INSTANCE.clearActivityStackAndCallback()
+                GlobalLifecycleObserver.restartApp(application)
             }
-        })
+        }
     }
 
 

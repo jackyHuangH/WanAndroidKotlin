@@ -33,7 +33,8 @@ import com.zenchn.support.widget.VerticalItemDecoration
  * desc  ：最新项目Tab,项目分类公用页面
  * record：
  */
-class TabLatestProjectFragment : BaseVMFragment<FragmentTabLatestProjectBinding,ProjectViewModel>(),
+class TabLatestProjectFragment :
+    BaseVMFragment<FragmentTabLatestProjectBinding, ProjectViewModel>(),
     OnItemClickListener, OnItemChildClickListener, OnLoadMoreListener {
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
@@ -76,11 +77,13 @@ class TabLatestProjectFragment : BaseVMFragment<FragmentTabLatestProjectBinding,
         viewExt<RecyclerView>(R.id.rlv) {
             layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
-            addItemDecoration(
-                VerticalItemDecoration(
-                    AndroidKit.Dimens.dp2px(10)
+            if (itemDecorationCount <= 0) {
+                addItemDecoration(
+                    VerticalItemDecoration(
+                        AndroidKit.Dimens.dp2px(10)
+                    )
                 )
-            )
+            }
             mAdapter.apply {
                 setOnItemClickListener(this@TabLatestProjectFragment)
                 addChildClickViewIds(R.id.ibt_star)

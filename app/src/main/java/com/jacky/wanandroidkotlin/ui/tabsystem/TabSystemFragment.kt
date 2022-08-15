@@ -24,7 +24,8 @@ import com.zenchn.support.widget.VerticalItemDecoration
  * desc  ：体系Tab
  * record：
  */
-class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding,TabSystemViewModel>(), OnItemClickListener {
+class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding, TabSystemViewModel>(),
+    OnItemClickListener {
     private lateinit var rlv: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -54,7 +55,9 @@ class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding,TabSystemViewM
         rlv.apply {
             layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
-            addItemDecoration(VerticalItemDecoration(AndroidKit.Dimens.dp2px(10)))
+            if (itemDecorationCount <= 0) {
+                addItemDecoration(VerticalItemDecoration(AndroidKit.Dimens.dp2px(10)))
+            }
             adapter = mAdapter.apply {
                 setOnItemClickListener(this@TabSystemFragment)
             }
@@ -84,7 +87,7 @@ class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding,TabSystemViewM
     override val startObserve: TabSystemViewModel.() -> Unit = {
         mTreeList.observe(this@TabSystemFragment, Observer {
             swipeRefreshLayout.isRefreshing = false
-            it.run { mAdapter.setNewInstance(it) }
+            it.run { mAdapter.setList(it) }
         })
         mErrorMsg.observe(this@TabSystemFragment, Observer {
             onApiFailure(it)

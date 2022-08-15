@@ -25,12 +25,16 @@
             android:layout_height="wrap_content"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabMode="scrollable"
-            app:tabTextAppearance="@style/TabTextStyle" />
+            app:tabTextAppearance="@style/TabTextStyle"
+            app:tabGravity="fill"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="3dp"
+            app:tabMaxWidth="0dp" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

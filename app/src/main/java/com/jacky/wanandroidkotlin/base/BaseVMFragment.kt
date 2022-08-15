@@ -19,13 +19,16 @@ abstract class BaseVMFragment<VB : ViewBinding, VM : BaseViewModel> : BaseFragme
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         super.onViewCreated(view, savedInstanceState)
+        //初始化ViewModel绑定
+        startObserve.invoke(mViewModel)
     }
 
     //初始化ViewModel绑定
     private fun initViewModel() {
         provideViewModelClass(1)?.let { clazz ->
+            //注意这里第一个参数owner，传当前页面，fragment
             mViewModel = ViewModelProvider(
-                requireActivity(),
+                this,
                 ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
             ).get(clazz).apply {
                 mErrorMsg.observe(viewLifecycleOwner, Observer { showMessage(msg = it) })

@@ -30,7 +30,8 @@ import com.zenchn.support.widget.VerticalItemDecoration
  * desc  ：我的收藏
  * record：
  */
-class MyCollectActivity : BaseVMActivity<ActivityMyCollectBinding,MyCollectViewModel>(), OnItemClickListener,
+class MyCollectActivity : BaseVMActivity<ActivityMyCollectBinding, MyCollectViewModel>(),
+    OnItemClickListener,
     OnLoadMoreListener {
     private lateinit var swipeRefresh: SwipeRefreshLayout
 
@@ -70,11 +71,13 @@ class MyCollectActivity : BaseVMActivity<ActivityMyCollectBinding,MyCollectViewM
         viewExt<RecyclerView>(R.id.rlv) {
             layoutManager = LinearLayoutManager(this@MyCollectActivity)
             setHasFixedSize(true)
-            addItemDecoration(
-                VerticalItemDecoration(
-                    AndroidKit.Dimens.dp2px(10)
+            if (itemDecorationCount <= 0) {
+                addItemDecoration(
+                    VerticalItemDecoration(
+                        AndroidKit.Dimens.dp2px(10)
+                    )
                 )
-            )
+            }
             mListAdapter.apply {
                 setOnItemClickListener(this@MyCollectActivity)
                 loadMoreModule.setOnLoadMoreListener(this@MyCollectActivity)
@@ -102,7 +105,7 @@ class MyCollectActivity : BaseVMActivity<ActivityMyCollectBinding,MyCollectViewM
         mArticleList.observe(this@MyCollectActivity, Observer { list ->
             list?.let {
                 if (mPageNum == 0) {
-                    mListAdapter.setNewInstance(it.datas)
+                    mListAdapter.setList(it.datas)
                 } else {
                     mListAdapter.addData(it.datas)
                 }

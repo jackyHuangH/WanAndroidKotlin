@@ -38,7 +38,8 @@ import java.math.BigDecimal
 import java.util.*
 
 
-class BaiDuMapLearnActivity : BaseVMActivity<ActivityBaiduCoordinatePickupBinding,BaiDuMapLearnViewModel>(),
+class BaiDuMapLearnActivity :
+    BaseVMActivity<ActivityBaiduCoordinatePickupBinding, BaiDuMapLearnViewModel>(),
     TitleBar.OnLeftClickListener, BaiduMap.OnMapLoadedCallback {
 
     private lateinit var mTitleBar: TitleBar
@@ -258,7 +259,6 @@ class BaiDuMapLearnActivity : BaseVMActivity<ActivityBaiduCoordinatePickupBindin
         onBackPressed()
     }
 
-
     override val startObserve: BaiDuMapLearnViewModel.() -> Unit = {
         mLocationData.observe(this@BaiDuMapLearnActivity) {
             showMyLocation(it)
@@ -321,6 +321,7 @@ class BaiDuMapLearnViewModel(application: Application) : BaseViewModel(applicati
 
     fun analysisLocation(latLng: LatLng?) {
         GeoCoderModel.getInstance().getBdMapGeocoderAddress(latLng) { address ->
-            mGeoCoderData.postValue(address.orNotNullNotEmpty("解析失败")) }
+            mGeoCoderData.postValue(address.orNotNullNotEmpty("解析失败"))
+        }
     }
 }

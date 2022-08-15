@@ -30,14 +30,14 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment(), IView {
     protected var instanceState: Bundle? = null
 
     override fun onAttach(context: Context) {
-        Log.d("BaseFragment", " onAttach")
+        Log.d("BaseFragment", " onAttach:${javaClass.name}")
         super.onAttach(context)
         mUiDelegate = context as? IUiController ?: DefaultUiController(context, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("BaseFragment", " onCreate")
+        Log.d("BaseFragment", " onCreate:${javaClass.name}")
     }
 
     override fun onCreateView(
@@ -55,7 +55,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment(), IView {
                 rootView = it.root
             }
         }
-        Log.d("BaseFragment", " onCreateView")
+        Log.d("BaseFragment", " onCreateView:${javaClass.name}")
         return rootView
     }
 
@@ -63,13 +63,13 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment(), IView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d("BaseFragment", " onActivityCreated")
+        Log.d("BaseFragment", " onActivityCreated:${javaClass.name}")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onNewInstanceState(savedInstanceState)
-        Log.d("BaseFragment", " onViewCreated")
+        Log.d("BaseFragment", " onViewCreated:${javaClass.name}")
         //注意：懒加载模式时不要使用initWidget()，容易出现重复初始化问题，
         // 使用onFragmentFirstVisible()
         initWidget()
@@ -81,12 +81,12 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment(), IView {
 
     override fun onStart() {
         super.onStart()
-        Log.d("BaseFragment", " onStart")
+        Log.d("BaseFragment", " onStart:${javaClass.name}")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("BaseFragment", " onStop")
+        Log.d("BaseFragment", " onStop:${javaClass.name}")
     }
 
     override fun initWidget() {
@@ -176,7 +176,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment(), IView {
     }
 
     override fun onPause() {
-        Log.d("BaseFragment", " onPause")
+        Log.d("BaseFragment", " onPause:${javaClass.name}")
         AndroidKit.Keyboard.hideSoftInput(requireActivity())
         super.onPause()
     }
@@ -189,7 +189,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment(), IView {
     private var mFirstTimeVisible = false
 
     override fun onResume() {
-        Log.d("BaseFragment", " onResume")
+        Log.d("BaseFragment", " onResume:${javaClass.name}")
         super.onResume()
         //懒加载配置
         if (!mFirstTimeVisible) {
@@ -200,18 +200,18 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment(), IView {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("BaseFragment", " onDestroyView")
+        Log.d("BaseFragment", " onDestroyView:${javaClass.name}")
         mFirstTimeVisible = false
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("BaseFragment", " onDestroy")
+        Log.d("BaseFragment", " onDestroy:${javaClass.name}")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.d("BaseFragment", " onDetach")
+        Log.d("BaseFragment", " onDetach:${javaClass.name}")
     }
 
     /**

@@ -21,6 +21,8 @@ abstract class BaseVMActivity<VB : ViewBinding, VM : BaseViewModel> : BaseActivi
     override fun onCreate(savedInstanceState: Bundle?) {
         initViewModel()
         super.onCreate(savedInstanceState)
+        //初始化ViewModel绑定
+        startObserve.invoke(mViewModel)
     }
 
     //初始化ViewModel绑定

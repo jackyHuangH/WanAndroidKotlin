@@ -15,7 +15,7 @@ import com.zenchn.support.widget.VerticalItemDecoration
 /**
  * @author:Hzj
  * @date  :2020/5/15
- * desc  ：
+ * desc  ：google maven search 列表分组adapter
  * record：
  */
 class GoogleMavenSearchAdapter(layoutId: Int = R.layout.recycler_item_google_maven_search) :
@@ -52,7 +52,7 @@ class GoogleMavenSearchAdapter(layoutId: Int = R.layout.recycler_item_google_mav
                         notifyDataSetChanged()
                     }
                 }
-                setNewInstance(artifactList)
+                setList(artifactList)
             }
         }
     }
@@ -83,7 +83,7 @@ class GoogleMavenGroupListAdapter(layoutId: Int = R.layout.recycler_item_google_
             }
 
             adapter =
-                GoogleMavenArtifactListAdapter().apply { setNewInstance(item.artifactList?.asReversed()) }
+                GoogleMavenArtifactListAdapter().apply { setList(item.artifactList?.asReversed()) }
         }
     }
 }

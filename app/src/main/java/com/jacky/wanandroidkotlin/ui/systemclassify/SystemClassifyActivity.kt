@@ -1,17 +1,13 @@
 package com.jacky.wanandroidkotlin.ui.systemclassify
 
 import android.app.Activity
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.databinding.ActivitySystemClassifyBinding
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
-import com.jacky.wanandroidkotlin.wrapper.getView
-import com.jacky.wanandroidkotlin.wrapper.viewExt
+import com.jacky.wanandroidkotlin.ui.adapter.BaseViewPager2Adapter
 import com.zenchn.support.router.Router
 
 /**
@@ -22,11 +18,12 @@ import com.zenchn.support.router.Router
  */
 class SystemClassifyActivity : BaseActivity<ActivitySystemClassifyBinding>() {
     private lateinit var mTreeParent: TreeParentEntity
+
     override fun getLayoutId(): Int = R.layout.activity_system_classify
 
     override fun initWidget() {
         mTreeParent = intent.getSerializableExtra(EXTRA_TREE_PARENT) as TreeParentEntity
-        viewExt<Toolbar>(R.id.toolbar) {
+        mViewBinding.toolbar.apply {
             title = mTreeParent.name
             setNavigationOnClickListener { onBackPressed() }
         }
@@ -34,23 +31,21 @@ class SystemClassifyActivity : BaseActivity<ActivitySystemClassifyBinding>() {
     }
 
     private fun initViewPager() {
-        val viewPager = getView<ViewPager>(R.id.viewPager)
-        val tabLayout = getView<TabLayout>(R.id.tab_layout)
-        //这里fragment数量较多，使用FragmentStatePagerAdapter
-        viewPager.adapter = object : FragmentStatePagerAdapter(
-            supportFragmentManager,
-            BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-        ) {
-            override fun getItem(position: Int): Fragment {
-                return SystemListFragment.getInstance(mTreeParent.children[position].id, false)
-            }
-
-            override fun getCount(): Int = mTreeParent.children.size
-
-            override fun getPageTitle(position: Int): CharSequence? =
-                mTreeParent.children[position].name
+        //这里viewpager2+fragment
+        if (mTreeParent.children.isEmpty()) {
+            showMessage("暂无数据")
+            return
         }
-        tabLayout.setupWithViewPager(viewPager)
+        val fragmentList = mTreeParent.children.map { item ->
+            SystemListFragment.getInstance(item.id, false)
+        }
+        mViewBinding.viewPager2.adapter =
+            BaseViewPager2Adapter(supportFragmentManager, lifecycle, fragmentList)
+        //TabLayout绑定viewpager2
+        TabLayoutMediator(mViewBinding.tabLayout, mViewBinding.viewPager2) { tab, index ->
+            //绑定标题
+            tab.text = mTreeParent.children[index].name
+        }.attach()
     }
 
     companion object {

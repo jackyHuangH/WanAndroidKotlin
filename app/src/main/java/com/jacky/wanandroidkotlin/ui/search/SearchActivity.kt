@@ -42,7 +42,8 @@ import io.reactivex.disposables.CompositeDisposable
 /**
  * 搜索
  */
-class SearchActivity : BaseVMActivity<ActivitySearchBinding,SearchViewModel>(), OnItemClickListener,
+class SearchActivity : BaseVMActivity<ActivitySearchBinding, SearchViewModel>(),
+    OnItemClickListener,
     OnLoadMoreListener, OnItemChildClickListener {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var etSearch: EditText
@@ -150,11 +151,13 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding,SearchViewModel>(), 
         rlv.apply {
             layoutManager = LinearLayoutManager(this@SearchActivity)
             setHasFixedSize(true)
-            addItemDecoration(
-                VerticalItemDecoration(
-                    AndroidKit.Dimens.dp2px(10)
+            if (itemDecorationCount <= 0) {
+                addItemDecoration(
+                    VerticalItemDecoration(
+                        AndroidKit.Dimens.dp2px(10)
+                    )
                 )
-            )
+            }
             adapter = mListAdapter.apply {
                 setOnItemClickListener(this@SearchActivity)
                 addChildClickViewIds(R.id.ibt_star)
@@ -207,7 +210,7 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding,SearchViewModel>(), 
                 swipeRefreshLayout.visibility = View.VISIBLE
                 viewVisibleExt(R.id.scroll_view, false)
                 if (mPageNum == 0) {
-                    mListAdapter.setNewInstance(it.datas)
+                    mListAdapter.setList(it.datas)
                 } else {
                     mListAdapter.addData(it.datas)
                 }

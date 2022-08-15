@@ -40,7 +40,7 @@ class BrowserActivity : BaseActivity<ActivityBrowserBinding>() {
     override fun initStatusBar() {
         ImmersionBar.with(this)
             .fitsSystemWindows(true)
-            .statusBarColor(R.color.colorAccent)
+            .statusBarColor(R.color.colorPrimary)
             .statusBarDarkFont(false)
             .navigationBarColor(R.color.backgroundColor).init()
     }

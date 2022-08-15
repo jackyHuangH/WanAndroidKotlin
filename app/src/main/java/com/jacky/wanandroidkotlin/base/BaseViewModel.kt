@@ -31,8 +31,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     @CallSuper
 //    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     override fun onCreate(owner: LifecycleOwner) {
-        //初始化ViewModel绑定
-        (owner as? IVMView<ViewModel>)?.startObserve?.invoke(this)
+        Log.d("BaseViewModel", " onCreate:")
     }
 
     @CallSuper

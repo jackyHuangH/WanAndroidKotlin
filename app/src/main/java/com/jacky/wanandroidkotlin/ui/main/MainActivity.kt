@@ -11,10 +11,8 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.viewpager2.widget.ViewPager2
 import com.amitshekhar.DebugDB
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.jacky.wanandroidkotlin.BuildConfig
@@ -28,7 +26,7 @@ import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
 import com.jacky.wanandroidkotlin.test.TestActivity
 import com.jacky.wanandroidkotlin.ui.about.AboutActivity
-import com.jacky.wanandroidkotlin.ui.adapter.BaseFragmentPager2Adapter
+import com.jacky.wanandroidkotlin.ui.adapter.BaseViewPager2Adapter
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.fragmentwrap.FragmentWrapActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
@@ -88,7 +86,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
     }
 
     override fun initWidget() {
-        initPermissions()
+//        initPermissions()
         mViewBinding.navigation.setNavigationItemSelectedListener(this)
         initBottomNav()
 //        initViewPager()
@@ -163,10 +161,10 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
      * viewpager2形式首页
      */
     private fun initViewPager() {
-        val vpAdapter = BaseFragmentPager2Adapter(supportFragmentManager, lifecycle, mFragments)
-        val vp = getView<ViewPager2>(R.id.vp)
+        val vpAdapter = BaseViewPager2Adapter(supportFragmentManager, lifecycle, mFragments)
+        val vp = mViewBinding.vp
         vp.adapter = vpAdapter
-        val tablayout = getView<TabLayout>(R.id.tabLayout)
+        val tablayout = mViewBinding.tabLayout
         //TabLayout绑定viewpager2
         TabLayoutMediator(tablayout, vp) { tab, index ->
             //绑定标题

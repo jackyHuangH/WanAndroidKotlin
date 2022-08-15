@@ -21,7 +21,7 @@ import q.rorbin.verticaltablayout.widget.TabView
  * desc  ：导航Tab
  * record：
  */
-class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding,NavViewModel>() {
+class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding, NavViewModel>() {
     private lateinit var rlv: RecyclerView
     private lateinit var verticalTabLayout: VerticalTabLayout
 
@@ -50,11 +50,13 @@ class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding,NavVie
     private fun initRlv() {
         rlv.apply {
             layoutManager = mLayoutManager
-            addItemDecoration(
-                VerticalItemDecoration(
-                    AndroidKit.Dimens.dp2px(10)
+            if (itemDecorationCount <= 0) {
+                addItemDecoration(
+                    VerticalItemDecoration(
+                        AndroidKit.Dimens.dp2px(10)
+                    )
                 )
-            )
+            }
             adapter = mNavAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -101,7 +103,7 @@ class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding,NavVie
                 val tabAdapter =
                     activity?.let { ctx -> NavVerticalTabAdapter(it.map { it.name }, ctx) }
                 verticalTabLayout.setTabAdapter(tabAdapter)
-                mNavAdapter.setNewInstance(list)
+                mNavAdapter.setList(list)
             }
         })
         mErrorMsg.observe(this@TabNavigationFragment, Observer { msg ->
