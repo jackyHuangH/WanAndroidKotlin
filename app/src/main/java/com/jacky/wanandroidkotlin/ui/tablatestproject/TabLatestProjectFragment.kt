@@ -63,10 +63,6 @@ class TabLatestProjectFragment :
         swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         intiRecyclerView()
         initRefreshLayout()
-    }
-
-    override fun onResume() {
-        super.onResume()
         onRefresh()
         swipeRefreshLayout?.isRefreshing = true
     }

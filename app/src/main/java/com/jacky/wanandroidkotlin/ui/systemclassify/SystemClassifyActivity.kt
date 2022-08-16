@@ -46,6 +46,8 @@ class SystemClassifyActivity : BaseActivity<ActivitySystemClassifyBinding>() {
             //绑定标题
             tab.text = mTreeParent.children[index].name
         }.attach()
+        //禁用viewpager2滑动
+//        mViewBinding.viewPager2.isUserInputEnabled=false
     }
 
     companion object {
