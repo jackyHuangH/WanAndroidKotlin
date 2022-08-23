@@ -32,6 +32,7 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ibt_back"
+            style="@style/RippleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -127,6 +128,7 @@
             android:layout_height="25dp"
             android:layout_marginEnd="60dp"
             android:layout_marginBottom="20dp"
+            android:background="@drawable/ripple_circle"
             android:src="@drawable/selector_collect"
             app:layout_constraintBottom_toTopOf="@+id/seekBar"
             app:layout_constraintRight_toRightOf="parent" />
@@ -164,6 +166,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivMode"
+            style="@style/RippleCircleStyle"
             imgSrc="@{vm.playModePic}"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -176,6 +179,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivPrevious"
+            style="@style/RippleCircleStyle"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="25dp"
@@ -187,6 +191,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivPlay"
+            style="@style/RippleCircleStyle"
             imgSelected="@{vm.playStatusSelected}"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -198,6 +203,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivNext"
+            style="@style/RippleCircleStyle"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="25dp"
@@ -209,6 +215,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivMusicList"
+            style="@style/RippleCircleStyle"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="30dp"

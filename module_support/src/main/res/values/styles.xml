@@ -14,8 +14,14 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <!--    前景 点击水波纹效果-->
     <style name="RippleStyle">
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <!--    背景 圆形水波点击效果，只针对父view没有设置background才会生效，慎用-->
+    <style name="RippleCircleStyle">
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <!--enteringlayout 自定义内容 单行-->
