@@ -8,12 +8,15 @@ import android.net.wifi.WifiManager
 import android.os.Process
 import android.util.Log
 import android.util.LruCache
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.ViewSwitcher
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.aidltest.AidlTestActivity
@@ -31,8 +34,7 @@ import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.zenchn.support.router.Router
 import com.zenchn.support.utils.LoggerKit
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.*
 import java.io.IOException
 import java.io.RandomAccessFile
 
@@ -103,6 +105,32 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
             MotionLayoutDemoActivity.launch(this)
         }
 
+        val textList = listOf<String>("C++", "Python", "Java", "Swift","Kotlin","CSS")
+        var index = 0
+        //TextSwitcher
+        mViewBinding.ts.apply {
+            setFactory {
+                TextView(this@TestActivity).apply {
+                    gravity = Gravity.CENTER
+                    textSize = 17F
+                }
+            }
+            setOnClickListener {
+                this.setText(textList[index++ % textList.size])
+            }
+        }
+        //轮播实现
+        lifecycleScope.launch(Dispatchers.IO){
+            while (true){
+                launch(Dispatchers.Main){
+                    mViewBinding.ts.setText(textList[index++ % textList.size])
+                }
+                delay(3000)
+
+                Log.d(TAG, "loop")
+            }
+        }
+
         viewClickListener(R.id.btn_netease) {
             startActivity(Intent(this, NetEasyDemoActivity::class.java))
         }
@@ -134,7 +162,7 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
         transitionDrawable?.startTransition(3000)
     }
 
-    private fun startCountDown(){
+    private fun startCountDown() {
         //倒计时
         countDownClock = createCountDownClock(10, lifecycle) { time ->
             ToastUtils.show("倒计时：$time")

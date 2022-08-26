@@ -16,7 +16,7 @@ import androidx.annotation.*;
 import androidx.core.content.ContextCompat;
 import com.zenchn.support.R;
 import com.zenchn.support.utils.AndroidKit;
-import com.zenchn.support.widget.factory.ViewFactory;
+import com.zenchn.support.widget.factory.CustomViewFactory;
 
 /**
  * 作    者：wangr on 2017/6/8 18:31
@@ -104,7 +104,7 @@ public class TitleBar extends ViewGroup {
                 titleBarLeftIconDrawable = ContextCompat.getDrawable(context, R.drawable.ic_back_blue);
             }
             Drawable backBackground = ContextCompat.getDrawable(context, R.drawable.selector_titlebar_back);
-            leftView(ViewFactory.getImageButton(context, titleBarLeftIconDrawable, backBackground));
+            leftView(CustomViewFactory.getImageButton(context, titleBarLeftIconDrawable, backBackground));
             titleText(titleBarCenterText);
             if (!TextUtils.isEmpty(titleBarRightText)) {
                 rightText(titleBarRightText);
@@ -330,7 +330,7 @@ public class TitleBar extends ViewGroup {
         if (mCenterView != null && mCenterView instanceof TextView) {
             ((TextView) mCenterView).setText(title);
         } else {
-            titleView(ViewFactory.getTextView(getContext(), title, mTitleBarCenterTextColor, mTitleBarCenterTextSize));
+            titleView(CustomViewFactory.getTextView(getContext(), title, mTitleBarCenterTextColor, mTitleBarCenterTextSize));
         }
         return this;
     }
@@ -380,7 +380,7 @@ public class TitleBar extends ViewGroup {
         if (mLeftView != null && mLeftView instanceof ImageView) {
             ((ImageView) mLeftView).setImageDrawable(drawable);
         } else {
-            leftView(ViewFactory.getImageButton(getContext(), drawable));
+            leftView(CustomViewFactory.getImageButton(getContext(), drawable));
         }
         return this;
     }
@@ -424,7 +424,7 @@ public class TitleBar extends ViewGroup {
             if (mLeftView != null && mLeftView instanceof TextView) {
                 ((TextView) mLeftView).setText(text);
             } else {
-                leftView(ViewFactory.getTextView(getContext(), text, mTitleBarLeftTextColor, mTitleBarLeftTextSize));
+                leftView(CustomViewFactory.getTextView(getContext(), text, mTitleBarLeftTextColor, mTitleBarLeftTextSize));
             }
         }
         return this;
@@ -496,7 +496,7 @@ public class TitleBar extends ViewGroup {
             if (mRightView != null && mRightView instanceof TextView) {
                 ((TextView) mRightView).setText(text);
             } else {
-                rightView(ViewFactory.getTextView(getContext(), text, mTitleBarRightTextColor, mTitleBarRightTextSize));
+                rightView(CustomViewFactory.getTextView(getContext(), text, mTitleBarRightTextColor, mTitleBarRightTextSize));
             }
         }
         return this;
@@ -532,7 +532,7 @@ public class TitleBar extends ViewGroup {
         if (mRightView != null && mRightView instanceof ImageView) {
             ((ImageView) mRightView).setImageDrawable(drawable);
         } else {
-            rightView(ViewFactory.getImageButton(getContext(), drawable));
+            rightView(CustomViewFactory.getImageButton(getContext(), drawable));
         }
         return this;
     }

@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
  * 修订记录：
  */
 
-public class ViewFactory {
+public class CustomViewFactory {
 
     public static TextView getTextView(@NonNull Context context, @Nullable String text, @ColorInt int color, int textSize) {
         return getTextView(context, text, color, textSize, null);

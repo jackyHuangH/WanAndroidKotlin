@@ -15,7 +15,7 @@ import androidx.annotation.*;
 import androidx.core.content.ContextCompat;
 import com.zenchn.support.R;
 import com.zenchn.support.utils.AndroidKit;
-import com.zenchn.support.widget.factory.ViewFactory;
+import com.zenchn.support.widget.factory.CustomViewFactory;
 
 import java.util.Arrays;
 
@@ -117,7 +117,7 @@ public class EnteringLayout extends ViewGroup {
                 if (TextUtils.isEmpty(mAsteriskName)) {
                     mAsteriskName = "*";
                 }
-                mAsteriskView = ViewFactory.getTextView(context, mAsteriskName, mAsteriskColor, mAsteriskSize);
+                mAsteriskView = CustomViewFactory.getTextView(context, mAsteriskName, mAsteriskColor, mAsteriskSize);
             }
             addView(mAsteriskView);
         } else {
@@ -288,7 +288,7 @@ public class EnteringLayout extends ViewGroup {
 
     public void setItemText(String text) {
         if (mItemTextView == null) {
-            mItemTextView = ViewFactory.getTextView(getContext(), text, mItemTextColor, mItemTextSize);
+            mItemTextView = CustomViewFactory.getTextView(getContext(), text, mItemTextColor, mItemTextSize);
             addView(mItemTextView);
         }
         mItemTextView.setText(text);
@@ -327,7 +327,7 @@ public class EnteringLayout extends ViewGroup {
             if (mNextIconView == null) {
                 Context context = getContext();
                 Drawable drawable = ContextCompat.getDrawable(context, R.drawable.widget_ic_next);
-                mNextIconView = ViewFactory.getImageView(context, drawable);
+                mNextIconView = CustomViewFactory.getImageView(context, drawable);
             }
             addView(mNextIconView);
         } else {

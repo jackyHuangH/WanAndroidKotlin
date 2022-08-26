@@ -16,7 +16,7 @@ import androidx.annotation.*;
 import androidx.core.content.ContextCompat;
 import com.zenchn.support.R;
 import com.zenchn.support.utils.AndroidKit;
-import com.zenchn.support.widget.factory.ViewFactory;
+import com.zenchn.support.widget.factory.CustomViewFactory;
 
 /**
  * 作    者：wangr on 2017/6/12 18:46
@@ -87,10 +87,10 @@ public class SettingButton extends ViewGroup {
         typedArray.recycle();
 
         if (settingDefault) {
-            leftView(ViewFactory.getTextView(context, leftText, mLeftTextColor, mLeftTextSize));
+            leftView(CustomViewFactory.getTextView(context, leftText, mLeftTextColor, mLeftTextSize));
 
             if (!TextUtils.isEmpty(rightText))
-                rightView(ViewFactory.getTextView(context, rightText, mRightTextColor, mRightTextSize));
+                rightView(CustomViewFactory.getTextView(context, rightText, mRightTextColor, mRightTextSize));
 
             if (hasNextIcon) {
                 if (nextIconDrawable == null) {
@@ -253,7 +253,7 @@ public class SettingButton extends ViewGroup {
         if (mLeftView != null && mLeftView instanceof ImageView) {
             ((ImageView) mLeftView).setImageDrawable(drawable);
         } else {
-            leftView(ViewFactory.getImageButton(getContext(), drawable));
+            leftView(CustomViewFactory.getImageButton(getContext(), drawable));
         }
         return this;
     }
@@ -297,7 +297,7 @@ public class SettingButton extends ViewGroup {
             if (mLeftView != null && mLeftView instanceof TextView) {
                 ((TextView) mLeftView).setText(text);
             } else {
-                leftView(ViewFactory.getTextView(getContext(), text, mLeftTextColor, mLeftTextSize));
+                leftView(CustomViewFactory.getTextView(getContext(), text, mLeftTextColor, mLeftTextSize));
             }
         }
         return this;
@@ -363,7 +363,7 @@ public class SettingButton extends ViewGroup {
         if (mRightView != null && mRightView instanceof ImageView) {
             ((ImageView) mRightView).setImageDrawable(drawable);
         } else {
-            rightView(ViewFactory.getImageButton(getContext(), drawable));
+            rightView(CustomViewFactory.getImageButton(getContext(), drawable));
         }
         return this;
     }
@@ -405,7 +405,7 @@ public class SettingButton extends ViewGroup {
             if (mRightView != null && mRightView instanceof TextView) {
                 ((TextView) mRightView).setText(text);
             } else {
-                rightView(ViewFactory.getTextView(getContext(), text, mRightTextColor, mRightTextSize));
+                rightView(CustomViewFactory.getTextView(getContext(), text, mRightTextColor, mRightTextSize));
             }
         }
         return this;
@@ -441,7 +441,7 @@ public class SettingButton extends ViewGroup {
         if (mRightImageView != null) {
             mRightImageView.setImageDrawable(drawable);
         } else {
-            rightNextImageView(ViewFactory.getImageButton(getContext(), drawable));
+            rightNextImageView(CustomViewFactory.getImageButton(getContext(), drawable));
         }
         return this;
     }
