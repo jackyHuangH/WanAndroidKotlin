@@ -118,26 +118,16 @@
                 android:textColor="@color/color_282828"
                 android:textSize="12sp" />
 
-            <com.jacky.wanandroidkotlin.test.MyLinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_fb5656">
+                android:layout_height="60dp"
+                android:background="@color/color_d5d5d5">
 
-                <Button
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:text="button1" />
-
-                <Button
-                    android:layout_width="50dp"
+                <com.jacky.wanandroidkotlin.test.SquareView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="button2" />
-
-                <Button
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:text="button3" />
-            </com.jacky.wanandroidkotlin.test.MyLinearLayout>
+                    android:background="@color/color_fb5656" />
+            </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"
