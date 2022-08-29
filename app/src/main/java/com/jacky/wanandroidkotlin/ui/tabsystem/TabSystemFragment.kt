@@ -1,11 +1,10 @@
 package com.jacky.wanandroidkotlin.ui.tabsystem
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.jacky.wanandroidkotlin.R
@@ -14,7 +13,6 @@ import com.jacky.wanandroidkotlin.databinding.FragmentTabSystemBinding
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.ui.adapter.SystemListAdapter
 import com.jacky.wanandroidkotlin.ui.systemclassify.SystemClassifyActivity
-import com.jacky.wanandroidkotlin.wrapper.getView
 import com.zenchn.support.utils.AndroidKit
 import com.zenchn.support.widget.VerticalItemDecoration
 
@@ -26,8 +24,6 @@ import com.zenchn.support.widget.VerticalItemDecoration
  */
 class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding, TabSystemViewModel>(),
     OnItemClickListener {
-    private lateinit var rlv: RecyclerView
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private val mAdapter by lazy { SystemListAdapter() }
 
@@ -43,16 +39,14 @@ class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding, TabSystemView
     override fun getLayoutId(): Int = R.layout.fragment_tab_system
 
     override fun lazyLoad() {
-        rlv = getView<RecyclerView>(R.id.rlv)
-        swipeRefreshLayout = getView<SwipeRefreshLayout>(R.id.swipe_refresh)
         initRecyclerView()
         initRefreshLayout()
         onRefresh()
-        swipeRefreshLayout.isRefreshing = true
+        mViewBinding.swipeRefresh.isRefreshing = true
     }
 
     private fun initRecyclerView() {
-        rlv.apply {
+        mViewBinding.rlv.apply {
             layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
             if (itemDecorationCount <= 0) {
@@ -73,8 +67,8 @@ class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding, TabSystemView
     }
 
     private fun initRefreshLayout() {
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
-        swipeRefreshLayout.setOnRefreshListener {
+        mViewBinding.swipeRefresh.setColorSchemeResources(R.color.colorAccent)
+        mViewBinding.swipeRefresh.setOnRefreshListener {
             //刷新数据
             onRefresh()
         }
@@ -86,8 +80,14 @@ class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding, TabSystemView
 
     override val startObserve: TabSystemViewModel.() -> Unit = {
         mTreeList.observe(this@TabSystemFragment, Observer {
-            swipeRefreshLayout.isRefreshing = false
-            it.run { mAdapter.setList(it) }
+            mViewBinding.swipeRefresh.isRefreshing = false
+            it.run {
+                mAdapter.setList(it)
+                //计算rv高度
+                mViewBinding.rlv.measure(0, 0)
+                val measuredHeight = mViewBinding.rlv.measuredHeight
+                Log.d("TabSys","rlv h:$measuredHeight")
+            }
         })
         mErrorMsg.observe(this@TabSystemFragment, Observer {
             onApiFailure(it)
@@ -95,8 +95,8 @@ class TabSystemFragment : BaseVMFragment<FragmentTabSystemBinding, TabSystemView
     }
 
     override fun onApiFailure(msg: String) {
-        if (swipeRefreshLayout.isRefreshing) {
-            swipeRefreshLayout.isRefreshing = false
+        if (mViewBinding.swipeRefresh.isRefreshing) {
+            mViewBinding.swipeRefresh.isRefreshing = false
         }
         super.onApiFailure(msg)
     }

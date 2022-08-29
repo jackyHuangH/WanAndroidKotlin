@@ -1,155 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/bt_test_status_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试状态栏" />
-
-        <Button
-            android:id="@+id/bt_oom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试oom" />
-
-        <Button
-            android:id="@+id/bt_aidl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试aidl"
-            android:typeface="sans" />
-
-        <Button
-            android:id="@+id/bt_main"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jetpack Navigation"
-            android:typeface="monospace" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/bt_test_data_binding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="test DataBinding"
-            android:textAllCaps="false"
-            android:typeface="serif" />
+            <Button
+                android:id="@+id/bt_test_status_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试状态栏" />
 
-        <EditText
-            android:id="@+id/et_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="输入测试url"
-            android:text="http://" />
+            <Button
+                android:id="@+id/bt_oom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试oom" />
 
-        <Button
-            android:id="@+id/bt_test_web"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="test x5Web"
-            android:textAllCaps="false" />
+            <Button
+                android:id="@+id/bt_aidl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试aidl"
+                android:typeface="sans" />
 
-        <Button
-            android:id="@+id/bt_room"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="test Room"
-            android:textAllCaps="false" />
+            <Button
+                android:id="@+id/bt_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jetpack Navigation"
+                android:typeface="monospace" />
 
-        <TextSwitcher
-            android:id="@+id/ts"
-            android:layout_width="match_parent"
+            <Button
+                android:id="@+id/bt_test_data_binding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test DataBinding"
+                android:textAllCaps="false"
+                android:typeface="serif" />
+
+            <EditText
+                android:id="@+id/et_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="输入测试url"
+                android:text="http://" />
+
+            <Button
+                android:id="@+id/bt_test_web"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test x5Web"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/bt_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test Room"
+                android:textAllCaps="false" />
+
+            <TextSwitcher
+                android:id="@+id/ts"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:inAnimation="@anim/bottom_in"
+                android:outAnimation="@anim/top_out" />
+
+            <Button
+                android:id="@+id/btn_wifi"
+                style="@style/RippleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_margin="10dp"
+                android:background="@color/white"
+                android:text="wifi info"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/btn_baidu_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="百度地图选坐标"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/btn_netease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="网易litepager"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/btn_motion_demo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="MotionLayoutDemo"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tv_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/color_282828"
+                android:textSize="12sp" />
+
+            <com.jacky.wanandroidkotlin.test.MyLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_fb5656">
+
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:text="button1" />
+
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="button2" />
+
+                <Button
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="button3" />
+            </com.jacky.wanandroidkotlin.test.MyLinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@drawable/bitmap_drawable" />
+
+            <View
+                android:id="@+id/v_level_list"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp" />
+
+            <View
+                android:id="@+id/v_transition"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!--    变高指示器-->
+    <FrameLayout
+        android:id="@+id/fl_indicator_bg"
+        android:layout_width="8dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/shape_primary_10">
+
+        <View
+            android:id="@+id/v_indicator"
+            android:layout_width="8dp"
             android:layout_height="30dp"
-            android:inAnimation="@anim/bottom_in"
-            android:outAnimation="@anim/top_out" />
+            android:background="@drawable/shape_accend_10" />
+    </FrameLayout>
 
-        <Button
-            android:id="@+id/btn_wifi"
-            style="@style/RippleStyle"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_margin="10dp"
-            android:background="@color/white"
-            android:text="wifi info"
-            android:textColor="@color/colorPrimary" />
-
-        <Button
-            android:id="@+id/btn_baidu_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="百度地图选坐标"
-            android:textColor="@color/colorPrimary" />
-
-        <Button
-            android:id="@+id/btn_netease"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="网易litepager"
-            android:textColor="@color/colorPrimary" />
-
-        <Button
-            android:id="@+id/btn_motion_demo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="MotionLayoutDemo"
-            android:textColor="@color/colorPrimary" />
-
-        <TextView
-            android:id="@+id/tv_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/color_282828"
-            android:textSize="12sp" />
-
-        <com.jacky.wanandroidkotlin.test.MyLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_fb5656">
-
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:text="button1" />
-
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="button2" />
-
-            <Button
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="button3" />
-        </com.jacky.wanandroidkotlin.test.MyLinearLayout>
+    <!--    固定高度指示器-->
+    <FrameLayout
+        android:id="@+id/fl_indicator_bg2"
+        android:layout_width="8dp"
+        android:layout_height="80dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_primary_10">
 
         <View
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_marginTop="@dimen/dp_10"
-            android:background="@drawable/bitmap_drawable" />
+            android:id="@+id/v_indicator2"
+            android:layout_width="8dp"
+            android:layout_height="30dp"
+            android:background="@drawable/shape_accend_10" />
+    </FrameLayout>
 
-        <View
-            android:id="@+id/v_level_list"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp" />
-
-        <View
-            android:id="@+id/v_transition"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp" />
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</FrameLayout>

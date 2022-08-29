@@ -13,7 +13,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.ViewSwitcher
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +29,7 @@ import com.jacky.wanandroidkotlin.ui.demos.MotionLayoutDemoActivity
 import com.jacky.wanandroidkotlin.ui.demos.NetEasyDemoActivity
 import com.jacky.wanandroidkotlin.util.CountDownClock
 import com.jacky.wanandroidkotlin.util.CountDownClock.Companion.createCountDownClock
+import com.jacky.wanandroidkotlin.util.DisplayUtils
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.zenchn.support.router.Router
@@ -105,7 +105,7 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
             MotionLayoutDemoActivity.launch(this)
         }
 
-        val textList = listOf<String>("C++", "Python", "Java", "Swift","Kotlin","CSS")
+        val textList = listOf<String>("C++", "Python", "Java", "Swift", "Kotlin", "CSS")
         var index = 0
         //TextSwitcher
         mViewBinding.ts.apply {
@@ -120,9 +120,9 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
             }
         }
         //轮播实现
-        lifecycleScope.launch(Dispatchers.IO){
-            while (true){
-                launch(Dispatchers.Main){
+        lifecycleScope.launch(Dispatchers.IO) {
+            while (true) {
+                launch(Dispatchers.Main) {
                     mViewBinding.ts.setText(textList[index++ % textList.size])
                 }
                 delay(3000)
@@ -160,6 +160,51 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
             ContextCompat.getDrawable(this, R.drawable.transition_drawable) as? TransitionDrawable
         getView<View>(R.id.v_transition).background = transitionDrawable
         transitionDrawable?.startTransition(3000)
+
+        initScrollView()
+    }
+
+    /**
+     * 监听scrollView滑动,设置指示器
+     */
+    private fun initScrollView() {
+        //获取屏幕高度
+        val screenHeight = DisplayUtils.screenHeight()
+        //获取scrollview高度，主动调用测量方法
+        mViewBinding.scrollView.measure(0, 0)
+        val scrollViewHeight = mViewBinding.scrollView.getChildAt(0).measuredHeight
+        Log.d(TAG, "scrollview H:$scrollViewHeight ")
+        //计算可以滑动的距离差值
+        val deltaY = scrollViewHeight - screenHeight
+        Log.d(TAG, "deltaY:$deltaY")
+        //动态计算指示器背景高度,要加上滑块自身高度
+        mViewBinding.flIndicatorBg.layoutParams.apply {
+            height = deltaY + DisplayUtils.dp2px(30)
+        }
+
+        //固定高度指示器可滑动距离=总高度-滑块高度
+        val deltaY2 = DisplayUtils.dp2px(80 - 30)
+        mViewBinding.scrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            //上下平移指示器
+            mViewBinding.vIndicator.translationY = scrollY.toFloat()
+            //固定高度指示器，按比例计算滑动的距离
+            val scaleY = (scrollY.toFloat() / deltaY) * deltaY2
+            Log.d(TAG, "scrollY:$scrollY-----scaleY:$scaleY")
+            mViewBinding.vIndicator2.translationY = scaleY
+        }
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        //获取屏幕高度
+        val screenHeight = DisplayUtils.screenHeight()
+        //获取scrollview高度,有延迟,不推荐
+//        val scrollViewHeight = mViewBinding.scrollView.getChildAt(0).measuredHeight
+//        Log.d(TAG, "onWindowFocusChanged H:$scrollViewHeight ")
+        //动态计算指示器背景高度
+//        mViewBinding.flIndicatorBg.layoutParams.apply {
+//            height = scrollViewHeight - screenHeight + DisplayUtils.dp2px(30)
+//        }
     }
 
     private fun startCountDown() {
