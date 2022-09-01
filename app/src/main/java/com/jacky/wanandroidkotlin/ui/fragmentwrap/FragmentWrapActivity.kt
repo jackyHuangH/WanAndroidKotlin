@@ -7,8 +7,8 @@ import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.databinding.ActivityFragmentWrapBinding
 import com.jacky.wanandroidkotlin.ui.project.ProjectFragment
 import com.jacky.wanandroidkotlin.wrapper.getView
-import com.zenchn.support.managers.FragmentSwitchHelper
-import com.zenchn.support.router.Router
+import com.jacky.support.managers.FragmentSwitchHelper
+import com.jacky.support.router.Router
 
 /**
  * @author:Hzj

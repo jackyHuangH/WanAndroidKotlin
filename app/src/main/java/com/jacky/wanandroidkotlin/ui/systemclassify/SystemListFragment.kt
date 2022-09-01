@@ -22,9 +22,9 @@ import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
-import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.utils.LoggerKit
-import com.zenchn.support.widget.VerticalItemDecoration
+import com.jacky.support.utils.AndroidKit
+import com.jacky.support.utils.LoggerKit
+import com.jacky.support.widget.VerticalItemDecoration
 
 /**
  * @author:Hzj

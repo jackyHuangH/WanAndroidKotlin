@@ -4,7 +4,7 @@ import android.app.Activity
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.databinding.ActivityNikeMainBinding
-import com.zenchn.support.router.Router
+import com.jacky.support.router.Router
 
 /**
  * @author:Hzj

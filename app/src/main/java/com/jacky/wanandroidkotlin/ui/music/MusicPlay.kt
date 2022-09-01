@@ -33,8 +33,8 @@ import com.jacky.wanandroidkotlin.util.formatMusicTime
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.childViewExt
 import com.jacky.wanandroidkotlin.wrapper.musicplay.*
-import com.zenchn.support.router.Router
-import com.zenchn.support.utils.AndroidKit
+import com.jacky.support.router.Router
+import com.jacky.support.utils.AndroidKit
 
 
 class MusicPlayActivity : AppCompatActivity(), AudioObserver {

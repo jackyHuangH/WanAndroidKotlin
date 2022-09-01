@@ -1,7 +1,7 @@
 package com.jacky.wanandroidkotlin.base
 
 import androidx.lifecycle.ViewModel
-import com.zenchn.support.base.IActivity
+import com.jacky.support.base.IActivity
 import java.lang.reflect.ParameterizedType
 
 /**

@@ -29,11 +29,11 @@ import com.jacky.wanandroidkotlin.util.ApkUtils
 import com.jacky.wanandroidkotlin.wrapper.orNotNullNotEmpty
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.jacky.wanandroidkotlin.wrapper.viewVisibleExt
-import com.zenchn.support.permission.applySelfPermissionsStrict
-import com.zenchn.support.permission.checkSelfPermission
-import com.zenchn.support.router.Router
-import com.zenchn.support.utils.LoggerKit
-import com.zenchn.support.widget.TitleBar
+import com.jacky.support.permission.applySelfPermissionsStrict
+import com.jacky.support.permission.checkSelfPermission
+import com.jacky.support.router.Router
+import com.jacky.support.utils.LoggerKit
+import com.jacky.support.widget.TitleBar
 import java.math.BigDecimal
 import java.util.*
 

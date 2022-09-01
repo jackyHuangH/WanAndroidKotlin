@@ -95,11 +95,11 @@
                 android:textColor="@color/colorPrimary" />
 
             <Button
-                android:id="@+id/btn_netease"
+                android:id="@+id/btn_coolapk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="网易litepager"
+                android:text="酷安详情联动"
                 android:textColor="@color/colorPrimary" />
 
             <Button

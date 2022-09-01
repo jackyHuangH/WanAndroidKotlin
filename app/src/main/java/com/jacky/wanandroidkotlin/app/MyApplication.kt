@@ -14,7 +14,7 @@ import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.jacky.wanandroidkotlin.util.LanguageUtils
 import com.jacky.wanandroidkotlin.util.MMKVUtils
-import com.zenchn.support.crash.UncaughtExHandler
+import com.jacky.support.crash.UncaughtExHandler
 import java.net.SocketTimeoutException
 
 

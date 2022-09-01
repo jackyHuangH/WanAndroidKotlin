@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.zenchn.support.widget.TitleBar
+    <com.jacky.support.widget.TitleBar
         android:id="@+id/mTitleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

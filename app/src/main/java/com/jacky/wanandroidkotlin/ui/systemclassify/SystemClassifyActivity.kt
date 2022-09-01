@@ -1,14 +1,13 @@
 package com.jacky.wanandroidkotlin.ui.systemclassify
 
 import android.app.Activity
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.databinding.ActivitySystemClassifyBinding
 import com.jacky.wanandroidkotlin.model.entity.TreeParentEntity
 import com.jacky.wanandroidkotlin.ui.adapter.BaseViewPager2Adapter
-import com.zenchn.support.router.Router
+import com.jacky.support.router.Router
 
 /**
  * @author:Hzj

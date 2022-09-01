@@ -14,12 +14,11 @@ import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseActivity
 import com.jacky.wanandroidkotlin.common.MMkvKey
 import com.jacky.wanandroidkotlin.databinding.ActivitySettingBinding
-import com.jacky.wanandroidkotlin.util.ApkUtils
 import com.jacky.wanandroidkotlin.util.LanguageUtils
 import com.jacky.wanandroidkotlin.util.MMKVUtils
 import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.setOnAntiShakeClickListener
-import com.zenchn.support.router.Router
+import com.jacky.support.router.Router
 
 /**
  * @author:Hzj

@@ -13,7 +13,7 @@ import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.jacky.wanandroidkotlin.wrapper.viewExt
-import com.zenchn.support.router.Router
+import com.jacky.support.router.Router
 
 /**
  * @author:Hzj

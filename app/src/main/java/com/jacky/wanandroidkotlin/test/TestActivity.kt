@@ -26,14 +26,13 @@ import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.ui.baidumap.BaiDuMapLearnActivity
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.demos.MotionLayoutDemoActivity
-import com.jacky.wanandroidkotlin.ui.demos.NetEasyDemoActivity
 import com.jacky.wanandroidkotlin.util.CountDownClock
 import com.jacky.wanandroidkotlin.util.CountDownClock.Companion.createCountDownClock
 import com.jacky.wanandroidkotlin.util.DisplayUtils
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
-import com.zenchn.support.router.Router
-import com.zenchn.support.utils.LoggerKit
+import com.jacky.support.router.Router
+import com.jacky.support.utils.LoggerKit
 import kotlinx.coroutines.*
 import java.io.IOException
 import java.io.RandomAccessFile
@@ -131,8 +130,8 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
             }
         }
 
-        viewClickListener(R.id.btn_netease) {
-            startActivity(Intent(this, NetEasyDemoActivity::class.java))
+        viewClickListener(R.id.btn_coolapk) {
+            startActivity(Intent(this, NestedRecyclerViewTestActivity::class.java))
         }
 
         viewClickListener(R.id.bt_test_data_binding) {

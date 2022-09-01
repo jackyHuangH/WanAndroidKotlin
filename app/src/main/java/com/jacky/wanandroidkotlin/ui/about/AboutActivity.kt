@@ -18,8 +18,8 @@ import com.jacky.wanandroidkotlin.databinding.ActivityAboutBinding
 import com.jacky.wanandroidkotlin.util.openBrowser
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewExt
-import com.zenchn.support.router.Router
-import com.zenchn.support.utils.AndroidKit
+import com.jacky.support.router.Router
+import com.jacky.support.utils.AndroidKit
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20
 import de.psdev.licensesdialog.model.Notice

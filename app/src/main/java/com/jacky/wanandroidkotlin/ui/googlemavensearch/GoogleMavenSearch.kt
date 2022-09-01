@@ -29,9 +29,9 @@ import com.jacky.wanandroidkotlin.util.PreferenceUtil
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerViewHelper
 import com.jakewharton.rxbinding2.widget.RxTextView
-import com.zenchn.support.router.Router
-import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.widget.VerticalItemDecoration
+import com.jacky.support.router.Router
+import com.jacky.support.utils.AndroidKit
+import com.jacky.support.widget.VerticalItemDecoration
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 

@@ -5,7 +5,7 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import com.jacky.wanandroidkotlin.model.local.ContextModel
-import com.zenchn.support.utils.NetworkUtils
+import com.jacky.support.utils.NetworkUtils
 import okhttp3.Cache
 import okhttp3.CacheControl
 import okhttp3.OkHttpClient

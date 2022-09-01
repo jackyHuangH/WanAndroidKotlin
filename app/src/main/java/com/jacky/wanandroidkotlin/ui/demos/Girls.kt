@@ -49,9 +49,9 @@ import com.jacky.wanandroidkotlin.wrapper.recyclerview.StaggeredDividerItemDecor
 import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.jacky.wanandroidkotlin.wrapper.viewVisibleExt
 import com.yanzhenjie.permission.runtime.Permission
-import com.zenchn.support.permission.IPermission
-import com.zenchn.support.permission.applySelfPermissions
-import com.zenchn.support.router.Router
+import com.jacky.support.permission.IPermission
+import com.jacky.support.permission.applySelfPermissions
+import com.jacky.support.router.Router
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

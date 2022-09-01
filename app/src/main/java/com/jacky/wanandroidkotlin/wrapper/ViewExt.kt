@@ -11,9 +11,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.IdRes
-import androidx.annotation.RequiresApi
 import androidx.viewbinding.ViewBinding
-import com.zenchn.support.base.IActivity
+import com.jacky.support.base.IActivity
 import java.lang.reflect.ParameterizedType
 
 /**

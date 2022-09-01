@@ -10,7 +10,7 @@ import android.app.Activity
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.databinding.ActivityWelcomeBinding
-import com.zenchn.support.router.Router
+import com.jacky.support.router.Router
 
 
 class WelcomeActivity : BaseVMActivity<ActivityWelcomeBinding,WelcomeViewModel>() {

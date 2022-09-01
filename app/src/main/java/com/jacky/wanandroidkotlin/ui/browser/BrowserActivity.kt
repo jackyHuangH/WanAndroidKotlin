@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.PixelFormat
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -21,7 +20,7 @@ import com.jacky.wanandroidkotlin.util.shareUrl
 import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
-import com.zenchn.support.router.Router
+import com.jacky.support.router.Router
 
 
 /**

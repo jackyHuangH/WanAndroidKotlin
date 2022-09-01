@@ -300,5 +300,5 @@ rx.internal.util.atomic.LinkedQueueNode consumerNode;
 -keep class com.jacky.wanandroidkotlin.wrapper.**{*;}
 
 #不混淆自定义控件
--keep class com.zenchn.support.widget.**{*;}
+-keep class com.jacky.support.widget.**{*;}
 -dontwarn com.zenchn.support.widget.**

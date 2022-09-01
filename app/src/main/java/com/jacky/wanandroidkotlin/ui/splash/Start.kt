@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.jacky.wanandroidkotlin.wrapper.musicplay.MusicPlayManager
-import com.zenchn.support.router.Router
+import com.jacky.support.router.Router
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 

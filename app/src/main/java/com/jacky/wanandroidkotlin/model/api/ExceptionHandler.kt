@@ -2,11 +2,10 @@ package com.jacky.wanandroidkotlin.model.api
 
 import androidx.annotation.Nullable
 import com.jacky.wanandroidkotlin.BuildConfig
-import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.model.api.ApiManger.Companion.SUCCESS_CODE
 import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import com.jacky.wanandroidkotlin.model.local.ContextModel
-import com.zenchn.support.utils.NetworkUtils
+import com.jacky.support.utils.NetworkUtils
 import retrofit2.HttpException
 import java.io.Closeable
 import java.net.ConnectException

@@ -12,7 +12,6 @@ import com.jacky.wanandroidkotlin.model.entity.ArticleList
 import com.jacky.wanandroidkotlin.model.entity.BannerEntity
 import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import com.jacky.wanandroidkotlin.model.repositry.HomeRepository
-import com.zenchn.support.utils.LoggerKit
 import kotlinx.coroutines.Deferred
 
 /**

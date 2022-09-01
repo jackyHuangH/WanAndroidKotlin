@@ -24,8 +24,8 @@ import com.jacky.wanandroidkotlin.wrapper.recyclerview.CustomLoadMoreView
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerViewHelper
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
 import com.jacky.wanandroidkotlin.wrapper.viewExt
-import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.widget.VerticalItemDecoration
+import com.jacky.support.utils.AndroidKit
+import com.jacky.support.widget.VerticalItemDecoration
 
 /**
  * @author:Hzj

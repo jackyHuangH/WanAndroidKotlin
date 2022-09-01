@@ -14,7 +14,7 @@ import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.databinding.ActivityDemoMotionSceneOneBinding
 import com.jacky.wanandroidkotlin.wrapper.getView
-import com.zenchn.support.router.Router
+import com.jacky.support.router.Router
 
 
 class MotionLayoutDemoActivity :

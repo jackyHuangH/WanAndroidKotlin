@@ -30,9 +30,9 @@ import com.jacky.wanandroidkotlin.wrapper.recyclerview.updateLoadMoreStatus
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.jacky.wanandroidkotlin.wrapper.viewVisibleExt
 import com.jakewharton.rxbinding2.widget.RxTextView
-import com.zenchn.support.router.Router
-import com.zenchn.support.utils.AndroidKit
-import com.zenchn.support.widget.VerticalItemDecoration
+import com.jacky.support.router.Router
+import com.jacky.support.utils.AndroidKit
+import com.jacky.support.widget.VerticalItemDecoration
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout

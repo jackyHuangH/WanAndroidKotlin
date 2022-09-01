@@ -4,8 +4,8 @@ import android.os.Environment
 import android.util.Log
 import com.hjq.toast.ToastUtils
 import com.jacky.wanandroidkotlin.model.entity.GirlEntity
-import com.zenchn.support.utils.FileIOUtils
-import com.zenchn.support.utils.LoggerKit
+import com.jacky.support.utils.FileIOUtils
+import com.jacky.support.utils.LoggerKit
 import okhttp3.*
 import java.io.File
 import java.io.FileOutputStream

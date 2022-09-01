@@ -9,7 +9,7 @@
         android:gravity="center_horizontal"
         android:layout_height="wrap_content">
 
-    <com.zenchn.support.widget.CircleTextImageView
+    <com.jacky.support.widget.CircleTextImageView
             android:id="@+id/civ_user"
             android:src="@mipmap/ic_launcher"
             android:scaleType="centerCrop"

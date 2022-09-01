@@ -1,9 +1,8 @@
 package com.jacky.wanandroidkotlin.app
 
-import android.app.Application
 import android.content.Context
 import androidx.startup.Initializer
-import com.zenchn.support.CommonInitializer
+import com.jacky.support.CommonInitializer
 
 /**
  * @author:Hzj

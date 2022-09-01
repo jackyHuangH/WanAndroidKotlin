@@ -1,6 +1,6 @@
 package com.jacky.wanandroidkotlin.model.local
 
-import com.zenchn.support.cache.ACache
+import com.jacky.support.cache.ACache
 
 /**
  * @author:Hzj

@@ -9,7 +9,7 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.zenchn.support.utils.LoggerKit;
+import com.jacky.support.utils.LoggerKit;
 
 import java.lang.ref.WeakReference;
 

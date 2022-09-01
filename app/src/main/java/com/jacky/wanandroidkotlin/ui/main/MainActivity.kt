@@ -44,13 +44,13 @@ import com.jacky.wanandroidkotlin.wrapper.DialogProvider
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
-import com.zenchn.support.managers.FragmentSwitchHelper
-import com.zenchn.support.permission.RequestCode
-import com.zenchn.support.permission.applySelfPermissionsStrict
-import com.zenchn.support.permission.checkSelfPermission
-import com.zenchn.support.router.Router
-import com.zenchn.support.utils.LoggerKit
-import com.zenchn.support.widget.CircleTextImageView
+import com.jacky.support.managers.FragmentSwitchHelper
+import com.jacky.support.permission.RequestCode
+import com.jacky.support.permission.applySelfPermissionsStrict
+import com.jacky.support.permission.checkSelfPermission
+import com.jacky.support.router.Router
+import com.jacky.support.utils.LoggerKit
+import com.jacky.support.widget.CircleTextImageView
 import kotlin.random.Random
 
 

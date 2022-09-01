@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Parcelable
 import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
-import com.zenchn.support.utils.StringUtils
+import com.jacky.support.utils.StringUtils
 
 /**
  * @author: hzj
