@@ -1,11 +1,16 @@
 package com.jacky.wanandroidkotlin.util
 
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Outline
 import android.net.Uri
+import android.os.Build
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
+import android.view.ViewOutlineProvider
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.jacky.wanandroidkotlin.wrapper.orNotNullNotEmpty
@@ -94,6 +99,23 @@ fun View?.setOnAntiShakeClickListener(intervalMillis: Long = 500, listener: (Vie
 }
 
 /**
+ * 设置视图裁剪的圆角半径
+ * @param radiusInPx
+ */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun View.setClipViewCornerRadius(radiusInPx: Int) {
+    if (radiusInPx <= 0) return
+    this.apply {
+        outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                outline.setRoundRect(0, 0, view.width, view.height, radiusInPx.toFloat())
+            }
+        }
+        clipToOutline = true
+    }
+}
+
+/**
  * 格式化音乐播放时间：将毫秒转换为分秒-00:00格式
  */
 fun formatMusicTime(timeMs: Int): String {
@@ -102,4 +124,13 @@ fun formatMusicTime(timeMs: Int): String {
     val minutes = (totalSeconds / 60) % 60
 
     return Formatter().format("%02d:%02d", minutes, seconds).toString().orNotNullNotEmpty("00:00")
+}
+
+
+fun log(msg: String?) {
+    Log.d("LogD", msg.orEmpty())
+}
+
+fun loge(msg: String?) {
+    Log.e("LogE", msg.orEmpty())
 }

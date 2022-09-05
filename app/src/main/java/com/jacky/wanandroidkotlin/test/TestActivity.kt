@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.hjq.toast.ToastUtils
+import com.jacky.support.router.Router
+import com.jacky.support.utils.LoggerKit
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.aidltest.AidlTestActivity
 import com.jacky.wanandroidkotlin.base.BaseActivity
@@ -31,8 +33,6 @@ import com.jacky.wanandroidkotlin.util.CountDownClock.Companion.createCountDownC
 import com.jacky.wanandroidkotlin.util.DisplayUtils
 import com.jacky.wanandroidkotlin.wrapper.getView
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
-import com.jacky.support.router.Router
-import com.jacky.support.utils.LoggerKit
 import kotlinx.coroutines.*
 import java.io.IOException
 import java.io.RandomAccessFile
@@ -132,6 +132,10 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
 
         viewClickListener(R.id.btn_coolapk) {
             startActivity(Intent(this, NestedRecyclerViewTestActivity::class.java))
+        }
+
+        viewClickListener(R.id.btn_my_nested) {
+            startActivity(Intent(this, MyNestedScrollTestActivity::class.java))
         }
 
         viewClickListener(R.id.bt_test_data_binding) {

@@ -206,6 +206,9 @@
         <activity
             android:name=".test.NestedRecyclerViewTestActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".test.MyNestedScrollTestActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--        androidx startup 优化过多使用contentProvider初始化造成启动速度慢：

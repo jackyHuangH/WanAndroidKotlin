@@ -17,8 +17,10 @@ import com.jacky.support.widget.behavior.BottomSheetLayout
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
+import com.jacky.wanandroidkotlin.common.PIC_RES_LIST
 import com.jacky.wanandroidkotlin.databinding.ActivityNestedBehaviorScrollBinding
 import com.jacky.wanandroidkotlin.util.DisplayUtils
+import com.jacky.wanandroidkotlin.util.setClipViewCornerRadius
 import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
 
 /**
@@ -49,14 +51,7 @@ class NestedRecyclerViewTestActivity :
 //            }
 //            adapter = testAdapter
 //        }
-        val picResList = listOf<Int>(
-            R.drawable.bing0,
-            R.drawable.bing1,
-            R.drawable.bing2,
-            R.drawable.bing3,
-            R.drawable.bing4,
-            R.drawable.bing5
-        )
+
         val testAdapter2 = TestPicAdapter()
 //        mViewBinding.scrollViewBottom.apply {
 //            layoutManager = LinearLayoutManager(this@NestedRecyclerViewTestActivity)
@@ -65,8 +60,8 @@ class NestedRecyclerViewTestActivity :
 //            }
 //            adapter = testAdapter2
 //        }
-        testAdapter.setList(picResList)
-        testAdapter2.setList(picResList)
+        testAdapter.setList(PIC_RES_LIST)
+        testAdapter2.setList(PIC_RES_LIST)
         nestedScrollViewWay2()
     }
 
@@ -85,6 +80,9 @@ class NestedRecyclerViewTestActivity :
      * 第二种方式，推荐，最接近酷安详情效果
      */
     private fun nestedScrollViewWay2() {
+        //裁切圆角
+        mViewBinding.scrollViewBottom.setClipViewCornerRadius(25)
+
         //绑定顶部滑动内容
         mViewBinding.linkageScroll.topScrollTarget = {
             mViewBinding.scrollViewTop

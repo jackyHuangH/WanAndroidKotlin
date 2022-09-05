@@ -14,39 +14,51 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/bt_test_status_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="测试状态栏" />
-
-            <Button
-                android:id="@+id/bt_oom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="测试oom" />
-
-            <Button
-                android:id="@+id/bt_aidl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="测试aidl"
-                android:typeface="sans" />
-
-            <Button
-                android:id="@+id/bt_main"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jetpack Navigation"
-                android:typeface="monospace" />
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/bt_test_data_binding"
+                <Button
+                    android:id="@+id/bt_test_status_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="测试状态栏" />
+
+                <Button
+                    android:id="@+id/bt_oom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="测试oom" />
+
+                <Button
+                    android:id="@+id/bt_aidl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="测试aidl"
+                    android:typeface="sans" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="test DataBinding"
-                android:textAllCaps="false"
-                android:typeface="serif" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jetpack Navigation"
+                    android:typeface="monospace" />
+
+                <Button
+                    android:id="@+id/bt_test_data_binding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="test DataBinding"
+                    android:textAllCaps="false"
+                    android:typeface="serif" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/et_url"
@@ -94,13 +106,26 @@
                 android:text="百度地图选坐标"
                 android:textColor="@color/colorPrimary" />
 
-            <Button
-                android:id="@+id/btn_coolapk"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="酷安详情联动"
-                android:textColor="@color/colorPrimary" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_coolapk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="酷安详情联动"
+                    android:textColor="@color/colorPrimary" />
+
+                <Button
+                    android:id="@+id/btn_my_nested"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自定义酷安联动"
+                    android:textColor="@color/colorPrimary" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_motion_demo"
