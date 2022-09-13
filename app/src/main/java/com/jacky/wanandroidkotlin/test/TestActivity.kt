@@ -16,15 +16,19 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.hjq.toast.ToastUtils
 import com.jacky.support.router.Router
 import com.jacky.support.utils.LoggerKit
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.aidltest.AidlTestActivity
 import com.jacky.wanandroidkotlin.base.BaseActivity
+import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
 import com.jacky.wanandroidkotlin.databinding.ActivityTestBinding
 import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
+import com.jacky.wanandroidkotlin.jetpack.nike.NikeMainActivity
 import com.jacky.wanandroidkotlin.ui.baidumap.BaiDuMapLearnActivity
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.demos.MotionLayoutDemoActivity
@@ -45,11 +49,6 @@ private const val NUM_A: String = "顶层声明常量"
 
 class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by MainScope() {
 
-    /**
-     * 后期初始化属性
-     */
-    private lateinit var mTvInfo: TextView
-
     private var countDownClock: CountDownClock? = null
 
     /**
@@ -67,13 +66,10 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
     override fun getLayoutId(): Int = R.layout.activity_test
 
     override fun initWidget() {
-
-        mTvInfo = findViewById(R.id.tv_info)
-
         findViewById<Button>(R.id.btn_wifi).setOnClickListener { _ ->
             (applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager)?.apply {
                 val wifiInfo = connectionInfo
-                mTvInfo.text = wifiInfo.toString()
+                showMessage(wifiInfo.toString())
             }
 
         }
@@ -146,12 +142,15 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
             startActivity(Intent(this, RoomTestActivity::class.java))
         }
 
+        viewClickListener(R.id.btn_phone) {
+            startActivity(Intent(this, NikeMainActivity::class.java))
+        }
+
         viewClickListener(R.id.bt_test_web) {
             getView<EditText>(R.id.et_url).text?.toString()?.trim()?.let { testUrl ->
                 BrowserActivity.launch(this, testUrl)
             }
         }
-
 
         //drawable test
         val levelListDrawable =

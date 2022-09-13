@@ -19,6 +19,11 @@ import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
+import com.jacky.support.permission.openPermissionSetting
+import com.jacky.support.permission.requestSelfPermissions
+import com.jacky.support.router.Router
+import com.jacky.support.utils.LoggerKit
+import com.jacky.support.widget.TitleBar
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
@@ -29,11 +34,6 @@ import com.jacky.wanandroidkotlin.util.ApkUtils
 import com.jacky.wanandroidkotlin.wrapper.orNotNullNotEmpty
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
 import com.jacky.wanandroidkotlin.wrapper.viewVisibleExt
-import com.jacky.support.permission.applySelfPermissionsStrict
-import com.jacky.support.permission.checkSelfPermission
-import com.jacky.support.router.Router
-import com.jacky.support.utils.LoggerKit
-import com.jacky.support.widget.TitleBar
 import java.math.BigDecimal
 import java.util.*
 
@@ -100,13 +100,16 @@ class BaiDuMapLearnActivity :
 
     private fun initPermissions() {
         //申请定位权限
-        checkSelfPermission(
+        requestSelfPermissions(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            onGranted = { mViewModel.initLocation() },
-            onDenied = {
-                showMessage("请授予定位权限")
-                applySelfPermissionsStrict(Manifest.permission.ACCESS_FINE_LOCATION) {}
+            callback = { granted, never ->
+                if (granted) {
+                    mViewModel.initLocation()
+                } else if (never) {
+                    showMessage("请授予定位权限")
+                    openPermissionSetting(Manifest.permission.ACCESS_FINE_LOCATION)
+                }
             })
     }
 

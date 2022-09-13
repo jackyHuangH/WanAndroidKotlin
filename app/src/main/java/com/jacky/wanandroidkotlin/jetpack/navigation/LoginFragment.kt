@@ -18,6 +18,7 @@ import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import com.jacky.support.utils.LoggerKit
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseFragment
 import com.jacky.wanandroidkotlin.databinding.FragmentLoginBinding
@@ -100,10 +101,11 @@ class LoginModel constructor(userName: String, password: String, private val con
      */
     fun login() {
         if (name.get() == LOGIN_USER_NAME && pwd.get() == LOGIN_PASSWORD) {
+            LoggerKit.d("登录成功")
             //登录成功，跳转主页
-            (context as? Activity)?.let { ctx ->
-                NikeMainActivity.launch(ctx)
-            }
+//            (context as? Activity)?.let { ctx ->
+//                NikeMainActivity.launch(ctx)
+//            }
         }
     }
 

@@ -12,14 +12,14 @@ import androidx.room.*
 interface UserDao {
 
     @Insert
-    suspend fun insert(user: UserEntity)
+    fun insert(user: UserEntity)
 
     @Delete
-    suspend fun delete(user: UserEntity)
+    fun delete(user: UserEntity)
 
     @Update
-    suspend fun update(user: UserEntity)
+    fun update(user: UserEntity)
 
     @Query("select * from user")
-    suspend fun queryAll(): List<UserEntity>
+    fun queryAll(): List<UserEntity>
 }

@@ -6,6 +6,7 @@ package com.jacky.wanandroidkotlin.ui.demos
  * desc  ：
  * record：
  */
+import android.Manifest
 import android.app.Application
 import android.view.View
 import android.widget.ImageView
@@ -29,6 +30,10 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hjq.toast.ToastUtils
+import com.jacky.support.permission.IPermission
+import com.jacky.support.permission.openPermissionSetting
+import com.jacky.support.permission.requestSelfPermissions
+import com.jacky.support.router.Router
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
@@ -48,10 +53,6 @@ import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerViewHelper
 import com.jacky.wanandroidkotlin.wrapper.recyclerview.StaggeredDividerItemDecoration
 import com.jacky.wanandroidkotlin.wrapper.viewExt
 import com.jacky.wanandroidkotlin.wrapper.viewVisibleExt
-import com.yanzhenjie.permission.runtime.Permission
-import com.jacky.support.permission.IPermission
-import com.jacky.support.permission.applySelfPermissions
-import com.jacky.support.router.Router
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -79,7 +80,20 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), On
         }
         initRecyclerView()
         initRefreshLayout()
-        applySelfPermissions(Permission.WRITE_EXTERNAL_STORAGE)
+        initPermissions()
+    }
+
+    private fun initPermissions() {
+        //申请存储权限
+        requestSelfPermissions(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            callback = { granted, never ->
+                if (never) {
+                    showMessage("请授予存储权限")
+                    openPermissionSetting(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                }
+            })
     }
 
     private fun initRecyclerView() {

@@ -60,7 +60,7 @@ class MyNestedScrollTestActivity :
 
     private fun updateNestedScrollState() {
         val scrollY = mViewBinding.scrollView.scrollY
-        Log.d(javaClass.simpleName, "scrollView:$scrollY")
+
         if (mViewBinding.bottomSheet.indexOfChild(mViewBinding.scrollBottom) >= 0) {
             if (scrollY >= mThresholdY) {
                 if (mViewBinding.bottomSheet.indexOfChild(mViewBinding.scrollBottom) >= 0) {

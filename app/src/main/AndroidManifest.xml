@@ -32,10 +32,12 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--读取手机通话记录：Android 9.0没有此权限，获取不到来电号码-->
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
 
     <!--  android:requestLegacyExternalStorage="true"  使用旧的存储策略，不使用androidQ的新策略。但这个不是长久之计，很快将会强制都使用新策略-->
 
@@ -225,6 +227,7 @@
         </provider>
 
         <service android:name=".wrapper.musicplay.MusicPlayService" />
+        <service android:name=".jetpack.nike.PhoneSmsService"/>
 
         <!--        aidl service-->
         <service android:name=".aidltest.CalcService">

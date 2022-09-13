@@ -78,7 +78,10 @@ class HNestedScrollView : NestedScrollView {
                 dispatchChildFling()
             } else {
                 //todo 子view向下滑动后，父类继续消费剩余滑动距离
+                val dy=scrollY-oldScrollY
+                if (dy<0){
 
+                }
             }
             //在contentView fling情况下，记录当前contentView在y轴的偏移
             mTotalDy += scrollY - oldScrollY

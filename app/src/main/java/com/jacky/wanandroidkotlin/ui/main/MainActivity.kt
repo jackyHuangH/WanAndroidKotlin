@@ -1,8 +1,6 @@
 package com.jacky.wanandroidkotlin.ui.main
 
-import android.Manifest
 import android.app.Activity
-import android.content.Intent
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
@@ -12,9 +10,14 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.amitshekhar.DebugDB
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
+import com.jacky.support.managers.FragmentSwitchHelper
+import com.jacky.support.router.Router
+import com.jacky.support.utils.LoggerKit
+import com.jacky.support.widget.CircleTextImageView
 import com.jacky.wanandroidkotlin.BuildConfig
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
@@ -42,15 +45,7 @@ import com.jacky.wanandroidkotlin.util.StatusBarUtil
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
 import com.jacky.wanandroidkotlin.wrapper.DialogProvider
 import com.jacky.wanandroidkotlin.wrapper.getView
-import com.jacky.wanandroidkotlin.wrapper.glide.GlideApp
 import com.jacky.wanandroidkotlin.wrapper.viewClickListener
-import com.jacky.support.managers.FragmentSwitchHelper
-import com.jacky.support.permission.RequestCode
-import com.jacky.support.permission.applySelfPermissionsStrict
-import com.jacky.support.permission.checkSelfPermission
-import com.jacky.support.router.Router
-import com.jacky.support.utils.LoggerKit
-import com.jacky.support.widget.CircleTextImageView
 import kotlin.random.Random
 
 
@@ -86,7 +81,6 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
     }
 
     override fun initWidget() {
-//        initPermissions()
         mViewBinding.navigation.setNavigationItemSelectedListener(this)
         initBottomNav()
 //        initViewPager()
@@ -107,34 +101,6 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
         //检测屏幕刷新率
 //        RateUtil.detectRefreshRate()
         LoggerKit.d("debug db:${DebugDB.getAddressLog()}")
-    }
-
-    private fun initPermissions() {
-        //申请存储权限
-        checkSelfPermission(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            onGranted = {},
-            onDenied = {
-                showMessage("请授予存储权限")
-                applySelfPermissionsStrict(Manifest.permission.WRITE_EXTERNAL_STORAGE) {}
-            })
-        //申请电话权限
-        checkSelfPermission(
-            Manifest.permission.READ_PHONE_STATE,
-            onGranted = { },
-            onDenied = {
-                showMessage("请授予电话权限")
-                applySelfPermissionsStrict(Manifest.permission.READ_PHONE_STATE) {
-                }
-            }
-        )
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RequestCode.OS_SETTING) {
-            initPermissions()
-        }
     }
 
     //A to B --> pair<A,B>
@@ -182,7 +148,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
         } else {
             mTvUserName.setOnAntiShakeClickListener { LoginActivity.launch(this) }
         }
-        GlideApp
+        Glide
             .with(this)
             .load(TEST_IMG_URLS[Random.nextInt(6)])
             .error(R.mipmap.ic_launcher)

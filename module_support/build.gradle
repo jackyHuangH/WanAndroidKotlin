@@ -56,7 +56,7 @@ dependencies {
     api rootProject.ext.dependencies["Android_Pickerview"]
 //    api rootProject.ext.dependencies["tencent_tbs"]
 
-    api rootProject.ext.dependencies["andPermission"]
+    api rootProject.ext.dependencies["XXPermission"]
     implementation rootProject.ext.dependencies["logger"]
 }
 

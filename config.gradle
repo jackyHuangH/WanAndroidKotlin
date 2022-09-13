@@ -72,10 +72,10 @@ ext {
             //仿微信图片选择库
             "pictureSelector"                : 'io.github.lucksiege:pictureselector:v2.7.3-rc10',
             //图片加载glide
-            "glide"                          : 'com.github.bumptech.glide:glide:4.10.0',
-            "glide_compiler"                 : 'com.github.bumptech.glide:compiler:4.10.0',
-            "glide_okhttp_integration"       : 'com.github.bumptech.glide:okhttp3-integration:4.10.0',
-            "glide_transformations"          : "jp.wasabeef:glide-transformations:4.0.0",
+            "glide"                          : 'com.github.bumptech.glide:glide:4.13.1',
+            "glide_compiler"                 : 'com.github.bumptech.glide:compiler:4.13.1',
+            "glide_okhttp_integration"       : 'com.github.bumptech.glide:okhttp3-integration:4.13.1',
+            "glide_transformations"          : "jp.wasabeef:glide-transformations:4.3.0",
             //glide加载进度监听
             "progressmanager"                : 'me.jessyan:progressmanager:1.5.0',
 
@@ -148,7 +148,8 @@ ext {
             "Android_Pickerview"             : 'com.contrarywind:Android-PickerView:4.1.8',
 
             //运行时权限
-            "andPermission"                  : 'com.yanzhenjie:permission:2.0.3',
+            "XXPermission"                   : 'com.github.getActivity:XXPermissions:16.2',
+
             //bugly升级
             "bugly_upgrade"                  : 'com.tencent.bugly:crashreport_upgrade:1.4.5',
             "bugly_native"                   : 'com.tencent.bugly:nativecrashreport:3.6.0',
