@@ -1,6 +1,8 @@
 package com.jacky.support.utils;
 
 
+import java.util.UUID;
+
 /**
  * 作    者：wangr on 2017/4/24 11:05
  * 描    述：字符串相关工具类
@@ -243,5 +245,13 @@ public class StringUtils {
             }
         }
         return new String(chars);
+    }
+
+    /**
+     * 获取uuid 去除 分隔符"-"
+     * @return
+     */
+    public static String getUUidNoSplit(){
+       return UUID.randomUUID().toString().replace("-","");
     }
 }

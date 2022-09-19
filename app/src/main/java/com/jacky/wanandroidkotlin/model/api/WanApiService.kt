@@ -167,9 +167,9 @@ interface WanApiService {
     /**
      * 干货提供的福利图片api
      */
-    @GET("https://picsum.photos/v2/list")
+    @GET("http://shibe.online/api/{keyword}")
     suspend fun getGirlsList(
-        @Query("page") page: Int,
-        @Query("limit") pageSize: Int = 10
+        @Path("keyword") keyword: String,
+        @Query("count") pageSize: Int = 10
     ): JsonArray?
 }

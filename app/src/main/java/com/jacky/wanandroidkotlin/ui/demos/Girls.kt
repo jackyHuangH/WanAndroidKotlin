@@ -11,6 +11,7 @@ import android.app.Application
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
@@ -31,6 +32,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hjq.toast.ToastUtils
 import com.jacky.support.permission.IPermission
+import com.jacky.support.permission.checkPermanentDenied
 import com.jacky.support.permission.openPermissionSetting
 import com.jacky.support.permission.requestSelfPermissions
 import com.jacky.support.router.Router
@@ -60,6 +62,10 @@ import kotlinx.coroutines.withContext
 class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), OnItemClickListener,
     OnLoadMoreListener, OnItemChildClickListener, IGallery, IPermission {
     private val girlAdapter by lazy { GirlsAdapter() }
+    private val mPermissionArray = arrayOf(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
 
     companion object {
         fun launch(from: FragmentActivity) {
@@ -86,12 +92,10 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), On
     private fun initPermissions() {
         //申请存储权限
         requestSelfPermissions(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
+            *mPermissionArray,
             callback = { granted, never ->
                 if (never) {
                     showMessage("请授予存储权限")
-                    openPermissionSetting(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
             })
     }
@@ -163,15 +167,24 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), On
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         when (view.id) {
             R.id.ibt_download_img -> {
-                //下载图片到本地
-                val item = adapter.data[position] as GirlEntity
-                DownloadUtils.download(item, onDownloadSuccess = { file ->
-                    ToastUtils.show("下载完成，文件已保存:${file.path}")
-                }, onDownloadProgress = { p ->
-                    ToastUtils.show("下载中:$p%")
-                }, onDownloadFail = { e ->
-                    ToastUtils.show("下载失败,请重试!")
-                })
+                checkPermanentDenied(*mPermissionArray) { never ->
+                    if (never) {
+                        //跳转到开启权限
+                        Toast.makeText(this, "请授予存储权限", Toast.LENGTH_SHORT).show()
+                        showMessage("请授予存储权限")
+                        openPermissionSetting(*mPermissionArray)
+                    }else{
+                        //下载图片到本地
+                        val item = adapter.data[position] as GirlEntity
+                        DownloadUtils.download(item, onDownloadSuccess = { file ->
+                            ToastUtils.show("下载完成，文件已保存:${file.path}")
+                        }, onDownloadProgress = { p ->
+                            ToastUtils.show("下载中:$p%")
+                        }, onDownloadFail = { e ->
+                            ToastUtils.show("下载失败,请重试!")
+                        })
+                    }
+                }
             }
         }
     }
@@ -193,7 +206,7 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), On
 
     override val startObserve: GirlsViewModel.() -> Unit = {
         girlsList.observe(this@GirlsActivity, Observer {
-            if (it.first == 1) {
+            if (it.first == 0) {
                 girlAdapter.setList(it.second)
                 //局部刷新，防止瀑布流错乱
                 girlAdapter.notifyItemRangeChanged(0, it.second.size)
@@ -221,7 +234,6 @@ private class GirlsAdapter :
         val position = holder.absoluteAdapterPosition
         holder.setText(R.id.tv_girl_desc, item.author)
         val imageView = holder.getView<ImageView>(R.id.iv_girl)
-        val scale = item.width / item.height
         imageView.layoutParams.apply {
             height = if (position % 2 == 0) {
                 DisplayUtils.dp2px(200)
@@ -241,23 +253,29 @@ private class GirlsAdapter :
 class GirlsViewModel(application: Application) : BaseViewModel(application) {
     val girlsList: MutableLiveData<Triple<Int, MutableList<GirlEntity>, Boolean>> =
         MutableLiveData()
-    private var page = 1
+    private var page = 0
     private val pageSize = 20
     fun getGirlsList(isRefresh: Boolean = true) {
         launchOnUI {
             val result = withContext(Dispatchers.IO) {
                 try {
                     if (isRefresh) {
-                        page = 1
+                        page = 0
                     } else {
                         page++
                     }
-                    val jsonArray = WanRetrofitClient.mService.getGirlsList(page, pageSize)
+                    val params = arrayOf("shibes", "birds", "cats")
+                    val keyword = params[page % params.size]
+                    val jsonArray = WanRetrofitClient.mService.getGirlsList(keyword, pageSize)
                     if (jsonArray != null && jsonArray.size() > 0) {
-                        val typeToken = object : TypeToken<MutableList<GirlEntity>>() {}.type
-                        Gson().fromJson(jsonArray, typeToken)
+                        val typeToken = object : TypeToken<MutableList<String>>() {}.type
+                        val urlList = Gson().fromJson<MutableList<String>>(jsonArray, typeToken)
+                        urlList.mapIndexed { index, url ->
+                            val desc = url.uppercase().subSequence(url.length - 14, url.length)
+                            GirlEntity("IMG_$desc", url, 0, index.toString(), url, 0)
+                        }.toMutableList()
                     } else {
-                        mutableListOf()
+                        mutableListOf<GirlEntity>()
                     }
                 } catch (e: Exception) {
                     mErrorMsg.postValue(e.message)

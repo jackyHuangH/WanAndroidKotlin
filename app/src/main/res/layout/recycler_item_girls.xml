@@ -35,7 +35,7 @@
             android:gravity="center"
             android:textColor="@color/white_black"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="作者" />
+            tools:text="5656564484845845454848dfdfgdgdfdg.jpg" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ibt_download_img"
