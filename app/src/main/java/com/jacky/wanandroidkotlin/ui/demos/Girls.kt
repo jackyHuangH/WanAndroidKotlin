@@ -170,7 +170,6 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), On
                 checkPermanentDenied(*mPermissionArray) { never ->
                     if (never) {
                         //跳转到开启权限
-                        Toast.makeText(this, "请授予存储权限", Toast.LENGTH_SHORT).show()
                         showMessage("请授予存储权限")
                         openPermissionSetting(*mPermissionArray)
                     }else{

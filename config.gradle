@@ -139,7 +139,7 @@ ext {
             //加载中动画
             "spinkit"                        : 'com.github.ybq:Android-SpinKit:1.2.0',
 
-            "toast"                          : "com.github.getActivity:ToastUtils:9.5",
+            "toast"                          : "com.github.getActivity:ToastUtils:10.5",
 
             // Your EventBus's version
             "eventbus"                       : 'org.greenrobot:eventbus:3.1.1',
@@ -154,11 +154,7 @@ ext {
             "bugly_upgrade"                  : 'com.tencent.bugly:crashreport_upgrade:1.4.5',
             "bugly_native"                   : 'com.tencent.bugly:nativecrashreport:3.6.0',
             //tencent mmkv
-            "mmkv"                           : 'com.tencent:mmkv:1.2.13',
-
-            //dagger2
-            "dagger2"                        : 'com.google.dagger:dagger:2.16',
-            "dagger2_compiler"               : 'com.google.dagger:dagger-compiler:2.16',
+            "mmkv"                           : 'com.tencent:mmkv:1.2.14',
 
             "greendao"                       : "org.greenrobot:greendao:3.2.2",
             "greendao_generator"             : "org.greenrobot:greendao-generator:3.2.2",
