@@ -69,6 +69,45 @@
     public static int e(...);
 }
 
+#-------------kotlin 相关--------------------
+-dontwarn kotlin.**
+-keep class kotlin.** { *; }
+-keep interface kotlin.** { *; }
+-keep class kotlin.Metadata { *; }
+-keepclassmembers class kotlin.Metadata {
+    public <methods>;
+}
+-keepclasseswithmembers @kotlin.Metadata class * { *; }
+-keepclassmembers class **.WhenMappings {
+    <fields>;
+}
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+}
+-keepclassmembers class **$WhenMappings {
+    <fields>;
+}
+
+-keep class kotlinx.** { *; }
+-keep interface kotlinx.** { *; }
+-dontwarn kotlinx.**
+-dontnote kotlinx.serialization.SerializationKt
+
+-keep class org.jetbrains.** { *; }
+-keep interface org.jetbrains.** { *; }
+-dontwarn org.jetbrains.**
+
+#Viewbinding
+-keep class * implements androidx.viewbinding.ViewBinding {
+    *;
+}
+-keepclassmembers public class * extends androidx.lifecycle.ViewModel {
+    public <init>(...);
+}
+-keepattributes javax.xml.bind.annotation.*
+-keepattributes javax.annotation.processing.*
+
+
 #----------------------------第三方依赖混淆-----------------------------------
 
 #xinge
