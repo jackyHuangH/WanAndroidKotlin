@@ -11,7 +11,6 @@ import android.app.Application
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
@@ -30,9 +29,9 @@ import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.hjq.permissions.Permission
 import com.hjq.toast.ToastUtils
 import com.jacky.support.permission.IPermission
-import com.jacky.support.permission.checkPermanentDenied
 import com.jacky.support.permission.openPermissionSetting
 import com.jacky.support.permission.requestSelfPermissions
 import com.jacky.support.router.Router
@@ -62,7 +61,10 @@ import kotlinx.coroutines.withContext
 class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), OnItemClickListener,
     OnLoadMoreListener, OnItemChildClickListener, IGallery, IPermission {
     private val girlAdapter by lazy { GirlsAdapter() }
+
+    //暂不适配Android10存储权限，申请存储权限如下
     private val mPermissionArray = arrayOf(
+//        Permission.MANAGE_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
@@ -90,7 +92,7 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), On
     }
 
     private fun initPermissions() {
-        //申请存储权限
+        // 申请存储权限,适配Android13
         requestSelfPermissions(
             *mPermissionArray,
             callback = { granted, never ->
@@ -167,23 +169,41 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), On
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         when (view.id) {
             R.id.ibt_download_img -> {
-                checkPermanentDenied(*mPermissionArray) { never ->
-                    if (never) {
-                        //跳转到开启权限
-                        showMessage("请授予存储权限")
-                        openPermissionSetting(*mPermissionArray)
-                    }else{
-                        //下载图片到本地
-                        val item = adapter.data[position] as GirlEntity
-                        DownloadUtils.download(item, onDownloadSuccess = { file ->
-                            ToastUtils.show("下载完成，文件已保存:${file.path}")
-                        }, onDownloadProgress = { p ->
-                            ToastUtils.show("下载中:$p%")
-                        }, onDownloadFail = { e ->
-                            ToastUtils.show("下载失败,请重试!")
-                        })
-                    }
-                }
+                requestSelfPermissions(
+                    *mPermissionArray,
+                    callback = { granted, never ->
+                        if (granted) {
+                            //下载图片到本地
+                            val item = adapter.data[position] as GirlEntity
+                            DownloadUtils.download(item, onDownloadSuccess = { file ->
+                                ToastUtils.show("下载完成，文件已保存:${file.path}")
+                            }, onDownloadProgress = { p ->
+                                ToastUtils.show("下载中:$p%")
+                            }, onDownloadFail = { e ->
+                                ToastUtils.show("下载失败,请重试!")
+                            })
+                        } else if (never) {
+                            showMessage("请授予存储权限")
+                            openPermissionSetting(*mPermissionArray)
+                        }
+                    })
+//                checkPermanentDenied(*mPermissionArray) { never ->
+//                    if (never) {
+//                        //跳转到开启权限
+//                        showMessage("请授予存储权限")
+//                        openPermissionSetting(*mPermissionArray)
+//                    } else {
+//                        //下载图片到本地
+//                        val item = adapter.data[position] as GirlEntity
+//                        DownloadUtils.download(item, onDownloadSuccess = { file ->
+//                            ToastUtils.show("下载完成，文件已保存:${file.path}")
+//                        }, onDownloadProgress = { p ->
+//                            ToastUtils.show("下载中:$p%")
+//                        }, onDownloadFail = { e ->
+//                            ToastUtils.show("下载失败,请重试!")
+//                        })
+//                    }
+//                }
             }
         }
     }

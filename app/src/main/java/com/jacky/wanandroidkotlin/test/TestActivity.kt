@@ -12,6 +12,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -164,6 +166,22 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
         transitionDrawable?.startTransition(3000)
 
         initScrollView()
+        initSeekBar()
+    }
+
+    private fun initSeekBar() {
+        mViewBinding.seekBar.setOnSeekBarChangeListener(object :OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                mViewBinding.pb.progress=progress
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+        })
     }
 
     /**

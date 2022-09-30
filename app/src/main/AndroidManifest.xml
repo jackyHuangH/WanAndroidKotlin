@@ -7,6 +7,9 @@
     <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -37,7 +40,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!--读取手机通话记录：Android 9.0没有此权限，获取不到来电号码-->
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
 
     <!--  android:requestLegacyExternalStorage="true"  使用旧的存储策略，不使用androidQ的新策略。但这个不是长久之计，很快将会强制都使用新策略-->
 
@@ -54,6 +57,11 @@
         tools:ignore="AllowBackup,LockedOrientationActivity，
         GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="android:theme">
+
+        <!--适配Android10存储分区，targetapi>=30必须添加-->
+<!--        <meta-data-->
+<!--            android:name="ScopedStorage"-->
+<!--            android:value="true" />-->
 
         <meta-data
             android:name="CHANNEL_VALUE"
@@ -227,7 +235,7 @@
         </provider>
 
         <service android:name=".wrapper.musicplay.MusicPlayService" />
-        <service android:name=".jetpack.nike.PhoneSmsService"/>
+        <service android:name=".jetpack.nike.PhoneSmsService" />
 
         <!--        aidl service-->
         <service android:name=".aidltest.CalcService">
