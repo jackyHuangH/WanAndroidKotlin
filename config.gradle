@@ -83,6 +83,7 @@ ext {
             "meow_bottom_nav"                : 'com.etebarian:meow-bottom-navigation:1.2.0',
             "smooth_bottom_nav"              : 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9',
 
+            "lottie"                         : 'com.airbnb.android:lottie:5.2.0',
 
             //baseAdapter For RecyclerView
             "brvah"                          : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7',

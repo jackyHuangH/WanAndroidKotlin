@@ -57,6 +57,8 @@ dependencies {
     implementation rootProject.ext.dependencies["bugly_native"]
     implementation rootProject.ext.dependencies["mmkv"]
 
+    implementation rootProject.ext.dependencies["lottie"]
+
     implementation rootProject.ext.dependencies["brvah"]
     implementation rootProject.ext.dependencies["verticalTab"]
     implementation rootProject.ext.dependencies["flowlayout"]

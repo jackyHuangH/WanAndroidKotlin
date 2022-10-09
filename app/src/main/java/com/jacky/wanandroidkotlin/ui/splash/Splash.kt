@@ -24,7 +24,8 @@ open class SplashActivity : AppCompatActivity() {
             }
         }
         //跳转到startActivity
-        StartActivity.launch(this)
+//        StartActivity.launch(this)
+        GuideActivity.launch(this)
         finish()
     }
 }

@@ -59,9 +59,9 @@
         tools:replace="android:theme">
 
         <!--适配Android10存储分区，targetapi>=30必须添加-->
-<!--        <meta-data-->
-<!--            android:name="ScopedStorage"-->
-<!--            android:value="true" />-->
+        <!--        <meta-data-->
+        <!--            android:name="ScopedStorage"-->
+        <!--            android:value="true" />-->
 
         <meta-data
             android:name="CHANNEL_VALUE"
@@ -119,6 +119,10 @@
         </activity-alias>
 
         <!--        -->
+
+        <activity
+            android:name=".ui.splash.GuideActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.splash.StartActivity"

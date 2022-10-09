@@ -6,6 +6,10 @@
     <string name="login_error_grant_refused">The current account is logged in from another device,
         please note that the account is safe to use</string>
 
+    <string name="guide_skip">skip</string>
+    <string name="guide_next">next</string>
+    <string name="guide_done">done</string>
+
     <string name="main_tab_home">Home</string>
     <string name="main_tab_latest_project">Project</string>
     <string name="main_tab_system">System</string>
