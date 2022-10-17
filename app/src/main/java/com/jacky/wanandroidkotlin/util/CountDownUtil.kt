@@ -1,10 +1,9 @@
 package com.jacky.wanandroidkotlin.util
 
 import androidx.annotation.IntRange
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import kotlinx.coroutines.*
 
 /**
@@ -18,7 +17,7 @@ class CountDownClock private constructor(
     private val coroutineScope: CoroutineScope,
     @IntRange(from = 1) val maxCountDown: Long,
     private val observable: (Long) -> Unit
-) : CoroutineScope by coroutineScope, LifecycleObserver {
+) : CoroutineScope by coroutineScope, DefaultLifecycleObserver {
 
     companion object {
         fun CoroutineScope.createCountDownClock(
@@ -33,7 +32,7 @@ class CountDownClock private constructor(
 
     private var countDownJob: Job? = null
 
-    private fun CoroutineScope.createJob(): Job = launch {
+    private fun CoroutineScope.createJob(): Job = launch(Dispatchers.IO + SupervisorJob()) {
         var countDown = maxCountDown
         while (isActive && countDown >= 0) {
             launch(Dispatchers.Main) {
@@ -62,8 +61,10 @@ class CountDownClock private constructor(
     fun stop() {
         launch {
             launch(Dispatchers.Main) {
-                //切换主线程更新ui
-                observable.invoke(0L)
+                if (countDownJob?.isCancelled == false) {
+                    //切换主线程更新ui
+                    observable.invoke(0L)
+                }
             }
             countDownJob?.cancel()
             countDownJob = null
@@ -71,8 +72,8 @@ class CountDownClock private constructor(
     }
 
     //绑定生命周期自动取消任务
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy(owner: LifecycleOwner) {
-        stop()
+    override fun onDestroy(owner: LifecycleOwner) {
+        countDownJob?.cancel()
+        countDownJob = null
     }
 }

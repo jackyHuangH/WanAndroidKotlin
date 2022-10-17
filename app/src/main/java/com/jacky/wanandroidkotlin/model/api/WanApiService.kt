@@ -1,18 +1,25 @@
 package com.jacky.wanandroidkotlin.model.api
 
 import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.jacky.wanandroidkotlin.model.entity.*
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.*
 
 /**
  * @author:Hzj
  * @date  :2019/7/2/002
  * desc  ：WanAndroid Api 接口
- * record：
+ * record：suspend标记的函数，retrofit会自动切换线程处理请求
  */
 interface WanApiService {
     companion object {
         const val BASE_URL = "https://www.wanandroid.com"
+
+        /**
+         * 聚合api key
+         */
+        const val JUHE_API_KEY = "523a389e9f9158021f78a1e676590c89"
     }
 
     /**
@@ -172,4 +179,10 @@ interface WanApiService {
         @Path("keyword") keyword: String,
         @Query("count") pageSize: Int = 10
     ): JsonArray?
+
+    /**
+     * 聚合api-历史上的今天
+     */
+    @GET("http://v.juhe.cn/todayOnhistory/queryEvent.php?key=$JUHE_API_KEY")
+    suspend fun getJuHeTodayInHistory(@Query("date") date: String): JuHeApiEntity<List<TodayInHistoryEntity>?>?
 }

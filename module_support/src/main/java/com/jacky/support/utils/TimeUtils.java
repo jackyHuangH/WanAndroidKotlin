@@ -9,7 +9,7 @@ public class TimeUtils {
     public static boolean getIsExpires(String expires) {
         boolean isexpires = true;
         if (expires.trim().length() > 0) {
-            if (((new Date(Long.parseLong(expires + "000"))).getTime() - 600) < (new Date()).getTime()) {
+            if (((new Date(Long.parseLong(expires))).getTime() - 600) < (new Date()).getTime()) {
                 isexpires = true;
             } else {
                 isexpires = false;
@@ -23,7 +23,7 @@ public class TimeUtils {
     public static boolean isExpires(String expires) {
         boolean isexpires = true;
         if (expires.trim().length() > 0) {
-            if ((new Date(Long.parseLong(expires + "000"))).getTime() < ((new Date()).getTime())) {
+            if ((new Date(Long.parseLong(expires))).getTime() < ((new Date()).getTime())) {
                 isexpires = true;
             } else {
                 isexpires = false;
@@ -48,7 +48,7 @@ public class TimeUtils {
 
     public static String getTime(String time) {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-        Date date = new Date(Long.parseLong(time + "000"));
+        Date date = new Date(Long.parseLong(time));
         return format.format(date);
     }
 
@@ -60,13 +60,29 @@ public class TimeUtils {
 
     public static String getRegistrationTime(String time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        Date date = new Date(Long.parseLong(time + "000"));
+        Date date = new Date(Long.parseLong(time));
         return format.format(date);
     }
 
+    /**
+     * 返回日期：月-日
+     * @param time
+     * @return
+     */
     public static String getTimeDate(long time) {
         SimpleDateFormat format = new SimpleDateFormat("MM-dd");
-        Date date = new Date(Long.parseLong(time + "000"));
+        Date date = new Date(time);
+        return format.format(date);
+    }
+
+    /**
+     * 返回日期：月/日
+     * @param time
+     * @return
+     */
+    public static String getTimeDate2(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd");
+        Date date = new Date(time);
         return format.format(date);
     }
 
@@ -77,13 +93,13 @@ public class TimeUtils {
      */
     public static String getTime(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date(Long.parseLong(time + "000"));
+        Date date = new Date(time);
         return format.format(date);
     }
 
     public static String getDate(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Date date = new Date(Long.parseLong(time + "000"));
+        Date date = new Date(time);
         return format.format(date);
     }
 

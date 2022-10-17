@@ -66,17 +66,11 @@ object MMKVUtils {
     }
     /**
      * 取值
-     *
+     * operator定义 函数重载
      * @param key               key
      * @param value             value
      * @param isAssociatedUsers 是否关联用户id， true 关联，false 不关联
      * @return
-     */
-    /**
-     * 取值，默认关联用户id
-     *
-     * @param key   key
-     * @param defValue defValue
      */
     @JvmOverloads
     operator fun get(key: String, value: Any, isAssociatedUsers: Boolean = false): Any? {

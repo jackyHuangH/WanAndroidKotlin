@@ -58,6 +58,12 @@
                     android:text="test DataBinding"
                     android:textAllCaps="false"
                     android:typeface="serif" />
+
+                <Button
+                    android:id="@+id/bt_countdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="倒计时" />
             </LinearLayout>
 
             <LinearLayout
@@ -137,7 +143,7 @@
             <TextSwitcher
                 android:id="@+id/ts"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:inAnimation="@anim/bottom_in"
                 android:outAnimation="@anim/top_out" />
 

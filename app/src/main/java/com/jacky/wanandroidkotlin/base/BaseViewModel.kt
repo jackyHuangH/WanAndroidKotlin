@@ -29,15 +29,12 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     @Suppress("UNCHECKED_CAST")
     @CallSuper
-//    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     override fun onCreate(owner: LifecycleOwner) {
         Log.d("BaseViewModel", " onCreate:")
     }
 
     @CallSuper
-//    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun onDestroy(owner: LifecycleOwner) {
-
     }
 
     fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
@@ -70,7 +67,6 @@ fun <T> BaseViewModel.executeRequest(
             tryBlock = {
                 onSubscribe?.invoke()
                 withContext(Dispatchers.IO) {
-                    Log.d("Thread", "request:${Thread.currentThread().name}")
                     if (showLoading) {
                         mShowLoadingProgress.postValue(true)
                     }
@@ -97,6 +93,27 @@ fun <T> BaseViewModel.executeRequest(
     }
 }
 
+//异步请求，封装协程的Async{},返回Deferred
+suspend fun <T> BaseViewModel.executeRequestAsync(request: suspend CoroutineScope.() -> WanResponse<T>): Deferred<WanResponse<T>>? {
+    return tryCatch(
+        tryBlock = {
+            withContext(Dispatchers.IO) {
+                async { request.invoke(this) }
+            }
+        },
+        catchBlock = { e ->
+            e.dispatch(msgResult = { msg ->
+                mErrorMsg.value = msg
+            }, apiRefused = {
+                //授权失败，返回登录页
+                GlobalLifecycleObserver.restartApp(gotoLogin = true)
+            })
+        },
+        finallyBlock = {},
+        handleCancellationExceptionManually = true
+    )
+}
+
 suspend fun <T> Deferred<WanResponse<T>?>?.observe(callback: (Boolean, T?, String?) -> Unit) {
     this?.await().apply {
         if (this != null && this.isApiSuccess()) {
@@ -107,24 +124,9 @@ suspend fun <T> Deferred<WanResponse<T>?>?.observe(callback: (Boolean, T?, Strin
     }
 }
 
-//异步请求，封装协程的Async{},返回Deferred
-suspend fun <T> BaseViewModel.executeRequestAsync(request: suspend CoroutineScope.() -> WanResponse<T>): Deferred<WanResponse<T>>? {
-    return tryCatch(
-        tryBlock = {
-            viewModelScope.async(context = Dispatchers.IO) { request.invoke(this) }
-        },
-        catchBlock = { e ->
-            e.dispatch(msgResult = { msg -> mErrorMsg.value = msg },
-                apiRefused = {
-                    //授权失败，返回登录页
-                    GlobalLifecycleObserver.restartApp(gotoLogin = true)
-                })
-        },
-        finallyBlock = {},
-        handleCancellationExceptionManually = true
-    )
-}
-
+/**
+ * try catch 注意协程作用域
+ */
 suspend fun <T> tryCatch(
     tryBlock: suspend CoroutineScope.() -> T,
     catchBlock: (suspend CoroutineScope.(Throwable) -> Unit)? = null,

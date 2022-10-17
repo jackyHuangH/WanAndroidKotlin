@@ -18,19 +18,17 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.hjq.toast.ToastUtils
 import com.jacky.support.router.Router
 import com.jacky.support.utils.LoggerKit
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.aidltest.AidlTestActivity
-import com.jacky.wanandroidkotlin.base.BaseActivity
-import com.jacky.wanandroidkotlin.common.TEST_IMG_URLS
+import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.databinding.ActivityTestBinding
 import com.jacky.wanandroidkotlin.jetpack.binding.TwoActivity
 import com.jacky.wanandroidkotlin.jetpack.navigation.WelcomeActivity
 import com.jacky.wanandroidkotlin.jetpack.nike.NikeMainActivity
+import com.jacky.wanandroidkotlin.model.entity.TodayInHistoryEntity
 import com.jacky.wanandroidkotlin.ui.baidumap.BaiDuMapLearnActivity
 import com.jacky.wanandroidkotlin.ui.browser.BrowserActivity
 import com.jacky.wanandroidkotlin.ui.demos.MotionLayoutDemoActivity
@@ -49,7 +47,8 @@ import java.io.RandomAccessFile
  */
 private const val NUM_A: String = "顶层声明常量"
 
-class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by MainScope() {
+class TestActivity : BaseVMActivity<ActivityTestBinding, TestViewModel>(),
+    CoroutineScope by MainScope() {
 
     private var countDownClock: CountDownClock? = null
 
@@ -81,6 +80,10 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
             startActivity(Intent(this, StatusBarTestActivity::class.java))
         }
 
+        viewClickListener(R.id.bt_countdown) {
+            startCountDown()
+        }
+
         viewClickListener(R.id.bt_oom) {
 //            testCreateThread()
             testLruCache()
@@ -101,32 +104,14 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
         viewClickListener(R.id.btn_motion_demo) {
             MotionLayoutDemoActivity.launch(this)
         }
-
-        val textList = listOf<String>("C++", "Python", "Java", "Swift", "Kotlin", "CSS")
-        var index = 0
-        //TextSwitcher
-        mViewBinding.ts.apply {
-            setFactory {
-                TextView(this@TestActivity).apply {
-                    gravity = Gravity.CENTER
-                    textSize = 17F
-                }
-            }
-            setOnClickListener {
-                this.setText(textList[index++ % textList.size])
-            }
-        }
-        //轮播实现
-        lifecycleScope.launch(Dispatchers.IO) {
-            while (true) {
-                launch(Dispatchers.Main) {
-                    mViewBinding.ts.setText(textList[index++ % textList.size])
-                }
-                delay(3000)
-
-                Log.d(TAG, "loop")
-            }
-        }
+        //获取历史上的今天，方式1
+        mViewModel.getTodayInHistory()
+        //方式2
+//        mViewModel.getTodayInHistory2().observe(this) { data ->
+//            if (data != null && data.error_code == 0) {
+//                startTsLooper(data.result.orEmpty())
+//            }
+//        }
 
         viewClickListener(R.id.btn_coolapk) {
             startActivity(Intent(this, NestedRecyclerViewTestActivity::class.java))
@@ -170,9 +155,9 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
     }
 
     private fun initSeekBar() {
-        mViewBinding.seekBar.setOnSeekBarChangeListener(object :OnSeekBarChangeListener{
+        mViewBinding.seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                mViewBinding.pb.progress=progress
+                mViewBinding.pb.progress = progress
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -292,24 +277,33 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
         return ""
     }
 
-    override fun onStart() {
-        super.onStart()
-        println("onStart")
-    }
+    private fun startTsLooper(list: List<TodayInHistoryEntity>) {
+        var index = 0
+        //TextSwitcher
+        mViewBinding.ts.apply {
+            setFactory {
+                TextView(this@TestActivity).apply {
+                    gravity = Gravity.CENTER
+                    textSize = 17F
+                }
+            }
+            setOnClickListener {
+                val item=list[index++%list.size]
+                this.setText("${item.date}:${item.title}")
+            }
+        }
+        //轮播实现
+        lifecycleScope.launch(Dispatchers.IO) {
+            while (true) {
+                launch(Dispatchers.Main) {
+                    val item=list[index++%list.size]
+                    mViewBinding.ts.setText("${item.date}:${item.title}")
+                }
+                delay(3000)
 
-    override fun onResume() {
-        super.onResume()
-        println("onResume")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        println("onRestart")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        println("onPause")
+                Log.d(TAG, "loop")
+            }
+        }
     }
 
     override fun onStop() {
@@ -318,9 +312,11 @@ class TestActivity : BaseActivity<ActivityTestBinding>(), CoroutineScope by Main
         countDownClock?.stop()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        println("onDestroy")
+
+    override val startObserve: TestViewModel.() -> Unit = {
+        mTodayInHistoryData.observe(this@TestActivity) { list ->
+            startTsLooper(list)
+        }
     }
 
     /**

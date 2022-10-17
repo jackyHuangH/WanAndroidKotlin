@@ -4,8 +4,9 @@ import android.annotation.SuppressLint
 import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
-import com.jacky.wanandroidkotlin.model.local.ContextModel
+import com.jacky.support.utils.LoggerKit
 import com.jacky.support.utils.NetworkUtils
+import com.jacky.wanandroidkotlin.model.local.ContextModel
 import okhttp3.Cache
 import okhttp3.CacheControl
 import okhttp3.OkHttpClient
@@ -48,7 +49,7 @@ object WanRetrofitClient : BaseRetrofitClient() {
             .addInterceptor { chain ->
                 var request = chain.request()
                 if (!NetworkUtils.isNetworkAvailable(applicationContext)) {
-                    //网络不可用时
+                    //网络不可用时,只读取缓存
                     request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build()
@@ -64,6 +65,9 @@ object WanRetrofitClient : BaseRetrofitClient() {
                             "public, only-if-cached, max-stale=$maxStale"
                         )
                 } else {
+                    //Cache-Control:max-age=N
+                    //浏览器获取到资源内容后，将资源内容缓存在本地，缓存有效期是N秒。
+                    //若过期前再次访问资源，直接使用本地缓存；过期后再访问，则向服务器发请求，若服务器检查资源没有更新，则返回304状态码；如果有更新，则返回200状态码以及新的资源内容。同时浏览器延长本地资源的缓存有效期。
                     val maxAge = 60 * 60
                     response.newBuilder()
                         .removeHeader(HEADER_PRAGMA)

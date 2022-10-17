@@ -36,10 +36,12 @@ import com.jacky.support.permission.openPermissionSetting
 import com.jacky.support.permission.requestSelfPermissions
 import com.jacky.support.router.Router
 import com.jacky.wanandroidkotlin.R
+import com.jacky.wanandroidkotlin.app.GlobalLifecycleObserver
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
 import com.jacky.wanandroidkotlin.base.BaseViewModel
 import com.jacky.wanandroidkotlin.databinding.ActivityGirlsBinding
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
+import com.jacky.wanandroidkotlin.model.api.dispatch
 import com.jacky.wanandroidkotlin.model.entity.GirlEntity
 import com.jacky.wanandroidkotlin.util.DisplayUtils
 import com.jacky.wanandroidkotlin.util.setOnAntiShakeClickListener
@@ -297,7 +299,9 @@ class GirlsViewModel(application: Application) : BaseViewModel(application) {
                         mutableListOf<GirlEntity>()
                     }
                 } catch (e: Exception) {
-                    mErrorMsg.postValue(e.message)
+                    e.dispatch(msgResult = { msg ->
+                        mErrorMsg.postValue(msg)
+                    }, apiRefused = {})
                     mutableListOf<GirlEntity>()
                 }
             }

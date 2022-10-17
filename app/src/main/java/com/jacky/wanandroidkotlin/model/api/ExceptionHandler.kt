@@ -39,6 +39,7 @@ internal object ResponseCode {
     const val CODE_500 = 500//服务器内部错误
     const val CODE_502 = 502//错误网关
     const val CODE_503 = 503//服务不可用
+    const val CODE_504 = 504//网络不可用
 }
 
 
