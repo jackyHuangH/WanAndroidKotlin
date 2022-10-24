@@ -1,8 +1,12 @@
 package com.jacky.wanandroidkotlin.test
 
 import android.content.Context
-import android.util.LruCache
 import android.widget.Toast
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.Executors
 
 /**
@@ -80,10 +84,10 @@ class Man(age: Int, name: String) : Person(age, name) {
          * $变量名
          * ${表达式}
          */
-        println("char:${char.toByte()}")
-        println("char:${char.toInt()}")
-        println("char:${char.toDouble()}")
-        println("char:${char.toFloat()}")
+        println("char:${char.code.toByte()}")
+        println("char:${char.code.toInt()}")
+        println("char:${char.code.toDouble()}")
+        println("char:${char.code.toFloat()}")
 
         val str: String = "welcome to kotlin"
         for (c in str) {
@@ -276,7 +280,24 @@ fun main(args: Array<String>) {
 
 
 //    testThreadPool()
+//    testFor()
+    testChannel()
+}
 
+private fun testChannel() = runBlocking {
+    val channel = Channel<Int>(capacity = 3)
+    launch {
+        for (x in 1..5) {
+            println("send:$x")
+            channel.send(x * x)
+            delay(200)
+        }
+        channel.close()
+    }
+//    repeat(5) { println(channel.receive()) }
+    //for循环遍历channel
+    for(y in channel) { println(y) }
+    println("Done!")
 }
 
 fun testThreadPool() {
@@ -293,10 +314,10 @@ fun testThreadPool() {
 fun testFor() {
     out@ for (i in 0..10) {
         println("out index:$i")
-        for (j in 0..8) {
+        inner@ for (j in 0..8) {
             println("inner index:$j")
             if (j % 2 == 1) {
-                break@out
+                break@out//跳出外层循环
             }
         }
     }

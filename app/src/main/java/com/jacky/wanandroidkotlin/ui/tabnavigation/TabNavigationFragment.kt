@@ -4,14 +4,13 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jacky.support.utils.AndroidKit
+import com.jacky.support.widget.VerticalItemDecoration
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMFragment
 import com.jacky.wanandroidkotlin.databinding.FragmentTabNavigationBinding
 import com.jacky.wanandroidkotlin.ui.adapter.NavVerticalTabAdapter
 import com.jacky.wanandroidkotlin.ui.adapter.NavigationAdapter
-import com.jacky.wanandroidkotlin.wrapper.getView
-import com.jacky.support.utils.AndroidKit
-import com.jacky.support.widget.VerticalItemDecoration
 import q.rorbin.verticaltablayout.VerticalTabLayout
 import q.rorbin.verticaltablayout.widget.TabView
 
@@ -22,8 +21,6 @@ import q.rorbin.verticaltablayout.widget.TabView
  * record：
  */
 class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding, NavViewModel>() {
-    private lateinit var rlv: RecyclerView
-    private lateinit var verticalTabLayout: VerticalTabLayout
 
     private val mNavAdapter by lazy { NavigationAdapter() }
     private val mLayoutManager by lazy { LinearLayoutManager(requireContext()) }
@@ -40,15 +37,19 @@ class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding, NavVi
     override fun getLayoutId(): Int = R.layout.fragment_tab_navigation
 
     override fun lazyLoad() {
-        rlv = getView<RecyclerView>(R.id.rlv)
-        verticalTabLayout = getView<VerticalTabLayout>(R.id.vertical_tab)
+        mViewBinding.swipeRefresh.setColorSchemeResources(R.color.colorAccent)
+        mViewBinding.swipeRefresh.setOnRefreshListener {
+            //刷新数据
+            mViewModel.getNavigation()
+        }
         initRlv()
         initTab()
         mViewModel.getNavigation()
+        mViewBinding.swipeRefresh.isRefreshing = true
     }
 
     private fun initRlv() {
-        rlv.apply {
+        mViewBinding.rlv.apply {
             layoutManager = mLayoutManager
             if (itemDecorationCount <= 0) {
                 addItemDecoration(
@@ -63,14 +64,14 @@ class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding, NavVi
                     super.onScrolled(recyclerView, dx, dy)
                     //监听列表滑动，改变tab选中状态
                     val firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition()
-                    verticalTabLayout.setTabSelected(firstVisibleItemPosition, false)
+                    mViewBinding.verticalTab.setTabSelected(firstVisibleItemPosition, false)
                 }
             })
         }
     }
 
     private fun initTab() {
-        verticalTabLayout.addOnTabSelectedListener(object :
+        mViewBinding.verticalTab.addOnTabSelectedListener(object :
             VerticalTabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabView?, position: Int) {
             }
@@ -85,10 +86,10 @@ class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding, NavVi
         val firstPosition = mLayoutManager.findFirstVisibleItemPosition()
         val lastPosition = mLayoutManager.findLastVisibleItemPosition()
         when {
-            position <= firstPosition || position >= lastPosition -> rlv.smoothScrollToPosition(
+            position <= firstPosition || position >= lastPosition -> mViewBinding.rlv.smoothScrollToPosition(
                 position
             )
-            else -> rlv.run {
+            else -> mViewBinding.rlv.run {
                 smoothScrollBy(
                     0,
                     this.getChildAt(position - firstPosition).top - AndroidKit.Dimens.dp2px(10)
@@ -99,10 +100,11 @@ class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding, NavVi
 
     override val startObserve: NavViewModel.() -> Unit = {
         mNavList.observe(this@TabNavigationFragment, Observer { list ->
+            mViewBinding.swipeRefresh.isRefreshing = false
             list?.let {
                 val tabAdapter =
                     activity?.let { ctx -> NavVerticalTabAdapter(it.map { it.name }, ctx) }
-                verticalTabLayout.setTabAdapter(tabAdapter)
+                mViewBinding.verticalTab.setTabAdapter(tabAdapter)
                 mNavAdapter.setList(list)
             }
         })
@@ -112,6 +114,9 @@ class TabNavigationFragment : BaseVMFragment<FragmentTabNavigationBinding, NavVi
     }
 
     override fun onApiFailure(msg: String) {
+        if (mViewBinding.swipeRefresh.isRefreshing) {
+            mViewBinding.swipeRefresh.isRefreshing = false
+        }
         hideProgress()
         super.onApiFailure(msg)
     }

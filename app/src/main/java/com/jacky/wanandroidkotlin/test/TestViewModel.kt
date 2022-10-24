@@ -11,8 +11,10 @@ import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.api.dispatch
 import com.jacky.wanandroidkotlin.model.entity.TodayInHistoryEntity
 import com.jacky.wanandroidkotlin.wrapper.orNotNullNotEmpty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 
 /**
  * 测试 flow +LiveData
@@ -36,7 +38,7 @@ class TestViewModel(application: Application) : BaseViewModel(application) {
                 //使用flow处理
                 val result = WanRetrofitClient.mService.getJuHeTodayInHistory(dateString)
                 emit(result)
-            }.flowOn(Dispatchers.IO)
+            }
                 .onStart {
                     // 在调用 flow 请求数据之前，做一些准备工作，例如显示正在加载数据的进度条
                 }.catch { throwable ->
@@ -45,7 +47,7 @@ class TestViewModel(application: Application) : BaseViewModel(application) {
                         mErrorMsg.value = msg
                     }, apiRefused = {})
                     _todayInHistoryData.value = null
-                }.onCompletion {c->
+                }.onCompletion { c ->
                     //请求完成
                     LoggerKit.d("today complete:${c?.message.orNotNullNotEmpty("无异常")}")
                 }.collect { data ->
@@ -65,17 +67,17 @@ class TestViewModel(application: Application) : BaseViewModel(application) {
         //使用flow处理
         val result = WanRetrofitClient.mService.getJuHeTodayInHistory(dateString)
         emit(result)
-    }.flowOn(Dispatchers.IO)
-        .onStart {
-            // 在调用 flow 请求数据之前，做一些准备工作，例如显示正在加载数据的进度条
-        }.catch { throwable ->
-            //处理异常
-            throwable.dispatch(msgResult = { msg ->
-                mErrorMsg.value = msg
-            }, apiRefused = {})
-        }.onCompletion {
-            //请求完成
-
-        }.asLiveData()
+    }.onStart {
+        // 在调用 flow 请求数据之前，做一些准备工作，例如显示正在加载数据的进度条
+        mShowLoadingProgress.value=true
+    }.catch { throwable ->
+        //处理异常
+        throwable.dispatch(msgResult = { msg ->
+            mErrorMsg.value = msg
+        }, apiRefused = {})
+    }.onCompletion {
+        //请求完成
+        mShowLoadingProgress.value=false
+    }.asLiveData()
 
 }

@@ -105,13 +105,13 @@ class TestActivity : BaseVMActivity<ActivityTestBinding, TestViewModel>(),
             MotionLayoutDemoActivity.launch(this)
         }
         //获取历史上的今天，方式1
-        mViewModel.getTodayInHistory()
+//        mViewModel.getTodayInHistory()
         //方式2
-//        mViewModel.getTodayInHistory2().observe(this) { data ->
-//            if (data != null && data.error_code == 0) {
-//                startTsLooper(data.result.orEmpty())
-//            }
-//        }
+        mViewModel.getTodayInHistory2().observe(this) { data ->
+            if (data != null && data.error_code == 0) {
+                startTsLooper(data.result.orEmpty())
+            }
+        }
 
         viewClickListener(R.id.btn_coolapk) {
             startActivity(Intent(this, NestedRecyclerViewTestActivity::class.java))

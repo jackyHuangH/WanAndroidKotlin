@@ -66,12 +66,12 @@ fun <T> BaseViewModel.executeRequest(
         tryCatch(
             tryBlock = {
                 onSubscribe?.invoke()
-                withContext(Dispatchers.IO) {
-                    if (showLoading) {
-                        mShowLoadingProgress.postValue(true)
-                    }
-                    request.invoke(this)
+//                withContext(Dispatchers.IO) {
+                if (showLoading) {
+                    mShowLoadingProgress.postValue(true)
                 }
+                request.invoke(this)
+//                }
             },
             catchBlock = { e -> onError.invoke(e) },
             finallyBlock = {
@@ -97,6 +97,11 @@ fun <T> BaseViewModel.executeRequest(
 suspend fun <T> BaseViewModel.executeRequestAsync(request: suspend CoroutineScope.() -> WanResponse<T>): Deferred<WanResponse<T>>? {
     return tryCatch(
         tryBlock = {
+            //coroutineScope {}主要用于suspend函数中以实现“并行分解”。这些suspend函数将重新抛出其失败的协程的异常，因此我们可以相应地设置异常处理逻辑
+//            coroutineScope {
+//                async { request.invoke(this) }
+//            }
+            //withContext()指定协程，也能向上重新抛出异常
             withContext(Dispatchers.IO) {
                 async { request.invoke(this) }
             }

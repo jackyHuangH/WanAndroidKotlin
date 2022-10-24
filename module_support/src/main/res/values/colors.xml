@@ -2,6 +2,7 @@
 <resources>
 
     <color name="toast_background">#30000000</color>
+    <color name="c_66000000">#66000000</color>
     <!--<color name="toast_background">#3FFFFFFF</color>-->
     <color name="ios_blue">#2975E6</color>
     <color name="ios_black">#000000</color>
@@ -21,4 +22,25 @@
     <color name="white">#ffffff</color>
     <color name="red">#ff0000</color>
     <color name="selector_grey">#11000000</color>
+
+    <color name="color_dfdfdf">#DFDFDF</color>
+    <color name="color_188BFF">#188BFF</color>
+    <color name="color_2FC25B">#2FC25B</color>
+    <color name="color_0288d1">#0288D1</color>
+    <color name="color_2975E6">#2975E6</color>
+    <color name="color_4BCB7C">#4BCB7C</color>
+    <color name="color_9BBB59">#9BBB59</color>
+    <color name="color_0A6BEE">#0A6BEE</color>
+    <color name="color_512FF2">#512FF2</color>
+    <color name="color_FFAE8B">#FFAE8B</color>
+    <color name="color_bbbbbb">#bbbbbb</color>
+    <color name="color_69B2F9">#69B2F9</color>
+    <color name="color_F54336">#F54336</color>
+    <color name="color_3372F6">#3372F6</color>
+    <color name="color_4CD964">#4CD964</color>
+    <color name="color_FFDB5C">#FFDB5C</color>
+    <color name="color_AB82FF">#AB82FF</color>
+    <color name="color_FB5656">#FB5656</color>
+    <color name="color_FBA603">#FBA603</color>
+    <color name="color_0288D1">#0288D1</color>
 </resources>

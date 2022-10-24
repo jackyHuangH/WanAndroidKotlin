@@ -18,7 +18,7 @@ class NavViewModel(application: Application) : BaseViewModel(application) {
     val mNavList: MutableLiveData<MutableList<NavigationEntity>> = MutableLiveData()
 
     fun getNavigation() {
-        executeRequest(showLoading = true,
+        executeRequest(showLoading = false,
             request = { mRepository.getNavigationList() },
             onNext = { ok, data, msg ->
                 if (ok) {

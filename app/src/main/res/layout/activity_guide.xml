@@ -16,6 +16,7 @@
         android:layout_margin="20dp"
         android:text="@string/guide_skip"
         android:textSize="16sp"
+        android:textColor="@color/black_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -33,6 +33,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.jacky.support.router.Router
 import com.jacky.support.utils.AndroidKit
 import com.jacky.support.widget.VerticalItemDecoration
+import com.jacky.wanandroidkotlin.ui.adapter.setRandomColorTintBg
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
@@ -95,6 +96,7 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding, SearchViewModel>(),
                         LayoutInflater.from(parent?.context)
                             .inflate(R.layout.item_tag, parent, false) as TextView
                     tvTag.text = t?.name
+                    tvTag.setRandomColorTintBg(position)
                     return tvTag
                 }
             }
@@ -111,6 +113,7 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding, SearchViewModel>(),
                         LayoutInflater.from(parent?.context)
                             .inflate(R.layout.item_tag, parent, false) as TextView
                     tvTag.text = t?.name
+                    tvTag.setRandomColorTintBg(position)
                     return tvTag
                 }
             }
