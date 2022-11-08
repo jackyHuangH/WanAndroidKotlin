@@ -1,17 +1,15 @@
 apply from:'config.gradle'
-apply plugin: "com.github.ben-manes.versions"
 
 buildscript {
     ext.kotlin_version = '1.7.10'
     repositories {
         google()
-        jcenter()
         mavenCentral() // add repository
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.github.ben-manes:gradle-versions-plugin:+"
     }
 }
 
@@ -19,10 +17,10 @@ allprojects {
     repositories {
         maven { url 'https://maven.aliyun.com/repository/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
-        jcenter()
         google()
         mavenCentral() // add repository
         maven { url "https://jitpack.io" }
+        jcenter()
     }
 }
 

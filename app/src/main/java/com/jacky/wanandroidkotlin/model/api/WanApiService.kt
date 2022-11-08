@@ -1,9 +1,7 @@
 package com.jacky.wanandroidkotlin.model.api
 
 import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.jacky.wanandroidkotlin.model.entity.*
-import kotlinx.coroutines.flow.Flow
 import retrofit2.http.*
 
 /**
@@ -20,6 +18,11 @@ interface WanApiService {
          * 聚合api key
          */
         const val JUHE_API_KEY = "523a389e9f9158021f78a1e676590c89"
+
+        /**
+         * 和风天气 key
+         */
+        const val HEFENG_API_KEY="54ebd41ba65c4878b86cc0e5ef26c185"
     }
 
     /**
@@ -171,6 +174,9 @@ interface WanApiService {
     @GET("/maven_pom/search/json")
     suspend fun searchGoogleMavenPom(@Query("k") key: String): WanResponse<MutableList<GoogleMavenEntity>>
 
+
+    //----------------------------------------其他api=----------------------------------------------
+
     /**
      * 干货提供的福利图片api
      */
@@ -185,4 +191,25 @@ interface WanApiService {
      */
     @GET("http://v.juhe.cn/todayOnhistory/queryEvent.php?key=$JUHE_API_KEY")
     suspend fun getJuHeTodayInHistory(@Query("date") date: String): JuHeApiEntity<List<TodayInHistoryEntity>?>?
+
+
+    /**
+     * 和风天气api-当天天气
+     * @param location 位置经纬度location=116.41,39.92
+     */
+    @GET("https://devapi.qweather.com/v7/weather/now")
+    suspend fun getTodayWeather(
+        @Query("location") location: String,
+        @Query("key") key: String = HEFENG_API_KEY
+    ): WeatherEntity?
+
+    /**
+     * 和风天气api-近15天天气
+     * @param location 位置经纬度location=116.41,39.92
+     */
+    @GET("https://devapi.qweather.com/v7/weather/15d")
+    suspend fun getWeatherIn15Days(
+        @Query("location") location: String,
+        @Query("key") key: String = HEFENG_API_KEY
+    ): WeatherEntity?
 }

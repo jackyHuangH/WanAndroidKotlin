@@ -223,6 +223,9 @@
         <activity
             android:name=".test.MyNestedScrollTestActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.demos.WeatherActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--        androidx startup 优化过多使用contentProvider初始化造成启动速度慢：

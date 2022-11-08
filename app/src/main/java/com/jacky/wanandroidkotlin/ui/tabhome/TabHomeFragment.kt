@@ -49,6 +49,7 @@ import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.util.BannerUtils
 import com.jacky.support.utils.AndroidKit
 import com.jacky.support.widget.VerticalItemDecoration
+import com.jacky.wanandroidkotlin.ui.demos.WeatherActivity
 
 
 /**
@@ -65,7 +66,6 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
     private var mPageNum = 0
     private val mIsLogin by PreferenceUtil(PreferenceUtil.KEY_IS_LOGIN, false)
     private var mBannerHome: Banner<BannerEntity, ImageBannerAdapter>? = null
-    private lateinit var binding: FragmentTabHomeBinding
 
     companion object {
         fun getInstance(): TabHomeFragment {
@@ -84,19 +84,19 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
         savedInstanceState: Bundle?
     ): View? {
         //DataBinding添加绑定
-        binding = DataBindingUtil.inflate<FragmentTabHomeBinding>(
+        mViewBinding = DataBindingUtil.inflate<FragmentTabHomeBinding>(
             inflater,
             R.layout.fragment_tab_home,
             container,
             false
         )
-        return binding.root
+        return mViewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         MusicPlayManager.register(this)
-        binding.vm = mViewModel
+        mViewBinding.vm = mViewModel
     }
 
     override fun initWidget() {
@@ -106,7 +106,11 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
         initFab()
         initFloatPlayer()
         onRefresh()
-        binding.swipeRefresh.isRefreshing = true
+        mViewBinding.swipeRefresh.isRefreshing = true
+        mViewBinding.llWeather.setOnClickListener {
+            //查看详细天气
+            WeatherActivity.launch(requireActivity())
+        }
     }
 
     private fun initFloatPlayer() {
@@ -130,7 +134,7 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
                 GoogleMavenSearchActivity.launch(act)
             }
             viewClickListener(R.id.fab_girl) { GirlsActivity.launch(act) }
-            binding.rlv.addOnScrollListener(RecyclerFabScrollListener { visible ->
+            mViewBinding.rlv.addOnScrollListener(RecyclerFabScrollListener { visible ->
                 fabGoogleMavenSearch.animate().apply {
                     if (visible) {
                         translationY(0F).interpolator = DecelerateInterpolator(3F)
@@ -152,7 +156,7 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
                     viewExt<TextView>(R.id.bt_back_top) {
                         visibility = if (visible) View.GONE else View.VISIBLE
                         setOnAntiShakeClickListener {
-                            binding.rlv.smoothScrollToPosition(0)
+                            mViewBinding.rlv.smoothScrollToPosition(0)
                             visibility = View.GONE
                         }
                     }
@@ -162,7 +166,7 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
     }
 
     private fun initRefreshLayout() {
-        binding.swipeRefresh.apply {
+        mViewBinding.swipeRefresh.apply {
             setColorSchemeResources(R.color.colorAccent)
             setOnRefreshListener {
                 //刷新数据
@@ -177,6 +181,14 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
         mViewModel.getBanners()
         mPageNum = 0
         mViewModel.getArticleList(mPageNum)
+        //获取当天天气
+        mViewModel.getWeatherNow().observe(this){data->
+            if (data?.code==200) {
+                data.now?.let {
+                    mViewBinding.tvWeather.text="${it.text} ${it.temp}℃"
+                }
+            }
+        }
     }
 
     override val startObserve: TabHomeViewModel.() -> Unit = {
@@ -217,8 +229,8 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
     }
 
     private fun setLoadStatus(hasNextPage: Boolean) {
-        if (binding.swipeRefresh.isRefreshing) {
-            binding.swipeRefresh.isRefreshing = false
+        if (mViewBinding.swipeRefresh.isRefreshing) {
+            mViewBinding.swipeRefresh.isRefreshing = false
         }
         mHomeAdapter.updateLoadMoreStatus(hasNextPage)
     }
@@ -286,12 +298,12 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
 
     override fun onStop() {
         super.onStop()
-        binding.swipeRefresh.isRefreshing = false
+        mViewBinding.swipeRefresh.isRefreshing = false
     }
 
     override fun onApiFailure(msg: String) {
-        if (binding.swipeRefresh.isRefreshing) {
-            binding.swipeRefresh.isRefreshing = false
+        if (mViewBinding.swipeRefresh.isRefreshing) {
+            mViewBinding.swipeRefresh.isRefreshing = false
         }
         super.onApiFailure(msg)
     }

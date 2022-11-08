@@ -11,15 +11,11 @@ import com.baidu.mapapi.SDKInitializer
 import com.hjq.toast.ToastUtils
 import com.jacky.support.crash.UncaughtExHandler
 import com.jacky.support.utils.LoggerKit
-import com.jacky.support.utils.NetworkUtils
 import com.jacky.wanandroidkotlin.R
-import com.jacky.wanandroidkotlin.model.local.ContextModel
 import com.jacky.wanandroidkotlin.ui.login.LoginActivity
 import com.jacky.wanandroidkotlin.ui.main.MainActivity
 import com.jacky.wanandroidkotlin.util.LanguageUtils
 import com.jacky.wanandroidkotlin.util.MMKVUtils
-import retrofit2.HttpException
-import java.net.SocketTimeoutException
 
 
 class App : MultiDexApplication() {
@@ -64,13 +60,9 @@ class ApplicationKit {
     @CallSuper
     protected fun initCrashHandler(application: Application) {
         UncaughtExHandler.getInstance().init(application) { thread, ex ->
-            LoggerKit.e(ex.message)
-//            if (ex is SocketTimeoutException || ex is HttpException) {
-//                ToastUtils.show("无法连接服务器")
-//            } else {
-//                GlobalLifecycleObserver.INSTANCE.clearActivityStackAndCallback()
-//                GlobalLifecycleObserver.restartApp(application)
-//            }
+            LoggerKit.e("未捕获异常：thread:${thread.name} ,error:${ex.message}")
+            GlobalLifecycleObserver.INSTANCE.clearActivityStackAndCallback()
+            GlobalLifecycleObserver.restartApp(application)
         }
     }
 

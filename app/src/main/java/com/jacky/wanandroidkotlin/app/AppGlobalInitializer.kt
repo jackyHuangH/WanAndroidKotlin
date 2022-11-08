@@ -3,6 +3,7 @@ package com.jacky.wanandroidkotlin.app
 import android.content.Context
 import androidx.startup.Initializer
 import com.jacky.support.CommonInitializer
+import com.jacky.wanandroidkotlin.ui.demos.WeatherResManager
 
 /**
  * @author:Hzj
@@ -13,6 +14,7 @@ import com.jacky.support.CommonInitializer
 class AppGlobalInitializer : Initializer<Unit> {
     override fun create(context: Context) {
         //do initialize
+        WeatherResManager.initIcons()
     }
 
     override fun dependencies(): MutableList<Class<out Initializer<*>>> {

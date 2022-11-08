@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/***
+ * 时间日期工具类
+ */
 public class TimeUtils {
     public static boolean getIsExpires(String expires) {
         boolean isexpires = true;
@@ -36,6 +39,7 @@ public class TimeUtils {
 
     /**
      * 格式化录制视频的时间 mm:ss
+     *
      * @param duration
      * @return
      */
@@ -66,6 +70,7 @@ public class TimeUtils {
 
     /**
      * 返回日期：月-日
+     *
      * @param time
      * @return
      */
@@ -77,6 +82,7 @@ public class TimeUtils {
 
     /**
      * 返回日期：月/日
+     *
      * @param time
      * @return
      */
@@ -88,6 +94,7 @@ public class TimeUtils {
 
     /**
      * 返回 yyyy-MM-dd 格式日期
+     *
      * @param time
      * @return
      */
@@ -159,6 +166,7 @@ public class TimeUtils {
 
     /**
      * 获取小时
+     *
      * @return
      */
     public static int getNowHour() {
@@ -173,9 +181,9 @@ public class TimeUtils {
     }
 
 
-
     /**
      * 把标准格式yyyy-MM-dd HH:mm日期转成时间戳,单位秒
+     *
      * @param time
      * @return long
      */
@@ -215,10 +223,11 @@ public class TimeUtils {
 
     /**
      * 将倒计时的时间格式化成分:秒"mm:ss"的格式
+     *
      * @param millisInfuture 剩余倒计时时长,单位:毫秒
      * @return
      */
-    public static String formatCountTimer(long millisInfuture){
+    public static String formatCountTimer(long millisInfuture) {
         String secondStr = "";
         String minStr = "";
         long remainTime = millisInfuture / 1000;
@@ -235,7 +244,7 @@ public class TimeUtils {
         } else {
             minStr = min + "";
         }
-        return minStr+":"+secondStr;
+        return minStr + ":" + secondStr;
     }
 
 }

@@ -26,6 +26,31 @@
                 android:layout_height="match_parent" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/shape_bg_primary_20"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                tools:text="晴23℃" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/bt_back_top"
             android:layout_width="wrap_content"

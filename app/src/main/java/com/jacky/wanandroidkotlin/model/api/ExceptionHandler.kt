@@ -1,11 +1,11 @@
 package com.jacky.wanandroidkotlin.model.api
 
 import androidx.annotation.Nullable
+import com.jacky.support.utils.NetworkUtils
 import com.jacky.wanandroidkotlin.BuildConfig
 import com.jacky.wanandroidkotlin.model.api.ApiManger.Companion.SUCCESS_CODE
 import com.jacky.wanandroidkotlin.model.entity.WanResponse
 import com.jacky.wanandroidkotlin.model.local.ContextModel
-import com.jacky.support.utils.NetworkUtils
 import retrofit2.HttpException
 import java.io.Closeable
 import java.net.ConnectException
@@ -81,7 +81,7 @@ fun WanResponse<*>?.isApiSuccess(): Boolean =
 fun Throwable.dispatch(
     @Nullable defaultErrorMsg: String = Message.DEFAULT_EXCEPTION,
     msgResult: (String) -> Unit,
-    apiRefused: () -> Unit
+    apiRefused: (() -> Unit)? = null
 ) {
     if (NetworkUtils.isNetworkAvailable(ContextModel.getApplicationContext())) {
         when (this) {
@@ -90,7 +90,7 @@ fun Throwable.dispatch(
             is ApiException -> msgResult.invoke(msg ?: defaultErrorMsg)
             is HttpException -> {
                 when (code()) {
-                    ResponseCode.CODE_401 -> apiRefused.invoke()
+                    ResponseCode.CODE_401 -> apiRefused?.invoke()
                     ResponseCode.CODE_404 -> msgResult.invoke(Message.NOT_FOUND_EXCEPTION)
                     else -> {
                         msgResult.invoke(
