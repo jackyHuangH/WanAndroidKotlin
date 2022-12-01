@@ -1,5 +1,7 @@
 package com.jacky.wanandroidkotlin.model.entity
 
+import java.util.Date
+
 
 /**
  * @author:Hzj
@@ -12,6 +14,7 @@ data class WeatherEntity(
     val fxLink: String?,
     val now: Now?,
     val daily: List<DailyEntity>?,
+    val hourly: List<HourlyEntity>?,
     val refer: Refer,
     val updateTime: String
 )
@@ -73,6 +76,26 @@ data class DailyEntity(
     val windScaleNight: String,
     val windSpeedDay: String,
     val windSpeedNight: String
+)
+
+/**
+ * 每小时天气数据
+ */
+data class HourlyEntity(
+    val cloud: String,
+    val dew: String,
+    val fxTime: Date,
+    val humidity: String,
+    val icon: Int,
+    val pop: String,
+    val precip: String,
+    val pressure: String,
+    val temp: Int,
+    val text: String,
+    val wind360: String,
+    val windDir: String,
+    val windScale: String,
+    val windSpeed: String
 )
 
 /**

@@ -23,6 +23,8 @@
     <string name="nv_item_setting">SetUp</string>
     <string name="nv_item_about">About</string>
     <string name="nv_item_test">test</string>
+    <string name="nv_item_puzzle">puzzle</string>
+    <string name="nv_item_custom_view">Custom View</string>
     <string name="nv_item_logout">SignOut</string>
 
     <string name="name_default">Not logged in</string>

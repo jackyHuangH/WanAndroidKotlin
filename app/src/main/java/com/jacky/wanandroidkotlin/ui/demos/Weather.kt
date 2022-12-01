@@ -92,11 +92,19 @@ class WeatherActivity : BaseVMActivity<ActivityWeatherBinding, WeatherViewModel>
                 }
             }
         }
+        //未来24小时天气
+        mViewModel.getWeather24Hours().observe(this) { data ->
+            if (data?.code == 200) {
+                data.hourly?.let {
+                    LoggerKit.d(it)
+                    mViewBinding.hourlyView.setHourlyData(it)
+                }
+            }
+        }
         //未来15天天气
         mViewModel.getWeather15Days().observe(this) { data ->
             if (data?.code == 200) {
                 data.daily?.let {
-                    LoggerKit.d(it)
                     mWeather15Adapter.setList(it)
                 }
             }
@@ -116,7 +124,7 @@ class WeatherViewModel(application: Application) : BaseViewModel(application) {
     val mShowRefreshLayout: MutableLiveData<Boolean> = MutableLiveData()
 
     //定位坐标，暂定杭州市
-    private val location = "120.2524,30.2554"
+    private val location = "101210101"
 
     /**
      * 获取当天天气
@@ -128,6 +136,23 @@ class WeatherViewModel(application: Application) : BaseViewModel(application) {
         mShowRefreshLayout.value = true
     }.onCompletion {
 
+    }.catch { throwable ->
+        //处理异常
+        throwable.dispatch(msgResult = { msg ->
+            mErrorMsg.value = msg
+        })
+    }.asLiveData()
+
+    /**
+     * 获取最近24小时天气
+     */
+    fun getWeather24Hours() = flow {
+        val weatherEntity = WanRetrofitClient.mService.getWeatherIn24Hours(location)
+        emit(weatherEntity)
+    }.onStart {
+
+    }.onCompletion {
+        mShowRefreshLayout.value = false
     }.catch { throwable ->
         //处理异常
         throwable.dispatch(msgResult = { msg ->

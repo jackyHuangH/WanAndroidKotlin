@@ -27,6 +27,8 @@ import com.jacky.wanandroidkotlin.common.TOOL_URL
 import com.jacky.wanandroidkotlin.databinding.ActivityMainBinding
 import com.jacky.wanandroidkotlin.model.api.WanRetrofitClient
 import com.jacky.wanandroidkotlin.model.entity.UserEntity
+import com.jacky.wanandroidkotlin.test.CustomViewActivity
+import com.jacky.wanandroidkotlin.test.PuzzleActivity
 import com.jacky.wanandroidkotlin.test.TestActivity
 import com.jacky.wanandroidkotlin.ui.about.AboutActivity
 import com.jacky.wanandroidkotlin.ui.adapter.BaseViewPager2Adapter
@@ -217,6 +219,14 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>(),
             R.id.nv_test -> {
                 //test
                 TestActivity.launch(this@MainActivity)
+            }
+            R.id.nv_puzzle -> {
+                //拼图游戏
+                PuzzleActivity.launch(this@MainActivity)
+            }
+            R.id.nv_custom_view -> {
+                //自定义View
+                CustomViewActivity.launch(this@MainActivity)
             }
             R.id.nv_logout -> {
                 DialogProvider.showSimpleDialog(this@MainActivity, "确定退出登录吗？") {

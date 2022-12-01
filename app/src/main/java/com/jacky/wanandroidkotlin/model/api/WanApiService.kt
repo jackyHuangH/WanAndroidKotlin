@@ -212,4 +212,14 @@ interface WanApiService {
         @Query("location") location: String,
         @Query("key") key: String = HEFENG_API_KEY
     ): WeatherEntity?
+
+    /**
+     * 和风天气api-近15天天气
+     * @param location 位置经纬度location=116.41,39.92
+     */
+    @GET("https://devapi.qweather.com/v7/weather/24h")
+    suspend fun getWeatherIn24Hours(
+        @Query("location") location: String,
+        @Query("key") key: String = HEFENG_API_KEY
+    ): WeatherEntity?
 }

@@ -56,10 +56,10 @@ public class TimeUtils {
         return format.format(date);
     }
 
-    public static String getDateByFormat(long time, String _format) {
-        SimpleDateFormat format = new SimpleDateFormat(_format);
-        Date date = new Date(time * 1000);
-        return format.format(date);
+    public static String getDateByFormat(long time, String format) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        Date date = new Date(time);
+        return simpleDateFormat.format(date);
     }
 
     public static String getRegistrationTime(String time) {
@@ -98,13 +98,13 @@ public class TimeUtils {
      * @param time
      * @return
      */
-    public static String getTime(long time) {
+    public static String getDate(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(time);
         return format.format(date);
     }
 
-    public static String getDate(long time) {
+    public static String getDateTime(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = new Date(time);
         return format.format(date);

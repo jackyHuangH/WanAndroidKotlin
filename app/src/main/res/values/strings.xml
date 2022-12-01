@@ -21,7 +21,9 @@
     <string name="nv_item_girls">美女福利</string>
     <string name="nv_item_setting">设置</string>
     <string name="nv_item_about">关于</string>
-    <string name="nv_item_test">test</string>
+    <string name="nv_item_test">调试</string>
+    <string name="nv_item_puzzle">拼图游戏</string>
+    <string name="nv_item_custom_view">自定义View</string>
     <string name="nv_item_logout">退出登录</string>
 
     <string name="name_default">未登录</string>

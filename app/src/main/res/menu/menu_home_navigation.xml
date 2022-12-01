@@ -33,6 +33,14 @@
             android:icon="@drawable/ic_email"
             android:title="@string/nv_item_test" />
         <item
+            android:id="@+id/nv_puzzle"
+            android:icon="@drawable/ic_videogame"
+            android:title="@string/nv_item_puzzle" />
+        <item
+            android:id="@+id/nv_custom_view"
+            android:icon="@drawable/ic_email"
+            android:title="@string/nv_item_custom_view" />
+        <item
             android:id="@+id/nv_logout"
             android:icon="@drawable/ic_logout"
             android:title="@string/nv_item_logout" />

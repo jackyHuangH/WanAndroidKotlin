@@ -42,7 +42,7 @@
 
     <com.jacky.wanandroidkotlin.widget.TempChart
         android:id="@+id/temp_chart"
-        android:layout_width="45dp"
+        android:layout_width="55dp"
         android:layout_height="150dp" />
 
     <androidx.appcompat.widget.AppCompatImageView
