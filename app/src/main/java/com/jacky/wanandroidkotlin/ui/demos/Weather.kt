@@ -25,6 +25,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * @author:Hzj
@@ -96,7 +98,13 @@ class WeatherActivity : BaseVMActivity<ActivityWeatherBinding, WeatherViewModel>
         mViewModel.getWeather24Hours().observe(this) { data ->
             if (data?.code == 200) {
                 data.hourly?.let {
-                    LoggerKit.d(it)
+                    var maxTemp=it[0].temp
+                    var minTemp=it[0].temp
+                    for (t in it){
+                        maxTemp= max(t.temp,maxTemp)
+                        minTemp= min(t.temp,minTemp)
+                    }
+                    mViewBinding.tvHourlyTemp.text="${minTemp} ~ ${maxTemp}℃"
                     mViewBinding.hourlyView.setHourlyData(it)
                 }
             }

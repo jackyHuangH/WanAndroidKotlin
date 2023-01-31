@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="MyClock">
-        <attr name="clockColor" format="color"/>
+        <attr name="clockColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ShadowContainer">
+        <!--        阴影颜色-->
+        <attr name="containerShadowColor" format="color" />
+        <!--        阴影的模糊半径，值越大阴影越大-->
+        <attr name="containerShadowRadius" format="dimension" />
+        <!--        阴影展示的区域位置-->
+        <attr name="containerDeltaLength" format="dimension" />
+        <!--        阴影的圆角半径，和View的background圆角保持一致即可-->
+        <attr name="containerCornerRadius" format="dimension" />
+        <!--        x方向的偏移量-->
+        <attr name="deltaX" format="dimension" />
+        <!--        y方向的偏移量-->
+        <attr name="deltaY" format="dimension" />
+        <!--        是否开启阴影，默认true-->
+        <attr name="enable" format="boolean" />
     </declare-styleable>
 </resources>

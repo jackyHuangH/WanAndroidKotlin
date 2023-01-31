@@ -1,80 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.jacky.wanandroidkotlin.widget.ShadowContainer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    style="@style/RippleStyle"
-    android:background="@color/common_white"
-    android:paddingLeft="20dp"
-    android:paddingTop="10dp"
-    android:paddingRight="20dp"
-    android:paddingBottom="10dp">
+    app:containerDeltaLength="3dp"
+    app:containerShadowRadius="5dp"
+    app:containerCornerRadius="0dp"
+    app:deltaY="2dp"
+    app:deltaX="0dp"
+    app:containerShadowColor="#f00"
+    app:enable="false"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp">
 
-    <TextView
-        android:id="@+id/tv_top_new"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/color_fb5656"
-        android:textSize="12sp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/home_article_tag_top"
-        tools:visibility="visible" />
-
-    <TextView
-        android:id="@+id/tv_author"
-        style="@style/Article_text"
-        android:layout_marginStart="5dp"
-        android:drawableStart="@drawable/home_hot"
-        android:drawablePadding="2dp"
-        app:layout_constraintStart_toEndOf="@+id/tv_top_new"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginStart="0dp"
-        tools:text="作者" />
-
-    <TextView
-        android:id="@+id/tv_tag"
-        style="@style/Article_text"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/tv_author"
-        app:layout_constraintTop_toTopOf="@+id/tv_author"
-        tools:text="Android" />
-
-    <TextView
-        android:id="@+id/tv_title"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textColor="@color/black_white"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_author"
-        tools:text="标题" />
+        style="@style/RippleStyle"
+        android:background="@color/common_white"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_time"
-        style="@style/Article_text"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/ic_time"
-        android:drawablePadding="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title"
-        tools:text="1小时前" />
+        <TextView
+            android:id="@+id/tv_top_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_fb5656"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/home_article_tag_top"
+            tools:visibility="visible" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/ibt_star"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:background="@null"
-        android:padding="4dp"
-        android:src="@drawable/selector_timeline_like"
-        app:layout_constraintStart_toEndOf="@+id/tv_time"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_author"
+            style="@style/Article_text"
+            android:layout_marginStart="5dp"
+            android:drawableStart="@drawable/home_hot"
+            android:drawablePadding="2dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_top_new"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginStart="0dp"
+            tools:text="作者" />
+
+        <TextView
+            android:id="@+id/tv_tag"
+            style="@style/Article_text"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_author"
+            app:layout_constraintTop_toTopOf="@+id/tv_author"
+            tools:text="Android" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/black_white"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_author"
+            tools:text="标题" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/Article_text"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/ic_time"
+            android:drawablePadding="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:text="1小时前" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibt_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@null"
+            android:padding="4dp"
+            android:src="@drawable/selector_timeline_like"
+            app:layout_constraintStart_toEndOf="@+id/tv_time"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.jacky.wanandroidkotlin.widget.ShadowContainer>

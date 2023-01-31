@@ -278,6 +278,9 @@ class TestActivity : BaseVMActivity<ActivityTestBinding, TestViewModel>(),
     }
 
     private fun startTsLooper(list: List<TodayInHistoryEntity>) {
+        if (list.isEmpty()){
+            return
+        }
         var index = 0
         //TextSwitcher
         mViewBinding.ts.apply {

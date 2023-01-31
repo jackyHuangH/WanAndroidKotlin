@@ -3,7 +3,8 @@ package com.jacky.wanandroidkotlin.widget
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.Path
+import android.graphics.PointF
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -87,7 +88,7 @@ class HourlyTempView : View, HorizontalScrollWatcher {
             strokeCap = Paint.Cap.ROUND
             strokeJoin = Paint.Join.ROUND
             style = Paint.Style.STROKE
-            strokeWidth = DisplayUtils.dp2px(2).toFloat()
+            strokeWidth = DisplayUtils.dp2px(1.5).toFloat()
             color = ContextCompat.getColor(context, R.color.color_AB82FF)
         }
         mTempPaint.apply {
@@ -141,7 +142,7 @@ class HourlyTempView : View, HorizontalScrollWatcher {
             //绘制温度折线
 //            drawLine(canvas, list)
             //绘制平滑曲线
-            drawCubicLine(canvas,list)
+            drawCubicLine(canvas, list)
         }
     }
 
@@ -149,34 +150,90 @@ class HourlyTempView : View, HorizontalScrollWatcher {
      * 绘制贝塞尔平滑曲线
      */
     private fun drawCubicLine(canvas: Canvas, list: List<HourlyEntity>) {
-        list.forEachIndexed { index, hourlyEntity ->
-            val hourText = getHourTime(hourlyEntity)
-            val rectF=RectF()
-
+        val path = Path()
+        val pointList = mutableListOf<PointF>()
+        list.forEachIndexed { index, entity ->
             val startX = mItemWidth * index
             val startY =
-                mScale * (mMaxTemp - hourlyEntity.temp) + mTempTextHeight + mPaddingTopBottom
-            val endX = mItemWidth * (index + 1)
-            if (index < list.size - 1) {
-                //每个小时点间隔小时文本宽度一半
-                val nextHour = list[index + 1]
-                val endY =
-                    mScale * (mMaxTemp - nextHour.temp) + mTempTextHeight + mPaddingTopBottom
-                canvas.drawLine(
-                    startX + mHourTextWidth / 2,
-                    startY,
-                    endX + mHourTextWidth / 2,
-                    endY,
-                    mLinePaint
-                )
+                mScale * (mMaxTemp - entity.temp) + mTempTextHeight + mPaddingTopBottom
+            pointList.add(PointF(startX, startY))
+        }
+
+        var prePreviousPointX = Float.NaN
+        var prePreviousPointY = Float.NaN
+        var previousPointX = Float.NaN
+        var previousPointY = Float.NaN
+        var currentPointX = Float.NaN
+        var currentPointY = Float.NaN
+        var nextPointX = Float.NaN
+        var nextPointY = Float.NaN
+        list.forEachIndexed { index, hourlyEntity ->
+            //当前点
+            if (currentPointX.isNaN()) {
+                currentPointX = pointList[index].x
+                currentPointY = pointList[index].y
             }
+            //计算上个点
+            if (previousPointX.isNaN()) {
+                if (index > 0) {
+                    previousPointX = pointList[index - 1].x
+                    previousPointY = pointList[index - 1].y
+                } else {
+                    //第一个点没有上个点，取当前点
+                    previousPointX = currentPointX
+                    previousPointY = currentPointY
+                }
+            }
+            //计算上上个点
+            if (prePreviousPointX.isNaN()) {
+                if (index > 1) {
+                    prePreviousPointX = pointList[index - 2].x
+                    prePreviousPointY = pointList[index - 2].y
+                } else {
+                    //前2个点的上上个点，取上个点
+                    prePreviousPointX = previousPointX
+                    prePreviousPointY = previousPointY
+                }
+            }
+            //计算下一个点
+            if (index < list.size - 1) {
+                nextPointX = pointList[index + 1].x
+                nextPointY = pointList[index + 1].y
+            } else {
+                //最后一个点的下一个点，取当前点
+                nextPointX = currentPointX
+                nextPointY = currentPointY
+            }
+            val hourText = getHourTime(hourlyEntity)
+
+            if (index == 0) {
+                //第一个点，移动到起始位置
+                path.moveTo(currentPointX, currentPointY)
+            } else {
+                //控制点，用3阶贝塞尔实现平滑曲线
+                //计算当前点和上上个点差值
+                val firstDiffX = currentPointX - prePreviousPointX
+                val firstDiffY = currentPointY - prePreviousPointY
+                val secondDiffX = nextPointX - previousPointX
+                val secondDiffY = nextPointY - previousPointY
+                val control1X = previousPointX + (0.2F * firstDiffX)
+                val control1Y = previousPointY + (0.2F * firstDiffY)
+                val control2X = currentPointX - (0.2F * secondDiffX)
+                val control2Y = currentPointY - (0.2F * secondDiffY)
+                path.cubicTo(control1X, control1Y, control2X, control2Y, currentPointX, currentPointY)
+                canvas.drawPath(path, mLinePaint)
+            }
+
+            // 更新值,
+            prePreviousPointX = previousPointX
+            prePreviousPointY = previousPointY
+            previousPointX = currentPointX
+            previousPointY = currentPointY
+            currentPointX = nextPointX
+            currentPointY = nextPointY
+
             //绘制底部小时文字
-            canvas.drawText(
-                hourText,
-                startX,
-                (mHeight - mPaddingTopBottom / 2).toFloat(),
-                mHourPaint
-            )
+            canvas.drawText(hourText, pointList[index].x, (mHeight - mPaddingTopBottom / 2).toFloat(), mHourPaint)
         }
     }
 
@@ -196,11 +253,7 @@ class HourlyTempView : View, HorizontalScrollWatcher {
                 val endY =
                     mScale * (mMaxTemp - nextHour.temp) + mTempTextHeight + mPaddingTopBottom
                 canvas.drawLine(
-                    startX + mHourTextWidth / 2,
-                    startY,
-                    endX + mHourTextWidth / 2,
-                    endY,
-                    mLinePaint
+                    startX + mHourTextWidth / 2, startY, endX + mHourTextWidth / 2, endY, mLinePaint
                 )
             }
             //绘制底部小时文字

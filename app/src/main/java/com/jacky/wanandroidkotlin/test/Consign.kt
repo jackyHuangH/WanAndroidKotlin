@@ -10,7 +10,7 @@ interface Base {
     val msg: String
     fun say()
     fun init() {
-        print("init..")
+        println("init..")
     }
 }
 

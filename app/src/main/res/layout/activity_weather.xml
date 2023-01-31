@@ -81,21 +81,38 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_now_temp"
                 tools:text="2022-10-31 农历十月初七" />
 
-            <com.jacky.wanandroidkotlin.widget.IndexHorizontalScrollView
-                android:id="@+id/horizontal_scroll_view"
+            <LinearLayout
+                android:id="@+id/ll_hourly_temp"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:padding="5dp"
                 android:background="@drawable/shape_white_cc_r8"
-                android:scrollbars="none"
-                app:layout_constraintTop_toBottomOf="@+id/tv_today_date">
+                app:layout_constraintTop_toBottomOf="@+id/tv_today_date"
+                android:orientation="vertical">
 
-                <com.jacky.wanandroidkotlin.widget.HourlyTempView
-                    android:id="@+id/hourly_view"
+                <TextView
+                    android:id="@+id/tv_hourly_temp"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
-            </com.jacky.wanandroidkotlin.widget.IndexHorizontalScrollView>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/black_white"
+                    android:textSize="13sp"
+                    android:layout_gravity="end"
+                    tools:text="10-31℃" />
+
+                <com.jacky.wanandroidkotlin.widget.IndexHorizontalScrollView
+                    android:id="@+id/horizontal_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:padding="5dp"
+                    android:scrollbars="none">
+
+                    <com.jacky.wanandroidkotlin.widget.HourlyTempView
+                        android:id="@+id/hourly_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </com.jacky.wanandroidkotlin.widget.IndexHorizontalScrollView>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_15_days"
@@ -104,7 +121,7 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/shape_white_cc_r8"
                 android:padding="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/horizontal_scroll_view" />
+                app:layout_constraintTop_toBottomOf="@+id/ll_hourly_temp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
