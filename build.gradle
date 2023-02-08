@@ -21,6 +21,13 @@ allprojects {
         mavenCentral() // add repository
         maven { url "https://jitpack.io" }
         jcenter()
+
+        flatDir {
+            //指定某个module支持aar
+            dirs project(':module_support').file('libs')
+            //2种方式均可
+//            dirs '../module_support/libs'
+        }
     }
 }
 

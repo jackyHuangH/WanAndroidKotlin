@@ -81,14 +81,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_now_temp"
                 tools:text="2022-10-31 农历十月初七" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_hourly_temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:background="@drawable/shape_white_cc_r8"
-                app:layout_constraintTop_toBottomOf="@+id/tv_today_date"
-                android:orientation="vertical">
+                app:layout_constraintTop_toBottomOf="@+id/tv_today_date">
+
+                <TextView
+                    android:id="@+id/tv_hourly_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/black_white"
+                    android:textSize="13sp"
+                    android:text="逐小时天气预报" />
 
                 <TextView
                     android:id="@+id/tv_hourly_temp"
@@ -97,12 +105,13 @@
                     android:layout_margin="5dp"
                     android:textColor="@color/black_white"
                     android:textSize="13sp"
-                    android:layout_gravity="end"
+                    android:layout_alignParentEnd="true"
                     tools:text="10-31℃" />
 
                 <com.jacky.wanandroidkotlin.widget.IndexHorizontalScrollView
                     android:id="@+id/horizontal_scroll_view"
                     android:layout_width="match_parent"
+                    android:layout_below="@+id/tv_hourly_title"
                     android:layout_height="120dp"
                     android:padding="5dp"
                     android:scrollbars="none">
@@ -112,7 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
                 </com.jacky.wanandroidkotlin.widget.IndexHorizontalScrollView>
-            </LinearLayout>
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_15_days"

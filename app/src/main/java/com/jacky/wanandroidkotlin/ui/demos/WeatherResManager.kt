@@ -1,6 +1,10 @@
 package com.jacky.wanandroidkotlin.ui.demos
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import com.jacky.support.utils.LoggerKit
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.model.entity.WeatherIconBean
@@ -22,6 +26,8 @@ object WeatherResManager {
      * 初始化天气图表映射
      */
     fun initIcons() {
+        mIconDayList.clear()
+        mIconNightList.clear()
         mIconDayList.apply {
             add(WeatherIconBean(100, "晴", R.drawable.icon_100d))
             add(WeatherIconBean(101, "多云", R.drawable.icon_101d))
@@ -151,7 +157,8 @@ object WeatherResManager {
     /**
      * 根据code查找对应icon，这种方式太臃肿，需要把所有code和icon对应关系列全，不推荐
      */
-    fun getIconByCode(code: Int, night: Boolean = false): Int {
+    @Deprecated("维护不方便，不推荐")
+    fun getIconByCode(code: Int?, night: Boolean = false): Int {
         if (night) {
             mIconNightList.forEach {
                 if (it.code == code) {
@@ -172,14 +179,14 @@ object WeatherResManager {
     /**
      * 根据code查找对应icon
      */
-    fun getIconByCode(context: Context, code: Int, night: Boolean = false): Int {
+    fun getIconByCode(context: Context, code: Int?, night: Boolean = false): Int {
         return try {
             //适配新增图标icon
             val newCode = when (code) {
                 in 150 until 199,
                 in 350 until 399,
                 in 450 until 499 ->
-                    code - 50
+                    code?.minus(50)
                 else -> code
             }
             val name = "icon_$newCode${if (night) "n" else "d"}"
@@ -192,6 +199,19 @@ object WeatherResManager {
         } catch (e: Exception) {
             LoggerKit.e("查找天气icon失败：${e.message}")
             R.drawable.icon_999d
+        }
+    }
+
+    /**
+     * 将图片压缩并返回Bitmap
+     */
+    fun getScaledBitmap(drawable: Drawable, w: Float, h: Float): Bitmap? {
+        val bd = drawable as? BitmapDrawable
+        return bd?.let {
+            val src = bd.bitmap
+            val matrix = Matrix()
+            matrix.postScale(w / src.width, h / src.height)
+            Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
         }
     }
 }

@@ -46,7 +46,7 @@ public class MyTest {
 
     private void testLinkedHashMap() {
         //accessOrder 表示是否开启访问排序，空参构造默认为false
-        LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>(16,0.75F,true);
+        LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>(16, 0.75F, true);
         for (int i = 0; i < 8; i++) {
             map.put(i, i);
         }
@@ -80,5 +80,4 @@ public class MyTest {
         }
 //        return 0;
     }
-
 }

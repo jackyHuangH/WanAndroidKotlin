@@ -53,10 +53,6 @@ class IndexHorizontalScrollView : HorizontalScrollView {
             throw IllegalStateException("请确保有且只有一个子view，子view是HorizontalScrollWatcher的实现类！")
         }
         mOnlyChildView = childAt as? HorizontalScrollWatcher
-        setListener()
-    }
-
-    private fun setListener() {
         setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             mOnlyChildView?.onHorizontalScrolled(scrollX)
         }

@@ -25,9 +25,11 @@
     <color name="selector_grey">#11000000</color>
 
     <color name="color_dfdfdf">#DFDFDF</color>
+    <color name="color_18dfdfdf">#18DFDFDF</color>
     <color name="color_188BFF">#188BFF</color>
     <color name="color_2FC25B">#2FC25B</color>
     <color name="color_0288d1">#0288D1</color>
+    <color name="color_300288d1">#300288D1</color>
     <color name="color_2975E6">#2975E6</color>
     <color name="color_4BCB7C">#4BCB7C</color>
     <color name="color_9BBB59">#9BBB59</color>

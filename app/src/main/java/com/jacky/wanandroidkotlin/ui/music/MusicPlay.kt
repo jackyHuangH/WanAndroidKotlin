@@ -35,6 +35,7 @@ import com.jacky.wanandroidkotlin.wrapper.childViewExt
 import com.jacky.wanandroidkotlin.wrapper.musicplay.*
 import com.jacky.support.router.Router
 import com.jacky.support.utils.AndroidKit
+import com.jacky.wanandroidkotlin.wrapper.recyclerview.RecyclerViewHelper
 
 
 class MusicPlayActivity : AppCompatActivity(), AudioObserver {
@@ -109,6 +110,7 @@ class MusicPlayActivity : AppCompatActivity(), AudioObserver {
             setHasFixedSize(true)
             adapter = musicListAdapter.apply {
                 setHasStableIds(true)
+                setEmptyView(RecyclerViewHelper.getCommonEmptyView(rv))
                 setOnItemClickListener { adapter, view, position ->
                     val item = adapter.data[position] as? AudioBean
                     item?.let {
