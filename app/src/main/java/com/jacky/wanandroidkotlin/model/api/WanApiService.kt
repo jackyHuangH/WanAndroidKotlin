@@ -22,7 +22,10 @@ interface WanApiService {
         /**
          * 和风天气 key
          */
-        const val HEFENG_API_KEY="54ebd41ba65c4878b86cc0e5ef26c185"
+        const val HEFENG_API_KEY = "54ebd41ba65c4878b86cc0e5ef26c185"
+
+        //定位坐标，暂定杭州市
+        const val LOCATION = "101210101"
     }
 
     /**
@@ -192,16 +195,26 @@ interface WanApiService {
     @GET("http://v.juhe.cn/todayOnhistory/queryEvent.php?key=$JUHE_API_KEY")
     suspend fun getJuHeTodayInHistory(@Query("date") date: String): JuHeApiEntity<List<TodayInHistoryEntity>?>?
 
-
     /**
      * 和风天气api-当天天气
      * @param location 位置经纬度location=116.41,39.92
      */
     @GET("https://devapi.qweather.com/v7/weather/now")
     suspend fun getTodayWeather(
-        @Query("location") location: String,
+        @Query("location") location: String = LOCATION,
         @Query("key") key: String = HEFENG_API_KEY
     ): WeatherEntity?
+
+
+    /**
+     * 和风天气api-实时空气
+     * @param location 位置经纬度location=116.41,39.92
+     */
+    @GET("https://devapi.qweather.com/v7/air/now")
+    suspend fun getTodayAirNow(
+        @Query("location") location: String = LOCATION,
+        @Query("key") key: String = HEFENG_API_KEY
+    ): AirNowEntity?
 
     /**
      * 和风天气api-近15天天气
@@ -209,17 +222,17 @@ interface WanApiService {
      */
     @GET("https://devapi.qweather.com/v7/weather/15d")
     suspend fun getWeatherIn15Days(
-        @Query("location") location: String,
+        @Query("location") location: String = LOCATION,
         @Query("key") key: String = HEFENG_API_KEY
     ): WeatherEntity?
 
     /**
-     * 和风天气api-近15天天气
+     * 和风天气api-近24小时天气
      * @param location 位置经纬度location=116.41,39.92
      */
     @GET("https://devapi.qweather.com/v7/weather/24h")
     suspend fun getWeatherIn24Hours(
-        @Query("location") location: String,
+        @Query("location") location: String = LOCATION,
         @Query("key") key: String = HEFENG_API_KEY
     ): WeatherEntity?
 }

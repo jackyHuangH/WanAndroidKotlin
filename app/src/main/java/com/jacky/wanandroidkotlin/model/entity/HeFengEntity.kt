@@ -12,7 +12,7 @@ import java.util.Date
 data class WeatherEntity(
     val code: Int,
     val fxLink: String?,
-    val now: Now?,
+    val now: WeatherNow?,
     val daily: List<DailyEntity>?,
     val hourly: List<HourlyEntity>?,
     val refer: Refer,
@@ -22,7 +22,7 @@ data class WeatherEntity(
 /**
  * 当天天气
  */
-data class Now(
+data class WeatherNow(
     val cloud: String,
     val dew: String,
     val feelsLike: String,
@@ -105,4 +105,26 @@ data class WeatherIconBean(
     val code: Int,
     val name: String,
     val resId: Int
+)
+
+/**
+ * 实时空气数据
+ */
+data class AirNowEntity(
+    val now: AirNow?,
+    val code: Int
+)
+
+data class AirNow(
+    val aqi: String,
+    val category: String,
+    val co: String,
+    val level: String,
+    val no2: String,
+    val o3: String,
+    val pm10: String,
+    val pm2p5: String,
+    val primary: String,
+    val pubTime: String,
+    val so2: String
 )

@@ -135,6 +135,13 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
             }
             viewClickListener(R.id.fab_girl) { GirlsActivity.launch(act) }
             mViewBinding.rlv.addOnScrollListener(RecyclerFabScrollListener { visible ->
+                viewExt<TextView>(R.id.bt_back_top) {
+                    visibility = if (visible) View.GONE else View.VISIBLE
+                    setOnAntiShakeClickListener {
+                        mViewBinding.rlv.smoothScrollToPosition(0)
+                        visibility = View.GONE
+                    }
+                }
                 fabGoogleMavenSearch.animate().apply {
                     if (visible) {
                         translationY(0F).interpolator = DecelerateInterpolator(3F)
@@ -152,13 +159,6 @@ class TabHomeFragment : BaseVMFragment<FragmentTabHomeBinding, TabHomeViewModel>
                         val layoutParams = fabGirl.layoutParams as ConstraintLayout.LayoutParams
                         translationY((fabGirl.height + layoutParams.bottomMargin).toFloat()).interpolator =
                             AccelerateInterpolator(3F)
-                    }
-                    viewExt<TextView>(R.id.bt_back_top) {
-                        visibility = if (visible) View.GONE else View.VISIBLE
-                        setOnAntiShakeClickListener {
-                            mViewBinding.rlv.smoothScrollToPosition(0)
-                            visibility = View.GONE
-                        }
                     }
                 }
             })

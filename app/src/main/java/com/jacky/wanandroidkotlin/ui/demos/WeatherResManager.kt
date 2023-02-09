@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
 import com.jacky.support.utils.LoggerKit
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.model.entity.WeatherIconBean
@@ -200,6 +201,23 @@ object WeatherResManager {
             LoggerKit.e("查找天气icon失败：${e.message}")
             R.drawable.icon_999d
         }
+    }
+
+    /**
+     * 根据空气质量获取不同颜色
+     */
+    fun getAirColor(context: Context, aqi: String): Int {
+        val num = aqi.toInt()
+        val flag = when {
+            num <= 50 -> 1
+            num <= 100 -> 2
+            num <= 150 -> 3
+            num <= 200 -> 4
+            num <= 300 -> 5
+            else -> 6
+        }
+        val id = context.resources.getIdentifier("color_air_leaf_$flag", "color", context.packageName)
+        return ContextCompat.getColor(context,id)
     }
 
     /**

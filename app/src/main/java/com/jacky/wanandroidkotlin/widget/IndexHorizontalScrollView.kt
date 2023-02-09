@@ -12,8 +12,9 @@ import android.widget.HorizontalScrollView
  * record：
  */
 class IndexHorizontalScrollView : HorizontalScrollView {
-    private var mOnlyChildView: HorizontalScrollWatcher? = null
-    private var mPreOffset = 0
+    private var mOnlyChildView: HourlyTempView? = null
+    // 记录上次的offset, 防止父子互相刷新
+    private var mPreOffset = -1
 
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -41,9 +42,9 @@ class IndexHorizontalScrollView : HorizontalScrollView {
         val scrollOffset = computeHorizontalScrollOffset()
         val scrollRange = computeHorizontalScrollRange()
         val maxOffset = scrollRange - measuredWidth
-        if (maxOffset != 0 && scrollOffset != mPreOffset) {
+        if (maxOffset != 0 && mPreOffset != scrollOffset) {
             mPreOffset = scrollOffset
-            (mOnlyChildView as? HourlyTempView)?.setScrollRange(scrollOffset, maxOffset)
+            mOnlyChildView?.setScrollRange(scrollOffset, maxOffset)
         }
     }
 
@@ -52,10 +53,12 @@ class IndexHorizontalScrollView : HorizontalScrollView {
         if (childAt == null || childAt !is HorizontalScrollWatcher) {
             throw IllegalStateException("请确保有且只有一个子view，子view是HorizontalScrollWatcher的实现类！")
         }
-        mOnlyChildView = childAt as? HorizontalScrollWatcher
-        setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            mOnlyChildView?.onHorizontalScrolled(scrollX)
-        }
+        mOnlyChildView = childAt as? HourlyTempView
+    }
+
+    override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
+        super.onScrollChanged(l, t, oldl, oldt)
+        (mOnlyChildView as? HorizontalScrollWatcher)?.onHorizontalScrolled(l)
     }
 }
 

@@ -96,8 +96,7 @@ class TabHomeViewModel(application: Application) : BaseViewModel(application) {
      * 获取当天天气
      */
     fun getWeatherNow() = flow {
-        val location="120.2524,30.2554"
-        val entity = WanRetrofitClient.mService.getTodayWeather(location)
+        val entity = WanRetrofitClient.mService.getTodayWeather()
         emit(entity)
     }.onStart {
         //

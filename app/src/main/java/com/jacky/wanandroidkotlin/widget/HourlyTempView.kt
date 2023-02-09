@@ -135,9 +135,13 @@ class HourlyTempView : View, HorizontalScrollWatcher {
         }
         //图片画笔
         mBitmapPaint.apply {
+            //api讲解：https://blog.csdn.net/qq_30889373/article/details/78800426
             //图像滤波
+            //设置是否使用双线性过滤来绘制 Bitmap 。
+            //图像在放大绘制的时候，默认使用的是最近邻插值过滤，这种算法简单，但会出现马赛克现象；而如果开启了双线性过滤，就可以让结果图像显得更加平滑。
             isFilterBitmap = true
-            //图形防抖
+            //抖动的原理和这个类似。所谓抖动（注意，它就叫抖动，不是防抖动，也不是去抖动，有些人在翻译的时候自作主张地加了一个「防」字或者「去」字，这是不对的），
+            //是指把图像从较高色彩深度（即可用的颜色数）向较低色彩深度的区域绘制时，在图像中有意地插入噪点，通过有规律地扰乱图像来让图像对于肉眼更加真实的做法
             isDither = true
         }
     }
@@ -153,7 +157,7 @@ class HourlyTempView : View, HorizontalScrollWatcher {
             DisplayUtils.screenWidth() - DisplayUtils.dp2px(5) * 2 - DisplayUtils.dp2px(8) * 2
         //溢出屏幕的宽度
         mOverflowWidth = widthSize - visibleWidth
-        LoggerKit.d("测量宽高：$widthSize,$heightSize,溢出宽度：$mOverflowWidth")
+        Log.d(TAG, "测量宽高：$widthSize,$heightSize,溢出宽度：$mOverflowWidth")
         //计算可用高度
         mUsableHeight =
             (heightSize - mPaddingTop - mBitmapHeight - mTempTextHeight - mHourTextHeight).toInt()
@@ -166,10 +170,11 @@ class HourlyTempView : View, HorizontalScrollWatcher {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         mData?.let { list ->
-            //绘制底部天气图片
-            drawWeatherBitmaps(canvas)
-
             //绘制温度折线
+//            drawLine(canvas, list)
+            //绘制平滑曲线
+            drawCubicLine(canvas, list)
+
             val entity = list[mScrollIndex]
             val tempText = "${entity.temp}℃"
 //            val tempX = mScrollIndex*mItemWidth
@@ -178,10 +183,8 @@ class HourlyTempView : View, HorizontalScrollWatcher {
                 mScale * (mMaxTemp - entity.temp) + mTempTextHeight * 1.3F - mPaddingTop
             //绘制顶部温度文字
             canvas.drawText(tempText, tempX, tempY, mTempPaint)
-            //绘制温度折线
-//            drawLine(canvas, list)
-            //绘制平滑曲线
-            drawCubicLine(canvas, list)
+            //绘制底部天气图片
+            drawWeatherBitmaps(canvas)
         }
     }
 
@@ -190,8 +193,8 @@ class HourlyTempView : View, HorizontalScrollWatcher {
      */
     private fun drawWeatherBitmaps(canvas: Canvas) {
         val scrollX = mScrollXOffset
-        var leftHide = false
-        var rightHide = false
+        var leftHide: Boolean
+        var rightHide: Boolean
         val screenWidth = DisplayUtils.screenWidth()
         LoggerKit.d("dashIndex:$mDashLineIndexList")
         for (i in 0 until mDashLineIndexList.size - 1) {
@@ -240,13 +243,13 @@ class HourlyTempView : View, HorizontalScrollWatcher {
                     } else if (drawPoint <= left + bitmap.width / 2) {
                         drawPoint = left + bitmap.width / 2
                     }
+                    Log.d(TAG, "drawPoint: $drawPoint")
                     canvas.save()
                     canvas.drawBitmap(bitmap, drawPoint - bitmap.width / 2, top, mBitmapPaint)
                     canvas.restore()
                 }
             }
         }
-        invalidate()
     }
 
     /**
@@ -402,7 +405,7 @@ class HourlyTempView : View, HorizontalScrollWatcher {
 
     override fun onHorizontalScrolled(offset: Int) {
         mScrollXOffset = offset.toFloat()
-        Log.d(TAG, "offset:$mScrollXOffset")
+        Log.d(TAG, "onHorizontalScrolled:$mScrollXOffset")
         //根据横向移动偏移量计算移动的位置
         mScrollIndex = ((offset / mOverflowWidth.toFloat()) * ITEM_SIZE).toInt()
         //横向移动温度文字
@@ -427,7 +430,7 @@ class HourlyTempView : View, HorizontalScrollWatcher {
     /**
      * 设置24小时天气数据
      */
-    fun setHourlyData(list: List<HourlyEntity>) {
+    fun initHourlyData(list: List<HourlyEntity>) {
         this.mData = list
         mDashLineIndexList = mutableListOf()
         var mPreIcon: Int = 0

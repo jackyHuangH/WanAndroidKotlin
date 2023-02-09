@@ -3,12 +3,13 @@ package com.jacky.wanandroidkotlin.ui.demos
 
 import android.app.Activity
 import android.app.Application
+import android.content.res.ColorStateList
+import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gyf.immersionbar.ImmersionBar
 import com.jacky.support.router.Router
-import com.jacky.support.utils.LoggerKit
 import com.jacky.support.utils.LunarUtils
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseVMActivity
@@ -62,7 +63,7 @@ class WeatherActivity : BaseVMActivity<ActivityWeatherBinding, WeatherViewModel>
 
     override fun initWidget() {
         //显示当前天气城市
-        mViewBinding.tvCity.text="杭州"
+        mViewBinding.tvCity.text = "杭州"
         //显示当天日期，包含农历
         val calendar = Calendar.getInstance()
         val lunar = LunarUtils(calendar)
@@ -78,9 +79,9 @@ class WeatherActivity : BaseVMActivity<ActivityWeatherBinding, WeatherViewModel>
 
     private fun init15DaysRv() {
         mViewBinding.rv15Days.apply {
-            layoutManager=LinearLayoutManager(this@WeatherActivity,LinearLayoutManager.HORIZONTAL,false)
+            layoutManager = LinearLayoutManager(this@WeatherActivity, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
-            adapter=mWeather15Adapter
+            adapter = mWeather15Adapter
         }
     }
 
@@ -91,6 +92,27 @@ class WeatherActivity : BaseVMActivity<ActivityWeatherBinding, WeatherViewModel>
                 data.now?.let {
                     mViewBinding.tvNowTemp.text = it.temp
                     mViewBinding.tvText.text = it.text
+                    //体感温度
+                    mViewBinding.tvFeelTemp.text="${it.temp}℃"
+                    //湿度
+                    mViewBinding.tvWet.text="${it.humidity}%"
+                    //风力
+                    mViewBinding.tvWind.text="${it.windDir}${it.windScale}级"
+                    //气压
+                    mViewBinding.tvAirPressure.text="${it.pressure}hpa"
+                }
+            }
+        }
+        //实时空气
+        mViewModel.getAirNow().observe(this) { airNow ->
+            if (airNow?.code == 200) {
+                airNow.now?.let {
+                    mViewBinding.tvAirState.text = "${it.aqi}空气${it.category}"
+                    //设置空气质量叶子颜色
+                    TextViewCompat.setCompoundDrawableTintList(
+                        mViewBinding.tvAirState,
+                        ColorStateList.valueOf(WeatherResManager.getAirColor(this, it.aqi))
+                    )
                 }
             }
         }
@@ -98,14 +120,14 @@ class WeatherActivity : BaseVMActivity<ActivityWeatherBinding, WeatherViewModel>
         mViewModel.getWeather24Hours().observe(this) { data ->
             if (data?.code == 200) {
                 data.hourly?.let {
-                    var maxTemp=it[0].temp
-                    var minTemp=it[0].temp
-                    for (t in it){
-                        maxTemp= max(t.temp,maxTemp)
-                        minTemp= min(t.temp,minTemp)
+                    var maxTemp = it[0].temp
+                    var minTemp = it[0].temp
+                    for (t in it) {
+                        maxTemp = max(t.temp, maxTemp)
+                        minTemp = min(t.temp, minTemp)
                     }
-                    mViewBinding.tvHourlyTemp.text="${minTemp} ~ ${maxTemp}℃"
-                    mViewBinding.hourlyView.setHourlyData(it)
+                    mViewBinding.tvHourlyTemp.text = "${minTemp} ~ ${maxTemp}℃"
+                    mViewBinding.hourlyView.initHourlyData(it)
                 }
             }
         }
@@ -178,6 +200,24 @@ class WeatherViewModel(application: Application) : BaseViewModel(application) {
 
     }.onCompletion {
         mShowRefreshLayout.value = false
+    }.catch { throwable ->
+        //处理异常
+        throwable.dispatch(msgResult = { msg ->
+            mErrorMsg.value = msg
+        })
+    }.asLiveData()
+
+
+    /**
+     * 获取当天空气数据
+     */
+    fun getAirNow() = flow {
+        val airNowEntity = WanRetrofitClient.mService.getTodayAirNow(location)
+        emit(airNowEntity)
+    }.onStart {
+
+    }.onCompletion {
+
     }.catch { throwable ->
         //处理异常
         throwable.dispatch(msgResult = { msg ->

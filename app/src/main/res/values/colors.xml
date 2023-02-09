@@ -16,4 +16,12 @@
     <color name="color_seek_end">#D5D4D4</color>
     <color name="white_black">#FFFFFF</color>
     <color name="c_999999">#999999</color>
+
+    <!--空气质量叶子颜色-->
+    <color name="color_air_leaf_1">#73DC29</color>
+    <color name="color_air_leaf_2">#EADD14</color>
+    <color name="color_air_leaf_3">#EA8A01</color>
+    <color name="color_air_leaf_4">#FF460D</color>
+    <color name="color_air_leaf_5">#B12C9A</color>
+    <color name="color_air_leaf_6">#582C21</color>
 </resources>
