@@ -316,7 +316,7 @@ rx.internal.util.atomic.LinkedQueueNode consumerNode;
 #tooltips
 -keep class it.sephiroth.android.library.xtooltip.TooltipOverlayDrawable { *; }
 
-#ToastUtils
+#Toaster
 -keep class com.hjq.toast.** {*;}
 
 #Aria

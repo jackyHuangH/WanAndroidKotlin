@@ -2,7 +2,7 @@ package com.jacky.wanandroidkotlin.wrapper
 
 import android.os.Environment
 import android.util.Log
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.jacky.wanandroidkotlin.model.entity.GirlEntity
 import com.jacky.support.utils.FileIOUtils
 import com.jacky.support.utils.LoggerKit
@@ -77,7 +77,7 @@ object DownloadUtils {
     ) {
         val request: Request = Request.Builder().url(url).build()
 
-        ToastUtils.show("开始下载：$destFileName")
+        Toaster.show("开始下载：$destFileName")
 
         //异步请求
         okHttpClient.newCall(request).enqueue(object : Callback {

@@ -139,7 +139,7 @@ ext {
             //加载中动画
             "spinkit"                        : 'com.github.ybq:Android-SpinKit:1.2.0',
 
-            "toast"                          : "com.github.getActivity:ToastUtils:10.5",
+            "toast"                          : "com.github.getActivity:Toaster:12.0",
 
             // Your EventBus's version
             "eventbus"                       : 'org.greenrobot:eventbus:3.1.1',

@@ -18,7 +18,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.jacky.support.router.Router
 import com.jacky.support.utils.LoggerKit
 import com.jacky.wanandroidkotlin.R
@@ -215,7 +215,7 @@ class TestActivity : BaseVMActivity<ActivityTestBinding, TestViewModel>(),
     private fun startCountDown() {
         //倒计时
         countDownClock = createCountDownClock(10, lifecycle) { time ->
-            ToastUtils.show("倒计时：$time")
+            Toaster.show("倒计时：$time")
         }.apply { start() }
     }
 

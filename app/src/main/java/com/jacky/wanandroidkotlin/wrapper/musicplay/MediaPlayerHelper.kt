@@ -2,7 +2,7 @@ package com.jacky.wanandroidkotlin.wrapper.musicplay
 
 import android.media.MediaPlayer
 import android.util.Log
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 
 /**
  * @author:Hzj
@@ -64,7 +64,7 @@ class MediaPlayerHelper : IPlayer,
         }.onFailure {
             //找不到文件，提示错误
             Log.e(TAG, "${it.message}")
-            ToastUtils.show("无效的音频文件！")
+            Toaster.show("无效的音频文件！")
         }
     }
 

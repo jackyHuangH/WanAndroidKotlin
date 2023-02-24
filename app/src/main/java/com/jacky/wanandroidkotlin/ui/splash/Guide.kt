@@ -6,6 +6,7 @@ import android.app.Application
 import android.os.Bundle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.gyf.immersionbar.ImmersionBar
+import com.hjq.toast.Toaster
 import com.jacky.support.router.Router
 import com.jacky.wanandroidkotlin.R
 import com.jacky.wanandroidkotlin.base.BaseFragment
@@ -46,6 +47,7 @@ class GuideActivity : BaseVMActivity<ActivityGuideBinding, GuideViewModel>() {
             }
         }
         mViewBinding.tvSkip.setOnAntiShakeClickListener {
+            Toaster.show("跳过被点击了")
             //跳转到startActivity
             StartActivity.launch(this)
         }

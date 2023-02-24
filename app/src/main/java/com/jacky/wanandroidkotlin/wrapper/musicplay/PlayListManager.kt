@@ -1,6 +1,6 @@
 package com.jacky.wanandroidkotlin.wrapper.musicplay
 
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.jacky.wanandroidkotlin.model.local.ContextModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -148,7 +148,7 @@ class PlayListManager {
                 PlayModeEnum.ORDER_PLAY.playMode
             }
         }
-        ToastUtils.show(modeDesc)
+        Toaster.show(modeDesc)
         return playMode
     }
 

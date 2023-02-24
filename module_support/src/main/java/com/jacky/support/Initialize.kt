@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.startup.Initializer
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
 import com.jacky.support.utils.LoggerKit
@@ -24,8 +24,8 @@ internal object ModuleManager {
         (context as? Application)?.let { application ->
             //初始化tbs
             initX5Preload(application)
-            //初始化ToastUtils
-            ToastUtils.init(application)
+            //初始化Toaster
+            Toaster.init(application)
             //Logger初始化
             LoggerKit.init(SupportConfig.DEFAULT_TAG)
         }

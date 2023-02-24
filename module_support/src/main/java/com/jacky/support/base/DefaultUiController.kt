@@ -8,7 +8,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.jacky.support.R
 import com.jacky.support.utils.AndroidKit
 
@@ -56,7 +56,7 @@ open class DefaultUiController(
     }
 
     override fun showMessage(message: CharSequence) {
-        ToastUtils.show(message)
+        Toaster.show(message)
     }
 
     override fun showResMessage(@StringRes resId: Int) {

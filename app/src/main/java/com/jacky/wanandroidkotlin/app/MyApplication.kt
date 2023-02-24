@@ -8,7 +8,7 @@ import androidx.annotation.CallSuper
 import androidx.multidex.MultiDexApplication
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.jacky.support.crash.UncaughtExHandler
 import com.jacky.support.utils.LoggerKit
 import com.jacky.wanandroidkotlin.R
@@ -77,7 +77,7 @@ class ApplicationKit {
 
     fun navigateToLogin(grantRefuse: Boolean) {
         if (grantRefuse) {
-            ToastUtils.show(R.string.login_error_grant_refused)
+            Toaster.show(R.string.login_error_grant_refused)
         }
         val topActivity = GlobalLifecycleObserver.INSTANCE.getTopActivity()
         if (topActivity != null) {

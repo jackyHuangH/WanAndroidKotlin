@@ -30,7 +30,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hjq.permissions.Permission
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.jacky.support.permission.IPermission
 import com.jacky.support.permission.openPermissionSetting
 import com.jacky.support.permission.requestSelfPermissions
@@ -178,11 +178,11 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), On
                             //下载图片到本地
                             val item = adapter.data[position] as GirlEntity
                             DownloadUtils.download(item, onDownloadSuccess = { file ->
-                                ToastUtils.show("下载完成，文件已保存:${file.path}")
+                                Toaster.show("下载完成，文件已保存:${file.path}")
                             }, onDownloadProgress = { p ->
-                                ToastUtils.show("下载中:$p%")
+                                Toaster.show("下载中:$p%")
                             }, onDownloadFail = { e ->
-                                ToastUtils.show("下载失败,请重试!")
+                                Toaster.show("下载失败,请重试!")
                             })
                         } else if (never) {
                             showMessage("请授予存储权限")
@@ -198,11 +198,11 @@ class GirlsActivity : BaseVMActivity<ActivityGirlsBinding, GirlsViewModel>(), On
 //                        //下载图片到本地
 //                        val item = adapter.data[position] as GirlEntity
 //                        DownloadUtils.download(item, onDownloadSuccess = { file ->
-//                            ToastUtils.show("下载完成，文件已保存:${file.path}")
+//                            Toaster.show("下载完成，文件已保存:${file.path}")
 //                        }, onDownloadProgress = { p ->
-//                            ToastUtils.show("下载中:$p%")
+//                            Toaster.show("下载中:$p%")
 //                        }, onDownloadFail = { e ->
-//                            ToastUtils.show("下载失败,请重试!")
+//                            Toaster.show("下载失败,请重试!")
 //                        })
 //                    }
 //                }
