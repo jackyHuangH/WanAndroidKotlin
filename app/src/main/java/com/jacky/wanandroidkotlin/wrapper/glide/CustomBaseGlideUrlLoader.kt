@@ -15,7 +15,7 @@ import java.util.regex.Pattern
  */
 class CustomBaseGlideUrlLoader(
     concreteLoader: ModelLoader<GlideUrl, InputStream>,
-    @Nullable modelCache: ModelCache<String, GlideUrl>
+    modelCache: ModelCache<String, GlideUrl>
 ) : BaseGlideUrlLoader<String>(concreteLoader, modelCache) {
 
     companion object {
